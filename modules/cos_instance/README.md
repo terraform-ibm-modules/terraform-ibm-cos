@@ -22,17 +22,17 @@ module "cos" {
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| name | A descriptive name used to identify the resource instance | string | n/a | yes |
-| plan | The name of the plan type supported by service.  | string | n/a | yes |
-| location | Target location or environment to create the resource instance.  | string | n/a | yes |
-| resource\_group | Name of the resource group | string | n/a | yes |
+| Name            | Description                                                     | Type   | Default | Required |
+|-----------------|-----------------------------------------------------------------|:-------|:--------|:---------|
+| name            | A descriptive name used to identify the resource instance       | string | n/a     | yes      |
+| plan            | The name of the plan type supported by service.                 | string | n/a     | yes      |
+| location        | Target location or environment to create the resource instance. | string | n/a     | yes      |
+| resource\_group | Name of the resource group                                      | string | n/a     | yes      |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
+| Name              | Description      |
+|-------------------|------------------|
 | cos\_instance\_id | COS Instance ID. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
