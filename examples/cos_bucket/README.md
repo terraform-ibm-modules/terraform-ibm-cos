@@ -31,13 +31,14 @@ module "cos_bucket" {
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
- Name | Description | Type | Default | Required |
-|------|-------------|:----:|:_____:|:_____:|
-| bucket\_name | Name of the bucket | string | n/a | yes |
-| storage\_class | Storage class to use for the bucket | string | n/a | yes |
-| location | The location of a regional bucket | string | n/a | no |
-| name | A descriptive name used to identify the resource instance | string | n/a | yes |
-| plan | The name of the plan type supported by service.  | string | n/a | yes |
-| region | Target location or environment to create the resource instance.  | string | n/a | yes |
-| resource\_group | Name of the resource group | string | n/a | yes |
+
+| Name            | Description                                                      | Type   | Default | Required |
+|-----------------|------------------------------------------------------------------|:-------|---------|----------|
+| bucket\_name    | Name of the bucket                                               | string | n/a     | yes      |
+| storage\_class  | Storage class to use for the bucket                              | string | n/a     | yes      |
+| location        | The location of a regional bucket                                | string | n/a     | no       |
+| name            | A descriptive name used to identify the resource instance        | string | n/a     | yes      |
+| plan            | The name of the plan type supported by service.                  | string | n/a     | yes      |
+| region          | Target location or environment to create the resource instance.  | string | n/a     | yes      |
+| resource\_group | Name of the resource group                                       | string | n/a     | yes      |
 

@@ -1,6 +1,6 @@
 # IBM COS Bucket Terraform Module
 
-This is a collection of modules that make it easier to provision a cloud object stoarge on Google Cloud Platform:
+This is a collection of modules that make it easier to provision a cloud object stoarge on IBM Cloud Platform:
 * [COS Instance](modules/cos_instance)
 * [COS Bucket](modules/cos_bucket)
 
