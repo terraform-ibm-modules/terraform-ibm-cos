@@ -4,26 +4,30 @@ This module is used to create a cloud object storage bucket
 
 ## Example Usage
 ```
+provider "ibm" {
+}
+
 data "ibm_resource_group" "cos_group" {
   name = var.resource_group
 }
 
 module "cos" {
-  source = "../../modules/cos_instance"
-
-  name              = var.name
-  resource_group_id = data.ibm_resource_group.cos_group.id
-  plan              = var.plan
-  location          = var.region
+  
+  source  = "terraform-ibm-modules/cos/ibm//modules/cos_instance"
+  
+  service_name       = var.service_name
+  resource_group_id  = data.ibm_resource_group.cos_group.id
+  plan               = var.plan
+  region             = var.region
 }
 
 module "cos_bucket" {
-  source = "../../modules/cos_bucket"
+  source  = "terraform-ibm-modules/cos/ibm//modules/cos_bucket"
 
-  bucket_name          = var.bucket_name
-  resource_instance_id = module.cos.cos_instance_id  
-  cross_region_location      = var.location
-  storage_class        = var.storage_class
+  bucket_name         = var.bucket_name
+  cos_instance_id     = module.cos.cos_instance_id  
+  location            = var.location
+  storage_class       = var.storage_class
 
 }
 ```
@@ -42,3 +46,4 @@ module "cos_bucket" {
 | region          | Target location or environment to create the resource instance.  | string | n/a     | yes      |
 | resource\_group | Name of the resource group                                       | string | n/a     | yes      |
 
+## NOTE: If we want to make use of a particular version of module, then set the argument "version" to respective module version.
