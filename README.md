@@ -16,17 +16,21 @@ is [1.1.1][v1.1.1].
 Full examples are in the [examples](./examples/) folder, but basic usage is as follows for creation of COS instance:
 
 ```hcl
+provider "ibm" {
+}
+
 data "ibm_resource_group" "cos_group" {
-  name = "test"
+  name = var.resource_group
 }
 
 module "cos" {
-  source = "../../modules/cos_instance"
-
-  name              = "testcos"
-  resource_group_id = data.ibm_resource_group.cos_group.id
-  plan              = "testplan"
-  location          = "testregion"
+  
+  source  = "terraform-ibm-modules/cos/ibm//modules/cos_instance"
+  
+  service_name       = var.service_name
+  resource_group_id  = data.ibm_resource_group.cos_group.id
+  plan               = var.plan
+  region             = var.region
 }
 
 ```
@@ -34,26 +38,30 @@ module "cos" {
 Creation of cloud object storage bucket:
 
 ```hcl
+provider "ibm" {
+}
+
 data "ibm_resource_group" "cos_group" {
-  name = "test"
+  name = var.resource_group
 }
 
 module "cos" {
-  source = "../../modules/cos_instance"
-
-  name              = "testcos"
-  resource_group_id = data.ibm_resource_group.cos_group.id
-  plan              = "testplan"
-  location          = "testregion"
+  
+  source  = "terraform-ibm-modules/cos/ibm//modules/cos_instance"
+  
+  service_name       = var.service_name
+  resource_group_id  = data.ibm_resource_group.cos_group.id
+  plan               = var.plan
+  region             = var.region
 }
 
 module "cos_bucket" {
-  source = "../../modules/cos_bucket"
+  source  = "terraform-ibm-modules/cos/ibm//modules/cos_bucket"
 
-  bucket_name          = "testbucket"
-  resource_instance_id = module.cos.cos_instance_id  
-  cross_region_location      = "testlocation"
-  storage_class        = "teststorage"
+  bucket_name         = var.bucket_name
+  cos_instance_id     = module.cos.cos_instance_id  
+  location            = var.location
+  storage_class       = var.storage_class
 
 }
 ```
