@@ -3,11 +3,6 @@
 # Copyright 2020 IBM
 #####################################################
 
-variable "ibmcloud_api_key" {
-    description = "IBM Cloud API KEY"
-    type        = string
-}
-
 // Bucket congigurations
 
 variable "bucket_name" {

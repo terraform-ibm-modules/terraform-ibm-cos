@@ -22,8 +22,3 @@ variable "region" {
     description = " Enter Region for provisioning"
     type        = string
 }
-
-variable "ibmcloud_api_key" {
-    description = " Enter IBM Cloud API KEY"
-    type        = string
-}

@@ -10,4 +10,3 @@ resource "ibm_resource_instance" "cos_instance" {
   plan              = var.plan
   location          = var.region
 }
-
