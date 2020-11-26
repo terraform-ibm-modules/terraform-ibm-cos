@@ -12,7 +12,7 @@ data "ibm_resource_group" "cos_group" {
 
 module "cos" {
   
-  source  = "terraform-ibm-modules/cos/ibm//modules/cos_instance"
+  source  = "terraform-ibm-modules/cos/ibm//modules/instance"
   
   service_name       = var.service_name
   resource_group_id  = data.ibm_resource_group.cos_group.id
@@ -21,7 +21,7 @@ module "cos" {
 }
 
 module "cos_bucket" {
-  source  = "terraform-ibm-modules/cos/ibm//modules/cos_bucket"
+  source  = "terraform-ibm-modules/cos/ibm//modules/bucket"
 
   bucket_name         = var.bucket_name
   cos_instance_id     = module.cos.cos_instance_id  
