@@ -33,5 +33,11 @@ variable "service_type" {
     type        = string
 }
 
+variable "provision_cos_instance" {
+    description = "Would you like to create new cos instance"
+    type        = bool
+    default = true
+}
+
 
 
