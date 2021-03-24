@@ -42,5 +42,17 @@ variable "region" {
     type        = string
 }
 
+variable "provision_cos_instance" {
+    description = "Create new cos instance(true/false)"
+    type        = bool
+    default = true
+}
+
+variable "cos_instance_id" {
+    description = "Create new cos instance(true/false)"
+    type        = string
+    default = null
+}
+
 
 
