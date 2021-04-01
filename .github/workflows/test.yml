@@ -1,0 +1,33 @@
+name: "schedule-testing"
+on:
+  schedule:
+    - cron:  '* * * * *'    # At every 5th minute
+
+# ┌───────────── minute (0 - 59)
+# │ ┌───────────── hour (0 - 23)
+# │ │ ┌───────────── day of the month (1 - 31)
+# │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+# │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+# │ │ │ │ │                                   
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * *
+
+jobs:
+  continuous-tests:
+    name: Run Test cases
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: checkout                      # action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
+        uses: actions/checkout@v2
+
+      -
+        name: setup terraform
+        uses: hashicorp/setup-terraform@v1  # sets up Terraform CLI in your GitHub Actions workflow
+        with:
+          terraform_version: 0.13.0
+
+      - name: Run Test
+        working-directory: test
+        run: go test ./...     
