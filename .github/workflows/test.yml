@@ -1,6 +1,9 @@
 name: "test-scheduler"
 
 on:
+  workflow_dispatch:
+    
+   
   schedule:
     - cron:  '*/30 5 * * *'    # triggers the workflow every day at 5:30 UTC
 
@@ -13,7 +16,7 @@ on:
 # │ │ │ │ │
 # │ │ │ │ │
 # * * * * *
-
+  
 jobs:
   continuous-tests:
     name: Run Test cases
