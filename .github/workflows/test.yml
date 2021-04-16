@@ -45,4 +45,4 @@ jobs:
         working-directory: test
         run: go test -v ./...
         env:
-          IC_API_KEY: ${{ secrets.IC_API_KEY_TEST }}   
+          IC_API_KEY: ${{ secrets.ACCESS_KEY }}   
