@@ -20,7 +20,7 @@ func TestAccIBMCosInstance(t *testing.T) {
 	expectedPlan := "standard"
 
 	// resource group
-	expectedResourceGroup := "Default"
+	expectedResourceGroup := "default"
 
 	// Region
 	expectedRegion := "global"
