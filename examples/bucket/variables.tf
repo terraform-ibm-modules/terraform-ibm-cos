@@ -71,7 +71,3 @@ variable "cos_plan" {
     type        = string
 }
 
-variable "TF_VERSION" {
-  default     = "0.13"
-  description = "terraform engine version to be used in schematics"
-}
