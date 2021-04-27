@@ -1,32 +1,68 @@
-#####################################################
-# COS Bucket
-# Copyright 2020 IBM
-#####################################################
-
 provider "ibm" {
+  region = var.location
 }
 
-data "ibm_resource_group" "cos_group" {
+data "ibm_resource_group" "group" {
   name = var.resource_group
+}
+data "ibm_resource_instance" "logdna_instance" {
+  name              = var.logdna_instance_name
+  location          = var.location
+  resource_group_id = data.ibm_resource_group.group.id
+  service           = "logdna"
+}
+
+data "ibm_resource_instance" "at_instance" {
+  name              = var.at_instance_name
+  location          = var.location
+  resource_group_id = data.ibm_resource_group.group.id
+  service           = "logdnaat"
+}
+
+locals {
+
+  logdna-bucket   = "${data.ibm_resource_instance.logdna_instance.name}-cos-bucket"
+  at-bucket       = "${data.ibm_resource_instance.at_instance.name}-cos-bucket"
+  logdna_crn      = var.logdna_crn == "" ? data.ibm_resource_instance.logdna_instance.id : var.logdna_crn
+  at_crn          = var.activity_tracker_crn == "" ? data.ibm_resource_instance.at_instance.id : var.activity_tracker_crn
+  archive_rule_id = "bucket-archive-rule-${data.ibm_resource_instance.logdna_instance.name}"
+  expire_rule_id  = "bucket-expire-rule-${data.ibm_resource_instance.at_instance.name}"
+  bucket_list     = [local.logdna-bucket, local.at-bucket]
+  crn_list        = [local.logdna_crn, local.at_crn]
 }
 
 module "cos" {
-  
-  source  = "terraform-ibm-modules/cos/ibm//modules/instance"
-  
-  provision_cos_instance = var.provision_cos_instance
-  service_name           = var.service_name
-  resource_group_id      = data.ibm_resource_group.cos_group.id
-  plan                   = var.plan
-  region                 = var.region
+
+ source  = "terraform-ibm-modules/cos/ibm//modules/instance"
+ provision_cos_instance = true
+ service_name           = var.cos_instance_name
+ resource_group_id      = data.ibm_resource_group.group.id
+ plan                   = var.cos_plan
+ region                 = var.cos_location
 }
 
-module "cos_bucket" {
-  source  = "terraform-ibm-modules/cos/ibm//modules/bucket"
-  
-  bucket_name         = var.bucket_name
-  cos_instance_id     = (var.provision_cos_instance == true ? module.cos.cos_instance_id : var.cos_instance_id) 
-  location            = var.location
-  storage_class       = var.storage_class
 
+module "cos_bucket" {
+
+  source           = "terraform-ibm-modules/cos/ibm//modules/bucket"
+  count            = length(local.bucket_list)
+  bucket_name      = local.bucket_list[count.index]
+  cos_instance_id  = module.cos.cos_instance_id
+  location         = var.location
+  storage_class    = var.storage_class
+  force_delete     = var.force_delete
+  endpoint_type    = var.endpoint_type
+  activity_tracker_crn = local.crn_list[count.index]
+  archive_rule = {
+    rule_id = local.archive_rule_id
+    enable  = true
+    days    = 0
+    type    = "GLACIER"
+  }
+  expire_rules = [{
+    rule_id = local.expire_rule_id
+    enable  = true
+    days    = 365
+    prefix  = "logs/"
+  }]
 }
