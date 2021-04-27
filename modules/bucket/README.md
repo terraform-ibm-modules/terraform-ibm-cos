@@ -40,7 +40,7 @@ module "cos_bucket" {
 |-----------------|------------------------------------------------------------------|:-------|---------|----------|
 | bucket\_name    | Name of the bucket                                               | string | n/a     | yes      |
 | storage\_class  | Storage class to use for the bucket                              | string | n/a     | yes      |
-| location        | The location of a regional bucket                                | string | n/a     | no       |
+| location        | single site or region or cross region location info for bucket   | string | n/a     | no       |
 | name            | A descriptive name used to identify the resource instance        | string | n/a     | yes      |
 | plan            | The name of the plan type supported by service.                  | string | n/a     | yes      |
 | region          | Target location or environment to create the resource instance.  | string | n/a     | yes      |
