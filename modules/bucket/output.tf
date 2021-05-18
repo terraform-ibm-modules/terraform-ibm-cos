@@ -5,5 +5,5 @@
 
 output "cos_bucket_id" {
   description = "The ID of the cos instance"
-  value       = ibm_cos_bucket.testBucket.id 
+  value       = ibm_cos_bucket.bucket.id
 }
