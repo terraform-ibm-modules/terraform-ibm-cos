@@ -2,8 +2,7 @@
 # COS Bucket
 # Copyright 2020 IBM
 #####################################################
-
-output "cos_bucket_id" {
-  description = "The ID of the cos instance"
-  value       = ibm_cos_bucket.bucket.id
+output "bucket_ids" {
+  description = "List of bucket ids"
+  value       = module.cos_bucket.*.cos_bucket_id
 }
