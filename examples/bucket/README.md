@@ -1,4 +1,4 @@
-# Module cos_bucket 
+# Module cos_bucket
 
 This module is used to create a cloud object storage bucket
 
@@ -38,7 +38,7 @@ locals {
 }
 
 module "cos" {
-  
+
  source  = "terraform-ibm-modules/cos/ibm//modules/instance"
  provision_cos_instance = true
  service_name           = var.cos_instance_name

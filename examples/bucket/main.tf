@@ -33,25 +33,25 @@ locals {
 
 module "cos" {
 
- source  = "terraform-ibm-modules/cos/ibm//modules/instance"
- provision_cos_instance = true
- service_name           = var.cos_instance_name
- resource_group_id      = data.ibm_resource_group.group.id
- plan                   = var.cos_plan
- region                 = var.cos_location
+  source                 = "terraform-ibm-modules/cos/ibm//modules/instance"
+  provision_cos_instance = true
+  service_name           = var.cos_instance_name
+  resource_group_id      = data.ibm_resource_group.group.id
+  plan                   = var.cos_plan
+  region                 = var.cos_location
 }
 
 
 module "cos_bucket" {
 
-  source           = "terraform-ibm-modules/cos/ibm//modules/bucket"
-  count            = length(local.bucket_list)
-  bucket_name      = local.bucket_list[count.index]
-  cos_instance_id  = module.cos.cos_instance_id
-  location         = var.location
-  storage_class    = var.storage_class
-  force_delete     = var.force_delete
-  endpoint_type    = var.endpoint_type
+  source               = "terraform-ibm-modules/cos/ibm//modules/bucket"
+  count                = length(local.bucket_list)
+  bucket_name          = local.bucket_list[count.index]
+  cos_instance_id      = module.cos.cos_instance_id
+  location             = var.location
+  storage_class        = var.storage_class
+  force_delete         = var.force_delete
+  endpoint_type        = var.endpoint_type
   activity_tracker_crn = local.crn_list[count.index]
   archive_rule = {
     rule_id = local.archive_rule_id

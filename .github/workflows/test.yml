@@ -2,8 +2,8 @@ name: "test-scheduler"
 
 on:
   workflow_dispatch:
-    
-   
+
+
   schedule:
     - cron:  '*/30 5 * * *'    # triggers the workflow every day at 5:30 UTC
 
@@ -12,11 +12,11 @@ on:
 # │ │ ┌───────────── day of the month (1 - 31)
 # │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
 # │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
-# │ │ │ │ │                                   
+# │ │ │ │ │
 # │ │ │ │ │
 # │ │ │ │ │
 # * * * * *
-  
+
 jobs:
   continuous-tests:
     name: Run Test cases
@@ -45,4 +45,4 @@ jobs:
         working-directory: test
         run: go test -v ./...
         env:
-          IC_API_KEY: ${{ secrets.ACCESS_KEY }}   
+          IC_API_KEY: ${{ secrets.ACCESS_KEY }}

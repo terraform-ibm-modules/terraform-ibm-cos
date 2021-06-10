@@ -67,7 +67,7 @@ variable "write_data_events" {
 
 }
 variable "cos_plan" {
-    description = "Enter plan type for cos "
-    type        = string
+  description = "Enter plan type for cos "
+  type        = string
 }
 
