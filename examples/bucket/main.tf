@@ -32,19 +32,27 @@ locals {
 }
 
 module "cos" {
+  // Uncommnet the following line to point the source to registry level
+  //source               = "terraform-ibm-modules/cos/ibm//modules/instance"
 
-  source                 = "terraform-ibm-modules/cos/ibm//modules/instance"
+  source                 = "../../modules/instance"
   provision_cos_instance = true
   service_name           = var.cos_instance_name
   resource_group_id      = data.ibm_resource_group.group.id
   plan                   = var.cos_plan
   region                 = var.cos_location
+  bind_resource_key      = var.bind_resource_key
+  resource_key_name      = var.resource_key_name
+  role                   = var.role
 }
 
 
 module "cos_bucket" {
 
-  source               = "terraform-ibm-modules/cos/ibm//modules/bucket"
+  // Uncommnet the following line to point the source to registry level
+  //source             = "terraform-ibm-modules/cos/ibm//modules/bucket"
+
+  source               = "../../modules/bucket"
   count                = length(local.bucket_list)
   bucket_name          = local.bucket_list[count.index]
   cos_instance_id      = module.cos.cos_instance_id
