@@ -19,16 +19,51 @@ variable "storage_class" {
   type        = string
 }
 
+variable "bucket_names" {
+  description = " List of buckets to create."
+  type        = list(string)
+}
+
+variable "archive_rule_enabled" {
+  description = " Set this to true only for regional cos bucket creation.(for cross region and singleSite location set to false)"
+  type        = bool
+  default     = false
+}
+
 variable "resource_group" {
   description = "Enter Name of the resource group"
   type        = string
 }
-variable "logdna_instance_name" {
-  description = "Enter Name of the logdna instance name  with bucket to be configured for event"
+
+variable "cos_instance_name" {
+  description = "Enter Name of the cos instance with bucket to be attached"
   type        = string
 }
-variable "at_instance_name" {
-  description = "Enter Name of the actvity tracker instance name  with bucket to be configured for event"
+variable "endpoint_type" {
+  description = "endpoint for the COS bucket"
+  type        = string
+  default     = "public"
+}
+variable "force_delete" {
+  description = "COS buckets need to be empty before they can be deleted. force_delete option empty the bucket and delete it"
+  type        = bool
+  default     = true
+}
+
+variable "read_data_events" {
+  description = "If set to true, all object read events will be sent to Activity Tracker/logdna"
+  type        = bool
+  default     = true
+
+}
+variable "write_data_events" {
+  description = "If set to true, all object write events will be sent to Activity Tracke/logdna"
+  type        = bool
+  default     = true
+
+}
+variable "cos_plan" {
+  description = "Enter plan type for cos "
   type        = string
 }
 
@@ -50,44 +85,18 @@ variable "role" {
   default     = ""
 }
 
-
-variable "cos_instance_name" {
-  description = "Enter Name of the cos instance with bucket to be attached"
-  type        = string
-}
-variable "endpoint_type" {
-  description = "endpoint for the COS bucket"
-  type        = string
-  default     = "public"
-}
-variable "force_delete" {
-  description = "COS buckets need to be empty before they can be deleted. force_delete option empty the bucket and delete it"
-  type        = bool
-  default     = true
-}
-variable "activity_tracker_crn" {
-  description = "The instance crn of Activity Tracker that will receive object event data"
-  default     = ""
-}
-variable "logdna_crn" {
-  description = "The instance crn of logdna that will receive object event data"
-  default     = ""
-}
-variable "read_data_events" {
-  description = "If set to true, all object read events will be sent to Activity Tracker/logdna"
-  type        = bool
-  default     = true
-
-}
-variable "write_data_events" {
-  description = "If set to true, all object write events will be sent to Activity Tracke/logdna"
-  type        = bool
-  default     = true
-
-}
-variable "cos_plan" {
-  description = "Enter plan type for cos "
+variable "activity_tracker_name" {
+  description = "Enter activity_tracker name "
   type        = string
 }
 
+variable "activity_tracker_plan" {
+  description = "The type of plan for activity tracker (lite, 7-day, 14-day, or 30-day)"
+  type        = string
+}
+
+variable "activity_tracker_region" {
+  description = "Enter region for activity_tracker "
+  type        = string
+}
 
