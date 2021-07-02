@@ -19,7 +19,7 @@ func TestAccIBMCosBucket(t *testing.T) {
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
 			"location":                "jp-osa",
-			"resource_group":          "Default",
+			"resource_group":          "default",
 			"activity_tracker_name":   "atInstance",
 			"activity_tracker_plan":   "7-day",
 			"activity_tracker_region": "us-south",
