@@ -7,6 +7,7 @@
 NOTE: To source a particular version of IBM terraform
 provider version, configure the parameter `version`.
 
+
 terraform {
   required_version = ">=0.13"
   required_providers {
