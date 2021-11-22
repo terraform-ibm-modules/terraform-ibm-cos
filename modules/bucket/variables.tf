@@ -24,6 +24,12 @@ variable "storage_class" {
   type        = string
 }
 
+variable "encryption_key_crn" {
+  description = "The CRN of the encryption root key that you want to use to encrypt data"
+  type        = string
+  default     = null
+}
+
 variable "cos_instance_id" {
   description = "Cos instance id"
   type        = string
