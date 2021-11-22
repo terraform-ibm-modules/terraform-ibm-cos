@@ -45,5 +45,6 @@ module "cos_bucket" {
 | plan            | The name of the plan type supported by service.                  | string | n/a     | yes      |
 | region          | Target location or environment to create the resource instance.  | string | n/a     | yes      |
 | resource\_group | Name of the resource group                                       | string | n/a     | yes      |
+| allowed_ip      | A list of IPs you want to allow access to your bucket.  | string | list   | n/a     | no       |
 
 ## NOTE: If we want to make use of a particular version of module, then set the argument "version" to respective module version.
