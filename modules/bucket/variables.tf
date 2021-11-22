@@ -34,6 +34,13 @@ variable "endpoint_type" {
   type        = string
   default     = null
 }
+
+variable "allowed_ip" {
+  description = "A list of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket"
+  type        = list(string)
+  default     = null
+}
+
 variable "force_delete" {
   description = "COS buckets need to be empty before they can be deleted. force_delete option empty the bucket and delete it"
   type        = bool

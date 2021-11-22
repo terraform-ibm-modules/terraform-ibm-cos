@@ -8,6 +8,11 @@ output "cos_instance_id" {
   value       = module.cos.cos_instance_id
 }
 
+output "cos_instance_guid" {
+  description = "The GUID of the cos instance"
+  value       = module.cos.cos_instance_guid
+}
+
 output "cos_key_id" {
   description = "The ID of the key"
   value       = concat(module.cos.*.cos_key_id, [""])[0]
