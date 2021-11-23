@@ -46,6 +46,6 @@ module "cos_bucket" {
 | region          | Target location or environment to create the resource instance.  | string | n/a     | yes      |
 | resource\_group | Name of the resource group                                       | string | n/a     | yes      |
 | allowed_ip      | A list of IPs you want to allow access to your bucket.  | string | list   | n/a     | no       |
-| encryption_key_crn | The CRN of the root key that you want to use to encrypt data  | string | n/a     | no       |
+| kms_key_crn     | The CRN of the root key that you want to use to encrypt data     | string | n/a     | no       |
 
 ## NOTE: If we want to make use of a particular version of module, then set the argument "version" to respective module version.

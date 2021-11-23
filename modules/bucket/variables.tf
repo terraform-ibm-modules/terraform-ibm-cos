@@ -24,7 +24,7 @@ variable "storage_class" {
   type        = string
 }
 
-variable "encryption_key_crn" {
+variable "kms_key_crn" {
   description = "The CRN of the encryption root key that you want to use to encrypt data"
   type        = string
   default     = null
