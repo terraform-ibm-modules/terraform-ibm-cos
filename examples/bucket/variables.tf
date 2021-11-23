@@ -50,6 +50,17 @@ variable "role" {
   default     = ""
 }
 
+variable "allowed_ip" {
+  description = "A list of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket"
+  type        = list(string)
+  default     = null
+}
+
+variable "kms_key_crn" {
+  description = "The CRN of the encryption root key that you want to use to encrypt data"
+  type        = string
+  default     = null
+}
 
 variable "cos_instance_name" {
   description = "Enter Name of the cos instance with bucket to be attached"
