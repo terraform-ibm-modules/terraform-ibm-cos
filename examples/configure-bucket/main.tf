@@ -50,6 +50,8 @@ module "cos_bucket" {
   force_delete         = var.force_delete
   endpoint_type        = var.endpoint_type
   activity_tracker_crn = ibm_resource_instance.at_instance.id
+  allowed_ip           = var.allowed_ip
+  kms_key_crn          = var.kms_key_crn
   archive_rule = {
     rule_id = local.archive_rule_id
     enable  = true

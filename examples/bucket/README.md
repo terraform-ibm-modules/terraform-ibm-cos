@@ -97,7 +97,8 @@ module "cos_bucket" {
 | logdna\_crn            | instance crn of logdna that will receive object event data                            | string | n/a     | no       |
 | read\_data\_events     | If set to true, all object write events will be sent to Activity Tracke/logdna        | bool   | `true`  | no       |
 | write\_data\_events    | If set to true, all object write events will be sent to Activity Tracke/logdna        | bool   | `true`  | no       |
-
+| allowed_ip             | A list of IPs you want to allow access to your bucket.                                | list   | n/a     | no       |
+| kms_key_crn            | The CRN of the root key that you want to use to encrypt data                          | string | n/a     | no       |
 
 ## NOTE:
 

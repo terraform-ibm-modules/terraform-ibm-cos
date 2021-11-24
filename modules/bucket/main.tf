@@ -21,6 +21,8 @@ resource "ibm_cos_bucket" "bucket" {
   storage_class         = var.storage_class
   force_delete          = (var.force_delete != null ? var.force_delete : true)
   endpoint_type         = (var.endpoint_type != null ? var.endpoint_type : "public")
+  allowed_ip            = (var.allowed_ip != null ? var.allowed_ip : null)
+  key_protect           = (var.kms_key_crn != null ? var.kms_key_crn : null)
 
   dynamic "activity_tracking" {
     for_each = var.activity_tracker_crn == "" ? [] : [1]

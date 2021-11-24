@@ -24,6 +24,12 @@ variable "storage_class" {
   type        = string
 }
 
+variable "kms_key_crn" {
+  description = "The CRN of the encryption root key that you want to use to encrypt data"
+  type        = string
+  default     = null
+}
+
 variable "cos_instance_id" {
   description = "Cos instance id"
   type        = string
@@ -34,6 +40,13 @@ variable "endpoint_type" {
   type        = string
   default     = null
 }
+
+variable "allowed_ip" {
+  description = "A list of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket"
+  type        = list(string)
+  default     = null
+}
+
 variable "force_delete" {
   description = "COS buckets need to be empty before they can be deleted. force_delete option empty the bucket and delete it"
   type        = bool

@@ -50,6 +50,18 @@ variable "force_delete" {
   default     = true
 }
 
+variable "allowed_ip" {
+  description = "A list of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket"
+  type        = list(string)
+  default     = null
+}
+
+variable "kms_key_crn" {
+  description = "The CRN of the encryption root key that you want to use to encrypt data"
+  type        = string
+  default     = null
+}
+
 variable "read_data_events" {
   description = "If set to true, all object read events will be sent to Activity Tracker/logdna"
   type        = bool

@@ -63,4 +63,5 @@ module "cos" {
 | Name             | Description                     |
 |------------------|---------------------------------|
 | cos_instance_id  | The ID of the cos instance      |
+| cos_instance_guid| The GUID of the cos instance    |
 | cos_key_id       | The ID of the key               |
