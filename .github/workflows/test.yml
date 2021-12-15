@@ -46,19 +46,12 @@ jobs:
         run: go test -v ./...
         env:
           IC_API_KEY: ${{ secrets.ACCESS_KEY }}
-
-  slack-workflow-status:
-    if: always()
-    name: Post Workflow Status To Slack
-    needs:
-      - continuous-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Slack Workflow Notification
-        uses: Gamesight/slack-workflow-status@master
+      - uses: 8398a7/action-slack@v2
         with:
-          # Required Input
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
-
+          status: ${{ job.status }}
+          author_name: Integration Test # default: 8398a7@action-slack
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # optional
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
 
