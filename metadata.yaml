@@ -1,0 +1,847 @@
+---
+id: "terraform-ibm-modules/cos/ibm/1.4.1"
+name: "cos"
+namespace: "terraform-ibm-modules"
+version: "1.4.1"
+providers: ["ibm"]
+provider_logo_url: "/images/providers/cos-image.jpg"
+description: "Terraform modules to create and work with IBM Cloud Object Storage resources"
+source: "https://github.com/terraform-ibm-modules/terraform-ibm-cos"
+owner: "ibmtfprovider"
+published_at: "2021-11-25T11:26:14.622851Z"
+registry: "https://registry.terraform.io/modules/terraform-ibm-modules/cos/ibm/latest"
+alias: "cos"
+tags: ["cloud-obkect-storage","storage","cos","cos-instance","cos-bucket","storage-bucket"]
+###################################
+# Root module
+###################################
+root:
+  - path: ""
+    name: "cos"
+    provider_dependencies:
+      - name: "ibm"
+        namespace: "IBM-Cloud"
+        source: "IBM-Cloud/ibm"
+        version: ""
+    inputs:
+      - name: "is_new_cos_instance"
+        type: bool
+        is_required: false
+        default_value: true
+        description: "Enable this to create new cos instance"
+        example: true
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance","ibm_resource_key.key","ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: true
+        is_count_controller: true
+      - name: "resource_group_id"
+        type : string
+        is_required: true
+        description: "ID of resource group"
+        example: "resource-group-1927364"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance"]
+        is_nullable: false
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "cos_instance_name"
+        type : string
+        is_required: true
+        description: "Name of the cos instance"
+        example: "us-instance"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "plan"
+        type : string
+        is_required: true
+        description: "Plan type for cos instance."
+        example: "standard"
+        allowed_values: ["lite", "standard"]
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: false
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "region"
+        type : string
+        is_required: true
+        description: "The location where the instance available"
+        example: "us-south"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance"]
+        is_nullable: false
+        is_force_new: true
+        cloud_data_type: "region"
+        cloud_data_range: "resource_group_id"
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "is_bind_resource_key"
+        type: bool
+        is_required: false
+        default_value: false
+        description: "Enable this to a key to cos instance"
+        example: true
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: true
+        is_count_controller: true
+      - name: "resource_key_name"
+        type : string
+        is_required: true
+        description: "Name of the instance key"
+        example: "testkey"
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "hmac_credential"
+        type: bool
+        is_required: false
+        default_value: false
+        description: "Using this users can create a set of HMAC credentials"
+        example: true
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        allowed_values: [true,false]
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "role"
+        type : string
+        is_required: true
+        description: "Name of the user role"
+        example: "Writer"
+        allowed_values: ["Writer", "Reader", "Manager", "Administrator", "Operator", "Viewer", "Editor"]
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "key_tags"
+        type : list(string)
+        is_required: false
+        description: "Tags to attach to key instance"
+        example: ["T1","T2"]
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "tags"
+        type : list(string)
+        is_required: false
+        description: "Tags to attach to cos instance"
+        example: ["T1","T2"]
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "service_endpoints"
+        type : string
+        is_required: false
+        description: "Types of the service endpoints. Possible values are 'public', 'private', 'public-and-private'."
+        example: "public"
+        allowed_values: ["public", "private", "public-and-private"]
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "create_timeout"
+        type : string
+        is_required: false
+        description: "Timeout duration for create."
+        example: "10m"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","ibm_resource_key.key"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "update_timeout"
+        type : string
+        is_required: false
+        description: "Timeout duration for update."
+        example: "10m"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "delete_timeout"
+        type : string
+        is_required: false
+        description: "Timeout duration for delete."
+        example: "10m"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance",ibm_resource_key.key]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "is_new_cos_bucket"
+        type: bool
+        is_required: false
+        default_value: true
+        description: "Enable this to create new cos bucket"
+        example: true
+        is_sensitive: false
+        related_to: [""ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: true
+        is_count_controller: true
+      - name: "bucket_name_prefix"
+        type : string
+        is_required: false
+        default_value: ""
+        description: "Prefix used to generate the bucket name"
+        example: "testBucket"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "bucket_name"
+        type : string
+        is_required: true
+        description: "Name of the COS bucket"
+        example: "cos"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "location"
+        type : string
+        is_required: true
+        description: "The location where bucket is going to be provisioned"
+        example: "us-south"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_force_new: true
+        cloud_data_type: "region"
+        cloud_data_range: "resource_group_id"
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "storage_class"
+        type : string
+        is_required: true
+        description: "Storage class to use for the bucket."
+        example: "standard"
+        allowed_values: ["standard", "vault", "cold", "flex", "smart"]
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "kms_key_crn"
+        type : string
+        is_required: false
+        description: "CRN of the encryption root key that you want to use to encrypt data"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "endpoint_type"
+        type : string
+        is_required: false
+        description: "Endpoint for the COS bucket"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "allowed_ip"
+        type : list(string)
+        is_required: false
+        description: "List of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "force_delete"
+        type : bool
+        is_required: false
+        description: "COS buckets need to be empty before they can be deleted. force_delete option empty the bucket and delete it"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "read_data_events"
+        type : bool
+        is_required: false
+        description: "If set to true, all object read events will be sent to Activity Tracker/logdna"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "write_data_events"
+        type : bool
+        is_required: false
+        description: "If set to true, all object write events will be sent to Activity Tracker/logdna"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "activity_tracker_crn"
+        type : string
+        is_required: false
+        default_value: ""
+        description: "The instance of Activity Tracker/logdna that will receive object event data"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "usage_metrics_enabled"
+        type : bool
+        is_required: false
+        description: "Usage metrics will be sent to the monitoring service."
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "metrics_monitoring_crn"
+        type : string
+        is_required: false
+        default_value: ""
+        description: "Instance of IBM Cloud Monitoring that will receive the bucket metrics"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "archive_rule"
+        type : object
+        is_required: false
+        description: "Enable configuration archive_rule (glacier/accelerated) to COS Bucket after a defined period of time"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "expire_rules"
+        type : object
+        is_required: false
+        description: "Enable configuration expire_rule to COS Bucket after a defined period of time"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+    outputs:
+      - name: "cos_instance_id"
+        type : string
+        description : "ID of COS instance"
+        example: "crn:v1:bluemix:public:cloud-object-storage:global:a/fcdb764102154c7ea79d3a64afe0:6567ce08-03b3-48ae-b638-012dbb7cb8aa:bucket:bucket-19:meta:rl:us-south:public"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+      - name: "cos_instance_guid"
+        type : string
+        description : "GUID of COS instance"
+        example: "1734gd74"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+      - name: "cos_key_id"
+        type : string
+        description : "ID of the key attached to COS instance"
+        example: "khsjdo931734gd74"
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+      - name: "cos_key_credentials"
+        type : string
+        description : "The credentials associated with the key"
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+      - name: "cos_bucket_id"
+        type : string
+        description : "ID of the COS bucket"
+        example: "1734gd74"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+    locals:
+      - name: "bucket_name_prefix"
+        type: string
+        description: "Prefix used to form bucket name"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["bucket_name_prefix","location"]
+      - name: "site_location"
+        type: string
+        description: "Location type (site/reg/cross_reg)"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["location"]
+      - name: "reg_location"
+        type: string
+        description: "Location type (site/reg/cross_reg)"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["location"]
+      - name: "cross_reg_location"
+        type: string
+        description: "Location type (site/reg/cross_reg)"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["location"]
+    resources:
+      - type : "ibm_resource_instance"
+        name: "cos_instance"
+        description : "Used to provision COS instance"
+        provider: "ibm"
+      - type : "ibm_resource_key"
+        name: "key"
+        description : "Used to attach a key to cos instance"
+        provider: "ibm"
+        dependent_on: ["ibm_resource_instance.cos_instance"]
+      - type : "ibm_cos_bucket"
+        name: "bucket"
+        description : "Used to create a cos bucket"
+        provider: "ibm"
+        dependent_on: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance"]
+    datasources:
+      - type : "ibm_resource_instance"
+        name: "data_cos_instance"
+        description : "Used to read existing COS instance"
+        provider: "ibm"
+submodules:
+  ###############################
+  # COS Bucket
+  ###############################
+  - path: "modules/bucket"
+    name: "bucket"
+    provider_dependencies:
+      - name: "ibm"
+        namespace: ""
+        source: "IBM-Cloud/ibm"
+        version: ""
+    inputs:
+      - name: "bucket_name"
+        type : string
+        is_required: true
+        description: "Name of the COS bucket"
+        example: "cos"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "location"
+        type : string
+        is_required: true
+        description: "The location where bucket is going to be provisioned"
+        example: "us-south"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_force_new: true
+        cloud_data_type: "region"
+        cloud_data_range: "resource_group_id"
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "storage_class"
+        type : string
+        is_required: true
+        description: "Storage class to use for the bucket."
+        example: "standard"
+        allowed_values: ["standard", "vault", "cold", "flex", "smart"]
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "kms_key_crn"
+        type : string
+        is_required: false
+        description: "CRN of the encryption root key that you want to use to encrypt data"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "endpoint_type"
+        type : string
+        is_required: false
+        description: "Endpoint for the COS bucket"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "allowed_ip"
+        type : list(string)
+        is_required: false
+        description: "List of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "force_delete"
+        type : bool
+        is_required: false
+        description: "COS buckets need to be empty before they can be deleted. force_delete option empty the bucket and delete it"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "read_data_events"
+        type : bool
+        is_required: false
+        description: "If set to true, all object read events will be sent to Activity Tracker/logdna"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "write_data_events"
+        type : bool
+        is_required: false
+        description: "If set to true, all object write events will be sent to Activity Tracker/logdna"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "activity_tracker_crn"
+        type : string
+        is_required: false
+        default_value: ""
+        description: "The instance of Activity Tracker/logdna that will receive object event data"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "usage_metrics_enabled"
+        type : bool
+        is_required: false
+        description: "Usage metrics will be sent to the monitoring service."
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "metrics_monitoring_crn"
+        type : string
+        is_required: false
+        default_value: ""
+        description: "Instance of IBM Cloud Monitoring that will receive the bucket metrics"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "archive_rule"
+        type : object
+        is_required: false
+        description: "Enable configuration archive_rule (glacier/accelerated) to COS Bucket after a defined period of time"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "expire_rules"
+        type : object
+        is_required: false
+        description: "Enable configuration expire_rule to COS Bucket after a defined period of time"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+    outputs:
+      - name: "cos_bucket_id"
+        type : string
+        description : "ID of the COS bucket"
+        example: "1734gd74"
+        is_sensitive: false
+        related_to: ["ibm_cos_bucket.bucket"]
+    locals:
+      - name: "bucket_name_prefix"
+        type: string
+        description: "Prefix used to form bucket name"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["bucket_name_prefix","location"]
+      - name: "site_location"
+        type: string
+        description: "Location type (site/reg/cross_reg)"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["location"]
+      - name: "reg_location"
+        type: string
+        description: "Location type (site/reg/cross_reg)"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["location"]
+      - name: "cross_reg_location"
+        type: string
+        description: "Location type (site/reg/cross_reg)"
+        is_hardcoded: false
+        related_to: ["ibm_cos_bucket.bucket"]
+        derived_from: ["location"]
+    resources:
+      - type : "ibm_cos_bucket"
+        name: "bucket"
+        description : "Used to create a cos bucket"
+        provider: "ibm"
+  ####################################
+  # COS Instance
+  ####################################
+  - path: "modules/instance"
+    name: "instance"
+    provider_dependencies:
+      - name: "ibm"
+        namespace: ""
+        source: "IBM-Cloud/ibm"
+        version: ""
+    inputs:
+      - name: "resource_group_id"
+        type : string
+        is_required: true
+        description: "ID of resource group"
+        example: "resource-group-1927364"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance"]
+        is_nullable: false
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "cos_instance_name"
+        type : string
+        is_required: true
+        description: "Name of the cos instance"
+        example: "us-instance"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "plan"
+        type : string
+        is_required: true
+        description: "Plan type for cos instance."
+        example: "standard"
+        allowed_values: ["lite", "standard"]
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: false
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "region"
+        type : string
+        is_required: true
+        description: "The location where the instance available"
+        example: "us-south"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","data.ibm_resource_instance.data_cos_instance"]
+        is_nullable: false
+        is_force_new: true
+        cloud_data_type: "region"
+        cloud_data_range: "resource_group_id"
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "is_bind_resource_key"
+        type: bool
+        is_required: false
+        default_value: false
+        description: "Enable this to a key to cos instance"
+        example: true
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: true
+        is_count_controller: true
+      - name: "resource_key_name"
+        type : string
+        is_required: true
+        description: "Name of the instance key"
+        example: "testkey"
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "hmac_credential"
+        type: bool
+        is_required: false
+        default_value: false
+        description: "Using this users can create a set of HMAC credentials"
+        example: true
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        allowed_values: [true,false]
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "role"
+        type : string
+        is_required: true
+        description: "Name of the user role"
+        example: "Writer"
+        allowed_values: ["Writer", "Reader", "Manager", "Administrator", "Operator", "Viewer", "Editor"]
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: false
+        is_force_new: true
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "key_tags"
+        type : list(string)
+        is_required: false
+        description: "Tags to attach to key instance"
+        example: ["T1","T2"]
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "tags"
+        type : list(string)
+        is_required: false
+        description: "Tags to attach to cos instance"
+        example: ["T1","T2"]
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "service_endpoints"
+        type : string
+        is_required: false
+        description: "Types of the service endpoints. Possible values are 'public', 'private', 'public-and-private'."
+        example: "public"
+        allowed_values: ["public", "private", "public-and-private"]
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "create_timeout"
+        type : string
+        is_required: false
+        description: "Timeout duration for create."
+        example: "10m"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance","ibm_resource_key.key"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "update_timeout"
+        type : string
+        is_required: false
+        description: "Timeout duration for update."
+        example: "10m"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+      - name: "delete_timeout"
+        type : string
+        is_required: false
+        description: "Timeout duration for delete."
+        example: "10m"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance",ibm_resource_key.key]
+        is_nullable: true
+        is_force_new: false
+        is_provision_controller: false
+        is_count_controller: false
+    outputs:
+      - name: "cos_instance_id"
+        type : string
+        description : "ID of COS instance"
+        example: "crn:v1:bluemix:public:cloud-object-storage:global:a/fcdb764102154c7ea79d3a64afe0:6567ce08-03b3-48ae-b638-012dbb7cb8aa:bucket:bucket-19:meta:rl:us-south:public"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+      - name: "cos_instance_guid"
+        type : string
+        description : "GUID of COS instance"
+        example: "1734gd74"
+        is_sensitive: false
+        related_to: ["ibm_resource_instance.cos_instance"]
+      - name: "cos_key_id"
+        type : string
+        description : "ID of the key attached to COS instance"
+        example: "khsjdo931734gd74"
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+      - name: "cos_key_credentials"
+        type : string
+        description : "The credentials associated with the key"
+        is_sensitive: false
+        related_to: ["ibm_resource_key.key"]
+    resources:
+      - type : "ibm_resource_instance"
+        name: "cos_instance"
+        description : "Used to provision COS instance"
+        provider: "ibm"
+      - type : "ibm_resource_key"
+        name: "key"
+        description : "Used to attach a key to cos instance"
+        provider: "ibm"
+        dependent_on: ["ibm_resource_instance.cos_instance"]

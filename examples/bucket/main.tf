@@ -63,12 +63,14 @@ module "cos_bucket" {
   activity_tracker_crn = local.crn_list[count.index]
   allowed_ip           = var.allowed_ip
   kms_key_crn          = var.kms_key_crn
-  archive_rule = {
+
+  archive_rules = [{
     rule_id = local.archive_rule_id
     enable  = true
     days    = 0
     type    = "GLACIER"
-  }
+  }]
+
   expire_rules = [{
     rule_id = local.expire_rule_id
     enable  = true

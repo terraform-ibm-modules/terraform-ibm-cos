@@ -1,6 +1,6 @@
-# Module cos_bucket
+# Example Cloud Object Storage
 
-This module is used to create a cloud object storage bucket
+This module is used to create a cloud object storage instance with multuple buckets attached to it. Cloud object storage bucket can be configured with activity tracker and monitoring instances.
 
 ## Example Usage
 ```
@@ -8,12 +8,32 @@ provider "ibm" {
   region = var.location
 }
 
+locals {
+  archive_rule_id = var.archive_rule_enabled && var.configure_activity_tracker ? (var.is_new_activity_tracker ? "bucket-archive-rule-${ibm_resource_instance.activity_tracker[0].name}" : "bucket-archive-rule-${data.ibm_resource_instance.data_activity_tracker[0].name}"): null
+  expire_rule_id  = var.configure_activity_tracker ? (var.is_new_activity_tracker ? "bucket-expire-rule-${ibm_resource_instance.activity_tracker[0].name}" : "bucket-expire-rule-${data.ibm_resource_instance.data_activity_tracker[0].name}") : null
+}
+
+/***************************************************
+Read resource group
+***************************************************/
 data "ibm_resource_group" "group" {
   name = var.resource_group
 }
 
-resource "ibm_resource_instance" "at_instance" {
+/*****************************************************
+Read existing activity_tracker or create a new instance
+*****************************************************/
+data "ibm_resource_instance" "data_activity_tracker" {
+  count = var.configure_activity_tracker && var.is_new_activity_tracker ? 0 : 1
 
+  name              = var.activity_tracker_name
+  location          = var.activity_tracker_region
+  resource_group_id = data.ibm_resource_group.group.id
+  service           = "logdnaat"
+}
+
+resource "ibm_resource_instance" "activity_tracker" {
+  count             = var.configure_activity_tracker && var.is_new_activity_tracker ? 1 : 0
   name              = var.activity_tracker_name
   service           = "logdnaat"
   plan              = var.activity_tracker_plan
@@ -21,11 +41,32 @@ resource "ibm_resource_instance" "at_instance" {
   resource_group_id = data.ibm_resource_group.group.id
 }
 
-locals {
-  archive_rule_id = var.archive_rule_enabled ? "bucket-archive-rule-${ibm_resource_instance.at_instance.name}" : null
-  expire_rule_id  = "bucket-expire-rule-${ibm_resource_instance.at_instance.name}"
+/*****************************************************
+Read existing sysdig monitoring or create a new instance
+*****************************************************/
+data "ibm_resource_instance" "data_sysdig_instance" {
+  count = var.configure_sysdig_monitoring && var.is_new_sysdig_monitoring ? 0 : 1
+
+  name              = var.sysdig_monitoring_name
+  location          = var.sysdig_monitoring_region
+  resource_group_id = data.ibm_resource_group.group.id
+  service           = "sysdig-monitor"
 }
 
+resource "ibm_resource_instance" "sysdig_instance" {
+
+  count = var.configure_sysdig_monitoring && var.is_new_sysdig_monitoring ? 1 : 0
+
+  name              = var.sysdig_monitoring_name
+  service           = "sysdig-monitor"
+  plan              = var.sysdig_monitoring_plan
+  location          = var.sysdig_monitoring_region
+  resource_group_id = data.ibm_resource_group.group.id
+}
+
+/*****************************************************
+COS Instance Creation
+*****************************************************/
 module "cos" {
   // Uncommnet the following line to point the source to registry level
   //source                 = "terraform-ibm-modules/cos/ibm//modules/instance"
@@ -36,11 +77,15 @@ module "cos" {
   resource_group_id      = data.ibm_resource_group.group.id
   plan                   = var.cos_plan
   region                 = var.cos_location
+  bind_resource_key      = var.bind_resource_key
   resource_key_name      = var.resource_key_name
   role                   = var.role
 }
 
 
+/*****************************************************
+COS Bucket Creation
+*****************************************************/
 module "cos_bucket" {
 
   // Uncommnet the following line to point the source to registry level
@@ -54,7 +99,13 @@ module "cos_bucket" {
   storage_class        = var.storage_class
   force_delete         = var.force_delete
   endpoint_type        = var.endpoint_type
-  activity_tracker_crn = ibm_resource_instance.at_instance.id
+  activity_tracker_crn = var.configure_activity_tracker ? (var.is_new_activity_tracker ? ibm_resource_instance.activity_tracker[0].id : data.ibm_resource_instance.data_activity_tracker[0].id) : null
+  read_data_events     = var.configure_activity_tracker ? var.read_data_events : null
+  write_data_events    = var.configure_activity_tracker ? var.write_data_events : null
+  metrics_monitoring_crn = var.configure_sysdig_monitoring ? (var.is_new_sysdig_monitoring ? ibm_resource_instance.sysdig_instance[0].id : data.ibm_resource_instance.data_sysdig_instance[0].id) : null
+  usage_metrics_enabled = var.configure_sysdig_monitoring ? var.usage_metrics_enabled : null
+  allowed_ip           = var.allowed_ip
+  kms_key_crn          = var.kms_key_crn
   archive_rule = {
     rule_id = local.archive_rule_id
     enable  = true
@@ -74,30 +125,98 @@ module "cos_bucket" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Inputs
 
 
-| Name                   | Description                                                                           | Type   | Default | Required |
-|------------------------|---------------------------------------------------------------------------------------|--------|---------|----------|
-| cos\_location          | cos location info                                                                     | string | n/a     | yes      |
-| storage\_class         | Storage class to use for the bucket                                                   | string | n/a     | yes      |
-| location               | single site or region or cross region location info for bucket                        | string | n/a     | yes      |
-| cos\_plan              | The name of the plan type supported by COS service.                                   | string | n/a     | yes      |
-| region                 | Target location or environment to create the resource instance.                       | string | n/a     | yes      |
-| resource\_group        | Name of the resource group                                                            | string | n/a     | yes      |
-| at\_instance\_name     | Name of the actvity tracker instance name  with bucket to be configured for event     | string | n/a     | yes      |
-| cos\_instance\_name    | Name of the cos instance with bucket to be attached                                   | string | n/a     | yes      |
-| endpoint\_type         | endpoint for the COS bucket                                                           | string | `public`| no       |
-| force\_delete          | COS buckets need to be empty before they can be deleted                               | bool   | `true`  | no       |
-| read\_data\_events     | If set to true, all object write events will be sent to Activity Tracke/logdna        | bool   | `true`  | no       |
-| write\_data\_events    | If set to true, all object write events will be sent to Activity Tracke/logdna        | bool   | `true`  | no       |
-| allowed_ip             | A list of IPs you want to allow access to your bucket.                                | list   | n/a     | no       |
-| kms_key_crn            | The CRN of the root key that you want to use to encrypt data                          | string | n/a     | no       |
+| Name                      | Description                                                                  | Type   | Default | Required |
+|---------------------------|------------------------------------------------------------------------------|--------|---------|----------|
+| resource\_group           | Name of the resource group                                                   | string | n/a     | yes      |
+| configure_activity_tracker| Enable this to configure activity tracker instance                           | bool   | true    | no       |
+| is_new_activity_tracker   | Enable this to create new activity tracker instance                          | bool   | true    | no       |
+| activity_tracker_name     | Name of the activity tracker instance                                        | string | n/a     | yes      |
+| activity_tracker_plan     | Plan type for activity tracker instance                                      | string | 7-day   | no      |
+| activity_tracker_region   | Region to provision activity tracker instance                                | string | us-south| yes      |
+| configure_sysdig_monitoring| Enable this to configure monitoring instance                                | bool   | true    | no       |
+| is_new_sysdig_monitoring  | Enable this to create new sysdig monitoring instance                         | bool   | true    | no       |
+| sysdig_monitoring_name    | Name of the sysdig monitoring instance                                       | string | n/a     | yes      |
+| sysdig_monitoring_plan    | Plan type for sysdig monitoring instance                              | string | graduated-tier | no       |
+| sysdig_monitoring_region  | Region to provision sysdig monitoring instance                               | string | n/a     | yes      |
+| cos_instance_name         | Name of the COS instance                                                     | string | n/a     | yes      |
+| cos_location              | Location to provision COS instance                                           | string | us-south| no       |
+| cos_plan                  | Plan type for COS instance                                                   | string | standard| no       |
+| bind_resource_key         | Enable this to bind key to COS instance                                      | bool   | false   | no       |
+| resource_key_name         | Name of the resource key to bind                                             | string | empty   | no       |
+| role                      | Type of roleValid roles are Writer, Reader, Manager, Administrator, Operator, Viewer, Editor | string | standard| no      |
+| bucket_names              | List of buckets to create                                                    | list(string) | n/a     | yes      |
+| location                  | Single site or region or cross region location info                          | string | n/a     | yes      |
+| storage_class             | storage class to use for the bucket                                          | string | standard| no       |
+| endpoint_type             | Endpoint for the COS bucket                                                  | string | false   | no       |
+| resource_key_name         | Name of the resource key to bind                                             | string | public  | no       |
+| force_delete              | COS buckets need to be empty before they can be deleted. force_delete option empty the bucket and delete it | bool | true     | no      |
+| allowed_ip                | list of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket | list(string) | n/a | no       |
+| kms_key_crn               | CRN of the encryption root key that you want to use to encrypt data          | string | n/a     | no       |
+| archive_rule_enabled      | Set this to true only for regional cos bucket creation.                      | bool   | n/a     | no       |
+
+## Outputs
+
+| Name                      | Description             | Type         |
+|---------------------------|-------------------------|--------------|
+| bucket_ids                | List of bucket ids      | list(string) |
+
+## Requirements
+
+### Terraform plugins
+
+- [Terraform](https://www.terraform.io/downloads.html) 0.13
+- [terraform-provider-ibm](https://github.com/IBM-Cloud/terraform-provider-ibm)
+
+## Install
+
+### Terraform
+
+Be sure you have the correct Terraform version (0.13), you can choose the binary here:
+- https://releases.hashicorp.com/terraform/
+
+### Terraform plugins
+
+Be sure you have the compiled plugins on $HOME/.terraform.d/plugins/
+
+- [terraform-provider-ibm](https://github.com/IBM-Cloud/terraform-provider-ibm)
+
+### Pre-commit Hooks
+
+Run the following command to execute the pre-commit hooks defined in `.pre-commit-config.yaml` file
+
+  `pre-commit run -a`
+
+We can install pre-coomit tool using
+
+  `pip install pre-commit`
+
+## How to input varaible values through a file
+
+To review the plan for the configuration defined (no resources actually provisioned)
+
+`terraform plan -var-file=./input.tfvars`
+
+To execute and start building the configuration defined in the plan (provisions resources)
+
+`terraform apply -var-file=./input.tfvars`
+
+To destroy the VPC and all related resources
+
+`terraform destroy -var-file=./input.tfvars`
 
 ## NOTE :
 
+* All optional fields should be given value `null` in respective resource varaible.tf file. User can configure the same by overwriting
+  with appropriate values.
+
 * If we want to make use of a particular version of module, then set the argument "version" to respective module version.
 
-* Set the `archive_rule_enabled` argument to true only for regional cos bucket creation. For cross region and singleSite location set to false.
+* Set the `archive_rule_enabled` argument to true only for regional cos bucket creation. For cross region and singleSite location set to
+  false.
 
-* To attach a key to cos instance, enbale it by setting `bind_resource_key` argument to true (which is by default false). And set the `resource_key_name` and `role` parameters accordingly (which are by deafult empty) in variables.tf file.
+* To attach a key to cos instance, enbale it by setting `bind_resource_key` argument to true (which is by default false). And set the
+  `resource_key_name` and `role` parameters accordingly (which are by deafult empty) in variables.tf file.

@@ -18,22 +18,30 @@ func TestAccIBMCosBucket(t *testing.T) {
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
-			"location":                "jp-osa",
-			"resource_group":          "default",
-			"activity_tracker_name":   "atInstance",
-			"activity_tracker_plan":   "7-day",
-			"activity_tracker_region": "us-south",
-			"archive_rule_enabled":    false,
-			"cos_instance_name":       "cosInstance",
-			"cos_plan":                "standard",
-
-			"cos_location":      "global",
-			"storage_class":     "standard",
-			"force_delete":      true,
-			"endpoint_type":     "public",
-			"role":              "Manager",
-			"resource_key_name": "resourcekey",
-			"bucket_names":      []string{"atb", "logdnab"},
+			"resource_group":              "Default",
+			"configure_activity_tracker":  true,
+			"is_new_activity_tracker":     true,
+			"activity_tracker_name":       "at-19",
+			"activity_tracker_plan":       "7-day",
+			"activity_tracker_region":     "us-south",
+			"configure_sysdig_monitoring": true,
+			"is_new_sysdig_monitoring":    true,
+			"sysdig_monitoring_name":      "sm-19",
+			"sysdig_monitoring_plan":      "graduated-tier",
+			"sysdig_monitoring_region":    "us-south",
+			"cos_instance_name":           "cosInstance",
+			"plan":                        "standard",
+			"is_bind_resource_key":        false,
+			"resource_key_name":           "resourcekey",
+			"role":                        "Manager",
+			"bucket_names":                []string{"atb", "logdnab"},
+			"location":                    "jp-osa",
+			"storage_class":               "standard",
+			"force_delete":                true,
+			"endpoint_type":               "public",
+			"archive_rule_enabled":        false,
+			"read_data_events":            true,
+			"write_data_events":           true,
 		},
 	})
 
@@ -42,11 +50,4 @@ func TestAccIBMCosBucket(t *testing.T) {
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.InitAndApply(t, terraformOptions)
-
-	// Run `terraform output` to get the value of an output variable
-	/*instanceID := terraform.Output(t, terraformOptions, "cos_instance_id")
-	if len(instanceID) <= 0 {
-		t.Fatal("Wrong output")
-	}
-	fmt.Println("COS INstance iD", instanceID)*/
 }

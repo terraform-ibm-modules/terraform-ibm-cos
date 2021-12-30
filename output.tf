@@ -3,9 +3,9 @@
 # Copyright 2020 IBM
 #####################################################
 
-/*output "cos_instance_id" {
+output "cos_instance_id" {
   description = "ID of the cos instance"
-  value       = module.cos.
+  value       = concat(ibm_resource_instance.cos_instance.*.id, [""])[0]
 }
 
 output "cos_instance_guid" {
@@ -25,9 +25,6 @@ output "cos_key_credentials" {
 
 output "cos_bucket_id" {
   description = " ID of the cos bucket"
-  value       = concat(ibm_cos_bucket.bucket.*.id, [""])[0]
-}*/
-output "bucket_ids" {
-  description = "List of bucket ids"
-  value       = module.cos.cos_bucket_id
+  value       = [for bucket in ibm_cos_bucket.bucket : bucket.id]
+  //value       = concat(ibm_cos_bucket.bucket.*.id, [""])[0]
 }

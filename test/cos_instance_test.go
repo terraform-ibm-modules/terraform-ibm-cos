@@ -45,11 +45,4 @@ func TestAccIBMCosInstance(t *testing.T) {
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.InitAndApply(t, terraformOptions)
-
-	// Run `terraform output` to get the value of an output variable
-	/*instanceID := terraform.Output(t, terraformOptions, "cos_instance_id")
-	if len(instanceID) <= 0 {
-		t.Fatal("Wrong output")
-	}
-	fmt.Println("COS INstance iD", instanceID)*/
 }

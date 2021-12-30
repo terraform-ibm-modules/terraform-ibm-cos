@@ -1,7 +1,106 @@
+variable "is_new_cos_instance" {
+  description = "Enable this to create new cos instance"
+  type        = bool
+  default     = true
+}
+
+variable "resource_group_id" {
+  description = "ID of the resource group"
+  type        = string
+}
+
+variable "cos_instance_name" {
+  description = "Name of cos instance"
+  type        = string
+}
+
+variable "plan" {
+  description = "plan type"
+  type        = string
+}
+
+variable "region" {
+  description = "Provisioning Region"
+  type        = string
+}
+
+variable "parameters" {
+  type        = map(string)
+  description = "Arbitrary parameters to pass cos instance"
+  default     = null
+}
+
+variable "is_bind_resource_key" {
+  description = "Enable this to bind key to cos instance (true/false)"
+  type        = bool
+  default     = false
+}
+
+variable "resource_key_name" {
+  description = "Name of the key"
+  type        = string
+  default     = ""
+}
+
+variable "hmac_credential" {
+  type        = bool
+  description = "Users can create a set of HMAC credentials"
+  default     = false
+}
+
+variable "role" {
+  description = "Name of the user role (Valid roles are Writer, Reader, Manager, Administrator, Operator, Viewer, Editor.)"
+  type        = string
+  default     = ""
+}
+
+variable "key_tags" {
+  type        = list(string)
+  description = "Tags that should be applied to the key"
+  default     = null
+}
+
+
+variable "tags" {
+  type        = list(string)
+  description = "Tags that should be applied to the service"
+  default     = null
+}
+
+variable "service_endpoints" {
+  description = "Types of the service endpoints"
+  type        = string
+  default     = null
+}
+
+variable "create_timeout" {
+  type        = string
+  description = "Timeout duration for create."
+  default     = null
+}
+
+variable "update_timeout" {
+  type        = string
+  description = "Timeout duration for update."
+  default     = null
+}
+
+variable "delete_timeout" {
+  type        = string
+  description = "Timeout duration for delete."
+  default     = null
+}
+
 #####################################################
 # COS Bucket
 # Copyright 2020 IBM
 #####################################################
+
+variable "is_new_cos_bucket" {
+  description = "Enable this to create new cos bucket(s)"
+  type        = bool
+  default     = true
+}
 
 variable "bucket_name_prefix" {
   description = "Prefix used to generate the bucket name."
@@ -9,9 +108,9 @@ variable "bucket_name_prefix" {
   default     = ""
 }
 
-variable "bucket_name" {
-  type        = string
-  description = "COS Bucket name"
+variable "bucket_names" {
+  description = " List of buckets to create."
+  type        = list(string)
 }
 
 variable "location" {
@@ -20,7 +119,7 @@ variable "location" {
 }
 
 variable "storage_class" {
-  description = " storage class to use for the bucket."
+  description = "Storage class to use for the bucket."
   type        = string
 }
 
@@ -30,13 +129,8 @@ variable "kms_key_crn" {
   default     = null
 }
 
-variable "cos_instance_id" {
-  description = "Cos instance id"
-  type        = string
-}
-
 variable "endpoint_type" {
-  description = "endpoint for the COS bucket"
+  description = "Endpoint for the COS bucket"
   type        = string
   default     = null
 }
@@ -81,7 +175,6 @@ variable "metrics_monitoring_crn" {
   description = "Instance of IBM Cloud Monitoring that will receive the bucket metrics"
   default     = ""
 }
-
 variable "archive_rules" {
   description = "Enable configuration archive_rule (glacier/accelerated) to COS Bucket after a defined period of time"
   type = list(object({
@@ -103,5 +196,6 @@ variable "expire_rules" {
   }))
   default = []
 }
+
 
 

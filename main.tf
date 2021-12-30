@@ -1,5 +1,5 @@
-####################################################
-# COS Bucket
+#####################################################
+# COS Instance
 # Copyright 2020 IBM
 #####################################################
 
@@ -11,10 +11,52 @@ locals {
 
 }
 
-resource "ibm_cos_bucket" "bucket" {
+data "ibm_resource_instance" "data_cos_instance" {
+  count = var.is_new_cos_instance ? 0 : 1
 
-  bucket_name           = "${local.bucket_name_prefix}${var.bucket_name}"
-  resource_instance_id  = var.cos_instance_id
+  name              = var.cos_instance_name
+  location          = var.region
+  resource_group_id = var.resource_group_id
+  service           = "cloud-object-storage"
+}
+
+resource "ibm_resource_instance" "cos_instance" {
+  count             = (var.is_new_cos_instance ? 1 : 0)
+  name              = var.cos_instance_name
+  resource_group_id = var.resource_group_id
+  service           = "cloud-object-storage"
+  plan              = var.plan
+  location          = var.region
+  tags              = (var.tags != null ? var.tags : null)
+  parameters        = (var.parameters != null ? var.parameters : null)
+  service_endpoints = (var.service_endpoints != null ? var.service_endpoints : null)
+
+  timeouts {
+    create = (var.create_timeout != null ? var.create_timeout : null)
+    update = (var.update_timeout != null ? var.update_timeout : null)
+    delete = (var.delete_timeout != null ? var.delete_timeout : null)
+  }
+}
+
+
+resource "ibm_resource_key" "key" {
+  count                = var.is_bind_resource_key ? 1 : 0
+  name                 = var.resource_key_name
+  role                 = var.role
+  parameters           = { "HMAC" = var.hmac_credential }
+  resource_instance_id = (var.is_new_cos_instance ? ibm_resource_instance.cos_instance[0].id : data.ibm_resource_instance.data_cos_instance[0].id)
+  tags                 = (var.key_tags != null ? var.key_tags : null)
+
+  timeouts {
+    create = (var.create_timeout != null ? var.create_timeout : null)
+    delete = (var.delete_timeout != null ? var.delete_timeout : null)
+  }
+}
+
+resource "ibm_cos_bucket" "bucket" {
+  count                 = length(var.bucket_names)
+  bucket_name           = "${local.bucket_name_prefix}${var.bucket_names[count.index]}"
+  resource_instance_id  = var.is_new_cos_instance ? ibm_resource_instance.cos_instance[0].id : data.ibm_resource_instance.data_cos_instance[0].id
   single_site_location  = local.site_location
   region_location       = local.reg_location
   cross_region_location = local.cross_reg_location
