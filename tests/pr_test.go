@@ -8,7 +8,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-//const completeExampleTerraformDir = "examples/complete"
+// const completeExampleTerraformDir = "examples/complete"
 // TODO: Move back to complete example once observability and keyprotect modules are available
 const bucketWOMonitoringExampleTerraformDir = "examples/bucket-without-tracking-monitoring"
 
