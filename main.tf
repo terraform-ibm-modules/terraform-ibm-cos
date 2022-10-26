@@ -1,7 +1,7 @@
 ##############################################################################
-# cos-base-module
+# terraform-ibm-cos
 #
-# Creates COS instance and buckets aligned with Service Framework and NIST controls
+# Creates COS instance and buckets
 ##############################################################################
 
 locals {
