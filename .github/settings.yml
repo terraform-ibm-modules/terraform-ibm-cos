@@ -6,3 +6,7 @@
 # the settings of this repository are updated immediately.
 #
 _extends: repo-settings
+
+repository:
+  # The name of the repository. Changing this will rename the repository
+  name: terraform-ibm-cos
