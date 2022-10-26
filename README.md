@@ -1,180 +1,148 @@
-# IBM COS Bucket Terraform Module
+<!-- BEGIN MODULE HOOK -->
+# Cloud Object Storage Base Module
 
-This is a collection of modules that make it easier to provision a cloud object stoarge on IBM Cloud Platform:
+ [![Stable (Adopted)](https://img.shields.io/badge/Status-Stable%20(Adopted)-yellowgreen?style=plastic)](https://github.ibm.com/GoldenEye/documentation/blob/master/status.md)
+ [![Build Status](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml)
+ [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+ [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+ [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-cos?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases/latest)
 
-* instance
-* bucket
+This base module can be used to provision and configure a [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
 
-## Compatibility
+You can configure the following aspects of your instances:
+1. [Bucket encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tutorial-kp-encrypt-bucket) - based on Key Protect keys
+2. [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing
+3. [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)
+4. Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options
 
-This module is meant for use with Terraform 0.13 (and higher).
 
 ## Usage
 
-Full examples are in the [examples](./examples/) folder, but basic usage is as follows for creation of COS instance:
+<!--
+Add an example of the use of the module in the following code block.
+
+Use real values instead of "var.<var_name>" or other placeholder values
+unless real values don't help users know what to change.
+-->
 
 ```hcl
-provider "ibm" {
+# Replace "master" with a GIT release version to lock into a specific release
+module "cos_module" {
+  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
+  environment_name  = "us-staging"
+  resource_group_id = var.resource_group_id
+  ibm_region        = "us-south"
+  cos_key_ring_name = "cos-key-ring"
+  cos_key_name      = ["cos-key"]
+  sysdig_crn = var.sysdig_crn
+  activity_tracker_crn = var.activity_tracker_crn
 }
-
-data "ibm_resource_group" "cos_group" {
-  name = var.resource_group
-}
-
-module "cos" {
-  // Uncommnet the following line to point the source to registry level
-  //source = "terraform-ibm-modules/cos/ibm//modules/instance"
-
-  source = "../../modules/instance"
-  bind_resource_key = var.bind_resource_key
-  service_name      = var.service_name
-  resource_group_id = data.ibm_resource_group.cos_group.id
-  plan              = var.plan
-  region            = var.region
-  service_endpoints = var.service_endpoints
-  parameters        = var.parameters
-  tags              = var.tags
-  create_timeout    = var.create_timeout
-  update_timeout    = var.update_timeout
-  delete_timeout    = var.delete_timeout
-  resource_key_name = var.resource_key_name
-  role              = var.role
-  key_tags          = var.key_tags
-  key_parameters    = var.key_parameters
-}
-
 ```
 
-Creation of cloud object storage bucket:
+## Required IAM access policies
 
-```hcl
-provider "ibm" {
-  region = var.location
-}
+<!-- PERMISSIONS REQUIRED TO RUN MODULE
+If this module requires permissions, uncomment the following block and update
+the sample permissions, following the format.
+Replace the sample Account and Cloud service names and roles with the
+information in the console at
+Manage > Access (IAM) > Access groups > Access policies.
+-->
 
-data "ibm_resource_group" "group" {
-  name = var.resource_group
-}
-data "ibm_resource_instance" "logdna_instance" {
-  name              = var.logdna_instance_name
-  location          = var.location
-  resource_group_id = data.ibm_resource_group.group.id
-  service           = "logdna"
-}
+You need the following permissions to run this module.
 
-data "ibm_resource_instance" "at_instance" {
-  name              = var.at_instance_name
-  location          = var.location
-  resource_group_id = data.ibm_resource_group.group.id
-  service           = "logdnaat"
-}
-
-locals {
-
-  logdna-bucket   = "${data.ibm_resource_instance.logdna_instance.name}-cos-bucket"
-  at-bucket       = "${data.ibm_resource_instance.at_instance.name}-cos-bucket"
-  logdna_crn      = var.logdna_crn == "" ? data.ibm_resource_instance.logdna_instance.id : var.logdna_crn
-  at_crn          = var.activity_tracker_crn == "" ? data.ibm_resource_instance.at_instance.id : var.activity_tracker_crn
-  archive_rule_id = "bucket-archive-rule-${data.ibm_resource_instance.logdna_instance.name}"
-  expire_rule_id  = "bucket-expire-rule-${data.ibm_resource_instance.at_instance.name}"
-  bucket_list     = [local.logdna-bucket, local.at-bucket]
-  crn_list        = [local.logdna_crn, local.at_crn]
-}
-
-module "cos" {
-  // Uncommnet the following line to point the source to registry level
-  //source                 = "terraform-ibm-modules/cos/ibm//modules/instance"
-
-  source                 = "../../modules/instance"
-  provision_cos_instance = true
-  service_name           = var.cos_instance_name
-  resource_group_id      = data.ibm_resource_group.group.id
-  plan                   = var.cos_plan
-  region                 = var.cos_location
-}
+- Account Management
+    - **Resource Group** service
+        - `Viewer` platform access
+- IAM Services
+    - **IBM Cloud Activity Tracker** service
+        - `Editor` platform access
+        - `Manager` service access
+    - **IBM Cloud Monitoring** service
+        - `Editor` platform access
+        - `Manager` service access
+    - **IBM Cloud Object Storage** service
+        - `Editor` platform access
+        - `Manager` service access
 
 
-module "cos_bucket" {
+<!-- BEGIN EXAMPLES HOOK -->
+## Examples
 
-  // Uncommnet the following line to point the source to registry level
-  //source               = "terraform-ibm-modules/cos/ibm//modules/bucket"
+- [ COS Bucket without Tracking and Monitoring](examples/bucket-without-tracking-monitoring)
+<!-- END EXAMPLES HOOK -->
 
-  source               = "../../modules/bucket"
-  count                = length(local.bucket_list)
-  bucket_name          = local.bucket_list[count.index]
-  cos_instance_id      = module.cos.cos_instance_id
-  location             = var.location
-  storage_class        = var.storage_class
-  force_delete         = var.force_delete
-  endpoint_type        = var.endpoint_type
-  activity_tracker_crn = local.crn_list[count.index]
-  archive_rule = {
-    rule_id = local.archive_rule_id
-    enable  = true
-    days    = 0
-    type    = "GLACIER"
-  }
-  expire_rules = [{
-    rule_id = local.expire_rule_id
-    enable  = true
-    days    = 365
-    prefix  = "logs/"
-  }]
-}
-
-```
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-### Terraform plugins
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.45.0 |
+| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=1.17.0 |
 
-- [Terraform](https://www.terraform.io/downloads.html) 0.13 (or later)
-- [terraform-provider-ibm](https://github.com/IBM-Cloud/terraform-provider-ibm)
+## Modules
 
-## Install
+No modules.
 
-### Terraform
+## Resources
 
-Be sure you have the correct Terraform version (0.13), you can choose the binary here:
-- https://releases.hashicorp.com/terraform/
+| Name | Type |
+|------|------|
+| [ibm_cos_bucket.cos_bucket](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
+| [ibm_cos_bucket.cos_bucket1](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
+| [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
+| [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
+| [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
+| [ibm_resource_instance.keyprotect_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
-### Terraform plugins
+## Inputs
 
-Be sure you have the compiled plugins on $HOME/.terraform.d/plugins/
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_activity_tracker_crn"></a> [activity\_tracker\_crn](#input\_activity\_tracker\_crn) | Activity tracker crn for COS bucket (Optional) | `string` | `null` | no |
+| <a name="input_archive_days"></a> [archive\_days](#input\_archive\_days) | Specifies the number of days when the archive rule action takes effect. | `number` | `90` | no |
+| <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | Specifies the storage class or archive type to which you want the object to transition. | `string` | `"Glacier"` | no |
+| <a name="input_bucket_infix"></a> [bucket\_infix](#input\_bucket\_infix) | Custom infix for use in cos bucket name (Optional) | `string` | `null` | no |
+| <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | Name of the cos instance where the bucket should be created | `string` | `null` | no |
+| <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location of the cloud object storage instance | `string` | `"global"` | no |
+| <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan to be used for creating cloud object storage instance | `string` | `"standard"` | no |
+| <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Set as true to create a new Cloud Object Storage instance | `bool` | `true` | no |
+| <a name="input_encryption_enabled"></a> [encryption\_enabled](#input\_encryption\_enabled) | Set as true to use Key Protect encryption to encrypt data in COS bucket | `bool` | `true` | no |
+| <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Prefix name for all related resources | `string` | n/a | yes |
+| <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | Specifies the number of days when the expire rule action takes effect. | `number` | `365` | no |
+| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | Name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket | `string` | `null` | no |
+| <a name="input_key_protect_key_crn"></a> [key\_protect\_key\_crn](#input\_key\_protect\_key\_crn) | CRN of the Key Protect Key to use, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `null` | no |
+| <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. | `bool` | `false` | no |
+| <a name="input_region"></a> [region](#input\_region) | Name of the Region to deploy in to | `string` | `"us-south"` | no |
+| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where the environment will be created | `string` | n/a | yes |
+| <a name="input_retention_default"></a> [retention\_default](#input\_retention\_default) | Specifies default duration of time an object that can be kept unmodified for COS bucket | `number` | `90` | no |
+| <a name="input_retention_enabled"></a> [retention\_enabled](#input\_retention\_enabled) | Retention enabled for COS bucket | `bool` | `true` | no |
+| <a name="input_retention_maximum"></a> [retention\_maximum](#input\_retention\_maximum) | Specifies maximum duration of time an object that can be kept unmodified for COS bucket | `number` | `350` | no |
+| <a name="input_retention_minimum"></a> [retention\_minimum](#input\_retention\_minimum) | Specifies minimum duration of time an object must be kept unmodified for COS bucket | `number` | `90` | no |
+| <a name="input_retention_permanent"></a> [retention\_permanent](#input\_retention\_permanent) | Specifies a permanent retention status either enable or disable for COS bucket | `bool` | `false` | no |
+| <a name="input_sysdig_crn"></a> [sysdig\_crn](#input\_sysdig\_crn) | Sysdig Monitoring crn for COS bucket (Optional) | `string` | `null` | no |
 
-- [terraform-provider-ibm](https://github.com/IBM-Cloud/terraform-provider-ibm)
+## Outputs
 
-### Pre-commit hooks
+| Name | Description |
+|------|-------------|
+| <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | Bucket id |
+| <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Bucket Name |
+| <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The GUID of the Cloud Object Storage Instance where the buckets are created |
+| <a name="output_key_protect_key_crn"></a> [key\_protect\_key\_crn](#output\_key\_protect\_key\_crn) | The CRN of the Key Protect Key used to encrypt the COS Bucket |
+| <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |
+| <a name="output_s3_endpoint_private"></a> [s3\_endpoint\_private](#output\_s3\_endpoint\_private) | S3 private endpoint |
+| <a name="output_s3_endpoint_public"></a> [s3\_endpoint\_public](#output\_s3\_endpoint\_public) | S3 public endpoint |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-Run the following command to execute the pre-commit hooks defined in .pre-commit-config.yaml file
-```
-pre-commit run -a
-```
-You can install pre-coomit tool using
+<!-- BEGIN CONTRIBUTING HOOK -->
 
-```
-pip install pre-commit
-```
-or
-```
-pip3 install pre-commit
-```
-## How to input varaible values through a file
+<!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
+## Contributing
 
-To review the plan for the configuration defined (no resources actually provisioned)
-```
-terraform plan -var-file=./input.tfvars
-```
-To execute and start building the configuration defined in the plan (provisions resources)
-```
-terraform apply -var-file=./input.tfvars
-```
+You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
-To destroy the VPC and all related resources
-```
-terraform destroy -var-file=./input.tfvars
-```
-
-## Note
-
-All optional parameters, by default, will be set to `null` in respective example's varaible.tf file. You can also override these optional parameters.
+To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
+<!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
+<!-- END CONTRIBUTING HOOK -->

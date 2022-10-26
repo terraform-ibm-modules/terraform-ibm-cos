@@ -1,0 +1,12 @@
+{
+  "tagFormat": "${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    ["@semantic-release/github",{
+      "githubUrl": "https://github.ibm.com",
+      "githubApiPathPrefix": "/api/v3"
+    }]
+  ]
+}
