@@ -1,7 +1,7 @@
 <!-- BEGIN MODULE HOOK -->
 # Cloud Object Storage Base Module
 
- [![Stable (Adopted)](https://img.shields.io/badge/Status-Stable%20(Adopted)-yellowgreen?style=plastic)](https://github.ibm.com/GoldenEye/documentation/blob/master/status.md)
+ [![Stable (Adopted)](https://img.shields.io/badge/Status-Stable%20(Adopted)-yellowgreen?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
  [![Build Status](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml)
  [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
  [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
@@ -26,14 +26,12 @@ unless real values don't help users know what to change.
 -->
 
 ```hcl
-# Replace "master" with a GIT release version to lock into a specific release
+# Replace "main" with a GIT release version to lock into a specific release
 module "cos_module" {
   source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
   environment_name  = "us-staging"
   resource_group_id = var.resource_group_id
   ibm_region        = "us-south"
-  cos_key_ring_name = "cos-key-ring"
-  cos_key_name      = ["cos-key"]
   sysdig_crn = var.sysdig_crn
   activity_tracker_crn = var.activity_tracker_crn
 }

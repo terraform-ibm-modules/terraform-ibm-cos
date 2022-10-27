@@ -10,3 +10,5 @@ _extends: repo-settings
 repository:
   # The name of the repository. Changing this will rename the repository
   name: terraform-ibm-cos
+
+  description: "Creates generic COS instance and bucket with a variety of options"
