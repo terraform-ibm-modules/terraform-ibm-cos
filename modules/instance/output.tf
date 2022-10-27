@@ -21,4 +21,7 @@ output "cos_key_id" {
 output "cos_key_credentials" {
   description = "The credentials of the key"
   value       = concat(ibm_resource_key.key.*.credentials, [""])[0]
+  sensitive   = true
 }
+
+
