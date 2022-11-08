@@ -1,0 +1,4 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>terraform-ibm-modules/common-dev-assets:commonRenovateConfig"]
+}
