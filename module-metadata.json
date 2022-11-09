@@ -43,6 +43,10 @@
       "name": "cos_instance_name",
       "type": "string",
       "description": "Name of the cos instance where the bucket should be created",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 52
@@ -53,16 +57,28 @@
       "type": "string",
       "description": "Location of the cloud object storage instance",
       "default": "global",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.location",
+        "ibm_resource_instance.cos_instance.location"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 103
-      }
+      },
+      "cloud_data_type": "region",
+      "immutable": true,
+      "computed": true
     },
     "cos_plan": {
       "name": "cos_plan",
       "type": "string",
       "description": "Plan to be used for creating cloud object storage instance",
       "default": "standard",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.cos_instance.plan"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 93
@@ -73,6 +89,10 @@
       "type": "bool",
       "description": "Set as true to create a new Cloud Object Storage instance",
       "default": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.count",
+        "ibm_resource_instance.cos_instance.count"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 46
@@ -83,6 +103,10 @@
       "type": "bool",
       "description": "Set as true to use Key Protect encryption to encrypt data in COS bucket",
       "default": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.count",
+        "ibm_cos_bucket.cos_bucket1.count"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 64
@@ -93,10 +117,16 @@
       "type": "string",
       "description": "Prefix name for all related resources",
       "required": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.bucket_name",
+        "ibm_cos_bucket.cos_bucket1.bucket_name",
+        "ibm_resource_instance.cos_instance.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 11
-      }
+      },
+      "immutable": true
     },
     "expire_days": {
       "name": "expire_days",
@@ -112,6 +142,11 @@
       "name": "key_protect_instance_name",
       "type": "string",
       "description": "Name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.keyprotect_instance.count",
+        "data.ibm_resource_instance.keyprotect_instance.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 40
@@ -141,20 +176,35 @@
       "type": "string",
       "description": "Name of the Region to deploy in to",
       "default": "us-south",
+      "source": [
+        "ibm_cos_bucket.cos_bucket.region_location",
+        "ibm_cos_bucket.cos_bucket1.region_location"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 34
-      }
+      },
+      "immutable": true
     },
     "resource_group_id": {
       "name": "resource_group_id",
       "type": "string",
       "description": "The resource group ID where the environment will be created",
       "required": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.resource_group_id",
+        "ibm_resource_instance.cos_instance.resource_group_id"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 6
-      }
+      },
+      "cloud_data_type": "resource_group",
+      "immutable": true,
+      "computed": true,
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
     },
     "retention_default": {
       "name": "retention_default",
