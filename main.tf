@@ -36,8 +36,8 @@ resource "ibm_resource_instance" "cos_instance" {
 }
 
 locals {
-  cos_instance_id      = var.create_cos_instance == true ? ibm_resource_instance.cos_instance[*].id[0] : data.ibm_resource_instance.cos_instance[*].id[0]
-  cos_instance_guid    = var.create_cos_instance == true ? ibm_resource_instance.cos_instance[*].guid[0] : data.ibm_resource_instance.cos_instance[*].guid[0]
+  cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : tolist(data.ibm_resource_instance.cos_instance[*].id)[0]
+  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : tolist(data.ibm_resource_instance.cos_instance[*].guid)[0]
   create_access_policy = var.encryption_enabled
 }
 
