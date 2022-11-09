@@ -305,12 +305,17 @@
     },
     "resource_group_id": {
       "name": "resource_group_id",
-      "description": "Resource Group ID",
+      "description": "The resource group ID where the environment will be created",
       "value": "var.resource_group_id",
       "pos": {
         "filename": "outputs.tf",
         "line": 4
-      }
+      },
+      "type": "string",
+      "cloud_data_type": "resource_group",
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
     },
     "s3_endpoint_private": {
       "name": "s3_endpoint_private",
