@@ -36,8 +36,8 @@ resource "ibm_resource_instance" "cos_instance" {
 }
 
 locals {
-  cos_instance_id      = var.create_cos_instance == true ? ibm_resource_instance.cos_instance.*.id[0] : data.ibm_resource_instance.cos_instance.*.id[0]
-  cos_instance_guid    = var.create_cos_instance == true ? ibm_resource_instance.cos_instance.*.guid[0] : data.ibm_resource_instance.cos_instance.*.guid[0]
+  cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : tolist(data.ibm_resource_instance.cos_instance[*].id)[0]
+  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : tolist(data.ibm_resource_instance.cos_instance[*].guid)[0]
   create_access_policy = var.encryption_enabled
 }
 
@@ -194,8 +194,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  bucket_id           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket.*.id : ibm_cos_bucket.cos_bucket1.*.id
-  bucket_name         = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket.*.bucket_name : ibm_cos_bucket.cos_bucket1.*.bucket_name
-  s3_endpoint_public  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket.*.s3_endpoint_public : ibm_cos_bucket.cos_bucket1.*.s3_endpoint_public
-  s3_endpoint_private = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket.*.s3_endpoint_private : ibm_cos_bucket.cos_bucket1.*.s3_endpoint_private
+  bucket_id           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
+  bucket_name         = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
+  s3_endpoint_public  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
+  s3_endpoint_private = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
 }
