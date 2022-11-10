@@ -3,7 +3,7 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 go 1.19
 
 require (
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.1
 	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.1.7
 )
 
