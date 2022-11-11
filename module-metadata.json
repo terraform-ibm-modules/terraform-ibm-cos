@@ -43,6 +43,10 @@
       "name": "cos_instance_name",
       "type": "string",
       "description": "Name of the cos instance where the bucket should be created",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 46
@@ -75,16 +79,28 @@
       "type": "string",
       "description": "Location of the cloud object storage instance",
       "default": "global",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.location",
+        "ibm_resource_instance.cos_instance.location"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 63
-      }
+      },
+      "cloud_data_type": "region",
+      "immutable": true,
+      "computed": true
     },
     "cos_plan": {
       "name": "cos_plan",
       "type": "string",
       "description": "Plan to be used for creating cloud object storage instance",
       "default": "standard",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.cos_instance.plan"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 53
@@ -95,6 +111,10 @@
       "type": "bool",
       "description": "Set as true to create a new Cloud Object Storage instance",
       "default": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.count",
+        "ibm_resource_instance.cos_instance.count"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 40
@@ -105,6 +125,10 @@
       "type": "bool",
       "description": "Set as true to create a new Key Protect instance, this instance will store the Key used to encrypt the data in the COS Bucket",
       "default": true,
+      "source": [
+        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.count",
+        "module.kp_all_inclusive.module.key_protect"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 123
@@ -125,6 +149,11 @@
       "type": "bool",
       "description": "Set as true to use Key Protect encryption to encrypt data in COS bucket",
       "default": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.count",
+        "ibm_cos_bucket.cos_bucket1.count",
+        "module.kp_all_inclusive"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 117
@@ -135,10 +164,17 @@
       "type": "string",
       "description": "Prefix name for all related resources",
       "required": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.bucket_name",
+        "ibm_cos_bucket.cos_bucket1.bucket_name",
+        "ibm_resource_instance.cos_instance.name",
+        "module.kp_all_inclusive"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 11
-      }
+      },
+      "immutable": true
     },
     "expire_days": {
       "name": "expire_days",
@@ -154,6 +190,11 @@
       "name": "key_protect_instance_name",
       "type": "string",
       "description": "Name to set as the instance name if creating a Key Protect instance, otherwise name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket",
+      "required": true,
+      "source": [
+        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.name",
+        "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 129
@@ -183,20 +224,47 @@
       "type": "string",
       "description": "Name of the Region to deploy in to",
       "default": "us-south",
+      "required": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.region_location",
+        "ibm_cos_bucket.cos_bucket1.region_location",
+        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.location",
+        "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.location",
+        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.create_path",
+        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.destroy_path",
+        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.path",
+        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.read_path",
+        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.update_path"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 34
-      }
+      },
+      "cloud_data_type": "region",
+      "immutable": true,
+      "computed": true
     },
     "resource_group_id": {
       "name": "resource_group_id",
       "type": "string",
       "description": "The resource group ID where the environment will be created",
       "required": true,
+      "source": [
+        "data.ibm_resource_instance.cos_instance.resource_group_id",
+        "ibm_resource_instance.cos_instance.resource_group_id",
+        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.resource_group_id",
+        "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.resource_group_id"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 6
-      }
+      },
+      "cloud_data_type": "resource_group",
+      "immutable": true,
+      "computed": true,
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
     },
     "retention_default": {
       "name": "retention_default",
@@ -305,12 +373,17 @@
     },
     "resource_group_id": {
       "name": "resource_group_id",
-      "description": "Resource Group ID",
+      "description": "The resource group ID where the environment will be created",
       "value": "var.resource_group_id",
       "pos": {
         "filename": "outputs.tf",
         "line": 4
-      }
+      },
+      "type": "string",
+      "cloud_data_type": "resource_group",
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
     },
     "s3_endpoint_private": {
       "name": "s3_endpoint_private",
@@ -447,8 +520,80 @@
         "region": "region",
         "resource_group_id": "resource_group_id"
       },
-      "managed_resources": null,
-      "data_resources": null,
+      "managed_resources": {},
+      "data_resources": {
+        "data.ibm_kms_key_rings.existing_key_rings": {
+          "mode": "data",
+          "type": "ibm_kms_key_rings",
+          "name": "existing_key_rings",
+          "attributes": {
+            "count": "use_existing_key_rings"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/kp_all_inclusive/main.tf",
+            "line": 41
+          }
+        },
+        "data.ibm_resource_instance.existing_key_protect": {
+          "mode": "data",
+          "type": "ibm_resource_instance",
+          "name": "existing_key_protect",
+          "attributes": {
+            "count": "create_key_protect_instance",
+            "location": "region",
+            "name": "key_protect_instance_name",
+            "resource_group_id": "resource_group_id"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/kp_all_inclusive/main.tf",
+            "line": 21
+          }
+        }
+      },
+      "outputs": {
+        "existing_key_ring_keys": {
+          "name": "existing_key_ring_keys",
+          "description": "IDs of Keys created by the module in existing Key Rings",
+          "value": "module.existing_key_ring_keys",
+          "pos": {
+            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
+            "line": 24
+          }
+        },
+        "key_protect_guid": {
+          "name": "key_protect_guid",
+          "description": "Key Protect GUID",
+          "value": "local.key_protect_guid",
+          "pos": {
+            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
+            "line": 5
+          }
+        },
+        "key_rings": {
+          "name": "key_rings",
+          "description": "IDs of Key Rings created by the module",
+          "value": "module.key_protect_key_rings",
+          "pos": {
+            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
+            "line": 12
+          }
+        },
+        "keys": {
+          "name": "keys",
+          "description": "IDs of Keys created by the module",
+          "value": "module.key_protect_keys",
+          "pos": {
+            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
+            "line": 19
+          }
+        }
+      },
       "pos": {
         "filename": "main.tf",
         "line": 43
