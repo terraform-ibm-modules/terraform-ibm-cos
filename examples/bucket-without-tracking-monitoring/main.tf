@@ -7,14 +7,15 @@ module "resource_group" {
 
 # Create COS bucket with:
 # - Retention
+# - Encryption
 # Create COS bucket without:
 # - Monitoring
 # - Activity Tracking
-# - Encryption
+
 module "cos" {
   source             = "../../"
   environment_name   = "${var.prefix}-${var.environment_name}-cos"
   resource_group_id  = module.resource_group.resource_group_id
   region             = var.region
-  encryption_enabled = false
+  encryption_enabled = true
 }

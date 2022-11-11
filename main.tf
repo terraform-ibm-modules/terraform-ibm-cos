@@ -19,10 +19,36 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   cos_validate_check = regex("^${local.cos_validate_msg}$", (!local.cos_validate_condition ? local.cos_validate_msg : ""))
 
+  # only allow create_key_protect_key or key_protect_key_crn to be passed
+  kp_key_validate_condition = var.encryption_enabled && ((var.create_key_protect_key && var.key_protect_key_crn != null) || (!var.create_key_protect_key && var.key_protect_key_crn == null))
+  kp_key_validate_msg       = "Value for 'create_key_protect_key' cannot be true if 'key_protect_key_crn' is not null"
+  # tflint-ignore: terraform_unused_declarations
+  kp_key_validate_check = regex("^${local.kp_key_validate_msg}$", (!local.kp_key_validate_condition ? local.kp_key_validate_msg : ""))
+
+  # ensure if kms_key_crn is passed the create_kms_instance is false
+  kp_key_instance_validate_condition = var.encryption_enabled && (var.key_protect_key_crn != null && var.create_key_protect_instance)
+  kp_key_instance_validate_msg       = "Value for 'key_protect_key_crn' must be null if instance is created by the module"
+  # tflint-ignore: terraform_unused_declarations
+  kp_key_instance_validate_check = regex("^${local.kp_key_instance_validate_msg}$", (!local.kp_key_instance_validate_condition ? local.kp_key_instance_validate_msg : ""))
+  key_map = tomap({
+    # tflint-ignore: terraform_deprecated_interpolation
+    "${var.cos_key_ring_name}" : "${var.cos_key_name}"
+  })
+
+  key_crn = (var.encryption_enabled && var.create_key_protect_key) ? module.kp_all_inclusive[0].keys["${var.cos_key_ring_name}.${var.cos_key_name[0]}"].crn : var.key_protect_key_crn
 }
 
-locals {
-  key_crn = var.encryption_enabled ? var.key_protect_key_crn : ""
+# Module to create key protect instance or create keys if key protect instance is provided.
+# This module will be executed if encryption_enabled is set to true
+module "kp_all_inclusive" {
+  count                       = (var.encryption_enabled && var.create_key_protect_key) ? 1 : 0
+  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v1.0.0"
+  resource_group_id           = var.resource_group_id
+  region                      = var.region
+  prefix                      = var.environment_name
+  key_protect_instance_name   = var.key_protect_instance_name == null ? "${var.environment_name}-kp" : var.key_protect_instance_name
+  create_key_protect_instance = var.create_key_protect_instance
+  key_map                     = local.key_map
 }
 
 # Resource to create COS instance if create_cos_instance is true
@@ -50,23 +76,21 @@ data "ibm_resource_instance" "cos_instance" {
   service           = "cloud-object-storage"
 }
 
-# Data source to retrieve the key protect guid
-data "ibm_resource_instance" "keyprotect_instance" {
-  count = var.key_protect_instance_name == null ? 0 : 1
-  name  = var.key_protect_instance_name
-}
-
 # Create IAM Access Policy to allow Key protect to access COS instance
 resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy ? 1 : 0
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
   target_service_name         = "kms"
-  target_resource_instance_id = data.ibm_resource_instance.keyprotect_instance[0].guid
+  target_resource_instance_id = module.kp_all_inclusive[0].key_protect_guid
   roles                       = ["Reader"]
 }
 
-# Create COS bucket
+# Create COS bucket with:
+# - Retention
+# - Encryption
+# - Monitoring
+# - Activity Tracking
 resource "ibm_cos_bucket" "cos_bucket" {
   count                = var.encryption_enabled ? 1 : 0
   depends_on           = [ibm_iam_authorization_policy.policy]

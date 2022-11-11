@@ -81,7 +81,9 @@ You need the following permissions to run this module.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_kp_all_inclusive"></a> [kp\_all\_inclusive](#module\_kp\_all\_inclusive) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git | v1.0.0 |
 
 ## Resources
 
@@ -92,7 +94,6 @@ No modules.
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
-| [ibm_resource_instance.keyprotect_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
 ## Inputs
 
@@ -103,14 +104,18 @@ No modules.
 | <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | Specifies the storage class or archive type to which you want the object to transition. | `string` | `"Glacier"` | no |
 | <a name="input_bucket_infix"></a> [bucket\_infix](#input\_bucket\_infix) | Custom infix for use in cos bucket name (Optional) | `string` | `null` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | Name of the cos instance where the bucket should be created | `string` | `null` | no |
+| <a name="input_cos_key_name"></a> [cos\_key\_name](#input\_cos\_key\_name) | List of strings containing the list of desired Key Protect Key names as the values for each Key Ring, this Key Protect Key is used to encrypt the data in the COS Bucket | `list(string)` | <pre>[<br>  "cos-key"<br>]</pre> | no |
+| <a name="input_cos_key_ring_name"></a> [cos\_key\_ring\_name](#input\_cos\_key\_ring\_name) | A String containing the desired Key Ring Names as the key of the map for the key protect instance, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `"cos-key-ring"` | no |
 | <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location of the cloud object storage instance | `string` | `"global"` | no |
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan to be used for creating cloud object storage instance | `string` | `"standard"` | no |
 | <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Set as true to create a new Cloud Object Storage instance | `bool` | `true` | no |
+| <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | Set as true to create a new Key Protect instance, this instance will store the Key used to encrypt the data in the COS Bucket | `bool` | `true` | no |
+| <a name="input_create_key_protect_key"></a> [create\_key\_protect\_key](#input\_create\_key\_protect\_key) | Set as true to create a new Key Protect Key, this Key Protect Key is used to encrypt the COS Bucket | `bool` | `true` | no |
 | <a name="input_encryption_enabled"></a> [encryption\_enabled](#input\_encryption\_enabled) | Set as true to use Key Protect encryption to encrypt data in COS bucket | `bool` | `true` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Prefix name for all related resources | `string` | n/a | yes |
 | <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | Specifies the number of days when the expire rule action takes effect. | `number` | `365` | no |
-| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | Name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket | `string` | `null` | no |
-| <a name="input_key_protect_key_crn"></a> [key\_protect\_key\_crn](#input\_key\_protect\_key\_crn) | CRN of the Key Protect Key to use, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `null` | no |
+| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | Name to set as the instance name if creating a Key Protect instance, otherwise name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket | `string` | `null` | no |
+| <a name="input_key_protect_key_crn"></a> [key\_protect\_key\_crn](#input\_key\_protect\_key\_crn) | CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `null` | no |
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | Name of the Region to deploy in to | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where the environment will be created | `string` | n/a | yes |
@@ -128,6 +133,7 @@ No modules.
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | Bucket id |
 | <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Bucket Name |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The GUID of the Cloud Object Storage Instance where the buckets are created |
+| <a name="output_key_protect_instance_id"></a> [key\_protect\_instance\_id](#output\_key\_protect\_instance\_id) | The GUID of the Key Protect Instance where the Key to encrypt the COS Bucket is stored |
 | <a name="output_key_protect_key_crn"></a> [key\_protect\_key\_crn](#output\_key\_protect\_key\_crn) | The CRN of the Key Protect Key used to encrypt the COS Bucket |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |
 | <a name="output_s3_endpoint_private"></a> [s3\_endpoint\_private](#output\_s3\_endpoint\_private) | S3 private endpoint |
