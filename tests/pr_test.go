@@ -8,7 +8,6 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-// const completeExampleTerraformDir = "examples/complete"
 // TODO: Move back to complete example once observability and keyprotect modules are available
 const bucketWOMonitoringExampleTerraformDir = "examples/bucket-without-tracking-monitoring"
 
@@ -31,9 +30,6 @@ func TestRunDefaultExample(t *testing.T) {
 
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
-
-	// TODO: Remove this line after the first merge to master branch is complete to enable upgrade test
-	t.Skip("Skipping upgrade test until initial code is in master branch")
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,

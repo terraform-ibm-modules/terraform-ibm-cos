@@ -37,12 +37,6 @@ variable "region" {
   default     = "us-south"
 }
 
-variable "key_protect_instance_name" {
-  description = "Name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket"
-  type        = string
-  default     = null
-}
-
 variable "create_cos_instance" {
   description = "Set as true to create a new Cloud Object Storage instance"
   type        = bool
@@ -53,40 +47,6 @@ variable "cos_instance_name" {
   description = "Name of the cos instance where the bucket should be created"
   type        = string
   default     = null
-}
-
-variable "key_protect_key_crn" {
-  description = "CRN of the Key Protect Key to use, this Key Protect Key is used to encrypt the data in the COS Bucket"
-  type        = string
-  default     = null
-}
-
-variable "encryption_enabled" {
-  description = "Set as true to use Key Protect encryption to encrypt data in COS bucket"
-  type        = bool
-  default     = true
-}
-
-variable "archive_days" {
-  description = "Specifies the number of days when the archive rule action takes effect."
-  type        = number
-  default     = 90
-}
-
-variable "archive_type" {
-  description = "Specifies the storage class or archive type to which you want the object to transition."
-  type        = string
-  default     = "Glacier"
-  validation {
-    condition     = contains(["Glacier", "Accelerated"], var.archive_type)
-    error_message = "The specified archive_type is not a valid selection!"
-  }
-}
-
-variable "expire_days" {
-  description = "Specifies the number of days when the expire rule action takes effect."
-  type        = number
-  default     = 365
 }
 
 # COS instance configuration
@@ -152,4 +112,68 @@ variable "object_versioning_enabled" {
   description = "Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule."
   type        = bool
   default     = false
+}
+
+variable "encryption_enabled" {
+  description = "Set as true to use Key Protect encryption to encrypt data in COS bucket"
+  type        = bool
+  default     = true
+}
+
+variable "create_key_protect_instance" {
+  description = "Set as true to create a new Key Protect instance, this instance will store the Key used to encrypt the data in the COS Bucket"
+  type        = bool
+  default     = true
+}
+
+variable "key_protect_instance_name" {
+  description = "Name to set as the instance name if creating a Key Protect instance, otherwise name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket"
+  type        = string
+  default     = null
+}
+
+variable "cos_key_ring_name" {
+  description = "A String containing the desired Key Ring Names as the key of the map for the key protect instance, this Key Protect Key is used to encrypt the data in the COS Bucket"
+  type        = string
+  default     = "cos-key-ring"
+}
+
+variable "cos_key_name" {
+  description = "List of strings containing the list of desired Key Protect Key names as the values for each Key Ring, this Key Protect Key is used to encrypt the data in the COS Bucket"
+  type        = list(string)
+  default     = ["cos-key"]
+}
+
+variable "create_key_protect_key" {
+  description = "Set as true to create a new Key Protect Key, this Key Protect Key is used to encrypt the COS Bucket"
+  type        = bool
+  default     = true
+}
+
+variable "key_protect_key_crn" {
+  description = "CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket"
+  type        = string
+  default     = null
+}
+
+variable "archive_days" {
+  description = "Specifies the number of days when the archive rule action takes effect."
+  type        = number
+  default     = 90
+}
+
+variable "archive_type" {
+  description = "Specifies the storage class or archive type to which you want the object to transition."
+  type        = string
+  default     = "Glacier"
+  validation {
+    condition     = contains(["Glacier", "Accelerated"], var.archive_type)
+    error_message = "The specified archive_type is not a valid selection!"
+  }
+}
+
+variable "expire_days" {
+  description = "Specifies the number of days when the expire rule action takes effect."
+  type        = number
+  default     = 365
 }
