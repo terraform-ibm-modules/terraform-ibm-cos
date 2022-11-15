@@ -28,9 +28,8 @@ variable "resource_group" {
   default     = null
 }
 
-# tflint-ignore: terraform_unused_declarations
 variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
-  default     = []
+  default     = ["test-wo-mon"]
 }

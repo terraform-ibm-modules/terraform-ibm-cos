@@ -49,6 +49,7 @@ module "kp_all_inclusive" {
   key_protect_instance_name   = var.key_protect_instance_name == null ? "${var.environment_name}-kp" : var.key_protect_instance_name
   create_key_protect_instance = var.create_key_protect_instance
   key_map                     = local.key_map
+  resource_tags               = var.key_protect_tags
 }
 
 # Resource to create COS instance if create_cos_instance is true
@@ -59,6 +60,7 @@ resource "ibm_resource_instance" "cos_instance" {
   service           = "cloud-object-storage"
   plan              = var.cos_plan
   location          = var.cos_location
+  tags              = var.cos_tags
 }
 
 locals {

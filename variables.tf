@@ -66,6 +66,12 @@ variable "cos_location" {
   default     = "global"
 }
 
+variable "cos_tags" {
+  description = "Optional list of tags to be added to cloud object storage instance."
+  type        = list(string)
+  default     = []
+}
+
 variable "retention_enabled" {
   description = "Retention enabled for COS bucket"
   type        = bool
@@ -130,6 +136,12 @@ variable "key_protect_instance_name" {
   description = "Name to set as the instance name if creating a Key Protect instance, otherwise name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket"
   type        = string
   default     = null
+}
+
+variable "key_protect_tags" {
+  description = "Optional list of tags to be added to Key Protect instance."
+  type        = list(string)
+  default     = []
 }
 
 variable "cos_key_ring_name" {
