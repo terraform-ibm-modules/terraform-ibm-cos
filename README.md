@@ -36,6 +36,7 @@ module "cos_module" {
   activity_tracker_crn = var.activity_tracker_crn
 }
 ```
+Note you will need to configure the RESTAPI provider which is needed for encryption. [See the example here](examples/bucket-without-tracking-monitoring/providers.tf)
 
 ## Required IAM access policies
 
