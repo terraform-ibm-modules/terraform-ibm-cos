@@ -37,6 +37,24 @@ module "cos_module" {
 }
 ```
 Note you will need to configure the RESTAPI provider which is needed for encryption. [See the example here](examples/bucket-without-tracking-monitoring/providers.tf)
+```hcl
+# used by the restapi provider to authenticate the API call based on API key
+data "ibm_iam_auth_token" "token_data" {
+}
+
+provider "restapi" {
+  uri                   = "https:"
+  write_returns_object  = false
+  create_returns_object = false
+  debug                 = false # set to true to show detailed logs, but use carefully as it might print sensitive values.
+  headers = {
+    Authorization    = data.ibm_iam_auth_token.token_data.iam_access_token
+    Bluemix-Instance = module.cos.key_protect_instance_id
+    Content-Type     = "application/vnd.ibm.kms.policy+json"
+  }
+}
+
+```
 
 ## Required IAM access policies
 
