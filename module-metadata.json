@@ -471,7 +471,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 96
+        "line": 97
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -488,7 +488,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 170
+        "line": 171
       }
     },
     "ibm_iam_authorization_policy.policy": {

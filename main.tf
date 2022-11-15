@@ -93,6 +93,7 @@ resource "ibm_iam_authorization_policy" "policy" {
 # - Encryption
 # - Monitoring
 # - Activity Tracking
+# - Versioning
 resource "ibm_cos_bucket" "cos_bucket" {
   count                = var.encryption_enabled ? 1 : 0
   depends_on           = [ibm_iam_authorization_policy.policy]
