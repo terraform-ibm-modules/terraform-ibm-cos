@@ -511,7 +511,7 @@
   "module_calls": {
     "kp_all_inclusive": {
       "name": "kp_all_inclusive",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v1.0.0",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v1.1.0",
       "attributes": {
         "count": "encryption_enabled",
         "create_key_protect_instance": "create_key_protect_instance",
@@ -534,7 +534,7 @@
           },
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/main.tf",
-            "line": 41
+            "line": 42
           }
         },
         "data.ibm_resource_instance.existing_key_protect": {
@@ -552,7 +552,7 @@
           },
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/main.tf",
-            "line": 21
+            "line": 22
           }
         }
       },
@@ -563,7 +563,7 @@
           "value": "module.existing_key_ring_keys",
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 24
+            "line": 29
           }
         },
         "key_protect_guid": {
@@ -575,13 +575,22 @@
             "line": 5
           }
         },
+        "key_protect_name": {
+          "name": "key_protect_name",
+          "description": "Name of the Key Protect instance",
+          "value": "local.key_protect_name",
+          "pos": {
+            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
+            "line": 10
+          }
+        },
         "key_rings": {
           "name": "key_rings",
           "description": "IDs of Key Rings created by the module",
           "value": "module.key_protect_key_rings",
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 12
+            "line": 17
           }
         },
         "keys": {
@@ -590,7 +599,7 @@
           "value": "module.key_protect_keys",
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 19
+            "line": 24
           }
         }
       },
