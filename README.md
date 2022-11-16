@@ -1,5 +1,5 @@
 <!-- BEGIN MODULE HOOK -->
-# Cloud Object Storage Base Module
+# Cloud Object Storage Module
 
  [![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
  [![Build Status](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml)
@@ -35,6 +35,25 @@ module "cos_module" {
   sysdig_crn = var.sysdig_crn
   activity_tracker_crn = var.activity_tracker_crn
 }
+```
+Note you will need to configure the RESTAPI provider which is needed for encryption. [See the example here](examples/bucket-without-tracking-monitoring/providers.tf)
+```hcl
+# used by the restapi provider to authenticate the API call based on API key
+data "ibm_iam_auth_token" "token_data" {
+}
+
+provider "restapi" {
+  uri                   = "https:"
+  write_returns_object  = false
+  create_returns_object = false
+  debug                 = false # set to true to show detailed logs, but use carefully as it might print sensitive values.
+  headers = {
+    Authorization    = data.ibm_iam_auth_token.token_data.iam_access_token
+    Bluemix-Instance = module.cos.key_protect_instance_id
+    Content-Type     = "application/vnd.ibm.kms.policy+json"
+  }
+}
+
 ```
 
 ## Required IAM access policies
