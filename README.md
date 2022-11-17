@@ -7,7 +7,7 @@
  [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
  [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-cos?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases/latest)
 
-This base module can be used to provision and configure a [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
+This module can be used to provision and configure a [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket. It can also be used to just provision buckets.
 
 You can configure the following aspects of your instances:
 1. [Bucket encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tutorial-kp-encrypt-bucket) - based on Key Protect keys
@@ -18,13 +18,8 @@ You can configure the following aspects of your instances:
 
 ## Usage
 
-<!--
-Add an example of the use of the module in the following code block.
-
-Use real values instead of "var.<var_name>" or other placeholder values
-unless real values don't help users know what to change.
--->
-
+### Example 1
+An instance and a bucket with monitoring and encryption
 ```hcl
 # Replace "main" with a GIT release version to lock into a specific release
 module "cos_module" {
@@ -36,7 +31,43 @@ module "cos_module" {
   activity_tracker_crn = var.activity_tracker_crn
 }
 ```
-Note you will need to configure the RESTAPI provider which is needed for encryption. [See the example here](examples/bucket-without-tracking-monitoring/providers.tf)
+
+### Example 2
+Two buckets only with monitoring and encryption using existing COS and Key Protect Instances
+
+```hcl
+# Replace "main" with a GIT release version to lock into a specific release
+module "cos_bucket1" {
+  source               = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
+  environment_name     = "us-staging"
+  resource_group_id    = var.resource_group_id
+  region               = "us-south"
+  sysdig_crn           = var.sysdig_crn
+  activity_tracker_crn = var.activity_tracker_crn
+  bucket_infix         = "bucket1"
+  create_cos_instance         = false
+  create_key_protect_instance = false
+  cos_instance_name           = "us-staging-cos"
+  key_protect_instance_name   = "us-staging-kms"
+}
+
+# Replace "main" with a GIT release version to lock into a specific release
+module "cos_bucket2" {
+  source               = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
+  environment_name     = "us-staging"
+  resource_group_id    = var.resource_group_id
+  region               = "us-south"
+  sysdig_crn           = var.sysdig_crn
+  activity_tracker_crn = var.activity_tracker_crn
+  bucket_infix         = "bucket2"
+  create_cos_instance         = false
+  create_key_protect_instance = false
+  cos_instance_name           = "us-staging-cos"
+  key_protect_instance_name   = "us-staging-kms"
+}
+```
+### Note
+You will need to configure the RESTAPI provider which is needed for encryption. [See the example here](examples/bucket-without-tracking-monitoring/providers.tf)
 ```hcl
 # used by the restapi provider to authenticate the API call based on API key
 data "ibm_iam_auth_token" "token_data" {
@@ -87,6 +118,8 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ COS Bucket without Tracking and Monitoring](examples/bucket-without-tracking-monitoring)
+- [ Multiple COS Buckets with Tracking and Monitoring Enabled](examples/complete-multiple-buckets)
+- [ COS Bucket with Tracking and Monitoring Enabled](examples/complete)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
