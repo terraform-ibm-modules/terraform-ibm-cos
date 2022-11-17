@@ -8,8 +8,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-// TODO: Move back to complete example once observability and keyprotect modules are available
-const bucketWOMonitoringExampleTerraformDir = "examples/bucket-without-tracking-monitoring"
+const completeExampleTerraformDir = "examples/complete"
 
 const resourceGroup = "geretain-test-resources"
 
@@ -18,7 +17,7 @@ func TestRunDefaultExample(t *testing.T) {
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
-		TerraformDir:  bucketWOMonitoringExampleTerraformDir,
+		TerraformDir:  completeExampleTerraformDir,
 		ResourceGroup: resourceGroup,
 		Prefix:        "cos-base-module",
 	})
@@ -33,7 +32,7 @@ func TestRunUpgradeExample(t *testing.T) {
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
-		TerraformDir:  bucketWOMonitoringExampleTerraformDir,
+		TerraformDir:  completeExampleTerraformDir,
 		ResourceGroup: resourceGroup,
 		Prefix:        "cos-base-module-upg",
 	})
