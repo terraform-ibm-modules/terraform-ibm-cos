@@ -33,7 +33,7 @@ module "cos_module" {
 ```
 
 ### Example 2
-Just some buckets with monitoring and encryption using existing COS and Key Protect Instances
+Two buckets only with monitoring and encryption using existing COS and Key Protect Instances
 
 ```hcl
 # Replace "main" with a GIT release version to lock into a specific release
