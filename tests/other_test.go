@@ -8,18 +8,18 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const completeExampleTerraformDir = "examples/complete"
-
 const resourceGroup = "geretain-test-resources"
+const multipleBucketsExampleTerraformDir = "examples/complete-multiple-buckets"
+const bucketWithoutTrackingExampleTerraformDir = "examples/bucket-without-tracking-monitoring"
 
-func TestRunDefaultExample(t *testing.T) {
+func TestRunMultipleBucketsExample(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
-		TerraformDir:  completeExampleTerraformDir,
+		TerraformDir:  multipleBucketsExampleTerraformDir,
 		ResourceGroup: resourceGroup,
-		Prefix:        "cos-module-test",
+		Prefix:        "cos-module-buckets",
 	})
 
 	output, err := options.RunTestConsistency()
@@ -27,19 +27,17 @@ func TestRunDefaultExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunUpgradeExample(t *testing.T) {
+func TestRunBucketWithoutTrackingExample(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
-		TerraformDir:  completeExampleTerraformDir,
+		TerraformDir:  bucketWithoutTrackingExampleTerraformDir,
 		ResourceGroup: resourceGroup,
-		Prefix:        "cos-module-upg",
+		Prefix:        "cos-module-wo-tracking",
 	})
 
-	output, err := options.RunTestUpgrade()
-	if !options.UpgradeTestSkipped {
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, output, "Expected some output")
-	}
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }
