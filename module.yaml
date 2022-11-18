@@ -1,0 +1,79 @@
+# required for Techzone catalog
+name: terraform-ibm-cos
+alias: cos-advanced
+type: terraform
+description: Configures a Cloud Object Storage instance and/or bucket with options
+tags:
+  - tools
+  - infrastructure
+  - object storage
+  - saas
+versions:
+  - platforms: []
+    providers:
+      - name: ibm
+        source: "ibm-cloud/ibm"
+      - name: restapi
+        source: "Mastercard/restapi"
+    dependencies:
+      - id: kp_all_inclusive
+        refs:
+          - source: https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive
+            version: ">= v1.1.0"
+    variables:
+      - name: resource_group_id
+        scope: global
+      - name: environment_name
+        scope: global
+      - name: bucket_infix
+        scope: global
+      - name: activity_tracker_crn
+        scope: global
+      - name: sysdig_crn
+        scope: global
+      - name: region
+        scope: global
+      - name: create_cos_instance
+        scope: global
+      - name: cos_instance_name
+        scope: global
+      - name: cos_plan
+        scope: global
+      - name: cos_location
+        scope: global
+      - name: cos_tags
+        scope: global
+      - name: retention_enabled
+        scope: global
+      - name: retention_default
+        scope: global
+      - name: retention_maximum
+        scope: global
+      - name: retention_minimum
+        scope: global
+      - name: retention_permanent
+        scope: global
+      - name: object_versioning_enabled
+        scope: global
+      - name: encryption_enabled
+        scope: global
+      - name: create_key_protect_instance
+        scope: global
+      - name: key_protect_instance_name
+        scope: global
+      - name: key_protect_tags
+        scope: global
+      - name: cos_key_ring_name
+        scope: global
+      - name: cos_key_name
+        scope: global
+      - name: create_key_protect_key
+        scope: global
+      - name: key_protect_key_crn
+        scope: global
+      - name: archive_days
+        scope: global
+      - name: archive_type
+        scope: global
+      - name: expire_days
+        scope: global
