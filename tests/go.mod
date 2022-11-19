@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/stretchr/testify v1.8.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.2.9
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.2.10
 )
 
 require (
@@ -45,7 +45,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5 // indirect
-	github.com/gruntwork-io/terratest v0.41.2 // indirect
+	github.com/gruntwork-io/terratest v0.41.3 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-getter v1.6.1 // indirect
