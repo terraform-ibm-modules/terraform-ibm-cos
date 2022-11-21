@@ -18,7 +18,7 @@ versions:
     dependencies:
       - id: kp_all_inclusive
         refs:
-          - source: https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive
+          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive
             version: ">= v1.1.0"
     variables:
       - name: resource_group_id
