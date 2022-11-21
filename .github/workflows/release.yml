@@ -15,10 +15,3 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
     uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-release.yml@v1.5.0
     secrets: inherit
-
-  call-techzone-publish-pipeline:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
-    needs: call-terraform-release-pipeline
-    uses: cloud-native-toolkit/action-workflows/.github/workflows/publish-metadata.yaml@v1
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
