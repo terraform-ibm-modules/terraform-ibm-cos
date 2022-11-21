@@ -14,9 +14,5 @@ versions:
         source: "ibm-cloud/ibm"
       - name: restapi
         source: "Mastercard/restapi"
-    dependencies:
-      - id: kp_all_inclusive
-        refs:
-          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive
-            version: ">= v1.1.0"
+    dependencies: []
     variables: []
