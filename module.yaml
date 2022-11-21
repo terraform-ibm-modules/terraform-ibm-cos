@@ -1,0 +1,18 @@
+# required for Techzone catalog
+name: terraform-ibm-cos
+type: terraform
+description: Configures a Cloud Object Storage instance and/or bucket with options
+tags:
+  - tools
+  - infrastructure
+  - object storage
+  - saas
+versions:
+  - platforms: []
+    providers:
+      - name: ibm
+        source: "ibm-cloud/ibm"
+      - name: restapi
+        source: "Mastercard/restapi"
+    dependencies: []
+    variables: []

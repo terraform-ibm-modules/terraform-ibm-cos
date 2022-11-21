@@ -11,4 +11,4 @@ repository:
   # The name of the repository. Changing this will rename the repository
   name: terraform-ibm-cos
 
-  description: "Configures a Cloud Object Storage instance and bucket with options"
+  description: "Configures a Cloud Object Storage instance and/or bucket with options"
