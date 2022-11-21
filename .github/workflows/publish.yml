@@ -1,0 +1,12 @@
+name: Publish-Pipeline
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  call-techzone-publish-pipeline:
+    uses: cloud-native-toolkit/action-workflows/.github/workflows/publish-metadata.yaml@v1
+    secrets:
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
