@@ -5,7 +5,7 @@
 # any change of this settings.yml file is detected by the GitHub App and
 # the settings of this repository are updated immediately.
 #
-_extends: repo-settings
+_extends: repo-settings:.github/common-settings.yml
 
 repository:
   # The name of the repository. Changing this will rename the repository
