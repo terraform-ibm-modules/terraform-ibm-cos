@@ -67,7 +67,7 @@ module "cos_bucket2" {
 }
 ```
 ### Note
-You will need to configure the RESTAPI provider which is needed for encryption. [See the example here](examples/bucket-without-tracking-monitoring/providers.tf)
+You will need to configure the RESTAPI provider which is needed for encryption. [See a full example here](examples/bucket-without-tracking-monitoring/providers.tf)
 ```hcl
 # used by the restapi provider to authenticate the API call based on API key
 data "ibm_iam_auth_token" "token_data" {
