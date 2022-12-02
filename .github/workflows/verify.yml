@@ -1,16 +1,20 @@
 name: Verify
 
 on:
-  push:
-    branches: [ main ]
-
+ workflow_run:
+    workflows: ["CI-Pipeline"]
+    branches: [main]
+    types:
+      - completed
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      CONCLUSION: github.event.workflow_run.conclusion
     steps:
     - shell: bash
       run: |
-        if $(curl https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml/badge.svg | grep "<title>CI-Pipeline - passing</title>"); then
+        if [[ "$CONCLUSION" == "success" ]]; then
           exit 0
         else
           exit 1
