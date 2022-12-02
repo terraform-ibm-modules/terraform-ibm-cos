@@ -1,5 +1,5 @@
 # required for Techzone catalog
-name: terraform-ibm-cos
+name: terraform-ibm-cos-advanced
 type: terraform
 description: Configures a Cloud Object Storage instance and/or bucket with options
 tags:
