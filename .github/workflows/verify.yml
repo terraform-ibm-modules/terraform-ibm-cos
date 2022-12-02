@@ -10,7 +10,7 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     env:
-      CONCLUSION: github.event.workflow_run.conclusion
+      CONCLUSION: ${{ github.event.workflow_run.conclusion }}
     steps:
     - shell: bash
       run: |
