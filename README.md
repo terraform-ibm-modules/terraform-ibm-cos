@@ -161,6 +161,7 @@ You need the following permissions to run this module.
 | <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location of the cloud object storage instance | `string` | `"global"` | no |
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan to be used for creating cloud object storage instance | `string` | `"standard"` | no |
 | <a name="input_cos_tags"></a> [cos\_tags](#input\_cos\_tags) | Optional list of tags to be added to cloud object storage instance. | `list(string)` | `[]` | no |
+| <a name="input_create_cos_bucket"></a> [create\_cos\_bucket](#input\_create\_cos\_bucket) | Set as true to create a new Cloud Object Storage bucket | `bool` | `true` | no |
 | <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Set as true to create a new Cloud Object Storage instance | `bool` | `true` | no |
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | Set as true to create a new Key Protect instance, this instance will store the Key used to encrypt the data in the COS Bucket | `bool` | `true` | no |
 | <a name="input_create_key_protect_key"></a> [create\_key\_protect\_key](#input\_create\_key\_protect\_key) | Set as true to create a new Key Protect Key, this Key Protect Key is used to encrypt the COS Bucket | `bool` | `true` | no |

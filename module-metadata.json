@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 171
+        "line": 177
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 177
+        "line": 183
       }
     },
     "bucket_infix": {
@@ -49,7 +49,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 46
+        "line": 52
       }
     },
     "cos_key_name": {
@@ -61,7 +61,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 153
+        "line": 159
       }
     },
     "cos_key_ring_name": {
@@ -71,7 +71,7 @@
       "default": "cos-key-ring",
       "pos": {
         "filename": "variables.tf",
-        "line": 147
+        "line": 153
       }
     },
     "cos_location": {
@@ -86,7 +86,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 63
+        "line": 69
       },
       "cloud_data_type": "region",
       "immutable": true,
@@ -103,7 +103,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 53
+        "line": 59
       }
     },
     "cos_tags": {
@@ -116,7 +116,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 69
+        "line": 75
       },
       "min_length": 1,
       "max_length": 128,
@@ -124,6 +124,16 @@
       "computed": true,
       "elem": {
         "type": "TypeString"
+      }
+    },
+    "create_cos_bucket": {
+      "name": "create_cos_bucket",
+      "type": "bool",
+      "description": "Set as true to create a new Cloud Object Storage bucket",
+      "default": true,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 46
       }
     },
     "create_cos_instance": {
@@ -151,7 +161,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 129
+        "line": 135
       }
     },
     "create_key_protect_key": {
@@ -161,7 +171,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 159
+        "line": 165
       }
     },
     "encryption_enabled": {
@@ -176,7 +186,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 123
+        "line": 129
       }
     },
     "environment_name": {
@@ -203,7 +213,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 187
+        "line": 193
       }
     },
     "key_protect_instance_name": {
@@ -217,7 +227,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 135
+        "line": 141
       }
     },
     "key_protect_key_crn": {
@@ -226,7 +236,7 @@
       "description": "CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket",
       "pos": {
         "filename": "variables.tf",
-        "line": 165
+        "line": 171
       }
     },
     "key_protect_tags": {
@@ -239,7 +249,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 141
+        "line": 147
       },
       "min_length": 1,
       "max_length": 128,
@@ -256,7 +266,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 117
+        "line": 123
       }
     },
     "region": {
@@ -313,7 +323,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 81
+        "line": 87
       }
     },
     "retention_enabled": {
@@ -323,7 +333,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 75
+        "line": 81
       }
     },
     "retention_maximum": {
@@ -333,7 +343,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 91
+        "line": 97
       }
     },
     "retention_minimum": {
@@ -343,7 +353,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 101
+        "line": 107
       }
     },
     "retention_permanent": {
@@ -353,7 +363,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 117
       }
     },
     "sysdig_crn": {
