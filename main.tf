@@ -95,7 +95,7 @@ resource "ibm_iam_authorization_policy" "policy" {
 # - Activity Tracking
 # - Versioning
 resource "ibm_cos_bucket" "cos_bucket" {
-  count                = var.encryption_enabled ? 1 : 0
+  count                = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on           = [ibm_iam_authorization_policy.policy]
   bucket_name          = "${var.environment_name}${local.infix}-bucket-${var.region}"
   resource_instance_id = local.cos_instance_id
@@ -169,7 +169,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
 # - Encryption
 
 resource "ibm_cos_bucket" "cos_bucket1" {
-  count                = var.encryption_enabled ? 0 : 1
+  count                = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
   bucket_name          = "${var.environment_name}${local.infix}-bucket-${var.region}"
   resource_instance_id = local.cos_instance_id
   region_location      = var.region

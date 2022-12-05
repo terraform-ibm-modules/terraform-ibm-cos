@@ -43,6 +43,12 @@ variable "create_cos_instance" {
   default     = true
 }
 
+variable "create_cos_bucket" {
+  description = "Set as true to create a new Cloud Object Storage bucket"
+  type        = bool
+  default     = true
+}
+
 variable "cos_instance_name" {
   description = "Name of the cos instance where the bucket should be created"
   type        = string
