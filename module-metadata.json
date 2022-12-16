@@ -461,13 +461,13 @@
     "ibm": {
       "source": "ibm-cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.45.0"
+        "\u003e= 1.48.0"
       ]
     },
     "restapi": {
       "source": "Mastercard/restapi",
       "version_constraints": [
-        "\u003e=1.17.0"
+        "\u003e=1.18.0"
       ]
     }
   },
@@ -562,7 +562,7 @@
   "module_calls": {
     "kp_all_inclusive": {
       "name": "kp_all_inclusive",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v1.1.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v1.1.2",
       "attributes": {
         "count": "encryption_enabled",
         "create_key_protect_instance": "create_key_protect_instance",
