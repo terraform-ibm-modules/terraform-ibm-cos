@@ -461,13 +461,13 @@
     "ibm": {
       "source": "ibm-cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.45.0"
+        "\u003e= 1.48.0"
       ]
     },
     "restapi": {
       "source": "Mastercard/restapi",
       "version_constraints": [
-        "\u003e=1.17.0"
+        "\u003e=1.18.0"
       ]
     }
   },
