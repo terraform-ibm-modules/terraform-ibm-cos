@@ -50,7 +50,7 @@ variable "create_cos_bucket" {
 }
 
 variable "cos_instance_name" {
-  description = "Name of the cos instance where the bucket should be created"
+  description = "Name of the COS instance to create when create_cos_instance is true, the name of COS instance to create buckets in"
   type        = string
   default     = null
 }

@@ -155,7 +155,7 @@ You need the following permissions to run this module.
 | <a name="input_archive_days"></a> [archive\_days](#input\_archive\_days) | Specifies the number of days when the archive rule action takes effect. | `number` | `90` | no |
 | <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | Specifies the storage class or archive type to which you want the object to transition. | `string` | `"Glacier"` | no |
 | <a name="input_bucket_infix"></a> [bucket\_infix](#input\_bucket\_infix) | Custom infix for use in cos bucket name (Optional) | `string` | `null` | no |
-| <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | Name of the cos instance where the bucket should be created | `string` | `null` | no |
+| <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | Name of the COS instance to create when create\_cos\_instance is true, the name of COS instance to create buckets in | `string` | `null` | no |
 | <a name="input_cos_key_name"></a> [cos\_key\_name](#input\_cos\_key\_name) | List of strings containing the list of desired Key Protect Key names as the values for each Key Ring, this Key Protect Key is used to encrypt the data in the COS Bucket | `list(string)` | <pre>[<br>  "cos-key"<br>]</pre> | no |
 | <a name="input_cos_key_ring_name"></a> [cos\_key\_ring\_name](#input\_cos\_key\_ring\_name) | A String containing the desired Key Ring Names as the key of the map for the key protect instance, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `"cos-key-ring"` | no |
 | <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location of the cloud object storage instance | `string` | `"global"` | no |

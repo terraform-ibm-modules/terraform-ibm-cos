@@ -13,7 +13,7 @@ locals {
   object_versioning_enabled = var.object_versioning_enabled ? [1] : []
   infix                     = var.bucket_infix == null ? "" : "-${var.bucket_infix}"
 
-  #ensure if create_cos_instance = false, then cos_instance_name is provided
+  # ensure if create_cos_instance = false, then cos_instance_name is provided
   cos_validate_condition = (!var.create_cos_instance && var.cos_instance_name == null)
   cos_validate_msg       = "If create_cos_instance is false, then provide the cos_instance_name to create buckets"
   # tflint-ignore: terraform_unused_declarations
@@ -55,7 +55,7 @@ module "kp_all_inclusive" {
 # Resource to create COS instance if create_cos_instance is true
 resource "ibm_resource_instance" "cos_instance" {
   count             = var.create_cos_instance ? 1 : 0
-  name              = "${var.environment_name}-cos"
+  name              = var.cos_instance_name != null ? var.cos_instance_name : "${var.environment_name}-cos"
   resource_group_id = var.resource_group_id
   service           = "cloud-object-storage"
   plan              = var.cos_plan

@@ -42,10 +42,11 @@
     "cos_instance_name": {
       "name": "cos_instance_name",
       "type": "string",
-      "description": "Name of the cos instance where the bucket should be created",
+      "description": "Name of the COS instance to create when create_cos_instance is true, the name of COS instance to create buckets in",
       "required": true,
       "source": [
-        "data.ibm_resource_instance.cos_instance.name"
+        "data.ibm_resource_instance.cos_instance.name",
+        "ibm_resource_instance.cos_instance.name"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -197,7 +198,6 @@
       "source": [
         "ibm_cos_bucket.cos_bucket.bucket_name",
         "ibm_cos_bucket.cos_bucket1.bucket_name",
-        "ibm_resource_instance.cos_instance.name",
         "module.kp_all_inclusive"
       ],
       "pos": {
@@ -525,7 +525,7 @@
       "attributes": {
         "count": "create_cos_instance",
         "location": "cos_location",
-        "name": "environment_name",
+        "name": "cos_instance_name",
         "plan": "cos_plan",
         "resource_group_id": "resource_group_id",
         "tags": "cos_tags"
