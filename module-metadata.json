@@ -156,7 +156,6 @@
       "description": "Set as true to create a new Key Protect instance, this instance will store the Key used to encrypt the data in the COS Bucket",
       "default": true,
       "source": [
-        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.count",
         "module.kp_all_inclusive.module.key_protect"
       ],
       "pos": {
@@ -222,7 +221,6 @@
       "description": "Name to set as the instance name if creating a Key Protect instance, otherwise name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket",
       "required": true,
       "source": [
-        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.name",
         "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.name"
       ],
       "pos": {
@@ -278,7 +276,6 @@
       "source": [
         "ibm_cos_bucket.cos_bucket.region_location",
         "ibm_cos_bucket.cos_bucket1.region_location",
-        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.location",
         "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.location",
         "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.create_path",
         "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.destroy_path",
@@ -291,8 +288,7 @@
         "line": 34
       },
       "cloud_data_type": "region",
-      "immutable": true,
-      "computed": true
+      "immutable": true
     },
     "resource_group_id": {
       "name": "resource_group_id",
@@ -302,7 +298,6 @@
       "source": [
         "data.ibm_resource_instance.cos_instance.resource_group_id",
         "ibm_resource_instance.cos_instance.resource_group_id",
-        "module.kp_all_inclusive.data.ibm_resource_instance.existing_key_protect.resource_group_id",
         "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.resource_group_id"
       ],
       "pos": {
@@ -562,7 +557,7 @@
   "module_calls": {
     "kp_all_inclusive": {
       "name": "kp_all_inclusive",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v1.1.2",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v2.0.0",
       "attributes": {
         "count": "encryption_enabled",
         "create_key_protect_instance": "create_key_protect_instance",
@@ -586,25 +581,7 @@
           },
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/main.tf",
-            "line": 42
-          }
-        },
-        "data.ibm_resource_instance.existing_key_protect": {
-          "mode": "data",
-          "type": "ibm_resource_instance",
-          "name": "existing_key_protect",
-          "attributes": {
-            "count": "create_key_protect_instance",
-            "location": "region",
-            "name": "key_protect_instance_name",
-            "resource_group_id": "resource_group_id"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/kp_all_inclusive/main.tf",
-            "line": 22
+            "line": 38
           }
         }
       },
@@ -615,7 +592,7 @@
           "value": "module.existing_key_ring_keys",
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 29
+            "line": 32
           }
         },
         "key_protect_guid": {
@@ -629,11 +606,10 @@
         },
         "key_protect_name": {
           "name": "key_protect_name",
-          "description": "Name of the Key Protect instance",
-          "value": "local.key_protect_name",
+          "description": "Key Protect Name",
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 10
+            "line": 13
           }
         },
         "key_rings": {
@@ -642,7 +618,7 @@
           "value": "module.key_protect_key_rings",
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 17
+            "line": 20
           }
         },
         "keys": {
@@ -651,7 +627,7 @@
           "value": "module.key_protect_keys",
           "pos": {
             "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 24
+            "line": 27
           }
         }
       },
