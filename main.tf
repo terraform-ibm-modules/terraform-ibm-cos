@@ -41,15 +41,16 @@ locals {
 # Module to create key protect instance or create keys if key protect instance is provided.
 # This module will be executed if encryption_enabled is set to true
 module "kp_all_inclusive" {
-  count                       = (var.encryption_enabled && var.create_key_protect_key) ? 1 : 0
-  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v1.1.2"
-  resource_group_id           = var.resource_group_id
-  region                      = var.region
-  prefix                      = var.environment_name
-  key_protect_instance_name   = var.key_protect_instance_name == null ? "${var.environment_name}-kp" : var.key_protect_instance_name
-  create_key_protect_instance = var.create_key_protect_instance
-  key_map                     = local.key_map
-  resource_tags               = var.key_protect_tags
+  count                              = (var.encryption_enabled && var.create_key_protect_key) ? 1 : 0
+  source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v2.0.0"
+  resource_group_id                  = var.resource_group_id
+  region                             = var.region
+  prefix                             = var.environment_name
+  key_protect_instance_name          = var.key_protect_instance_name
+  existing_key_protect_instance_guid = var.existing_key_protect_instance_guid
+  create_key_protect_instance        = var.create_key_protect_instance
+  key_map                            = local.key_map
+  resource_tags                      = var.key_protect_tags
 }
 
 # Resource to create COS instance if create_cos_instance is true

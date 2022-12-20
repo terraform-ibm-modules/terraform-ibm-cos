@@ -138,8 +138,14 @@ variable "create_key_protect_instance" {
   default     = true
 }
 
+variable "existing_key_protect_instance_guid" {
+  description = "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false."
+  type        = string
+  default     = null
+}
+
 variable "key_protect_instance_name" {
-  description = "Name to set as the instance name if creating a Key Protect instance, otherwise name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket"
+  description = "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid."
   type        = string
   default     = null
 }

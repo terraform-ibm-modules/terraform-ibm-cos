@@ -135,7 +135,7 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_kp_all_inclusive"></a> [kp\_all\_inclusive](#module\_kp\_all\_inclusive) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git | v1.1.2 |
+| <a name="module_kp_all_inclusive"></a> [kp\_all\_inclusive](#module\_kp\_all\_inclusive) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git | v2.0.0 |
 
 ## Resources
 
@@ -167,8 +167,9 @@ You need the following permissions to run this module.
 | <a name="input_create_key_protect_key"></a> [create\_key\_protect\_key](#input\_create\_key\_protect\_key) | Set as true to create a new Key Protect Key, this Key Protect Key is used to encrypt the COS Bucket | `bool` | `true` | no |
 | <a name="input_encryption_enabled"></a> [encryption\_enabled](#input\_encryption\_enabled) | Set as true to use Key Protect encryption to encrypt data in COS bucket | `bool` | `true` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Prefix name for all related resources | `string` | n/a | yes |
+| <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | Specifies the number of days when the expire rule action takes effect. | `number` | `365` | no |
-| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | Name to set as the instance name if creating a Key Protect instance, otherwise name of an existing Key Protect instance to use, this instance will store the Key used to encrypt the data in the COS Bucket | `string` | `null` | no |
+| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing\_key\_protect\_instance\_guid. | `string` | `null` | no |
 | <a name="input_key_protect_key_crn"></a> [key\_protect\_key\_crn](#input\_key\_protect\_key\_crn) | CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `null` | no |
 | <a name="input_key_protect_tags"></a> [key\_protect\_tags](#input\_key\_protect\_tags) | Optional list of tags to be added to Key Protect instance. | `list(string)` | `[]` | no |
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. | `bool` | `false` | no |
