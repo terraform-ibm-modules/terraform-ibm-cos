@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 189
+        "line": 183
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 195
+        "line": 189
       }
     },
     "bucket_infix": {
@@ -57,7 +57,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 171
+        "line": 165
       }
     },
     "cos_key_ring_name": {
@@ -67,7 +67,7 @@
       "default": "cos-key-ring",
       "pos": {
         "filename": "variables.tf",
-        "line": 165
+        "line": 159
       }
     },
     "cos_location": {
@@ -163,7 +163,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 177
+        "line": 171
       }
     },
     "encryption_enabled": {
@@ -197,15 +197,6 @@
       },
       "immutable": true
     },
-    "existing_cos_instance_id": {
-      "name": "existing_cos_instance_id",
-      "type": "string",
-      "description": "ID of an existing cos instance where the bucket will be created",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 58
-      }
-    },
     "existing_key_protect_instance_guid": {
       "name": "existing_key_protect_instance_guid",
       "type": "string",
@@ -215,7 +206,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 147
+        "line": 141
       }
     },
     "expire_days": {
@@ -225,7 +216,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 205
+        "line": 199
       }
     },
     "key_protect_instance_name": {
@@ -238,7 +229,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 153
+        "line": 147
       }
     },
     "key_protect_key_crn": {
@@ -247,7 +238,7 @@
       "description": "CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket",
       "pos": {
         "filename": "variables.tf",
-        "line": 183
+        "line": 177
       }
     },
     "key_protect_tags": {
@@ -260,7 +251,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 159
+        "line": 153
       },
       "min_length": 1,
       "max_length": 128,
@@ -493,7 +484,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 89
+        "line": 98
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -510,7 +501,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 163
+        "line": 172
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -522,7 +513,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 74
+        "line": 83
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -542,6 +533,26 @@
       "pos": {
         "filename": "main.tf",
         "line": 57
+      }
+    }
+  },
+  "data_resources": {
+    "data.ibm_resource_instance.cos_instance": {
+      "mode": "data",
+      "type": "ibm_resource_instance",
+      "name": "cos_instance",
+      "attributes": {
+        "count": "create_cos_instance",
+        "location": "cos_location",
+        "name": "cos_instance_name",
+        "resource_group_id": "resource_group_id"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 74
       }
     }
   },
