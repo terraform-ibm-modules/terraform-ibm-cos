@@ -50,13 +50,13 @@ variable "create_cos_bucket" {
 }
 
 variable "cos_instance_name" {
-  description = "Name of the cos instance where the bucket should be created"
+  description = "The name to give the COS instance that will be provisioned by this module, if no value is passed the default name will be '{var.environment_name}-cos'. This variable will be ignored if a value is passed for 'var.existing_cos_instance_guid'."
   type        = string
   default     = null
 }
 
 variable "existing_cos_instance_id" {
-  description = "ID of an existing cos instance where the bucket will be created"
+  description = "The ID of an existing COS instance, required if 'var.create_cos_instance' is false."
   type        = string
   default     = null
 }
@@ -151,7 +151,7 @@ variable "existing_key_protect_instance_guid" {
 }
 
 variable "key_protect_instance_name" {
-  description = "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid."
+  description = "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid'."
   type        = string
   default     = null
 }

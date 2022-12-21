@@ -37,6 +37,6 @@ output "key_protect_key_crn" {
 }
 
 output "cos_instance_id" {
-  description = "The GUID of the Cloud Object Storage Instance where the buckets are created"
+  description = "The ID of the Cloud Object Storage Instance where the buckets are created"
   value       = local.cos_instance_id
 }

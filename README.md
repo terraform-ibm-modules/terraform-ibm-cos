@@ -154,7 +154,7 @@ You need the following permissions to run this module.
 | <a name="input_archive_days"></a> [archive\_days](#input\_archive\_days) | Specifies the number of days when the archive rule action takes effect. | `number` | `90` | no |
 | <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | Specifies the storage class or archive type to which you want the object to transition. | `string` | `"Glacier"` | no |
 | <a name="input_bucket_infix"></a> [bucket\_infix](#input\_bucket\_infix) | Custom infix for use in cos bucket name (Optional) | `string` | `null` | no |
-| <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | Name of the cos instance where the bucket should be created | `string` | `null` | no |
+| <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name to give the COS instance that will be provisioned by this module, if no value is passed the default name will be '{var.environment\_name}-cos'. This variable will be ignored if a value is passed for 'var.existing\_cos\_instance\_guid'. | `string` | `null` | no |
 | <a name="input_cos_key_name"></a> [cos\_key\_name](#input\_cos\_key\_name) | List of strings containing the list of desired Key Protect Key names as the values for each Key Ring, this Key Protect Key is used to encrypt the data in the COS Bucket | `list(string)` | <pre>[<br>  "cos-key"<br>]</pre> | no |
 | <a name="input_cos_key_ring_name"></a> [cos\_key\_ring\_name](#input\_cos\_key\_ring\_name) | A String containing the desired Key Ring Names as the key of the map for the key protect instance, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `"cos-key-ring"` | no |
 | <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location of the cloud object storage instance | `string` | `"global"` | no |
@@ -166,10 +166,10 @@ You need the following permissions to run this module.
 | <a name="input_create_key_protect_key"></a> [create\_key\_protect\_key](#input\_create\_key\_protect\_key) | Set as true to create a new Key Protect Key, this Key Protect Key is used to encrypt the COS Bucket | `bool` | `true` | no |
 | <a name="input_encryption_enabled"></a> [encryption\_enabled](#input\_encryption\_enabled) | Set as true to use Key Protect encryption to encrypt data in COS bucket | `bool` | `true` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Prefix name for all related resources | `string` | n/a | yes |
-| <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | ID of an existing cos instance where the bucket will be created | `string` | `null` | no |
+| <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | The ID of an existing COS instance, required if 'var.create\_cos\_instance' is false. | `string` | `null` | no |
 | <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | Specifies the number of days when the expire rule action takes effect. | `number` | `365` | no |
-| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing\_key\_protect\_instance\_guid. | `string` | `null` | no |
+| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing\_key\_protect\_instance\_guid'. | `string` | `null` | no |
 | <a name="input_key_protect_key_crn"></a> [key\_protect\_key\_crn](#input\_key\_protect\_key\_crn) | CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket | `string` | `null` | no |
 | <a name="input_key_protect_tags"></a> [key\_protect\_tags](#input\_key\_protect\_tags) | Optional list of tags to be added to Key Protect instance. | `list(string)` | `[]` | no |
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. | `bool` | `false` | no |
@@ -188,7 +188,7 @@ You need the following permissions to run this module.
 |------|-------------|
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | Bucket id |
 | <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Bucket Name |
-| <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The GUID of the Cloud Object Storage Instance where the buckets are created |
+| <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The ID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_key_protect_instance_id"></a> [key\_protect\_instance\_id](#output\_key\_protect\_instance\_id) | The GUID of the Key Protect Instance where the Key to encrypt the COS Bucket is stored |
 | <a name="output_key_protect_key_crn"></a> [key\_protect\_key\_crn](#output\_key\_protect\_key\_crn) | The CRN of the Key Protect Key used to encrypt the COS Bucket |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |

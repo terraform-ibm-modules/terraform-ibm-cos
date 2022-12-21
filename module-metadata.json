@@ -42,7 +42,7 @@
     "cos_instance_name": {
       "name": "cos_instance_name",
       "type": "string",
-      "description": "Name of the cos instance where the bucket should be created",
+      "description": "The name to give the COS instance that will be provisioned by this module, if no value is passed the default name will be '{var.environment_name}-cos'. This variable will be ignored if a value is passed for 'var.existing_cos_instance_guid'.",
       "pos": {
         "filename": "variables.tf",
         "line": 52
@@ -200,7 +200,7 @@
     "existing_cos_instance_id": {
       "name": "existing_cos_instance_id",
       "type": "string",
-      "description": "ID of an existing cos instance where the bucket will be created",
+      "description": "The ID of an existing COS instance, required if 'var.create_cos_instance' is false.",
       "pos": {
         "filename": "variables.tf",
         "line": 58
@@ -231,7 +231,7 @@
     "key_protect_instance_name": {
       "name": "key_protect_instance_name",
       "type": "string",
-      "description": "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid.",
+      "description": "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid'.",
       "required": true,
       "source": [
         "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.name"
@@ -404,7 +404,7 @@
     },
     "cos_instance_id": {
       "name": "cos_instance_id",
-      "description": "The GUID of the Cloud Object Storage Instance where the buckets are created",
+      "description": "The ID of the Cloud Object Storage Instance where the buckets are created",
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
