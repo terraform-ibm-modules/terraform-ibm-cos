@@ -55,6 +55,18 @@ variable "cos_instance_name" {
   default     = null
 }
 
+variable "existing_cos_instance_id" {
+  description = "ID of an existing cos instance where the bucket will be created"
+  type        = string
+  default     = null
+}
+
+variable "existing_cos_instance_guid" {
+  description = "GUID of an existing cos instance where the bucket will be created"
+  type        = string
+  default     = null
+}
+
 # COS instance configuration
 variable "cos_plan" {
   description = "Plan to be used for creating cloud object storage instance"

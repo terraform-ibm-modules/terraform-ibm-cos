@@ -65,18 +65,9 @@ resource "ibm_resource_instance" "cos_instance" {
 }
 
 locals {
-  cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : tolist(data.ibm_resource_instance.cos_instance[*].id)[0]
-  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : tolist(data.ibm_resource_instance.cos_instance[*].guid)[0]
+  cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
+  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : var.existing_cos_instance_guid
   create_access_policy = var.encryption_enabled && var.create_key_protect_instance
-}
-
-# Data source to retrieve COS instance guid if using an existing COS instance
-data "ibm_resource_instance" "cos_instance" {
-  count             = var.create_cos_instance ? 0 : 1
-  name              = var.cos_instance_name
-  location          = var.cos_location
-  resource_group_id = var.resource_group_id
-  service           = "cloud-object-storage"
 }
 
 # Create IAM Access Policy to allow Key protect to access COS instance
