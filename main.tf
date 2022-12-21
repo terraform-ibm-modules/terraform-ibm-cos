@@ -13,12 +13,6 @@ locals {
   object_versioning_enabled = var.object_versioning_enabled ? [1] : []
   infix                     = var.bucket_infix == null ? "" : "-${var.bucket_infix}"
 
-  #ensure if create_cos_instance = false, then cos_instance_name is provided
-  cos_validate_condition = (!var.create_cos_instance && var.cos_instance_name == null)
-  cos_validate_msg       = "If create_cos_instance is false, then provide the cos_instance_name to create buckets"
-  # tflint-ignore: terraform_unused_declarations
-  cos_validate_check = regex("^${local.cos_validate_msg}$", (!local.cos_validate_condition ? local.cos_validate_msg : ""))
-
   #ensure if create_cos_instance = false, then existing_cos_instance_id is provided
   cos_id_validate_condition = (!var.create_cos_instance && var.existing_cos_instance_id == null)
   cos_id_validate_msg       = "If create_cos_instance is false, then provide the existing_cos_instance_id to create buckets"
