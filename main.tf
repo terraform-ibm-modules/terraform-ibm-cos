@@ -19,6 +19,18 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   cos_validate_check = regex("^${local.cos_validate_msg}$", (!local.cos_validate_condition ? local.cos_validate_msg : ""))
 
+  #ensure if create_cos_instance = false, then existing_cos_instance_id is provided
+  cos_id_validate_condition = (!var.create_cos_instance && var.existing_cos_instance_id == null)
+  cos_id_validate_msg       = "If create_cos_instance is false, then provide the existing_cos_instance_id to create buckets"
+  # tflint-ignore: terraform_unused_declarations
+  cos_id_validate_check = regex("^${local.cos_id_validate_msg}$", (!local.cos_id_validate_condition ? local.cos_id_validate_msg : ""))
+
+  #ensure if create_cos_instance = false, then existing_cos_instance_guid is provided
+  cos_guid_validate_condition = (!var.create_cos_instance && var.existing_cos_instance_guid == null)
+  cos_guid_validate_msg       = "If create_cos_instance is false, then provide the existing_cos_instance_guid to create buckets"
+  # tflint-ignore: terraform_unused_declarations
+  cos_guid_validate_check = regex("^${local.cos_guid_validate_msg}$", (!local.cos_guid_validate_condition ? local.cos_guid_validate_msg : ""))
+
   # only allow create_key_protect_key or key_protect_key_crn to be passed
   kp_key_validate_condition = var.encryption_enabled && ((var.create_key_protect_key && var.key_protect_key_crn != null) || (!var.create_key_protect_key && var.key_protect_key_crn == null))
   kp_key_validate_msg       = "Value for 'create_key_protect_key' cannot be true if 'key_protect_key_crn' is not null"
@@ -56,7 +68,7 @@ module "kp_all_inclusive" {
 # Resource to create COS instance if create_cos_instance is true
 resource "ibm_resource_instance" "cos_instance" {
   count             = var.create_cos_instance ? 1 : 0
-  name              = "${var.environment_name}-cos"
+  name              = local.cos_instance_name
   resource_group_id = var.resource_group_id
   service           = "cloud-object-storage"
   plan              = var.cos_plan
@@ -67,6 +79,7 @@ resource "ibm_resource_instance" "cos_instance" {
 locals {
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : var.existing_cos_instance_guid
+  cos_instance_name    = var.cos_instance_name == null ? "${var.environment_name}-cos" : var.cos_instance_name
   create_access_policy = var.encryption_enabled && var.create_key_protect_instance
 }
 
