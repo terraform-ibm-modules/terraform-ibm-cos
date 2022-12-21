@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 195
+        "line": 189
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 201
+        "line": 195
       }
     },
     "bucket_infix": {
@@ -57,7 +57,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 177
+        "line": 171
       }
     },
     "cos_key_ring_name": {
@@ -67,7 +67,7 @@
       "default": "cos-key-ring",
       "pos": {
         "filename": "variables.tf",
-        "line": 171
+        "line": 165
       }
     },
     "cos_location": {
@@ -81,7 +81,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 81
+        "line": 75
       },
       "cloud_data_type": "region",
       "immutable": true
@@ -97,7 +97,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 71
+        "line": 65
       }
     },
     "cos_tags": {
@@ -110,7 +110,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 87
+        "line": 81
       },
       "min_length": 1,
       "max_length": 128,
@@ -153,7 +153,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 147
+        "line": 141
       }
     },
     "create_key_protect_key": {
@@ -163,7 +163,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 183
+        "line": 177
       }
     },
     "encryption_enabled": {
@@ -178,7 +178,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 141
+        "line": 135
       }
     },
     "environment_name": {
@@ -196,15 +196,6 @@
         "line": 11
       },
       "immutable": true
-    },
-    "existing_cos_instance_guid": {
-      "name": "existing_cos_instance_guid",
-      "type": "string",
-      "description": "GUID of an existing cos instance where the bucket will be created",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 64
-      }
     },
     "existing_cos_instance_id": {
       "name": "existing_cos_instance_id",
@@ -224,7 +215,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 153
+        "line": 147
       }
     },
     "expire_days": {
@@ -234,7 +225,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 211
+        "line": 205
       }
     },
     "key_protect_instance_name": {
@@ -247,7 +238,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 159
+        "line": 153
       }
     },
     "key_protect_key_crn": {
@@ -256,7 +247,7 @@
       "description": "CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket",
       "pos": {
         "filename": "variables.tf",
-        "line": 189
+        "line": 183
       }
     },
     "key_protect_tags": {
@@ -269,7 +260,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 165
+        "line": 159
       },
       "min_length": 1,
       "max_length": 128,
@@ -286,7 +277,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 135
+        "line": 129
       }
     },
     "region": {
@@ -339,7 +330,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 99
+        "line": 93
       }
     },
     "retention_enabled": {
@@ -349,7 +340,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 93
+        "line": 87
       }
     },
     "retention_maximum": {
@@ -359,7 +350,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 109
+        "line": 103
       }
     },
     "retention_minimum": {
@@ -369,7 +360,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 119
+        "line": 113
       }
     },
     "retention_permanent": {
@@ -379,7 +370,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 129
+        "line": 123
       }
     },
     "sysdig_crn": {
@@ -502,7 +493,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 96
+        "line": 89
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -519,7 +510,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 170
+        "line": 163
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -531,7 +522,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 81
+        "line": 74
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -550,7 +541,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 63
+        "line": 57
       }
     }
   },
@@ -635,7 +626,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 49
+        "line": 43
       }
     }
   }

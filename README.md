@@ -166,7 +166,6 @@ You need the following permissions to run this module.
 | <a name="input_create_key_protect_key"></a> [create\_key\_protect\_key](#input\_create\_key\_protect\_key) | Set as true to create a new Key Protect Key, this Key Protect Key is used to encrypt the COS Bucket | `bool` | `true` | no |
 | <a name="input_encryption_enabled"></a> [encryption\_enabled](#input\_encryption\_enabled) | Set as true to use Key Protect encryption to encrypt data in COS bucket | `bool` | `true` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Prefix name for all related resources | `string` | n/a | yes |
-| <a name="input_existing_cos_instance_guid"></a> [existing\_cos\_instance\_guid](#input\_existing\_cos\_instance\_guid) | GUID of an existing cos instance where the bucket will be created | `string` | `null` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | ID of an existing cos instance where the bucket will be created | `string` | `null` | no |
 | <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | Specifies the number of days when the expire rule action takes effect. | `number` | `365` | no |
