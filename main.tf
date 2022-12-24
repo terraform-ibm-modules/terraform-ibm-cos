@@ -42,7 +42,7 @@ locals {
 # This module will be executed if encryption_enabled is set to true
 module "kp_all_inclusive" {
   count                       = (var.encryption_enabled && var.create_key_protect_key) ? 1 : 0
-  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v2.0.1"
+  source                      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v2.0.3"
   resource_group_id           = var.resource_group_id
   region                      = var.region
   prefix                      = var.environment_name
