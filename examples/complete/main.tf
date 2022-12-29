@@ -37,18 +37,18 @@ module "observability_instances" {
 # - Monitoring
 # - Activity Tracking
 module "cos_bucket1" {
-  source               = "../../"
-  resource_group_id    = module.resource_group.resource_group_id
-  region               = var.region
-  cos_instance_name    = "${var.prefix}-cos"
-  cos_tags             = var.resource_tags
-  bucket_name          = "${var.prefix}-bucket-1"
+  source                    = "../../"
+  resource_group_id         = module.resource_group.resource_group_id
+  region                    = var.region
+  cos_instance_name         = "${var.prefix}-cos"
+  cos_tags                  = var.resource_tags
+  bucket_name               = "${var.prefix}-bucket-1"
   key_protect_instance_name = "${var.prefix}-kp"
-  key_protect_tags     = var.resource_tags
-  cos_key_ring_name    = "cos-key-ring"
-  cos_key_name         = "cos-key"
-  sysdig_crn           = module.observability_instances.sysdig_crn
-  activity_tracker_crn = module.observability_instances.activity_tracker_crn
+  key_protect_tags          = var.resource_tags
+  cos_key_ring_name         = "cos-key-ring"
+  cos_key_name              = "cos-key"
+  sysdig_crn                = module.observability_instances.sysdig_crn
+  activity_tracker_crn      = module.observability_instances.activity_tracker_crn
 }
 
 # We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
@@ -58,15 +58,15 @@ module "cos_bucket1" {
 # - Monitoring
 # - Activity Tracking
 module "cos_bucket2" {
-  source                      = "../../"
-  bucket_name          = "${var.prefix}-bucket-2"
-  resource_group_id           = module.resource_group.resource_group_id
-  region                      = var.region
+  source                             = "../../"
+  bucket_name                        = "${var.prefix}-bucket-2"
+  resource_group_id                  = module.resource_group.resource_group_id
+  region                             = var.region
   existing_key_protect_instance_guid = module.cos_bucket1.key_protect_instance_guid
-  sysdig_crn                  = module.observability_instances.sysdig_crn
-  activity_tracker_crn        = module.observability_instances.activity_tracker_crn
-  create_cos_instance         = false
-  create_key_protect_instance = false
-  existing_cos_instance_id    = module.cos_bucket1.cos_instance_id
-  key_protect_key_crn = module.cos_bucket1.key_protect_key_crn
+  sysdig_crn                         = module.observability_instances.sysdig_crn
+  activity_tracker_crn               = module.observability_instances.activity_tracker_crn
+  create_cos_instance                = false
+  create_key_protect_instance        = false
+  existing_cos_instance_id           = module.cos_bucket1.cos_instance_id
+  key_protect_key_crn                = module.cos_bucket1.key_protect_key_crn
 }

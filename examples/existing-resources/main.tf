@@ -18,21 +18,21 @@ locals {
 }
 
 module "key_protect_all_inclusive" {
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.0.0"
+  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.0.0"
   key_protect_instance_name = "${var.prefix}-kp"
-  resource_group_id = module.resource_group.resource_group_id
-  enable_metrics = false
-  region            = var.region
-  key_map           = {
+  resource_group_id         = module.resource_group.resource_group_id
+  enable_metrics            = false
+  region                    = var.region
+  key_map = {
     "cos-key-ring" = [local.key_name]
   }
   resource_tags = var.resource_tags
 }
 
 data "ibm_kms_key" "test" {
-  depends_on = [module.key_protect_all_inclusive]
+  depends_on  = [module.key_protect_all_inclusive]
   instance_id = module.key_protect_all_inclusive.key_protect_guid
-  key_name = local.key_name
+  key_name    = local.key_name
 }
 
 ##############################################################################
@@ -67,16 +67,16 @@ resource "ibm_iam_authorization_policy" "policy" {
 ##############################################################################
 
 module "cos" {
-  source             = "../../"
-  existing_cos_instance_id = ibm_resource_instance.cos_instance.id
-  create_key_protect_instance = false
-  create_cos_instance = false
-  create_key_protect_key = false
+  source                             = "../../"
+  existing_cos_instance_id           = ibm_resource_instance.cos_instance.id
+  create_key_protect_instance        = false
+  create_cos_instance                = false
+  create_key_protect_key             = false
   existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
-  key_protect_key_crn = data.ibm_kms_key.test.keys.0.crn
-  bucket_name = "${var.prefix}-bucket"
-  resource_group_id  = module.resource_group.resource_group_id
-  region             = var.region
-  encryption_enabled = true
-  retention_enabled  = false
+  key_protect_key_crn                = data.ibm_kms_key.test.keys[0].crn
+  bucket_name                        = "${var.prefix}-bucket"
+  resource_group_id                  = module.resource_group.resource_group_id
+  region                             = var.region
+  encryption_enabled                 = true
+  retention_enabled                  = false
 }

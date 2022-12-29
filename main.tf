@@ -48,11 +48,11 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   key_ring_validate_check = regex("^${local.key_ring_validate_msg}$", (!local.key_ring_validate_condition ? local.key_ring_validate_msg : ""))
 
-  key_map = var.cos_key_ring_name != null ? tomap({(var.cos_key_ring_name) : tolist([var.cos_key_name])}) : {}
-  existing_key_map = var.existing_cos_key_ring_name != null ? tomap({(var.existing_cos_key_ring_name) : tolist([var.cos_key_name])}) : {}
+  key_map          = var.cos_key_ring_name != null ? tomap({ (var.cos_key_ring_name) : tolist([var.cos_key_name]) }) : {}
+  existing_key_map = var.existing_cos_key_ring_name != null ? tomap({ (var.existing_cos_key_ring_name) : tolist([var.cos_key_name]) }) : {}
 
   key_ring_name = var.cos_key_ring_name != null ? var.cos_key_ring_name : var.existing_cos_key_ring_name
-  key_crn = (var.encryption_enabled && var.create_key_protect_key) ? module.kp_all_inclusive[0].keys["${local.key_ring_name}.${var.cos_key_name}"].crn : var.key_protect_key_crn
+  key_crn       = (var.encryption_enabled && var.create_key_protect_key) ? module.kp_all_inclusive[0].keys["${local.key_ring_name}.${var.cos_key_name}"].crn : var.key_protect_key_crn
 }
 
 # Module to create key protect instance or create keys if key protect instance is provided.
