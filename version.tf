@@ -10,7 +10,7 @@ terraform {
     #tflint-ignore: terraform_unused_required_providers
     restapi = {
       source  = "Mastercard/restapi"
-      version = ">=1.18.0"
+      version = ">= 1.18.0"
     }
   }
 }

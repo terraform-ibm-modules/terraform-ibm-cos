@@ -4,12 +4,6 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-variable "environment_name" {
-  type        = string
-  default     = "test-cos"
-  description = "Prefix name for all related resources"
-}
-
 variable "region" {
   type        = string
   default     = "us-south"
@@ -19,7 +13,7 @@ variable "region" {
 variable "prefix" {
   type        = string
   description = "Prefix for name of all resource created by this example"
-  default     = "test-bucket-wo-mon"
+  default     = "exist-cos"
 }
 
 variable "resource_group" {
@@ -31,5 +25,5 @@ variable "resource_group" {
 variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
-  default     = ["test-wo-mon"]
+  default     = []
 }

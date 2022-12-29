@@ -549,7 +549,7 @@
   "module_calls": {
     "kp_all_inclusive": {
       "name": "kp_all_inclusive",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v2.0.0",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v2.0.1",
       "attributes": {
         "count": "encryption_enabled",
         "create_key_protect_instance": "create_key_protect_instance",
