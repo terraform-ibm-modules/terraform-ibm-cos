@@ -70,6 +70,7 @@ module "additional_cos_bucket" {
   sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   create_cos_instance                = false
+  create_key_protect_key             = false
   create_key_protect_instance        = false
   existing_cos_instance_id           = module.cos_module.cos_instance_id
   key_protect_key_crn                = module.cos_module.key_protect_key_crn

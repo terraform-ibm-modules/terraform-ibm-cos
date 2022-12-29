@@ -66,6 +66,7 @@ module "cos_bucket2" {
   sysdig_crn                         = module.observability_instances.sysdig_crn
   activity_tracker_crn               = module.observability_instances.activity_tracker_crn
   create_cos_instance                = false
+  create_key_protect_key             = false
   create_key_protect_instance        = false
   existing_cos_instance_id           = module.cos_bucket1.cos_instance_id
   key_protect_key_crn                = module.cos_bucket1.key_protect_key_crn
