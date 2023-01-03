@@ -14,7 +14,8 @@ module "resource_group" {
 ##############################################################################
 
 locals {
-  key_name = "cos-key"
+  key_ring_name = "cos-key-ring"
+  key_name      = "cos-key"
 }
 
 module "key_protect_all_inclusive" {
@@ -24,15 +25,9 @@ module "key_protect_all_inclusive" {
   enable_metrics            = false
   region                    = var.region
   key_map = {
-    "cos-key-ring" = [local.key_name]
+    (local.key_ring_name) = [local.key_name]
   }
   resource_tags = var.resource_tags
-}
-
-data "ibm_kms_key" "test" {
-  depends_on  = [module.key_protect_all_inclusive]
-  instance_id = module.key_protect_all_inclusive.key_protect_guid
-  key_name    = local.key_name
 }
 
 ##############################################################################
@@ -72,7 +67,7 @@ module "cos" {
   create_key_protect_instance = false
   create_cos_instance         = false
   create_key_protect_key      = false
-  key_protect_key_crn         = data.ibm_kms_key.test.keys[0].crn
+  key_protect_key_crn         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_name                 = "${var.prefix}-bucket"
   resource_group_id           = module.resource_group.resource_group_id
   region                      = var.region
