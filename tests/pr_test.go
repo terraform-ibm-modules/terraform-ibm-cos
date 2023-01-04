@@ -11,8 +11,10 @@ import (
 )
 
 const completeExampleTerraformDir = "examples/complete"
+const completeExistingTerraformDir = "examples/existing-resources"
 
-const resourceGroup = "geretain-test-resources"
+// Use existing group for tests
+const resourceGroup = "geretain-test-cos-base"
 
 var sharedInfoSvc *cloudinfo.CloudInfoService
 
@@ -24,18 +26,32 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestRunDefaultExample(t *testing.T) {
-	t.Parallel()
-
+func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                       t,
-		TerraformDir:                  completeExampleTerraformDir,
+		TerraformDir:                  dir,
+		Prefix:                        prefix,
 		ResourceGroup:                 resourceGroup,
 		CloudInfoService:              sharedInfoSvc,
 		ExcludeActivityTrackerRegions: true,
-		Prefix:                        "cos-module-test",
 	})
 
+	return options
+}
+
+func TestRunCompleteExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunExistingResourcesExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -44,14 +60,7 @@ func TestRunDefaultExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:                       t,
-		TerraformDir:                  completeExampleTerraformDir,
-		ResourceGroup:                 resourceGroup,
-		CloudInfoService:              sharedInfoSvc,
-		ExcludeActivityTrackerRegions: true,
-		Prefix:                        "cos-module-upg",
-	})
+	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
