@@ -482,7 +482,7 @@
     "ibm": {
       "source": "ibm-cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.48.0"
+        "\u003e= 1.49.0"
       ]
     },
     "restapi": {
