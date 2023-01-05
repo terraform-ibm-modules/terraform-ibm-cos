@@ -124,7 +124,7 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_kp_all_inclusive"></a> [kp\_all\_inclusive](#module\_kp\_all\_inclusive) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git | v3.0.0 |
+| <a name="module_kp_all_inclusive"></a> [kp\_all\_inclusive](#module\_kp\_all\_inclusive) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git | v3.0.1 |
 
 ## Resources
 
