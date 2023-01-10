@@ -156,71 +156,23 @@ variable "sysdig_crn" {
 }
 
 ##############################################################################
-# COS encryption variables
+# COS bucket encryption variables
 ##############################################################################
 
-variable "encryption_enabled" {
-  description = "Set as true to use Key Protect encryption to encrypt data in COS bucket"
-  type        = bool
-  default     = true
-}
-
-variable "create_key_protect_instance" {
-  description = "Set as true to create a new Key Protect instance. This instance will store the Key used to encrypt the data in the COS Bucket"
-  type        = bool
-  default     = true
-}
-
-variable "key_protect_instance_name" {
-  description = "The name to give the Key Protect instance that will be provisioned by this module. Required if 'var.create_key_protect_instance' is true"
-  type        = string
-  default     = null
-}
-
-variable "enable_key_protect_metrics" {
-  description = "Enable Key Protect metrics. Only used if if 'var.create_key_protect_instance' is true."
-  type        = string
-  default     = true
-}
-
 variable "existing_key_protect_instance_guid" {
-  description = "The GUID of an existing Key Protect instance. Required if 'var.create_key_protect_instance' is false."
+  description = "The GUID of the Key Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
   type        = string
   default     = null
 }
 
-variable "key_protect_tags" {
-  description = "Optional list of tags to be added to Key Protect instance. Only used if 'var.create_key_protect_instance' is true."
-  type        = list(string)
-  default     = []
-}
-
-variable "create_key_protect_key" {
-  description = "Set as true to create a new Key Protect Key. This key is used to encrypt the COS Bucket"
+variable "encryption_enabled" {
+  description = "Set as true to use Key Protect encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true)."
   type        = bool
   default     = true
-}
-
-variable "cos_key_ring_name" {
-  description = "The name of a new Key Ring to create in the Key Protect instance. The Key name specified in var.cos_key_name will be created in this Key Ring."
-  type        = string
-  default     = "cos-key-ring"
-}
-
-variable "existing_cos_key_ring_name" {
-  description = "The name of an existing Key Ring in which to create the new Key specified in var.cos_key_name"
-  type        = string
-  default     = null
-}
-
-variable "cos_key_name" {
-  description = "The name of the Key Protect Key to create. This key will be used to encrypt the data in the COS Bucket, and will be created in the specified Key Ring passed to this module using either var.cos_key_ring_name or var.existing_cos_key_ring_name."
-  type        = string
-  default     = "cos-key"
 }
 
 variable "key_protect_key_crn" {
-  description = "CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket"
+  description = "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true."
   type        = string
   default     = null
 }

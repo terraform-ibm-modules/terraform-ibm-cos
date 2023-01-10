@@ -12,63 +12,19 @@ locals {
   retention_enabled         = var.retention_enabled ? [1] : []
   object_versioning_enabled = var.object_versioning_enabled ? [1] : []
 
-  # ensure if create_cos_bucket = true, then bucket_name is provided
-  bucket_validate_condition = (var.create_cos_bucket && var.bucket_name == null)
-  bucket_validate_msg       = "If create_cos_bucket is true, then provide value for bucket_name"
+  # input variable validation
   # tflint-ignore: terraform_unused_declarations
-  bucket_validate_check = regex("^${local.bucket_validate_msg}$", (!local.bucket_validate_condition ? local.bucket_validate_msg : ""))
-
-  # ensure if create_cos_instance = true, then cos_instance_name is provided
-  cos_validate_condition = (var.create_cos_instance && var.cos_instance_name == null)
-  cos_validate_msg       = "If create_cos_instance is true, then provide value for cos_instance_name"
+  validate_encryption_inputs = !var.create_cos_instance && !var.create_cos_bucket ? tobool("var.create_cos_instance and var.create_cos_bucket cannot be both set to false") : true
   # tflint-ignore: terraform_unused_declarations
-  cos_validate_check = regex("^${local.cos_validate_msg}$", (!local.cos_validate_condition ? local.cos_validate_msg : ""))
-
-  # ensure if create_cos_instance = false, then existing_cos_instance_id is provided
-  cos_id_validate_condition = (!var.create_cos_instance && var.existing_cos_instance_id == null)
-  cos_id_validate_msg       = "If create_cos_instance is false, then provide the existing_cos_instance_id to create buckets"
+  validate_key_inputs = var.create_cos_bucket && var.encryption_enabled && var.key_protect_key_crn == null ? tobool("A value must be passed for var.key_protect_key_crn when both var.create_cos_bucket and var.encryption_enabled are true") : true
   # tflint-ignore: terraform_unused_declarations
-  cos_id_validate_check = regex("^${local.cos_id_validate_msg}$", (!local.cos_id_validate_condition ? local.cos_id_validate_msg : ""))
-
-  # only allow var.create_key_protect_key or var.key_protect_key_crn to be passed
-  kp_key_validate_condition = var.encryption_enabled && ((var.create_key_protect_key && var.key_protect_key_crn != null) || (!var.create_key_protect_key && var.key_protect_key_crn == null))
-  kp_key_validate_msg       = "Value for 'create_key_protect_key' cannot be true if 'key_protect_key_crn' is not null"
+  validate_bucket_inputs = var.create_cos_bucket && var.bucket_name == null ? tobool("If var.create_cos_bucket is true, then provide value for var.bucket_name") : true
   # tflint-ignore: terraform_unused_declarations
-  kp_key_validate_check = regex("^${local.kp_key_validate_msg}$", (!local.kp_key_validate_condition ? local.kp_key_validate_msg : ""))
-
-  # ensure if key_protect_key_crn is passed then create_key_protect_instance is false
-  kp_key_instance_validate_condition = var.encryption_enabled && (var.key_protect_key_crn != null && var.create_key_protect_instance)
-  kp_key_instance_validate_msg       = "Value for 'key_protect_key_crn' must be null if instance is created by the module"
+  validate_cos_inputs = var.create_cos_instance && var.cos_instance_name == null ? tobool("If var.create_cos_instance is true, then provide value for var.cos_instance_name") : true
   # tflint-ignore: terraform_unused_declarations
-  kp_key_instance_validate_check = regex("^${local.kp_key_instance_validate_msg}$", (!local.kp_key_instance_validate_condition ? local.kp_key_instance_validate_msg : ""))
-
-  # when encryption enabled and creating a new key, ensure a value is passed for either 'var.cos_key_ring_name' or 'var.existing_cos_key_ring_name', but not both
-  key_ring_validate_condition = (var.create_key_protect_key && var.encryption_enabled) && ((var.cos_key_ring_name == null && var.existing_cos_key_ring_name == null) || (var.cos_key_ring_name != null && var.existing_cos_key_ring_name != null))
-  key_ring_validate_msg       = "When enabling encryption and 'var.create_key_protect_key' is true, a value must be passed for either 'var.cos_key_ring_name' or 'var.existing_cos_key_ring_name', but not both."
+  validate_cos_id_input = !var.create_cos_instance && var.existing_cos_instance_id == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets") : true
   # tflint-ignore: terraform_unused_declarations
-  key_ring_validate_check = regex("^${local.key_ring_validate_msg}$", (!local.key_ring_validate_condition ? local.key_ring_validate_msg : ""))
-
-  key_map          = var.cos_key_ring_name != null ? tomap({ (var.cos_key_ring_name) : tolist([var.cos_key_name]) }) : {}
-  existing_key_map = var.existing_cos_key_ring_name != null ? tomap({ (var.existing_cos_key_ring_name) : tolist([var.cos_key_name]) }) : {}
-
-  key_ring_name = var.cos_key_ring_name != null ? var.cos_key_ring_name : var.existing_cos_key_ring_name
-  key_crn       = (var.encryption_enabled && var.create_key_protect_key) ? module.kp_all_inclusive[0].keys["${local.key_ring_name}.${var.cos_key_name}"].crn : var.key_protect_key_crn
-}
-
-# Module to create key protect instance or create keys if key protect instance is provided.
-# This module will be executed if encryption_enabled is set to true
-module "kp_all_inclusive" {
-  count                              = (var.encryption_enabled && var.create_key_protect_key) ? 1 : 0
-  source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.0.2"
-  resource_group_id                  = var.resource_group_id
-  region                             = var.region
-  key_protect_instance_name          = var.key_protect_instance_name
-  enable_metrics                     = var.enable_key_protect_metrics
-  existing_key_protect_instance_guid = var.existing_key_protect_instance_guid
-  create_key_protect_instance        = var.create_key_protect_instance
-  key_map                            = local.key_map
-  existing_key_map                   = local.existing_key_map
-  resource_tags                      = var.key_protect_tags
+  validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.existing_key_protect_instance_guid == null ? tobool("A value must be passed for var.existing_key_protect_instance_guid when var.create_cos_instance and var.encryption_enabled is true.") : true
 }
 
 # Resource to create COS instance if create_cos_instance is true
@@ -84,7 +40,7 @@ resource "ibm_resource_instance" "cos_instance" {
 
 locals {
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
-  create_access_policy = var.encryption_enabled && var.create_key_protect_instance
+  create_access_policy = var.encryption_enabled && var.create_cos_instance
 }
 
 # Create IAM Access Policy to allow Key protect to access COS instance
@@ -93,7 +49,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_id
   target_service_name         = "kms"
-  target_resource_instance_id = module.kp_all_inclusive[0].key_protect_guid
+  target_resource_instance_id = var.existing_key_protect_instance_guid
   roles                       = ["Reader"]
 }
 
@@ -110,7 +66,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   resource_instance_id = local.cos_instance_id
   region_location      = var.region
   storage_class        = "standard"
-  key_protect          = local.key_crn
+  key_protect          = var.key_protect_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {

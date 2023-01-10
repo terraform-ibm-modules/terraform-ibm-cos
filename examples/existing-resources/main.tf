@@ -10,7 +10,7 @@ module "resource_group" {
 }
 
 ##############################################################################
-# Create Key Protect resources outside of terraform-ibm-cos module
+# Create Key Protect resources
 ##############################################################################
 
 locals {
@@ -31,25 +31,16 @@ module "key_protect_all_inclusive" {
 }
 
 ##############################################################################
-# Create COS instance outside of terraform-ibm-cos module
+# Create COS instance only
 ##############################################################################
 
-resource "ibm_resource_instance" "cos_instance" {
-  name              = "${var.prefix}-cos"
-  resource_group_id = module.resource_group.resource_group_id
-  service           = "cloud-object-storage"
-  plan              = "standard"
-  location          = "global"
-  tags              = var.resource_tags
-}
-
-# Create IAM Access Policy to allow Key protect to access COS instance
-resource "ibm_iam_authorization_policy" "policy" {
-  source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = ibm_resource_instance.cos_instance.id
-  target_service_name         = "kms"
-  target_resource_instance_id = module.key_protect_all_inclusive.key_protect_guid
-  roles                       = ["Reader"]
+module "cos_instance" {
+  source                             = "../../"
+  cos_instance_name                  = "${var.prefix}-cos"
+  create_cos_bucket                  = false
+  resource_group_id                  = module.resource_group.resource_group_id
+  existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
+  region                             = var.region
 }
 
 ##############################################################################
@@ -62,15 +53,13 @@ resource "ibm_iam_authorization_policy" "policy" {
 ##############################################################################
 
 module "cos" {
-  source                      = "../../"
-  existing_cos_instance_id    = ibm_resource_instance.cos_instance.id
-  create_key_protect_instance = false
-  create_cos_instance         = false
-  create_key_protect_key      = false
-  key_protect_key_crn         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  bucket_name                 = "${var.prefix}-bucket"
-  resource_group_id           = module.resource_group.resource_group_id
-  region                      = var.region
-  encryption_enabled          = true
-  retention_enabled           = false
+  source                   = "../../"
+  create_cos_instance      = false
+  existing_cos_instance_id = module.cos_instance.cos_instance_id
+  key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  bucket_name              = "${var.prefix}-bucket"
+  resource_group_id        = module.resource_group.resource_group_id
+  region                   = var.region
+  encryption_enabled       = true
+  retention_enabled        = false
 }

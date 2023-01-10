@@ -58,26 +58,6 @@
         "line": 26
       }
     },
-    "cos_key_name": {
-      "name": "cos_key_name",
-      "type": "string",
-      "description": "The name of the Key Protect Key to create. This key will be used to encrypt the data in the COS Bucket, and will be created in the specified Key Ring passed to this module using either var.cos_key_ring_name or var.existing_cos_key_ring_name.",
-      "default": "cos-key",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 216
-      }
-    },
-    "cos_key_ring_name": {
-      "name": "cos_key_ring_name",
-      "type": "string",
-      "description": "The name of a new Key Ring to create in the Key Protect instance. The Key name specified in var.cos_key_name will be created in this Key Ring.",
-      "default": "cos-key-ring",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 204
-      }
-    },
     "cos_location": {
       "name": "cos_location",
       "type": "string",
@@ -151,55 +131,18 @@
         "line": 20
       }
     },
-    "create_key_protect_instance": {
-      "name": "create_key_protect_instance",
+    "encryption_enabled": {
+      "name": "encryption_enabled",
       "type": "bool",
-      "description": "Set as true to create a new Key Protect instance. This instance will store the Key used to encrypt the data in the COS Bucket",
+      "description": "Set as true to use Key Protect encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
       "default": true,
       "source": [
-        "module.kp_all_inclusive.module.key_protect"
+        "ibm_cos_bucket.cos_bucket.count",
+        "ibm_cos_bucket.cos_bucket1.count"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 168
-      }
-    },
-    "create_key_protect_key": {
-      "name": "create_key_protect_key",
-      "type": "bool",
-      "description": "Set as true to create a new Key Protect Key. This key is used to encrypt the COS Bucket",
-      "default": true,
-      "pos": {
-        "filename": "variables.tf",
-        "line": 198
-      }
-    },
-    "enable_key_protect_metrics": {
-      "name": "enable_key_protect_metrics",
-      "type": "string",
-      "description": "Enable Key Protect metrics. Only used if if 'var.create_key_protect_instance' is true.",
-      "default": true,
-      "source": [
-        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.count"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 180
-      }
-    },
-    "encryption_enabled": {
-      "name": "encryption_enabled",
-      "type": "bool",
-      "description": "Set as true to use Key Protect encryption to encrypt data in COS bucket",
-      "default": true,
-      "source": [
-        "ibm_cos_bucket.cos_bucket.count",
-        "ibm_cos_bucket.cos_bucket1.count",
-        "module.kp_all_inclusive"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 162
       }
     },
     "existing_cos_instance_id": {
@@ -211,26 +154,19 @@
         "line": 54
       }
     },
-    "existing_cos_key_ring_name": {
-      "name": "existing_cos_key_ring_name",
-      "type": "string",
-      "description": "The name of an existing Key Ring in which to create the new Key specified in var.cos_key_name",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 210
-      }
-    },
     "existing_key_protect_instance_guid": {
       "name": "existing_key_protect_instance_guid",
       "type": "string",
-      "description": "The GUID of an existing Key Protect instance. Required if 'var.create_key_protect_instance' is false.",
+      "description": "The GUID of the Key Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance.",
       "source": [
-        "module.kp_all_inclusive"
+        "ibm_iam_authorization_policy.policy.target_resource_instance_id"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 186
-      }
+        "line": 162
+      },
+      "immutable": true,
+      "computed": true
     },
     "expire_days": {
       "name": "expire_days",
@@ -242,47 +178,18 @@
         "line": 140
       }
     },
-    "key_protect_instance_name": {
-      "name": "key_protect_instance_name",
+    "key_protect_key_crn": {
+      "name": "key_protect_key_crn",
       "type": "string",
-      "description": "The name to give the Key Protect instance that will be provisioned by this module. Required if 'var.create_key_protect_instance' is true",
-      "required": true,
+      "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
       "source": [
-        "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.name"
+        "ibm_cos_bucket.cos_bucket.key_protect"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 174
-      }
-    },
-    "key_protect_key_crn": {
-      "name": "key_protect_key_crn",
-      "type": "string",
-      "description": "CRN of the Key Protect Key to use if not creating a Key in this module, this Key Protect Key is used to encrypt the data in the COS Bucket",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 222
-      }
-    },
-    "key_protect_tags": {
-      "name": "key_protect_tags",
-      "type": "list(string)",
-      "description": "Optional list of tags to be added to Key Protect instance. Only used if 'var.create_key_protect_instance' is true.",
-      "default": [],
-      "source": [
-        "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.tags"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 192
       },
-      "min_length": 1,
-      "max_length": 128,
-      "matches": "^[A-Za-z0-9:_ .-]+$",
-      "computed": true,
-      "elem": {
-        "type": "TypeString"
-      }
+      "immutable": true
     },
     "object_versioning_enabled": {
       "name": "object_versioning_enabled",
@@ -299,22 +206,14 @@
       "type": "string",
       "description": "Region to provision COS bucket. Also used when creating Key Protect / Key Protect Keys for encryption. NOTE: If 'var.encryption_enabled' is true and an existing Key Protect instance is passed in using 'var.existing_key_protect_instance_guid', this must be the region of the existing Key Protect instance.",
       "default": "us-south",
-      "required": true,
       "source": [
         "ibm_cos_bucket.cos_bucket.region_location",
-        "ibm_cos_bucket.cos_bucket1.region_location",
-        "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.location",
-        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.create_path",
-        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.destroy_path",
-        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.path",
-        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.read_path",
-        "module.kp_all_inclusive.module.key_protect.restapi_object.enable_metrics.update_path"
+        "ibm_cos_bucket.cos_bucket1.region_location"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 10
       },
-      "cloud_data_type": "region",
       "immutable": true
     },
     "resource_group_id": {
@@ -323,8 +222,7 @@
       "description": "The resource group ID where resources will be provisioned.",
       "required": true,
       "source": [
-        "ibm_resource_instance.cos_instance.resource_group_id",
-        "module.kp_all_inclusive.module.key_protect.ibm_resource_instance.key_protect_instance.resource_group_id"
+        "ibm_resource_instance.cos_instance.resource_group_id"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -422,25 +320,18 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
-      }
-    },
-    "key_protect_instance_guid": {
-      "name": "key_protect_instance_guid",
-      "description": "The GUID of the Key Protect Instance where the Key to encrypt the COS Bucket is stored",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 29
+        "line": 34
       }
     },
     "key_protect_key_crn": {
       "name": "key_protect_key_crn",
-      "description": "The CRN of the Key Protect Key used to encrypt the COS Bucket",
-      "value": "local.key_crn",
+      "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
+      "value": "var.key_protect_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 34
-      }
+        "line": 29
+      },
+      "type": "string"
     },
     "resource_group_id": {
       "name": "resource_group_id",
@@ -484,12 +375,6 @@
       "version_constraints": [
         "\u003e= 1.49.0"
       ]
-    },
-    "restapi": {
-      "source": "Mastercard/restapi",
-      "version_constraints": [
-        "\u003e= 1.18.0"
-      ]
     }
   },
   "managed_resources": {
@@ -500,6 +385,7 @@
       "attributes": {
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
+        "key_protect": "key_protect_key_crn",
         "region_location": "region"
       },
       "provider": {
@@ -507,7 +393,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 106
+        "line": 62
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -524,19 +410,22 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 180
+        "line": 136
       }
     },
     "ibm_iam_authorization_policy.policy": {
       "mode": "managed",
       "type": "ibm_iam_authorization_policy",
       "name": "policy",
+      "attributes": {
+        "target_resource_instance_id": "existing_key_protect_instance_guid"
+      },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 91
+        "line": 47
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -556,77 +445,10 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 75
+        "line": 31
       }
     }
   },
   "data_resources": {},
-  "module_calls": {
-    "kp_all_inclusive": {
-      "name": "kp_all_inclusive",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.0.2",
-      "attributes": {
-        "count": "encryption_enabled",
-        "create_key_protect_instance": "create_key_protect_instance",
-        "enable_metrics": "enable_key_protect_metrics",
-        "existing_key_protect_instance_guid": "existing_key_protect_instance_guid",
-        "key_protect_instance_name": "key_protect_instance_name",
-        "region": "region",
-        "resource_group_id": "resource_group_id",
-        "resource_tags": "key_protect_tags"
-      },
-      "managed_resources": {},
-      "data_resources": {},
-      "outputs": {
-        "existing_key_ring_keys": {
-          "name": "existing_key_ring_keys",
-          "description": "IDs of Keys created by the module in existing Key Rings",
-          "value": "module.existing_key_ring_keys",
-          "pos": {
-            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 25
-          }
-        },
-        "key_protect_guid": {
-          "name": "key_protect_guid",
-          "description": "Key Protect GUID",
-          "value": "local.key_protect_guid",
-          "pos": {
-            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 5
-          }
-        },
-        "key_protect_name": {
-          "name": "key_protect_name",
-          "description": "Key Protect Name",
-          "pos": {
-            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 10
-          }
-        },
-        "key_rings": {
-          "name": "key_rings",
-          "description": "IDs of new Key Rings created by the module",
-          "value": "module.key_protect_key_rings",
-          "pos": {
-            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 15
-          }
-        },
-        "keys": {
-          "name": "keys",
-          "description": "IDs of new Keys created by the module",
-          "value": "module.key_protect_keys",
-          "pos": {
-            "filename": ".terraform/modules/kp_all_inclusive/outputs.tf",
-            "line": 20
-          }
-        }
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 60
-      }
-    }
-  }
+  "module_calls": {}
 }
