@@ -29,16 +29,15 @@ provider "ibm" {
 # - COS bucket with retention, encryption, monitoring and activity tracking
 module "cos_module" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
-  resource_group_id         = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region                    = "us-south"
-  cos_instance_name         = "my-cos-instance"
-  bucket_name               = "my-cos-bucket"
-  key_protect_instance_name = "my-key-protect-instance"
-  cos_key_ring_name         = "cos-key-ring"
-  cos_key_name              = "cos-key"
-  sysdig_crn                = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  activity_tracker_crn      = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
+  resource_group_id                  = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                             = "us-south"
+  cos_instance_name                  = "my-cos-instance"
+  bucket_name                        = "my-cos-bucket"
+  existing_key_protect_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
+  key_protect_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+  sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
 }
 
 # Creates additional bucket in instance created above:
@@ -50,11 +49,8 @@ module "additional_cos_bucket" {
   region                             = "us-south"
   sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  create_cos_instance                = false
-  create_key_protect_key             = false
-  create_key_protect_instance        = false
   existing_cos_instance_id           = module.cos_module.cos_instance_id
-  key_protect_key_crn                = module.cos_module.key_protect_key_crn
+  key_protect_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
 }
 ```
 

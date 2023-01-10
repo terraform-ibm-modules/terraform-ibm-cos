@@ -35,20 +35,12 @@ module "key_protect_all_inclusive" {
 ##############################################################################
 
 module "cos_instance" {
-  source            = "../../"
-  cos_instance_name = "${var.prefix}-cos"
-  create_cos_bucket = false
-  resource_group_id = module.resource_group.resource_group_id
-  region            = var.region
-}
-
-# Create IAM Access Policy to allow Key protect to access COS instance
-resource "ibm_iam_authorization_policy" "policy" {
-  source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = module.cos_instance.cos_instance_id
-  target_service_name         = "kms"
-  target_resource_instance_id = module.key_protect_all_inclusive.key_protect_guid
-  roles                       = ["Reader"]
+  source                             = "../../"
+  cos_instance_name                  = "${var.prefix}-cos"
+  create_cos_bucket                  = false
+  resource_group_id                  = module.resource_group.resource_group_id
+  existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
+  region                             = var.region
 }
 
 ##############################################################################
@@ -62,6 +54,7 @@ resource "ibm_iam_authorization_policy" "policy" {
 
 module "cos" {
   source                   = "../../"
+  create_cos_instance      = false
   existing_cos_instance_id = module.cos_instance.cos_instance_id
   key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_name              = "${var.prefix}-bucket"
