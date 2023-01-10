@@ -30,6 +30,27 @@ module "observability_instances" {
   sysdig_tags                    = var.resource_tags
 }
 
+##############################################################################
+# Create Key Protect resources
+##############################################################################
+
+locals {
+  key_ring_name = "cos-key-ring"
+  key_name      = "cos-key"
+}
+
+module "key_protect_all_inclusive" {
+  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.0.2"
+  key_protect_instance_name = "${var.prefix}-kp"
+  resource_group_id         = module.resource_group.resource_group_id
+  enable_metrics            = false
+  region                    = var.region
+  key_map = {
+    (local.key_ring_name) = [local.key_name]
+  }
+  resource_tags = var.resource_tags
+}
+
 # Create COS instance and Key protect instance.
 # Create COS bucket-1 with:
 # - Retention
@@ -37,18 +58,16 @@ module "observability_instances" {
 # - Monitoring
 # - Activity Tracking
 module "cos_bucket1" {
-  source                    = "../../"
-  resource_group_id         = module.resource_group.resource_group_id
-  region                    = var.region
-  cos_instance_name         = "${var.prefix}-cos"
-  cos_tags                  = var.resource_tags
-  bucket_name               = "${var.prefix}-bucket-1"
-  key_protect_instance_name = "${var.prefix}-kp"
-  key_protect_tags          = var.resource_tags
-  cos_key_ring_name         = "cos-key-ring"
-  cos_key_name              = "cos-key"
-  sysdig_crn                = module.observability_instances.sysdig_crn
-  activity_tracker_crn      = module.observability_instances.activity_tracker_crn
+  source                             = "../../"
+  resource_group_id                  = module.resource_group.resource_group_id
+  region                             = var.region
+  cos_instance_name                  = "${var.prefix}-cos"
+  cos_tags                           = var.resource_tags
+  bucket_name                        = "${var.prefix}-bucket-1"
+  existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
+  key_protect_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  sysdig_crn                         = module.observability_instances.sysdig_crn
+  activity_tracker_crn               = module.observability_instances.activity_tracker_crn
 }
 
 # We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
@@ -58,16 +77,13 @@ module "cos_bucket1" {
 # - Monitoring
 # - Activity Tracking
 module "cos_bucket2" {
-  source                             = "../../"
-  bucket_name                        = "${var.prefix}-bucket-2"
-  resource_group_id                  = module.resource_group.resource_group_id
-  region                             = var.region
-  existing_key_protect_instance_guid = module.cos_bucket1.key_protect_instance_guid
-  sysdig_crn                         = module.observability_instances.sysdig_crn
-  activity_tracker_crn               = module.observability_instances.activity_tracker_crn
-  create_cos_instance                = false
-  create_key_protect_key             = false
-  create_key_protect_instance        = false
-  existing_cos_instance_id           = module.cos_bucket1.cos_instance_id
-  key_protect_key_crn                = module.cos_bucket1.key_protect_key_crn
+  source                   = "../../"
+  bucket_name              = "${var.prefix}-bucket-2"
+  resource_group_id        = module.resource_group.resource_group_id
+  region                   = var.region
+  sysdig_crn               = module.observability_instances.sysdig_crn
+  activity_tracker_crn     = module.observability_instances.activity_tracker_crn
+  create_cos_instance      = false
+  existing_cos_instance_id = module.cos_bucket1.cos_instance_id
+  key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
 }

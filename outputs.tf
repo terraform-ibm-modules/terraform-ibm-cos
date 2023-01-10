@@ -26,14 +26,9 @@ output "bucket_name" {
   value       = local.bucket_name
 }
 
-output "key_protect_instance_guid" {
-  description = "The GUID of the Key Protect Instance where the Key to encrypt the COS Bucket is stored"
-  value       = (var.encryption_enabled && var.create_key_protect_key) ? module.kp_all_inclusive[0].key_protect_guid : null
-}
-
 output "key_protect_key_crn" {
   description = "The CRN of the Key Protect Key used to encrypt the COS Bucket"
-  value       = local.key_crn
+  value       = var.key_protect_key_crn
 }
 
 output "cos_instance_id" {
