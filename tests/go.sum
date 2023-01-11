@@ -47,8 +47,8 @@ github.com/IBM-Cloud/power-go-client v1.2.2 h1:VNlzizoG2x06c3nL1ZBILF701QcvXcu6n
 github.com/IBM-Cloud/power-go-client v1.2.2/go.mod h1:Qfx0fNi+9hms+xu9Z6Euhu9088ByW6C/TCMLECTRWNE=
 github.com/IBM/go-sdk-core/v5 v5.9.2/go.mod h1:YlOwV9LeuclmT/qi/LAK2AsobbAP42veV0j68/rlZsE=
 github.com/IBM/go-sdk-core/v5 v5.10.2/go.mod h1:WZPFasUzsKab/2mzt29xPcfruSk5js2ywAPwW4VJjdI=
-github.com/IBM/go-sdk-core/v5 v5.11.0 h1:fhCZzj9QCUwxBdtsEUeavPybOJtyBDwmQHphIoTl36I=
-github.com/IBM/go-sdk-core/v5 v5.11.0/go.mod h1:WZPFasUzsKab/2mzt29xPcfruSk5js2ywAPwW4VJjdI=
+github.com/IBM/go-sdk-core/v5 v5.12.0 h1:S7sSYQUe0f/xLh87ubwoXWQeUmRCwDNUv3qB4LMC0SI=
+github.com/IBM/go-sdk-core/v5 v5.12.0/go.mod h1:WZPFasUzsKab/2mzt29xPcfruSk5js2ywAPwW4VJjdI=
 github.com/IBM/platform-services-go-sdk v0.31.2 h1:h4f19gZpx1sCZtShLvxss9Wvorti0qK8dCNe9w5aJ9A=
 github.com/IBM/platform-services-go-sdk v0.31.2/go.mod h1:jy0Ahvj5Gkkua3Gd7t22bo0GfmHRQaPZcaqwfVgEY7k=
 github.com/IBM/vpc-go-sdk v1.0.2 h1:WhI1Cb8atA8glUdFg0SEUh9u8afjnKHxZAj9onQBi04=
@@ -537,8 +537,8 @@ github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=
 github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.3.2 h1:UN4eNXyDjBxcYDsQXw7Q7E8sdws6fL1m+AgswkPhg7I=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.3.2/go.mod h1:W5ghRVmrD04WXyuPA5BtrJbXM950ebr6KnFRDM6NdSU=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.3.4 h1:S8IClxChCviUrgWgVf0/ZwATsIovU5XjyGXvZSiOzmo=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.3.4/go.mod h1:6o2TIvGhM+1RAHB8IRYjv0tLG7ukH/br0O21MYOCSAs=
 github.com/tidwall/pretty v1.0.0 h1:HsD+QiTn7sK6flMKIvNmpqz1qrpP3Ps6jOKIKMooyg4=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tmccombs/hcl2json v0.3.3 h1:+DLNYqpWE0CsOQiEZu+OZm5ZBImake3wtITYxQ8uLFQ=
