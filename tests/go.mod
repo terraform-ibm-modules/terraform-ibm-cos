@@ -4,13 +4,13 @@ go 1.19
 
 require (
 	github.com/stretchr/testify v1.8.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.3.4
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.3.5
 )
 
 require (
 	cloud.google.com/go v0.83.0 // indirect
 	cloud.google.com/go/storage v1.10.0 // indirect
-	github.com/IBM-Cloud/bluemix-go v0.0.0-20221026143540-4d6050d2dbc5 // indirect
+	github.com/IBM-Cloud/bluemix-go v0.0.0-20230111122142-28d386bfaaf5 // indirect
 	github.com/IBM-Cloud/power-go-client v1.2.2 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.12.0 // indirect
 	github.com/IBM/platform-services-go-sdk v0.31.2 // indirect
