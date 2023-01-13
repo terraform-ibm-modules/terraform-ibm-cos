@@ -12,7 +12,5 @@ versions:
     providers:
       - name: ibm
         source: "ibm-cloud/ibm"
-      - name: restapi
-        source: "Mastercard/restapi"
     dependencies: []
     variables: []
