@@ -12,5 +12,13 @@ versions:
     providers:
       - name: ibm
         source: "ibm-cloud/ibm"
-    dependencies: []
-    variables: []
+    dependencies:
+      - id: resource-group
+        refs:
+          - source: github.com/terraform-ibm-modules/terraform-ibm-toolkit-resource-group
+            version: "v3.3.5"
+    variables:
+      - name: resource_group_id
+        moduleRef:
+          id: resource-group
+          output: id
