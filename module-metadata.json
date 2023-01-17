@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 146
+        "line": 156
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 124
+        "line": 134
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 130
+        "line": 140
       }
     },
     "bucket_name": {
@@ -41,7 +41,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 70
+        "line": 80
       },
       "immutable": true
     },
@@ -115,7 +115,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 64
+        "line": 74
       }
     },
     "create_cos_instance": {
@@ -142,7 +142,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 168
+        "line": 178
       }
     },
     "existing_cos_instance_id": {
@@ -163,7 +163,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 162
+        "line": 172
       },
       "immutable": true,
       "computed": true
@@ -175,7 +175,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 140
+        "line": 150
       }
     },
     "key_protect_key_crn": {
@@ -187,7 +187,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 174
+        "line": 184
       },
       "immutable": true
     },
@@ -198,7 +198,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 118
+        "line": 128
       }
     },
     "region": {
@@ -242,7 +242,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 82
+        "line": 92
       }
     },
     "retention_enabled": {
@@ -252,7 +252,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 76
+        "line": 86
       }
     },
     "retention_maximum": {
@@ -262,7 +262,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 92
+        "line": 102
       }
     },
     "retention_minimum": {
@@ -272,7 +272,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 102
+        "line": 112
       }
     },
     "retention_permanent": {
@@ -282,8 +282,22 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 112
+        "line": 122
       }
+    },
+    "service_endpoints_type": {
+      "name": "service_endpoints_type",
+      "type": "string",
+      "description": "The type of the service endpoint that can be set for the cloud object storage instance (Optional).",
+      "default": "public-and-private",
+      "source": [
+        "ibm_resource_instance.cos_instance.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 60
+      },
+      "computed": true
     },
     "sysdig_crn": {
       "name": "sysdig_crn",
@@ -291,7 +305,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 152
+        "line": 162
       }
     }
   },
@@ -393,7 +407,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 62
+        "line": 63
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -410,7 +424,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 136
+        "line": 137
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -425,7 +439,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 47
+        "line": 48
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -438,6 +452,7 @@
         "name": "cos_instance_name",
         "plan": "cos_plan",
         "resource_group_id": "resource_group_id",
+        "service_endpoints": "service_endpoints_type",
         "tags": "cos_tags"
       },
       "provider": {

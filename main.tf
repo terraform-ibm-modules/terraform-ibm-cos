@@ -36,6 +36,7 @@ resource "ibm_resource_instance" "cos_instance" {
   plan              = var.cos_plan
   location          = var.cos_location
   tags              = var.cos_tags
+  service_endpoints = var.service_endpoints_type
 }
 
 locals {
