@@ -288,7 +288,7 @@
     "service_endpoints_type": {
       "name": "service_endpoints_type",
       "type": "string",
-      "description": "The type of the service endpoint that can be set for the cloud object storage instance (Optional).",
+      "description": "The type of the service endpoint that can be set for the cloud object storage instance.",
       "default": "public-and-private",
       "source": [
         "ibm_resource_instance.cos_instance.service_endpoints"

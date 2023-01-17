@@ -58,7 +58,7 @@ variable "existing_cos_instance_id" {
 }
 
 variable "service_endpoints_type" {
-  description = "The type of the service endpoint that can be set for the cloud object storage instance (Optional)."
+  description = "The type of the service endpoint that can be set for the cloud object storage instance."
   type        = string
   default     = "public-and-private"
   validation {
