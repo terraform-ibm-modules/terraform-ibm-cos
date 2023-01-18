@@ -285,8 +285,8 @@
         "line": 122
       }
     },
-    "service_endpoints_type": {
-      "name": "service_endpoints_type",
+    "service_endpoints": {
+      "name": "service_endpoints",
       "type": "string",
       "description": "The type of the service endpoint that can be set for the cloud object storage instance.",
       "default": "public-and-private",
@@ -452,7 +452,7 @@
         "name": "cos_instance_name",
         "plan": "cos_plan",
         "resource_group_id": "resource_group_id",
-        "service_endpoints": "service_endpoints_type",
+        "service_endpoints": "service_endpoints",
         "tags": "cos_tags"
       },
       "provider": {
