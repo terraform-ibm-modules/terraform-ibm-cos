@@ -57,6 +57,16 @@ variable "existing_cos_instance_id" {
   default     = null
 }
 
+variable "service_endpoints" {
+  description = "The type of the service endpoint that can be set for the cloud object storage instance."
+  type        = string
+  default     = "public-and-private"
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.service_endpoints)
+    error_message = "The specified service_endpoints is not a valid selection!"
+  }
+}
+
 ##############################################################################
 # COS bucket variables
 ##############################################################################
