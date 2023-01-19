@@ -23,6 +23,24 @@ variable "create_cos_instance" {
   default     = true
 }
 
+variable "create_hmac_key" {
+  description = "Set as true to create a new HMAC key for the Cloud Object Storage instance."
+  type        = bool
+  default     = true
+}
+
+variable "hmac_key_name" {
+  description = "Set as true to create a new HMAC key for the Cloud Object Storage instance."
+  type        = string
+  default     = "my-key"
+}
+
+variable "hmac_key_role" {
+  description = "Set as true to create a new HMAC key for the Cloud Object Storage instance."
+  type        = string
+  default     = "Manager"
+}
+
 variable "cos_instance_name" {
   description = "The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create_cos_instance' is true."
   type        = string
