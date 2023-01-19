@@ -30,13 +30,13 @@ variable "create_hmac_key" {
 }
 
 variable "hmac_key_name" {
-  description = "Set as true to create a new HMAC key for the Cloud Object Storage instance."
+  description = "The name of the hmac key to be created."
   type        = string
-  default     = "my-key"
+  default     = "hmac-cos-key"
 }
 
 variable "hmac_key_role" {
-  description = "Set as true to create a new HMAC key for the Cloud Object Storage instance."
+  description = "The role you want to be associated with your new hmac key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'."
   type        = string
   default     = "Manager"
 }

@@ -194,8 +194,8 @@
     "hmac_key_name": {
       "name": "hmac_key_name",
       "type": "string",
-      "description": "Set as true to create a new HMAC key for the Cloud Object Storage instance.",
-      "default": "my-key",
+      "description": "The name of the hmac key to be created.",
+      "default": "hmac-cos-key",
       "required": true,
       "source": [
         "ibm_resource_key.resource_key.name"
@@ -209,7 +209,7 @@
     "hmac_key_role": {
       "name": "hmac_key_role",
       "type": "string",
-      "description": "Set as true to create a new HMAC key for the Cloud Object Storage instance.",
+      "description": "The role you want to be associated with your new hmac key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'.",
       "default": "Manager",
       "source": [
         "ibm_resource_key.resource_key.role"
