@@ -1,0 +1,24 @@
+{
+    "scc_goals": [
+        {
+            "scc_goal_id": "3000031",
+            "description": "Check whether Identity and Access Management (IAM) is enabled with audit logging",
+            "is_valid": true
+        },
+        {
+            "scc_goal_id": "3000301",
+            "description": "Check whether IBM Activity Tracker is provisioned in multiple regions in an account",
+            "is_valid": true
+        },
+        {
+            "scc_goal_id": "3000107",
+            "description": "Check whether Cloud Object Storage network access is restricted to a specific IP range",
+            "is_valid": true
+        },
+        {
+            "scc_goal_id": "3000116",
+            "description": "Check whether Cloud Object Storage bucket resiliency is set to cross region",
+            "is_valid": true
+        }
+    ]
+}
