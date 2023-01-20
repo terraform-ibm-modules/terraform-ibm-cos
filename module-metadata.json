@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 156
+        "line": 174
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 134
+        "line": 152
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 140
+        "line": 158
       }
     },
     "bucket_name": {
@@ -41,7 +41,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 80
+        "line": 98
       },
       "immutable": true
     },
@@ -55,7 +55,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 26
+        "line": 44
       }
     },
     "cos_location": {
@@ -69,7 +69,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 32
+        "line": 50
       },
       "cloud_data_type": "region",
       "immutable": true
@@ -85,7 +85,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 38
+        "line": 56
       }
     },
     "cos_tags": {
@@ -98,7 +98,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 48
+        "line": 66
       },
       "min_length": 1,
       "max_length": 128,
@@ -115,7 +115,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 74
+        "line": 92
       }
     },
     "create_cos_instance": {
@@ -131,6 +131,19 @@
         "line": 20
       }
     },
+    "create_hmac_key": {
+      "name": "create_hmac_key",
+      "type": "bool",
+      "description": "Set as true to create a new HMAC key for the Cloud Object Storage instance.",
+      "default": true,
+      "source": [
+        "ibm_resource_key.resource_key.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 26
+      }
+    },
     "encryption_enabled": {
       "name": "encryption_enabled",
       "type": "bool",
@@ -142,7 +155,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 178
+        "line": 196
       }
     },
     "existing_cos_instance_id": {
@@ -151,7 +164,7 @@
       "description": "The ID of an existing cloud object storage instance. Required if 'var.create_cos_instance' is false.",
       "pos": {
         "filename": "variables.tf",
-        "line": 54
+        "line": 72
       }
     },
     "existing_key_protect_instance_guid": {
@@ -163,7 +176,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 172
+        "line": 190
       },
       "immutable": true,
       "computed": true
@@ -175,8 +188,37 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 150
+        "line": 168
       }
+    },
+    "hmac_key_name": {
+      "name": "hmac_key_name",
+      "type": "string",
+      "description": "The name of the hmac key to be created.",
+      "default": "hmac-cos-key",
+      "required": true,
+      "source": [
+        "ibm_resource_key.resource_key.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 32
+      },
+      "immutable": true
+    },
+    "hmac_key_role": {
+      "name": "hmac_key_role",
+      "type": "string",
+      "description": "The role you want to be associated with your new hmac key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'.",
+      "default": "Manager",
+      "source": [
+        "ibm_resource_key.resource_key.role"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 38
+      },
+      "immutable": true
     },
     "key_protect_key_crn": {
       "name": "key_protect_key_crn",
@@ -187,7 +229,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 184
+        "line": 202
       },
       "immutable": true
     },
@@ -198,7 +240,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 128
+        "line": 146
       }
     },
     "region": {
@@ -242,7 +284,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 92
+        "line": 110
       }
     },
     "retention_enabled": {
@@ -252,7 +294,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 86
+        "line": 104
       }
     },
     "retention_maximum": {
@@ -262,7 +304,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 102
+        "line": 120
       }
     },
     "retention_minimum": {
@@ -272,7 +314,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 112
+        "line": 130
       }
     },
     "retention_permanent": {
@@ -282,7 +324,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 122
+        "line": 140
       }
     },
     "service_endpoints": {
@@ -295,7 +337,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 60
+        "line": 78
       },
       "computed": true
     },
@@ -305,7 +347,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 162
+        "line": 180
       }
     }
   },
@@ -407,7 +449,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 63
+        "line": 71
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -424,7 +466,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 137
+        "line": 145
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -439,7 +481,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 48
+        "line": 56
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -461,6 +503,23 @@
       "pos": {
         "filename": "main.tf",
         "line": 31
+      }
+    },
+    "ibm_resource_key.resource_key": {
+      "mode": "managed",
+      "type": "ibm_resource_key",
+      "name": "resource_key",
+      "attributes": {
+        "count": "create_hmac_key",
+        "name": "hmac_key_name",
+        "role": "hmac_key_role"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 42
       }
     }
   },

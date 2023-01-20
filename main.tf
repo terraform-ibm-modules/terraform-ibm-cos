@@ -39,6 +39,14 @@ resource "ibm_resource_instance" "cos_instance" {
   service_endpoints = var.service_endpoints
 }
 
+resource "ibm_resource_key" "resource_key" {
+  count                = var.create_hmac_key && var.create_cos_instance ? 1 : 0
+  name                 = var.hmac_key_name
+  resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
+  parameters           = { "HMAC" = true }
+  role                 = var.hmac_key_role
+}
+
 locals {
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   create_access_policy = var.encryption_enabled && var.create_cos_instance
