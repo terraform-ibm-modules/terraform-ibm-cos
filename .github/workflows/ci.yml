@@ -13,5 +13,8 @@ on:
 
 jobs:
   call-terraform-ci-pipeline:
-    uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-terraform-module-ci.yml@v1.6.0
+    uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-terraform-module-ci.yml@v1.7.0
     secrets: inherit
+    with:
+      craTarget: "examples/complete"
+      craGoalIgnoreFile: "cra-tf-validate-ignore-goals.json"
