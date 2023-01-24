@@ -2,10 +2,13 @@
 package test
 
 import (
+	"log"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
+	"gopkg.in/yaml.v2"
 )
 
 const completeExampleTerraformDir = "examples/complete"
@@ -14,9 +17,36 @@ const completeExistingTerraformDir = "examples/existing-resources"
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
 
+// Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
 const region = "us-south"
 
-const activityTrackerCrn = "crn:v1:bluemix:public:logdnaat:eu-de:a/abac0df06b644a9cabc6e44f55b3880e:b1ef3365-dfbf-4d8f-8ac8-75f4f84d6f4a::"
+// Define a struct with fields that match the structure of the YAML data
+const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+
+type Config struct {
+	activityTrackerCrn string `yaml:"activityTrackerFrankfurtCrn"`
+}
+
+var activityTrackerCrn string
+
+// TestMain will be run before any parallel tests, used to read data from yaml for use with tests
+func TestMain(m *testing.M) {
+	// Read the YAML file contents
+	data, err := os.ReadFile(yamlLocation)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Create a struct to hold the YAML data
+	var config Config
+	// Unmarshal the YAML data into the struct
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Parse the SM guid and region from data
+	activityTrackerCrn = config.activityTrackerCrn
+	os.Exit(m.Run())
+}
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
@@ -24,7 +54,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		TerraformDir:  dir,
 		Prefix:        prefix,
 		ResourceGroup: resourceGroup,
-		Region:        region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
+		Region:        region,
 		TerraformVars: map[string]interface{}{
 			"existing_at_instance_crn": activityTrackerCrn,
 		},
@@ -36,7 +66,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			TerraformDir:  dir,
 			Prefix:        prefix,
 			ResourceGroup: resourceGroup,
-			Region:        region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
+			Region:        region,
 		})
 	}
 	return options
