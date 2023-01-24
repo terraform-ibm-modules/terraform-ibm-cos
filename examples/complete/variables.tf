@@ -16,14 +16,32 @@ variable "resource_tags" {
   default     = []
 }
 
+# region needs to provide cross region support.
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "eu-gb"
+  default     = "us-south"
+}
+
+variable "cross_region_location" {
+  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'."
+  type        = string
+  default     = "us"
+
+  validation {
+    condition     = can(regex("us|eu|ap", var.cross_region_location))
+    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', or 'ap'."
+  }
 }
 
 variable "resource_group" {
   type        = string
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
+  default     = null
+}
+
+variable "existing_at_instance_crn" {
+  type        = string
+  description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
   default     = null
 }

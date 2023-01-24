@@ -2,8 +2,6 @@
 package test
 
 import (
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -16,26 +14,31 @@ const completeExistingTerraformDir = "examples/existing-resources"
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
 
-var sharedInfoSvc *cloudinfo.CloudInfoService
+const region = "us-south"
 
-// TestMain will be run before any parallel tests, used to set up a shared InfoService object to track region usage
-// for multiple tests
-func TestMain(m *testing.M) {
-	sharedInfoSvc, _ = cloudinfo.NewCloudInfoServiceFromEnv("TF_VAR_ibmcloud_api_key", cloudinfo.CloudInfoServiceOptions{})
-
-	os.Exit(m.Run())
-}
+const activityTrackerCrn = "crn:v1:bluemix:public:logdnaat:eu-de:a/abac0df06b644a9cabc6e44f55b3880e:b1ef3365-dfbf-4d8f-8ac8-75f4f84d6f4a::"
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:                       t,
-		TerraformDir:                  dir,
-		Prefix:                        prefix,
-		ResourceGroup:                 resourceGroup,
-		CloudInfoService:              sharedInfoSvc,
-		ExcludeActivityTrackerRegions: true,
+		Testing:       t,
+		TerraformDir:  dir,
+		Prefix:        prefix,
+		ResourceGroup: resourceGroup,
+		Region:        region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
+		TerraformVars: map[string]interface{}{
+			"existing_at_instance_crn": activityTrackerCrn,
+		},
 	})
-
+	// completeExistingTerraformDir does not implement any activity tracker functionality
+	if dir == completeExistingTerraformDir {
+		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+			Testing:       t,
+			TerraformDir:  dir,
+			Prefix:        prefix,
+			ResourceGroup: resourceGroup,
+			Region:        region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
+		})
+	}
 	return options
 }
 

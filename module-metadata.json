@@ -5,19 +5,20 @@
       "name": "activity_tracker_crn",
       "type": "string",
       "description": "Activity tracker crn for COS bucket (Optional)",
+      "required": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 174
+        "line": 185
       }
     },
     "archive_days": {
       "name": "archive_days",
       "type": "number",
-      "description": "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true.",
+      "description": "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true. This must be set to null when when using var.cross_region_location as archive data is not supported with this feature.",
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 152
+        "line": 163
       }
     },
     "archive_type": {
@@ -27,7 +28,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 158
+        "line": 169
       }
     },
     "bucket_name": {
@@ -41,7 +42,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 98
+        "line": 109
       },
       "immutable": true
     },
@@ -144,6 +145,21 @@
         "line": 26
       }
     },
+    "cross_region_location": {
+      "name": "cross_region_location",
+      "type": "string",
+      "description": "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'. If you pass a value for this, ensure to set the value of var.region to null.",
+      "source": [
+        "ibm_cos_bucket.cos_bucket.cross_region_location",
+        "ibm_cos_bucket.cos_bucket1.cross_region_location"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 98
+      },
+      "immutable": true,
+      "options": "us,eu,ap"
+    },
     "encryption_enabled": {
       "name": "encryption_enabled",
       "type": "bool",
@@ -155,7 +171,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 196
+        "line": 206
       }
     },
     "existing_cos_instance_id": {
@@ -176,7 +192,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 190
+        "line": 200
       },
       "immutable": true,
       "computed": true
@@ -188,7 +204,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 168
+        "line": 179
       }
     },
     "hmac_key_name": {
@@ -229,7 +245,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 202
+        "line": 212
       },
       "immutable": true
     },
@@ -240,13 +256,13 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 146
+        "line": 157
       }
     },
     "region": {
       "name": "region",
       "type": "string",
-      "description": "Region to provision COS bucket. Also used when creating Key Protect / Key Protect Keys for encryption. NOTE: If 'var.encryption_enabled' is true and an existing Key Protect instance is passed in using 'var.existing_key_protect_instance_guid', this must be the region of the existing Key Protect instance.",
+      "description": "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location.",
       "default": "us-south",
       "source": [
         "ibm_cos_bucket.cos_bucket.region_location",
@@ -284,7 +300,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 110
+        "line": 121
       }
     },
     "retention_enabled": {
@@ -294,7 +310,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 104
+        "line": 115
       }
     },
     "retention_maximum": {
@@ -304,7 +320,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 120
+        "line": 131
       }
     },
     "retention_minimum": {
@@ -314,7 +330,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 130
+        "line": 141
       }
     },
     "retention_permanent": {
@@ -324,7 +340,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 140
+        "line": 151
       }
     },
     "service_endpoints": {
@@ -347,7 +363,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 180
+        "line": 190
       }
     }
   },
@@ -441,6 +457,7 @@
       "attributes": {
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
+        "cross_region_location": "cross_region_location",
         "key_protect": "key_protect_key_crn",
         "region_location": "region"
       },
@@ -449,7 +466,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 71
+        "line": 76
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -459,6 +476,7 @@
       "attributes": {
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
+        "cross_region_location": "cross_region_location",
         "region_location": "region"
       },
       "provider": {
@@ -466,7 +484,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 145
+        "line": 150
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -481,7 +499,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 56
+        "line": 60
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -502,7 +520,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 31
+        "line": 35
       }
     },
     "ibm_resource_key.resource_key": {
@@ -519,7 +537,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 42
+        "line": 46
       }
     }
   },

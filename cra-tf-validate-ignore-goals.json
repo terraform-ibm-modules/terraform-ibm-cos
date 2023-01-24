@@ -1,24 +1,16 @@
 {
     "scc_goals": [
         {
-            "scc_goal_id": "3000031",
-            "description": "Check whether Identity and Access Management (IAM) is enabled with audit logging",
-            "is_valid": true
-        },
-        {
-            "scc_goal_id": "3000301",
-            "description": "Check whether IBM Activity Tracker is provisioned in multiple regions in an account",
-            "is_valid": true
-        },
-        {
             "scc_goal_id": "3000107",
             "description": "Check whether Cloud Object Storage network access is restricted to a specific IP range",
+            "ignore_reason": "Tracking in https://github.ibm.com/GoldenEye/issues/issues/3571",
             "is_valid": true
         },
         {
             "scc_goal_id": "3000116",
             "description": "Check whether Cloud Object Storage bucket resiliency is set to cross region",
-            "is_valid": true
+            "ignore_reason": "The module already supports cross region buckets, however the complete example will provision both regional and cross regional buckets, meaning CRA will always fail. When new FSCloud profile is added, and CRA is pointing to that, this goal should be removed from here.",
+            "is_valid": false
         }
     ]
 }
