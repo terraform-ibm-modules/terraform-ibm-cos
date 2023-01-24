@@ -30,6 +30,92 @@ module "key_protect_all_inclusive" {
   resource_tags = var.resource_tags
 }
 
+
+# ##############################################################################
+# # Get Cloud Account ID
+# ##############################################################################
+
+# data "ibm_iam_account_settings" "iam_account_settings" {
+# }
+
+# ##############################################################################
+# # CBR zone & rule creation
+# ##############################################################################
+
+# locals {
+#   ip_addresses = [
+#     for address in var.ip_address :
+#     {
+#       type  = "ipAddress"
+#       value = address
+#     }
+#   ]
+
+#   cos_address = [{
+#     type = "serviceRef" # to bind a service reference type should be 'serviceRef'
+#     ref = {
+#       account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
+#       service_name = "cloud-object-storage" # secrets manager service reference.
+#     }
+#   }]
+
+#   addresses = concat(local.ip_addresses, local.cos_address)
+
+#   zone = {
+#       name             = "${var.zone_name}"
+#       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+#       zone_description = var.zone_description
+#       addresses        = local.addresses
+#     }
+# }
+
+# module "cbr_zone" {
+#   source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.0.0"
+#   name             = local.zone.name
+#   zone_description = local.zone.zone_description
+#   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+#   addresses        = local.zone.addresses
+# }
+
+# locals {
+#   rule_contexts = [{
+#     attributes = [{
+#       name  = "networkZoneId"
+#       value = module.cbr_zone.zone_id
+#     }]
+#   }]
+
+#   pg_resource = [{
+#     attributes = [
+#       {
+#         name     = "accountId"
+#         value    = data.ibm_iam_account_settings.iam_account_settings.account_id
+#         operator = ""
+#       },
+#       {
+#         name     = "serviceName"
+#         value    = "cloud-object-storage"
+#         operator = ""
+#       }
+#     ],
+#     tags = [
+#       {
+#         name  = "terraform-rule"
+#         value = "allow-cos"
+#       }
+#     ]
+#   }]
+# }
+
+# module "cbr_rule" {
+#   source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.0.0"
+#   rule_description = var.rule_description
+#   enforcement_mode = var.enforcement_mode
+#   rule_contexts    = local.rule_contexts
+#   resources        = local.pg_resource
+#   operations       = []
+# }
+
 ##############################################################################
 # Create COS instance only
 ##############################################################################
