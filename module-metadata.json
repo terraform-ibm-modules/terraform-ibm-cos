@@ -109,6 +109,20 @@
         "type": "TypeString"
       }
     },
+    "create_cbr": {
+      "name": "create_cbr",
+      "type": "bool",
+      "description": "(Optional, Boolean) Set to true if cbr is to be created",
+      "default": false,
+      "source": [
+        "module.cbr_rule",
+        "module.cbr_zone"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 184
+      }
+    },
     "create_cos_bucket": {
       "name": "create_cos_bucket",
       "type": "bool",
@@ -173,6 +187,20 @@
         "filename": "variables.tf",
         "line": 206
       }
+    },
+    "enforcement_mode": {
+      "name": "enforcement_mode",
+      "type": "string",
+      "description": "(String) The rule enforcement mode",
+      "default": "enabled",
+      "source": [
+        "module.cbr_rule.ibm_cbr_rule.cbr_rule.enforcement_mode"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 196
+      },
+      "options": "disabled, enabled, report"
     },
     "existing_cos_instance_id": {
       "name": "existing_cos_instance_id",
@@ -365,6 +393,26 @@
         "filename": "variables.tf",
         "line": 190
       }
+    },
+    "zone_description": {
+      "name": "zone_description",
+      "type": "string",
+      "description": "(Optional, String) The description of the zone",
+      "default": "Zone from automation",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 208
+      }
+    },
+    "zone_name": {
+      "name": "zone_name",
+      "type": "string",
+      "description": "(String) The name of the zone",
+      "default": "zone1-terraform",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 202
+      }
     }
   },
   "outputs": {
@@ -541,6 +589,135 @@
       }
     }
   },
-  "data_resources": {},
-  "module_calls": {}
+  "data_resources": {
+    "data.ibm_iam_account_settings.iam_account_settings": {
+      "mode": "data",
+      "type": "ibm_iam_account_settings",
+      "name": "iam_account_settings",
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 5
+      }
+    }
+  },
+  "module_calls": {
+    "cbr_rule": {
+      "name": "cbr_rule",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.0.0",
+      "attributes": {
+        "count": "create_cbr",
+        "enforcement_mode": "enforcement_mode",
+        "rule_description": "rule_description"
+      },
+      "managed_resources": {
+        "ibm_cbr_rule.cbr_rule": {
+          "mode": "managed",
+          "type": "ibm_cbr_rule",
+          "name": "cbr_rule",
+          "attributes": {
+            "description": "rule_description",
+            "enforcement_mode": "enforcement_mode"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/cbr_rule/cbr-rule-module/main.tf",
+            "line": 13
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "rule_crn": {
+          "name": "rule_crn",
+          "description": "CBR rule resource instance crn",
+          "pos": {
+            "filename": ".terraform/modules/cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 10
+          }
+        },
+        "rule_href": {
+          "name": "rule_href",
+          "description": "CBR rule resource href",
+          "pos": {
+            "filename": ".terraform/modules/cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 15
+          }
+        },
+        "rule_id": {
+          "name": "rule_id",
+          "description": "CBR rule resource instance id",
+          "pos": {
+            "filename": ".terraform/modules/cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 5
+          }
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 78
+      }
+    },
+    "cbr_zone": {
+      "name": "cbr_zone",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.0.0",
+      "attributes": {
+        "count": "create_cbr"
+      },
+      "managed_resources": {
+        "ibm_cbr_zone.cbr_zone": {
+          "mode": "managed",
+          "type": "ibm_cbr_zone",
+          "name": "cbr_zone",
+          "attributes": {
+            "account_id": "account_id",
+            "description": "zone_description",
+            "name": "name"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/cbr_zone/cbr-zone-module/main.tf",
+            "line": 7
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "zone_crn": {
+          "name": "zone_crn",
+          "description": "CBR zone resource instance crn",
+          "pos": {
+            "filename": ".terraform/modules/cbr_zone/cbr-zone-module/outputs.tf",
+            "line": 10
+          }
+        },
+        "zone_href": {
+          "name": "zone_href",
+          "description": "CBR zone resource instance link",
+          "pos": {
+            "filename": ".terraform/modules/cbr_zone/cbr-zone-module/outputs.tf",
+            "line": 15
+          }
+        },
+        "zone_id": {
+          "name": "zone_id",
+          "description": "CBR zone resource instance id",
+          "pos": {
+            "filename": ".terraform/modules/cbr_zone/cbr-zone-module/outputs.tf",
+            "line": 5
+          }
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 39
+      }
+    }
+  }
 }

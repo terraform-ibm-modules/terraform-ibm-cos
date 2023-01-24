@@ -29,7 +29,7 @@ locals {
   addresses = concat(local.ip_addresses, local.cos_address)
 
   zone = {
-    name             = "${var.zone_name}"
+    name             = var.zone_name
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
     zone_description = var.zone_description
     addresses        = local.addresses
@@ -37,6 +37,7 @@ locals {
 }
 
 module "cbr_zone" {
+  count            = var.create_cbr == true ? 1 : 0
   source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.0.0"
   name             = local.zone.name
   zone_description = local.zone.zone_description
@@ -45,12 +46,12 @@ module "cbr_zone" {
 }
 
 locals {
-  rule_contexts = [{
+  rule_contexts = var.create_cbr != false ? [{
     attributes = [{
       name  = "networkZoneId"
-      value = module.cbr_zone.zone_id
+      value = module.cbr_zone[0].zone_id
     }]
-  }]
+  }] : null
 
   pg_resource = [{
     attributes = [
@@ -75,6 +76,7 @@ locals {
 }
 
 module "cbr_rule" {
+  count            = var.create_cbr == true ? 1 : 0
   source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.0.0"
   rule_description = var.rule_description
   enforcement_mode = var.enforcement_mode

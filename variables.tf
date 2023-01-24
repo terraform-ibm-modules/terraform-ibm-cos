@@ -219,6 +219,12 @@ variable "key_protect_key_crn" {
 # Context-based restriction variables
 ##############################################################
 
+variable "create_cbr" {
+  type        = bool
+  description = "(Optional, Boolean) Set to true if cbr is to be created"
+  default     = false
+}
+
 variable "rule_description" {
   type        = string
   description = "(Optional, String) The description of the rule"
