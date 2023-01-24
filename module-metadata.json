@@ -120,7 +120,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 184
+        "line": 222
       }
     },
     "create_cos_bucket": {
@@ -198,7 +198,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 196
+        "line": 234
       },
       "options": "disabled, enabled, report"
     },
@@ -263,6 +263,16 @@
         "line": 38
       },
       "immutable": true
+    },
+    "ip_address": {
+      "name": "ip_address",
+      "type": "list(string)",
+      "description": "(Optional, list(string)) of CBR ipaddresses",
+      "default": [],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 252
+      }
     },
     "key_protect_key_crn": {
       "name": "key_protect_key_crn",
@@ -371,6 +381,20 @@
         "line": 151
       }
     },
+    "rule_description": {
+      "name": "rule_description",
+      "type": "string",
+      "description": "(Optional, String) The description of the rule",
+      "source": [
+        "module.cbr_rule.ibm_cbr_rule.cbr_rule.description"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 228
+      },
+      "max_length": 300,
+      "matches": "^[\\x20-\\xFE]*$"
+    },
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
@@ -401,7 +425,7 @@
       "default": "Zone from automation",
       "pos": {
         "filename": "variables.tf",
-        "line": 208
+        "line": 246
       }
     },
     "zone_name": {
@@ -411,7 +435,7 @@
       "default": "zone1-terraform",
       "pos": {
         "filename": "variables.tf",
-        "line": 202
+        "line": 240
       }
     }
   },
@@ -514,7 +538,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 76
+        "line": 164
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -532,7 +556,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 150
+        "line": 238
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -547,7 +571,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 60
+        "line": 148
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -568,7 +592,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 35
+        "line": 123
       }
     },
     "ibm_resource_key.resource_key": {
@@ -585,7 +609,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 46
+        "line": 134
       }
     }
   },
