@@ -41,6 +41,8 @@ module "cos_instance" {
   resource_group_id                  = module.resource_group.resource_group_id
   existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
   region                             = var.region
+  cross_region_location              = null
+  activity_tracker_crn               = null
 }
 
 ##############################################################################
@@ -60,6 +62,8 @@ module "cos" {
   bucket_name              = "${var.prefix}-bucket"
   resource_group_id        = module.resource_group.resource_group_id
   region                   = var.region
+  cross_region_location    = null
   encryption_enabled       = true
   retention_enabled        = false
+  activity_tracker_crn     = null
 }

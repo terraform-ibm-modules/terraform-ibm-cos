@@ -25,6 +25,10 @@ locals {
   validate_cos_id_input = !var.create_cos_instance && var.existing_cos_instance_id == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets") : true
   # tflint-ignore: terraform_unused_declarations
   validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.existing_key_protect_instance_guid == null ? tobool("A value must be passed for var.existing_key_protect_instance_guid when var.create_cos_instance and var.encryption_enabled is true.") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.expire_days cannot be set.") : true
 }
 
 # Resource to create COS instance if create_cos_instance is true
@@ -68,14 +72,16 @@ resource "ibm_iam_authorization_policy" "policy" {
 # - Monitoring
 # - Activity Tracking
 # - Versioning
+
 resource "ibm_cos_bucket" "cos_bucket" {
-  count                = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  depends_on           = [ibm_iam_authorization_policy.policy]
-  bucket_name          = var.bucket_name
-  resource_instance_id = local.cos_instance_id
-  region_location      = var.region
-  storage_class        = "standard"
-  key_protect          = var.key_protect_key_crn
+  count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  depends_on            = [ibm_iam_authorization_policy.policy]
+  bucket_name           = var.bucket_name
+  resource_instance_id  = local.cos_instance_id
+  region_location       = var.region
+  cross_region_location = var.cross_region_location
+  storage_class         = "standard"
+  key_protect           = var.key_protect_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -141,13 +147,13 @@ resource "ibm_cos_bucket" "cos_bucket" {
 # - Activity Tracking
 # Create COS bucket without:
 # - Encryption
-
 resource "ibm_cos_bucket" "cos_bucket1" {
-  count                = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name          = var.bucket_name
-  resource_instance_id = local.cos_instance_id
-  region_location      = var.region
-  storage_class        = "standard"
+  count                 = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  bucket_name           = var.bucket_name
+  resource_instance_id  = local.cos_instance_id
+  region_location       = var.region
+  cross_region_location = var.cross_region_location
+  storage_class         = "standard"
   dynamic "retention_rule" {
     for_each = local.retention_enabled
     content {

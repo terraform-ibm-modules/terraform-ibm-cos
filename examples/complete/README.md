@@ -13,6 +13,7 @@ An end-to-end example that will:
   - Activity Tracking
 - Create COS bucket-2 with:
   - Retention
+  - Cross Region Location
   - Encryption
   - Monitoring
   - Activity Tracking

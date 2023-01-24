@@ -8,7 +8,7 @@ variable "resource_group_id" {
 }
 
 variable "region" {
-  description = "Region to provision COS bucket. Also used when creating Key Protect / Key Protect Keys for encryption. NOTE: If 'var.encryption_enabled' is true and an existing Key Protect instance is passed in using 'var.existing_key_protect_instance_guid', this must be the region of the existing Key Protect instance."
+  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location."
   type        = string
   default     = "us-south"
 }
@@ -95,6 +95,17 @@ variable "create_cos_bucket" {
   default     = true
 }
 
+variable "cross_region_location" {
+  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'. If you pass a value for this, ensure to set the value of var.region to null."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.cross_region_location == null || can(regex("us|eu|ap", var.cross_region_location))
+    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', 'ap', or 'null'."
+  }
+}
+
 variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
@@ -150,7 +161,7 @@ variable "object_versioning_enabled" {
 }
 
 variable "archive_days" {
-  description = "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true."
+  description = "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true. This must be set to null when when using var.cross_region_location as archive data is not supported with this feature."
   type        = number
   default     = 90
 }
@@ -174,7 +185,6 @@ variable "expire_days" {
 variable "activity_tracker_crn" {
   type        = string
   description = "Activity tracker crn for COS bucket (Optional)"
-  default     = null
 }
 
 variable "sysdig_crn" {
