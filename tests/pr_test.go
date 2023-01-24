@@ -4,8 +4,6 @@ package test
 import (
 	"testing"
 
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
@@ -20,16 +18,13 @@ const region = "us-south"
 
 const activityTrackerCrn = "crn:v1:bluemix:public:logdnaat:eu-de:a/abac0df06b644a9cabc6e44f55b3880e:b1ef3365-dfbf-4d8f-8ac8-75f4f84d6f4a::"
 
-var sharedInfoSvc *cloudinfo.CloudInfoService
-
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:          t,
-		TerraformDir:     dir,
-		Prefix:           prefix,
-		ResourceGroup:    resourceGroup,
-		Region:           region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
-		CloudInfoService: sharedInfoSvc,
+		Testing:       t,
+		TerraformDir:  dir,
+		Prefix:        prefix,
+		ResourceGroup: resourceGroup,
+		Region:        region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
 		TerraformVars: map[string]interface{}{
 			"existing_at_instance_crn": activityTrackerCrn,
 		},
@@ -37,12 +32,11 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 	// completeExistingTerraformDir does not implement any activity tracker functionality
 	if dir == completeExistingTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-			Testing:          t,
-			TerraformDir:     dir,
-			Prefix:           prefix,
-			ResourceGroup:    resourceGroup,
-			Region:           region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
-			CloudInfoService: sharedInfoSvc,
+			Testing:       t,
+			TerraformDir:  dir,
+			Prefix:        prefix,
+			ResourceGroup: resourceGroup,
+			Region:        region, // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
 		})
 	}
 	return options

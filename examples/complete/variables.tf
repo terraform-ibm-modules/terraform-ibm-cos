@@ -29,8 +29,8 @@ variable "cross_region_location" {
   default     = "us"
 
   validation {
-    condition     = var.cross_region_location == null || can(regex("us|eu|ap", var.cross_region_location))
-    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', 'ap', or 'null'."
+    condition     = can(regex("us|eu|ap", var.cross_region_location))
+    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', or 'ap'."
   }
 }
 
@@ -42,6 +42,6 @@ variable "resource_group" {
 
 variable "existing_at_instance_crn" {
   type        = string
-  description = "Activity tracker crn for COS bucket. Using permanent instance as region is hardcoded in tests/pr_test.go."
+  description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
   default     = null
 }
