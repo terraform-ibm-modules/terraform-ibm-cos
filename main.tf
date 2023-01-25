@@ -37,7 +37,7 @@ locals {
 }
 
 module "cbr_zone" {
-  count            = var.create_cbr == true ? 1 : 0
+  count            = length(var.ip_address) > 0 ? 1 : 0
   source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.0.0"
   name             = local.zone.name
   zone_description = local.zone.zone_description
@@ -46,7 +46,7 @@ module "cbr_zone" {
 }
 
 locals {
-  rule_contexts = var.create_cbr != false ? [{
+  rule_contexts = length(var.ip_address) > 0 ? [{
     attributes = [{
       name  = "networkZoneId"
       value = module.cbr_zone[0].zone_id
@@ -76,10 +76,10 @@ locals {
 }
 
 module "cbr_rule" {
-  count            = var.create_cbr == true ? 1 : 0
+  count            = length(var.ip_address) > 0 ? 1 : 0
   source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.0.0"
   rule_description = var.rule_description
-  enforcement_mode = var.enforcement_mode
+  enforcement_mode = var.allowlist_enforcement_mode
   rule_contexts    = local.rule_contexts
   resources        = local.pg_resource
   operations       = []

@@ -27,3 +27,21 @@ variable "resource_tags" {
   description = "Optional list of tags to be added to created resources"
   default     = []
 }
+
+variable "allowlist_enforcement_mode" {
+  type        = string
+  description = "(String) The rule enforcement mode"
+  default     = "report"
+}
+
+variable "ip_address_1" {
+  type        = list(string)
+  description = "(Optional, list(string)) of allowed ipaddresses"
+  default     = []
+}
+
+variable "ip_address_2" {
+  type        = list(string)
+  description = "(Optional, list(string)) of allowed ipaddresses"
+  default     = []
+}

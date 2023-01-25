@@ -11,6 +11,20 @@
         "line": 185
       }
     },
+    "allowlist_enforcement_mode": {
+      "name": "allowlist_enforcement_mode",
+      "type": "string",
+      "description": "(String) The rule enforcement mode",
+      "default": "report",
+      "source": [
+        "module.cbr_rule.ibm_cbr_rule.cbr_rule.enforcement_mode"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 228
+      },
+      "options": "disabled, enabled, report"
+    },
     "archive_days": {
       "name": "archive_days",
       "type": "number",
@@ -109,20 +123,6 @@
         "type": "TypeString"
       }
     },
-    "create_cbr": {
-      "name": "create_cbr",
-      "type": "bool",
-      "description": "(Optional, Boolean) Set to true if cbr is to be created",
-      "default": false,
-      "source": [
-        "module.cbr_rule",
-        "module.cbr_zone"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 222
-      }
-    },
     "create_cos_bucket": {
       "name": "create_cos_bucket",
       "type": "bool",
@@ -187,20 +187,6 @@
         "filename": "variables.tf",
         "line": 206
       }
-    },
-    "enforcement_mode": {
-      "name": "enforcement_mode",
-      "type": "string",
-      "description": "(String) The rule enforcement mode",
-      "default": "enabled",
-      "source": [
-        "module.cbr_rule.ibm_cbr_rule.cbr_rule.enforcement_mode"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 234
-      },
-      "options": "disabled, enabled, report"
     },
     "existing_cos_instance_id": {
       "name": "existing_cos_instance_id",
@@ -269,9 +255,13 @@
       "type": "list(string)",
       "description": "(Optional, list(string)) of CBR ipaddresses",
       "default": [],
+      "source": [
+        "module.cbr_rule",
+        "module.cbr_zone"
+      ],
       "pos": {
         "filename": "variables.tf",
-        "line": 252
+        "line": 246
       }
     },
     "key_protect_key_crn": {
@@ -390,7 +380,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 228
+        "line": 222
       },
       "max_length": 300,
       "matches": "^[\\x20-\\xFE]*$"
@@ -425,7 +415,7 @@
       "default": "Zone from automation",
       "pos": {
         "filename": "variables.tf",
-        "line": 246
+        "line": 240
       }
     },
     "zone_name": {
@@ -435,7 +425,7 @@
       "default": "zone1-terraform",
       "pos": {
         "filename": "variables.tf",
-        "line": 240
+        "line": 234
       }
     }
   },
@@ -632,8 +622,8 @@
       "name": "cbr_rule",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.0.0",
       "attributes": {
-        "count": "create_cbr",
-        "enforcement_mode": "enforcement_mode",
+        "count": "ip_address",
+        "enforcement_mode": "allowlist_enforcement_mode",
         "rule_description": "rule_description"
       },
       "managed_resources": {
@@ -690,7 +680,7 @@
       "name": "cbr_zone",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.0.0",
       "attributes": {
-        "count": "create_cbr"
+        "count": "ip_address"
       },
       "managed_resources": {
         "ibm_cbr_zone.cbr_zone": {

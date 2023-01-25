@@ -43,7 +43,9 @@ module "cos_instance" {
   region                             = var.region
   cross_region_location              = null
   activity_tracker_crn               = null
-  create_cbr                         = true
+  ip_address                         = var.ip_address_1
+  zone_name                          = "cos_zone1"
+  allowlist_enforcement_mode         = var.allowlist_enforcement_mode
 }
 
 ##############################################################################
@@ -56,15 +58,18 @@ module "cos_instance" {
 ##############################################################################
 
 module "cos" {
-  source                   = "../../"
-  create_cos_instance      = false
-  existing_cos_instance_id = module.cos_instance.cos_instance_id
-  key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  bucket_name              = "${var.prefix}-bucket"
-  resource_group_id        = module.resource_group.resource_group_id
-  region                   = var.region
-  cross_region_location    = null
-  encryption_enabled       = true
-  retention_enabled        = false
-  activity_tracker_crn     = null
+  source                     = "../../"
+  create_cos_instance        = false
+  existing_cos_instance_id   = module.cos_instance.cos_instance_id
+  key_protect_key_crn        = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  bucket_name                = "${var.prefix}-bucket"
+  resource_group_id          = module.resource_group.resource_group_id
+  region                     = var.region
+  cross_region_location      = null
+  encryption_enabled         = true
+  retention_enabled          = false
+  activity_tracker_crn       = null
+  ip_address                 = var.ip_address_2
+  zone_name                  = "cos_zone2"
+  allowlist_enforcement_mode = var.allowlist_enforcement_mode
 }

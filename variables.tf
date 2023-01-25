@@ -219,22 +219,16 @@ variable "key_protect_key_crn" {
 # Context-based restriction variables
 ##############################################################
 
-variable "create_cbr" {
-  type        = bool
-  description = "(Optional, Boolean) Set to true if cbr is to be created"
-  default     = false
-}
-
 variable "rule_description" {
   type        = string
   description = "(Optional, String) The description of the rule"
   default     = null
 }
 
-variable "enforcement_mode" {
+variable "allowlist_enforcement_mode" {
   type        = string
   description = "(String) The rule enforcement mode"
-  default     = "enabled"
+  default     = "report"
 }
 
 variable "zone_name" {

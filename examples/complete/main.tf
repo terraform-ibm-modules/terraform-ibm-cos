@@ -75,7 +75,6 @@ module "cos_bucket1" {
   key_protect_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                         = module.observability_instances.sysdig_crn
   activity_tracker_crn               = local.at_crn
-  create_cbr                         = true
 }
 
 # We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
