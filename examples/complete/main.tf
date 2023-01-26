@@ -20,7 +20,7 @@ locals {
 
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
-  source                         = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=v1.1.1"
+  source                         = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=v2.0.0"
   region                         = var.region
   resource_group_id              = module.resource_group.resource_group_id
   sysdig_instance_name           = "${var.prefix}-sysdig"
