@@ -11,5 +11,10 @@ terraform {
       source  = "Mastercard/restapi"
       version = ">= 1.18.0"
     }
+    # The logdna provider is not actually required by the module itself, just this example, so OK to use ">=" here instead of locking into a version
+    logdna = {
+      source  = "logdna/logdna"
+      version = ">= 1.14.2"
+    }
   }
 }
