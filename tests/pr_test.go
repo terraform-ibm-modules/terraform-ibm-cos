@@ -24,7 +24,7 @@ const region = "us-south"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
 type Config struct {
-	activityTrackerCrn string `yaml:"activityTrackerFrankfurtCrn"`
+	ActivityTrackerCrn string `yaml:"activityTrackerFrankfurtCrn"`
 }
 
 var activityTrackerCrn string
@@ -44,7 +44,7 @@ func TestMain(m *testing.M) {
 		log.Fatal(err)
 	}
 	// Parse the SM guid and region from data
-	activityTrackerCrn = config.activityTrackerCrn
+	activityTrackerCrn = config.ActivityTrackerCrn
 	os.Exit(m.Run())
 }
 
