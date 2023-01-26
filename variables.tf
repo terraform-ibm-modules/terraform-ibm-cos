@@ -185,6 +185,7 @@ variable "expire_days" {
 variable "activity_tracker_crn" {
   type        = string
   description = "Activity tracker crn for COS bucket (Optional)"
+  default     = null
 }
 
 variable "sysdig_crn" {

@@ -5,7 +5,6 @@
       "name": "activity_tracker_crn",
       "type": "string",
       "description": "Activity tracker crn for COS bucket (Optional)",
-      "required": true,
       "pos": {
         "filename": "variables.tf",
         "line": 185
@@ -171,7 +170,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 206
+        "line": 207
       }
     },
     "existing_cos_instance_id": {
@@ -192,7 +191,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 200
+        "line": 201
       },
       "immutable": true,
       "computed": true
@@ -245,7 +244,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 212
+        "line": 213
       },
       "immutable": true
     },
@@ -363,7 +362,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 190
+        "line": 191
       }
     }
   },
