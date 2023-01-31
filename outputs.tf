@@ -21,6 +21,11 @@ output "bucket_id" {
   value       = local.bucket_id
 }
 
+output "bucket_crn" {
+  description = "Bucket CRN"
+  value       = local.bucket_crn
+}
+
 output "bucket_name" {
   description = "Bucket Name"
   value       = local.bucket_name
@@ -34,4 +39,9 @@ output "key_protect_key_crn" {
 output "cos_instance_id" {
   description = "The ID of the Cloud Object Storage Instance where the buckets are created"
   value       = local.cos_instance_id
+}
+
+output "cos_instance_guid" {
+  description = "The GUID of the Cloud Object Storage Instance where the buckets are created"
+  value       = local.cos_instance_guid
 }

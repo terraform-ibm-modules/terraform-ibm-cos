@@ -75,6 +75,12 @@ variable "existing_cos_instance_id" {
   default     = null
 }
 
+variable "existing_cos_instance_guid" {
+  description = "The GUID of an existing cloud object storage instance. Required if 'var.create_cos_instance' is false."
+  type        = string
+  default     = null
+}
+
 variable "service_endpoints" {
   description = "The type of the service endpoint that can be set for the cloud object storage instance."
   type        = string
