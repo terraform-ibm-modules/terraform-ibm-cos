@@ -16,7 +16,6 @@ You can configure the following aspects of your instances:
 3. [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)
 4. Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options
 
-
 ## Usage
 ```hcl
 provider "ibm" {
