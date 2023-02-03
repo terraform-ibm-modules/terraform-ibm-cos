@@ -13,6 +13,7 @@ import (
 
 const completeExampleTerraformDir = "examples/complete"
 const completeExistingTerraformDir = "examples/existing-resources"
+const replicateExampleTerraformDir = "examples/replication"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -85,6 +86,15 @@ func TestRunExistingResourcesExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunReplicateExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "cos-replicate", replicateExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
