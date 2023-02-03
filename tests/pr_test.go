@@ -61,7 +61,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		},
 	})
 	// completeExistingTerraformDir does not implement any activity tracker functionality
-	if dir == completeExistingTerraformDir {
+	if dir == completeExistingTerraformDir || dir == replicateExampleTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:       t,
 			TerraformDir:  dir,
