@@ -207,3 +207,80 @@ locals {
   s3_endpoint_public  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
   s3_endpoint_private = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
 }
+
+##############################################################################
+# Context Based Restrictions
+##############################################################################
+
+module "bucket_cbr_rule" {
+  count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
+  rule_description = var.bucket_cbr_rules[count.index].description
+  enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
+  rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
+  resources = [{
+    attributes = [
+      {
+        name     = "accountId"
+        value    = var.bucket_cbr_rules[count.index].account_id
+        operator = "stringEquals"
+      },
+      {
+        name     = "resource"
+        value    = local.bucket_name[0]
+        operator = "stringEquals"
+      },
+      {
+        name     = "serviceInstance"
+        value    = local.cos_instance_id
+        operator = "stringEquals"
+      },
+      {
+        name     = "serviceName"
+        value    = "cloud-object-storage"
+        operator = "stringEquals"
+      }
+    ],
+    tags = var.bucket_cbr_rules[count.index].tags != null ? var.bucket_cbr_rules[count.index].tags : [
+      {
+        name  = "terraform-rule"
+        value = "allow-cos-bucket"
+      }
+    ]
+  }]
+  operations = var.bucket_cbr_rules[count.index].operations == null ? [] : var.bucket_cbr_rules[count.index].operations
+}
+
+module "instance_cbr_rule" {
+  count            = length(var.instance_cbr_rules)
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
+  rule_description = var.instance_cbr_rules[count.index].description
+  enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
+  rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
+  resources = [{
+    attributes = [
+      {
+        name     = "accountId"
+        value    = var.instance_cbr_rules[count.index].account_id
+        operator = "stringEquals"
+      },
+      {
+        name     = "serviceInstance"
+        value    = local.cos_instance_id
+        operator = "stringEquals"
+      },
+      {
+        name     = "serviceName"
+        value    = "cloud-object-storage"
+        operator = "stringEquals"
+      }
+    ],
+    tags = var.instance_cbr_rules[count.index].tags != null ? var.instance_cbr_rules[count.index].tags : [
+      {
+        name  = "terraform-rule"
+        value = "allow-cos-instance"
+      }
+    ]
+  }]
+  operations = var.instance_cbr_rules[count.index].operations == null ? [] : var.instance_cbr_rules[count.index].operations
+}
