@@ -10,6 +10,23 @@ module "resource_group" {
 }
 
 ##############################################################################
+# VPC
+##############################################################################
+resource "ibm_is_vpc" "example_vpc" {
+  name           = "${var.prefix}-vpc"
+  resource_group = module.resource_group.resource_group_id
+  tags           = var.resource_tags
+}
+
+resource "ibm_is_subnet" "testacc_subnet" {
+  name                     = "${var.prefix}-subnet"
+  vpc                      = ibm_is_vpc.example_vpc.id
+  zone                     = "${var.region}-1"
+  total_ipv4_address_count = 256
+  resource_group           = module.resource_group.resource_group_id
+}
+
+##############################################################################
 # Observability Instances (Sysdig + AT)
 ##############################################################################
 
@@ -61,6 +78,27 @@ module "key_protect_all_inclusive" {
   resource_tags = var.resource_tags
 }
 
+##############################################################################
+# Get Cloud Account ID
+##############################################################################
+
+data "ibm_iam_account_settings" "iam_account_settings" {
+}
+
+##############################################################################
+# Create CBR Zone
+##############################################################################
+module "cbr_zone" {
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.1.0"
+  name             = "${var.prefix}-VPC-network-zone"
+  zone_description = "CBR Network zone containing VPC"
+  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  addresses = [{
+    type  = "vpc", # to bind a specific vpc to the zone
+    value = ibm_is_vpc.example_vpc.crn,
+  }]
+}
+
 # Create COS instance and Key protect instance.
 # Create COS bucket-1 with:
 # - Retention
@@ -79,6 +117,62 @@ module "cos_bucket1" {
   key_protect_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                         = module.observability_instances.sysdig_crn
   activity_tracker_crn               = local.at_crn
+  bucket_cbr_rules = [
+    {
+      description      = "sample rule for bucket 1"
+      enforcement_mode = "report"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      tags = [
+        {
+          name  = "environment"
+          value = "${var.prefix}-test"
+        },
+        {
+          name  = "terraform-rule"
+          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-bucket-1"
+        }
+      ]
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
+    }
+  ]
+  instance_cbr_rules = [
+    {
+      description      = "sample rule for the instance"
+      enforcement_mode = "report"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      tags = [
+        {
+          name  = "environment"
+          value = "${var.prefix}-test"
+        },
+        {
+          name  = "terraform-rule"
+          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-instance"
+        }
+      ]
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
+    }
+  ]
 }
 
 # We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
@@ -100,4 +194,32 @@ module "cos_bucket2" {
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_bucket1.cos_instance_id
   key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  bucket_cbr_rules = [
+    {
+      description      = "sample rule for bucket 2"
+      enforcement_mode = "enabled"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      tags = [
+        {
+          name  = "environment"
+          value = "${var.prefix}-test"
+        },
+        {
+          name  = "terraform-rule"
+          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-bucket-2"
+        }
+      ]
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
+    }
+  ]
 }
