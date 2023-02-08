@@ -35,3 +35,8 @@ output "cos_instance_id" {
   description = "The ID of the Cloud Object Storage Instance where the buckets are created"
   value       = local.cos_instance_id
 }
+
+output "cos_instance_guid" {
+  description = "The GUID of the Cloud Object Storage Instance where the buckets are created"
+  value       = local.cos_instance_guid
+}
