@@ -385,6 +385,15 @@
         "line": 24
       }
     },
+    "cos_instance_guid": {
+      "name": "cos_instance_guid",
+      "description": "The GUID of the Cloud Object Storage Instance where the buckets are created",
+      "value": "local.cos_instance_guid",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 39
+      }
+    },
     "cos_instance_id": {
       "name": "cos_instance_id",
       "description": "The ID of the Cloud Object Storage Instance where the buckets are created",
