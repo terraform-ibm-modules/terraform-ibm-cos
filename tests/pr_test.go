@@ -91,8 +91,6 @@ func TestRunExistingResourcesExample(t *testing.T) {
 }
 
 func TestRunUpgradeExample(t *testing.T) {
-	// Skipping for this version as s2s policy does not existing in main
-	t.Skip()
 	t.Parallel()
 
 	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)

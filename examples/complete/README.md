@@ -17,3 +17,5 @@ An end-to-end example that will:
   - Encryption
   - Monitoring
   - Activity Tracking
+- Create a Sample VPC.
+- Create Context Based Restriction(CBR) to only allow buckets to be accessible from the VPC.
