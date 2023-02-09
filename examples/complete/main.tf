@@ -197,7 +197,7 @@ module "cos_bucket2" {
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
-      enforcement_mode = "enabled"
+      enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
       tags = [
         {
