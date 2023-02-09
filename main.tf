@@ -22,8 +22,6 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cos_inputs = var.create_cos_instance && var.cos_instance_name == null ? tobool("If var.create_cos_instance is true, then provide value for var.cos_instance_name") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_cos_guid_input = !var.create_cos_instance && var.existing_cos_instance_guid == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_guid to create buckets") : true
-  # tflint-ignore: terraform_unused_declarations
   validate_cos_id_input = !var.create_cos_instance && var.existing_cos_instance_id == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets") : true
   # tflint-ignore: terraform_unused_declarations
   validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.existing_key_protect_instance_guid == null ? tobool("A value must be passed for var.existing_key_protect_instance_guid when var.create_cos_instance and var.encryption_enabled is true.") : true
@@ -54,7 +52,6 @@ resource "ibm_resource_key" "resource_key" {
 }
 
 locals {
-  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : var.existing_cos_instance_guid
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
   create_access_policy = var.encryption_enabled && var.create_cos_instance
