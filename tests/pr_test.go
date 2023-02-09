@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 const completeExampleTerraformDir = "examples/complete"
@@ -101,6 +101,8 @@ func TestRunReplicateExample(t *testing.T) {
 }
 
 func TestRunUpgradeExample(t *testing.T) {
+	// Skipping for this version as s2s policy does not existing in main
+	t.Skip()
 	t.Parallel()
 
 	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)

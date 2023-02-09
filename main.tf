@@ -56,6 +56,7 @@ resource "ibm_resource_key" "resource_key" {
 locals {
   cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : var.existing_cos_instance_guid
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
+  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
   create_access_policy = var.encryption_enabled && var.create_cos_instance
 }
 
@@ -63,7 +64,7 @@ locals {
 resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy ? 1 : 0
   source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = local.cos_instance_id
+  source_resource_instance_id = local.cos_instance_guid
   target_service_name         = "kms"
   target_resource_instance_id = var.existing_key_protect_instance_guid
   roles                       = ["Reader"]
