@@ -30,6 +30,24 @@
         "line": 169
       }
     },
+    "bucket_cbr_rules": {
+      "name": "bucket_cbr_rules",
+      "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })))\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
+      "description": "(Optional, list) List of CBR rules to create for the bucket",
+      "default": [],
+      "source": [
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 223
+      }
+    },
     "bucket_name": {
       "name": "bucket_name",
       "type": "string",
@@ -234,6 +252,24 @@
         "line": 38
       },
       "immutable": true
+    },
+    "instance_cbr_rules": {
+      "name": "instance_cbr_rules",
+      "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })))\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
+      "description": "(Optional, list) List of CBR rules to create for the instance",
+      "default": [],
+      "source": [
+        "module.instance_cbr_rule",
+        "module.instance_cbr_rule",
+        "module.instance_cbr_rule",
+        "module.instance_cbr_rule",
+        "module.instance_cbr_rule",
+        "module.instance_cbr_rule"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 248
+      }
     },
     "key_protect_key_crn": {
       "name": "key_protect_key_crn",
@@ -559,5 +595,128 @@
     }
   },
   "data_resources": {},
-  "module_calls": {}
+  "module_calls": {
+    "bucket_cbr_rule": {
+      "name": "bucket_cbr_rule",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2",
+      "attributes": {
+        "count": "bucket_cbr_rules",
+        "enforcement_mode": "bucket_cbr_rules",
+        "operations": "bucket_cbr_rules",
+        "resources": "bucket_cbr_rules",
+        "rule_contexts": "bucket_cbr_rules",
+        "rule_description": "bucket_cbr_rules"
+      },
+      "managed_resources": {
+        "ibm_cbr_rule.cbr_rule": {
+          "mode": "managed",
+          "type": "ibm_cbr_rule",
+          "name": "cbr_rule",
+          "attributes": {
+            "description": "rule_description",
+            "enforcement_mode": "enforcement_mode"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/bucket_cbr_rule/cbr-rule-module/main.tf",
+            "line": 7
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "rule_crn": {
+          "name": "rule_crn",
+          "description": "CBR rule resource instance crn",
+          "pos": {
+            "filename": ".terraform/modules/bucket_cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 10
+          }
+        },
+        "rule_href": {
+          "name": "rule_href",
+          "description": "CBR rule resource href",
+          "pos": {
+            "filename": ".terraform/modules/bucket_cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 15
+          }
+        },
+        "rule_id": {
+          "name": "rule_id",
+          "description": "CBR rule resource instance id",
+          "pos": {
+            "filename": ".terraform/modules/bucket_cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 5
+          }
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 215
+      }
+    },
+    "instance_cbr_rule": {
+      "name": "instance_cbr_rule",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2",
+      "attributes": {
+        "count": "instance_cbr_rules",
+        "enforcement_mode": "instance_cbr_rules",
+        "operations": "instance_cbr_rules",
+        "resources": "instance_cbr_rules",
+        "rule_contexts": "instance_cbr_rules",
+        "rule_description": "instance_cbr_rules"
+      },
+      "managed_resources": {
+        "ibm_cbr_rule.cbr_rule": {
+          "mode": "managed",
+          "type": "ibm_cbr_rule",
+          "name": "cbr_rule",
+          "attributes": {
+            "description": "rule_description",
+            "enforcement_mode": "enforcement_mode"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/instance_cbr_rule/cbr-rule-module/main.tf",
+            "line": 7
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "rule_crn": {
+          "name": "rule_crn",
+          "description": "CBR rule resource instance crn",
+          "pos": {
+            "filename": ".terraform/modules/instance_cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 10
+          }
+        },
+        "rule_href": {
+          "name": "rule_href",
+          "description": "CBR rule resource href",
+          "pos": {
+            "filename": ".terraform/modules/instance_cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 15
+          }
+        },
+        "rule_id": {
+          "name": "rule_id",
+          "description": "CBR rule resource instance id",
+          "pos": {
+            "filename": ".terraform/modules/instance_cbr_rule/cbr-rule-module/outputs.tf",
+            "line": 5
+          }
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 254
+      }
+    }
+  }
 }
