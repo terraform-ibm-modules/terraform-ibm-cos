@@ -112,6 +112,16 @@ variable "bucket_name" {
   default     = null
 }
 
+variable "bucket_endpoint" {
+  description = "The type of endpoint to use for the bucket. (public, private, direct)"
+  type        = string
+  default     = "public"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.bucket_endpoint)
+    error_message = "The specified bucket_endpoint is not a valid selection!"
+  }
+}
+
 variable "retention_enabled" {
   description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
   type        = bool

@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 185
+        "line": 195
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 163
+        "line": 173
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 169
+        "line": 179
       }
     },
     "bucket_cbr_rules": {
@@ -45,8 +45,22 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 223
+        "line": 233
       }
+    },
+    "bucket_endpoint": {
+      "name": "bucket_endpoint",
+      "type": "string",
+      "description": "The type of endpoint to use for the bucket. (public, private, direct)",
+      "default": "public",
+      "source": [
+        "ibm_cos_bucket.cos_bucket1.endpoint_type"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 115
+      },
+      "options": "public,private,direct"
     },
     "bucket_name": {
       "name": "bucket_name",
@@ -188,7 +202,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 207
+        "line": 217
       }
     },
     "existing_cos_instance_id": {
@@ -209,7 +223,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 201
+        "line": 211
       },
       "immutable": true,
       "computed": true
@@ -221,7 +235,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 179
+        "line": 189
       }
     },
     "hmac_key_name": {
@@ -268,7 +282,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 248
+        "line": 258
       }
     },
     "key_protect_key_crn": {
@@ -280,7 +294,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 213
+        "line": 223
       },
       "immutable": true
     },
@@ -291,7 +305,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 157
+        "line": 167
       }
     },
     "region": {
@@ -335,7 +349,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 121
+        "line": 131
       }
     },
     "retention_enabled": {
@@ -345,7 +359,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 115
+        "line": 125
       }
     },
     "retention_maximum": {
@@ -355,7 +369,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 131
+        "line": 141
       }
     },
     "retention_minimum": {
@@ -365,7 +379,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 141
+        "line": 151
       }
     },
     "retention_permanent": {
@@ -375,7 +389,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 151
+        "line": 161
       }
     },
     "service_endpoints": {
@@ -398,7 +412,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 191
+        "line": 201
       }
     }
   },
@@ -521,6 +535,7 @@
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
+        "endpoint_type": "bucket_endpoint",
         "region_location": "region"
       },
       "provider": {
@@ -645,7 +660,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 215
+        "line": 216
       }
     },
     "instance_cbr_rule": {
@@ -706,7 +721,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 254
+        "line": 255
       }
     }
   }

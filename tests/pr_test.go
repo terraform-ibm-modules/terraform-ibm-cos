@@ -76,6 +76,7 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
+	options.TerraformVars["bucket_endpoint"] = "private"
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
