@@ -6,5 +6,9 @@ terraform {
       source  = "ibm-cloud/ibm"
       version = ">= 1.49.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = ">=3.2.1"
+    }
   }
 }

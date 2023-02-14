@@ -395,7 +395,7 @@
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
-      "description": "The type of the service endpoint that can be set for the cloud object storage instance.",
+      "description": "(Deprecated) The type of the service endpoint that can be set for the cloud object storage instance.",
       "default": "public-and-private",
       "source": [
         "ibm_resource_instance.cos_instance.service_endpoints"
@@ -505,6 +505,12 @@
       "version_constraints": [
         "\u003e= 1.49.0"
       ]
+    },
+    "null": {
+      "source": "hashicorp/null",
+      "version_constraints": [
+        "\u003e=3.2.1"
+      ]
     }
   },
   "managed_resources": {
@@ -597,6 +603,18 @@
       "pos": {
         "filename": "main.tf",
         "line": 46
+      }
+    },
+    "null_resource.deprecation_notice": {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "deprecation_notice",
+      "provider": {
+        "name": "null"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 289
       }
     }
   },

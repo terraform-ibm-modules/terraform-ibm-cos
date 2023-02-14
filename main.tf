@@ -285,3 +285,12 @@ module "instance_cbr_rule" {
   }]
   operations = var.instance_cbr_rules[count.index].operations == null ? [] : var.instance_cbr_rules[count.index].operations
 }
+
+resource "null_resource" "deprecation_notice" {
+  triggers = {
+    always_refresh = timestamp()
+  }
+  provisioner "local-exec" {
+    command = "echo 'WARNING: The service_endpoints variable has been deprecated for this module and will be removed with the next major release.'"
+  }
+}
