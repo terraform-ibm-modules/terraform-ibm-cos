@@ -7,12 +7,6 @@
             "is_valid": true
         },
         {
-            "scc_goal_id": "3000116",
-            "description": "Check whether Cloud Object Storage bucket resiliency is set to cross region",
-            "ignore_reason": "The module already supports cross region buckets, however the complete example will provision both regional and cross regional buckets, meaning CRA will always fail. When new FSCloud profile is added, and CRA is pointing to that, this goal should be removed from here.",
-            "is_valid": false
-        },
-        {
             "scc_goal_id": "3000408",
             "description": "Check whether Flow Logs for VPC are enabled",
             "ignore_reason": "This is part of the test example and not the current module",
