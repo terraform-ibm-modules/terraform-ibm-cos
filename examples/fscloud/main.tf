@@ -58,7 +58,7 @@ module "observability_instances" {
 }
 
 ##############################################################################
-# Create Key Protect resources for Demo purposes for FSCloud use Hyper Protect Crypto Service
+# Create Key Protect resources
 ##############################################################################
 
 locals {
@@ -66,39 +66,18 @@ locals {
   key_name      = "cos-key"
 }
 
-module "key_protect_all_inclusive_primary" {
-  count                     = var.primary_existing_hpcs_instance_guid != null ? 0 : 1
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.0.0"
-  key_protect_instance_name = "${var.prefix}-primary-kp"
+module "key_protect_all_inclusive" {
+  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.0.2"
+  key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
-  region                    = var.primary_region
+  region                    = var.region
   key_map = {
     (local.key_ring_name) = [local.key_name]
   }
   resource_tags = var.resource_tags
 }
 
-module "key_protect_all_inclusive_secondary" {
-  count                     = var.secondary_existing_hpcs_instance_guid != null ? 0 : 1
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.0.0"
-  key_protect_instance_name = "${var.prefix}-secondary-kp"
-  resource_group_id         = module.resource_group.resource_group_id
-  enable_metrics            = false
-  region                    = var.secondary_region
-  key_map = {
-    (local.key_ring_name) = [local.key_name]
-  }
-  resource_tags = var.resource_tags
-}
-
-
-locals {
-  primary_kms_guid      = var.primary_existing_hpcs_instance_guid != null ? var.primary_existing_hpcs_instance_guid : module.key_protect_all_inclusive_primary[0].key_protect_guid
-  primary_kms_key_crn   = var.primary_existing_hpcs_instance_guid != null ? var.primary_hpcs_key_crn : module.key_protect_all_inclusive_primary[0].keys["${local.key_ring_name}.${local.key_name}"].crn
-  secondary_kms_guid    = var.secondary_existing_hpcs_instance_guid != null ? var.secondary_existing_hpcs_instance_guid : module.key_protect_all_inclusive_secondary[0].key_protect_guid
-  secondary_kms_key_crn = var.secondary_existing_hpcs_instance_guid != null ? var.secondary_hpcs_key_crn : module.key_protect_all_inclusive_secondary[0].keys["${local.key_ring_name}.${local.key_name}"].crn
-}
 ##############################################################################
 # Get Cloud Account ID
 ##############################################################################
@@ -110,7 +89,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 # Create CBR Zone
 ##############################################################################
 module "cbr_zone" {
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.1.4"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.1.2"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -120,25 +99,39 @@ module "cbr_zone" {
   }]
 }
 
-module "cos_fscloud" {
-  source                                = "../../profiles/fscloud"
-  resource_group_id                     = module.resource_group.resource_group_id
-  cos_instance_name                     = "${var.prefix}-cos"
-  cos_tags                              = var.resource_tags
-  bucket_name                           = "${var.prefix}-bucket-1"
-  primary_region                        = var.primary_region
-  primary_existing_hpcs_instance_guid   = local.primary_kms_guid
-  primary_hpcs_key_crn                  = local.primary_kms_key_crn
-  secondary_existing_hpcs_instance_guid = local.secondary_kms_guid
-  secondary_region                      = var.secondary_region
-  secondary_hpcs_key_crn                = local.secondary_kms_key_crn
-  sysdig_crn                            = module.observability_instances.sysdig_crn
-  activity_tracker_crn                  = local.at_crn
+# Create COS instance and Key protect instance.
+# Create COS bucket with:
+# - Retention
+# - Encryption
+# - Monitoring
+# - Activity Tracking
+# - CBR Rules
+module "cos_instance_and_bucket" {
+  source                             = "../../profiles/fscloud"
+  resource_group_id                  = module.resource_group.resource_group_id
+  cross_region_location              = var.cross_region_location
+  cos_instance_name                  = "${var.prefix}-cos"
+  cos_tags                           = var.resource_tags
+  bucket_name                        = "${var.prefix}-bucket-1"
+  existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
+  hpcs_crn                           = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  sysdig_crn                         = module.observability_instances.sysdig_crn
+  activity_tracker_crn               = local.at_crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 1"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      tags = [
+        {
+          name  = "environment"
+          value = "${var.prefix}-test"
+        },
+        {
+          name  = "terraform-rule"
+          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-bucket-1"
+        }
+      ]
       rule_contexts = [{
         attributes = [
           {
@@ -157,11 +150,14 @@ module "cos_fscloud" {
       description      = "sample rule for the instance"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      # IAM tags on the rule resources should match to the instance level IAM tags
       tags = [
         {
-          name  = "env"
-          value = "test"
+          name  = "environment"
+          value = "${var.prefix}-test"
+        },
+        {
+          name  = "terraform-rule"
+          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-instance"
         }
       ]
       rule_contexts = [{
@@ -177,12 +173,4 @@ module "cos_fscloud" {
       }]
     }
   ]
-}
-
-# IAM tags for the instance to match to the CBR rule tags.
-# Tags are expected to exist in advance
-resource "ibm_resource_tag" "instance_tags" {
-  resource_id = module.cos_fscloud.cos_instance_id
-  tag_type    = "access" # MUST be type access for CBR rule to work
-  tags        = ["env:test"]
 }

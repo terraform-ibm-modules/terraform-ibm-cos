@@ -59,16 +59,6 @@ variable "existing_cos_instance_id" {
   default     = null
 }
 
-variable "cos_plan" {
-  description = "Plan to be used for creating cloud object storage instance. Only used if 'create_cos_instance' it true."
-  type        = string
-  default     = "standard"
-  validation {
-    condition     = contains(["standard", "lite"], var.cos_plan)
-    error_message = "The specified cos_plan is not a valid selection!"
-  }
-}
-
 ##############################################################################
 # COS bucket variables
 ##############################################################################
@@ -79,16 +69,15 @@ variable "create_cos_bucket" {
   default     = true
 }
 
-variable "primary_region" {
-  description = "region for the primary bucket"
+variable "cross_region_location" {
+  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'"
   type        = string
-  default     = "us-south"
-}
+  default     = "eu"
 
-variable "secondary_region" {
-  description = "region for the secondary bucket"
-  type        = string
-  default     = "us-east"
+  validation {
+    condition     = can(regex("us|eu|ap", var.cross_region_location))
+    error_message = "Variable 'cross_region_location' must be 'us' or 'eu' or 'ap'."
+  }
 }
 
 variable "bucket_name" {
@@ -97,15 +86,58 @@ variable "bucket_name" {
   default     = null
 }
 
-variable "bucket_storage_class" {
-  type        = string
-  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
-  default     = "standard"
+variable "retention_enabled" {
+  description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
+  type        = bool
+  default     = true
+}
 
+variable "retention_default" {
+  description = "Specifies default duration of time an object that can be kept unmodified for COS bucket. Only used if 'create_cos_bucket' is true."
+  type        = number
+  default     = 90
   validation {
-    condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
-    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
+    condition     = var.retention_default > 0 && var.retention_default < 365243
+    error_message = "The specified duration for retention maximum period is not a valid selection!"
   }
+}
+
+variable "retention_maximum" {
+  description = "Specifies maximum duration of time an object that can be kept unmodified for COS bucket. Only used if 'create_cos_bucket' is true."
+  type        = number
+  default     = 350
+  validation {
+    condition     = var.retention_maximum > 0 && var.retention_maximum < 365243
+    error_message = "The specified duration for retention maximum period is not a valid selection!"
+  }
+}
+
+variable "retention_minimum" {
+  description = "Specifies minimum duration of time an object must be kept unmodified for COS bucket. Only used if 'create_cos_bucket' is true."
+  type        = number
+  default     = 90
+  validation {
+    condition     = var.retention_minimum > 0 && var.retention_minimum < 365243
+    error_message = "The specified duration for retention minimum period is not a valid selection!"
+  }
+}
+
+variable "retention_permanent" {
+  description = "Specifies a permanent retention status either enable or disable for COS bucket. Only used if 'create_cos_bucket' is true."
+  type        = bool
+  default     = false
+}
+
+variable "object_versioning_enabled" {
+  description = "Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. Only used if 'create_cos_bucket' is true."
+  type        = bool
+  default     = false
+}
+
+variable "expire_days" {
+  description = "Specifies the number of days when the expire rule action takes effect. Only used if 'create_cos_bucket' is true."
+  type        = number
+  default     = 365
 }
 
 variable "activity_tracker_crn" {
@@ -124,22 +156,13 @@ variable "sysdig_crn" {
 # COS bucket encryption variables
 ##############################################################################
 
-variable "primary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
+variable "existing_key_protect_instance_guid" {
+  description = "The GUID of the Key Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
   type        = string
+  default     = null
 }
 
-variable "secondary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
-  type        = string
-}
-
-variable "primary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
-  type        = string
-}
-
-variable "secondary_hpcs_key_crn" {
+variable "hpcs_crn" {
   description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
   type        = string
 }
@@ -161,7 +184,7 @@ variable "bucket_cbr_rules" {
     tags = optional(list(object({
       name  = string
       value = string
-    })), [])
+    })))
     operations = optional(list(object({
       api_types = list(object({
         api_type_id = string
@@ -186,7 +209,7 @@ variable "instance_cbr_rules" {
     tags = optional(list(object({
       name  = string
       value = string
-    })), [])
+    })))
     operations = optional(list(object({
       api_types = list(object({
         api_type_id = string

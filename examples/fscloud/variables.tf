@@ -6,7 +6,7 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  default     = "test-cos-fscloud"
+  default     = "test-cos"
   description = "Prefix name for all related resources"
 }
 
@@ -16,46 +16,22 @@ variable "resource_tags" {
   default     = []
 }
 
+# region needs to provide cross region support.
 variable "region" {
   description = "Region where resources will be created"
   type        = string
   default     = "us-south"
 }
 
-variable "primary_region" {
-  description = "region for the primary bucket"
+variable "cross_region_location" {
+  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'."
   type        = string
-  default     = "us-south"
-}
+  default     = "us"
 
-variable "secondary_region" {
-  description = "region for the secondary bucket"
-  type        = string
-  default     = "us-east"
-}
-
-variable "primary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. If not set a Key Protect instance will be used for demo purposes but will not be FS cloud compliant"
-  type        = string
-  default     = null
-}
-
-variable "secondary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. If not set a Key Protect instance will be used for demo purposes but will not be FS cloud compliant"
-  type        = string
-  default     = null
-}
-
-variable "primary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. If not set a Key Protect key will be created and used for demo purposes but will not be FS cloud compliant"
-  type        = string
-  default     = null
-}
-
-variable "secondary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. If not set a Key Protect key will be created and used for demo purposes but will not be FS cloud compliant"
-  type        = string
-  default     = null
+  validation {
+    condition     = can(regex("us|eu|ap", var.cross_region_location))
+    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', or 'ap'."
+  }
 }
 
 variable "resource_group" {

@@ -8,35 +8,30 @@ output "resource_group_id" {
 
 output "s3_endpoint_private" {
   description = "S3 private endpoint"
-  value       = module.cos_instance.s3_endpoint_private
+  value       = module.cos_module.s3_endpoint_private
 }
 
-output "primary_bucket_id" {
-  description = "Primary Bucket id"
-  value       = module.cos_primary_bucket.bucket_id
+output "bucket_id" {
+  description = "Bucket id"
+  value       = module.cos_module.bucket_id
 }
 
-output "secondary_bucket_id" {
-  description = "Secondary Bucket id"
-  value       = module.cos_secondary_bucket.bucket_id
+output "bucket_name" {
+  description = "Bucket Name"
+  value       = module.cos_module.bucket_name
 }
 
-output "primary_bucket_name" {
-  description = "Primary Bucket Name"
-  value       = module.cos_primary_bucket.bucket_name
-}
-
-output "secondary_bucket_name" {
-  description = "Primary Bucket Name"
-  value       = module.cos_secondary_bucket.bucket_name
+output "key_protect_key_crn" {
+  description = "The CRN of the Key Protect Key used to encrypt the COS Bucket"
+  value       = var.hpcs_crn
 }
 
 output "cos_instance_id" {
   description = "The ID of the Cloud Object Storage Instance where the buckets are created"
-  value       = module.cos_instance.cos_instance_id
+  value       = module.cos_module.cos_instance_id
 }
 
 output "cos_instance_guid" {
   description = "The GUID of the Cloud Object Storage Instance where the buckets are created"
-  value       = module.cos_instance.cos_instance_guid
+  value       = module.cos_module.cos_instance_guid
 }
