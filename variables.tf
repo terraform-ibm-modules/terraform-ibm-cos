@@ -76,7 +76,7 @@ variable "existing_cos_instance_id" {
 }
 
 variable "service_endpoints" {
-  description = "The type of the service endpoint that can be set for the cloud object storage instance."
+  description = "(Deprecated) The type of the service endpoint that can be set for the cloud object storage instance."
   type        = string
   default     = "public-and-private"
   validation {
@@ -110,6 +110,16 @@ variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
   default     = null
+}
+
+variable "bucket_endpoint" {
+  description = "The type of endpoint to use for the bucket. (public, private, direct)"
+  type        = string
+  default     = "public"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.bucket_endpoint)
+    error_message = "The specified bucket_endpoint is not a valid selection!"
+  }
 }
 
 variable "retention_enabled" {
