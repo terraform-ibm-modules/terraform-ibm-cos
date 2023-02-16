@@ -117,7 +117,9 @@ module "cos_bucket1" {
   existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
   key_protect_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                         = module.observability_instances.sysdig_crn
-  activity_tracker_crn               = local.at_crn
+  # disable retention for test environments - enable for stage/prod
+  retention_enabled    = false
+  activity_tracker_crn = local.at_crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 1"
@@ -195,7 +197,9 @@ module "cos_bucket2" {
   activity_tracker_crn     = local.at_crn
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_bucket1.cos_instance_id
-  key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  # disable retention for test environments - enable for stage/prod
+  retention_enabled   = false
+  key_protect_key_crn = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
