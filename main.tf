@@ -40,7 +40,6 @@ resource "ibm_resource_instance" "cos_instance" {
   plan              = var.cos_plan
   location          = var.cos_location
   tags              = var.cos_tags
-  service_endpoints = var.service_endpoints
 }
 
 resource "ibm_resource_key" "resource_key" {
@@ -287,6 +286,7 @@ module "instance_cbr_rule" {
 }
 
 resource "null_resource" "deprecation_notice" {
+  count = var.service_endpoints != null ? 1 : 0
   triggers = {
     always_refresh = timestamp()
   }
