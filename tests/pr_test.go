@@ -55,6 +55,12 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Prefix:        prefix,
 		ResourceGroup: resourceGroup,
 		Region:        region,
+		// Ignore updates to CBR rule - see https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/201
+		IgnoreUpdates: testhelper.Exemptions{List: []string{
+			"module.cos_bucket1.module.instance_cbr_rule[0].ibm_cbr_rule.cbr_rule",
+			"module.cos_bucket1.module.bucket_cbr_rule[0].ibm_cbr_rule.cbr_rule",
+			"module.cos_bucket2.module.bucket_cbr_rule[0].ibm_cbr_rule.cbr_rule",
+		}},
 		IgnoreDestroys: testhelper.Exemptions{List: []string{
 			"module.cos_instance.null_resource.deprecation_notice",
 			"module.cos.null_resource.deprecation_notice",
@@ -71,12 +77,6 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			TerraformDir:  dir,
 			Prefix:        prefix,
 			ResourceGroup: resourceGroup,
-			// Ignore updates to CBR rule - see https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/201
-			IgnoreUpdates: testhelper.Exemptions{List: []string{
-				"module.cos_bucket1.module.instance_cbr_rule[0].ibm_cbr_rule.cbr_rule",
-				"module.cos_bucket1.module.bucket_cbr_rule[0].ibm_cbr_rule.cbr_rule",
-				"module.cos_bucket2.module.bucket_cbr_rule[0].ibm_cbr_rule.cbr_rule",
-			}},
 			IgnoreDestroys: testhelper.Exemptions{List: []string{
 				"module.cos_instance.null_resource.deprecation_notice",
 				"module.cos.null_resource.deprecation_notice",
