@@ -233,7 +233,7 @@ module "bucket_cbr_rule" {
       },
       {
         name     = "serviceInstance"
-        value    = local.cos_instance_id
+        value    = local.cos_instance_guid
         operator = "stringEquals"
       },
       {
@@ -267,7 +267,7 @@ module "instance_cbr_rule" {
       },
       {
         name     = "serviceInstance"
-        value    = local.cos_instance_id
+        value    = local.cos_instance_guid
         operator = "stringEquals"
       },
       {
