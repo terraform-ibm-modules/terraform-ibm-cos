@@ -287,6 +287,7 @@ module "instance_cbr_rule" {
 }
 
 resource "null_resource" "deprecation_notice" {
+  count = var.service_endpoints != null ? 1 : 0
   triggers = {
     always_refresh = timestamp()
   }
