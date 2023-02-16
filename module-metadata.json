@@ -623,7 +623,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 289
+        "line": 300
       }
     }
   },
@@ -687,7 +687,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 226
+        "line": 227
       }
     },
     "instance_cbr_rule": {
@@ -748,7 +748,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 265
+        "line": 266
       }
     }
   }
