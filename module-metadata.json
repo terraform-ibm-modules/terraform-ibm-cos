@@ -398,7 +398,8 @@
       "description": "(Deprecated) The type of the service endpoint that can be set for the cloud object storage instance.",
       "default": "public-and-private",
       "source": [
-        "ibm_resource_instance.cos_instance.service_endpoints"
+        "ibm_resource_instance.cos_instance.service_endpoints",
+        "null_resource.deprecation_notice.count"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -609,6 +610,9 @@
       "mode": "managed",
       "type": "null_resource",
       "name": "deprecation_notice",
+      "attributes": {
+        "count": "service_endpoints"
+      },
       "provider": {
         "name": "null"
       },
