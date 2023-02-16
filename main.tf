@@ -156,6 +156,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
+  endpoint_type         = var.bucket_endpoint
   storage_class         = "standard"
   dynamic "retention_rule" {
     for_each = local.retention_enabled
@@ -294,4 +295,13 @@ module "instance_cbr_rule" {
     ]
   }]
   operations = var.instance_cbr_rules[count.index].operations == null ? [] : var.instance_cbr_rules[count.index].operations
+}
+
+resource "null_resource" "deprecation_notice" {
+  triggers = {
+    always_refresh = timestamp()
+  }
+  provisioner "local-exec" {
+    command = "echo 'WARNING: The service_endpoints variable has been deprecated for this module and will be removed with the next major release.'"
+  }
 }

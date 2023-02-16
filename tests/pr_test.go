@@ -56,6 +56,11 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Prefix:        prefix,
 		ResourceGroup: resourceGroup,
 		Region:        region,
+		IgnoreDestroys: testhelper.Exemptions{List: []string{
+			"module.cos_instance.null_resource.deprecation_notice",
+			"module.cos.null_resource.deprecation_notice",
+			"module.cos_bucket1.null_resource.deprecation_notice",
+			"module.cos_bucket2.null_resource.deprecation_notice"}},
 		TerraformVars: map[string]interface{}{
 			"existing_at_instance_crn": activityTrackerCrn,
 		},
@@ -67,7 +72,12 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			TerraformDir:  dir,
 			Prefix:        prefix,
 			ResourceGroup: resourceGroup,
-			Region:        region,
+			IgnoreDestroys: testhelper.Exemptions{List: []string{
+				"module.cos_instance.null_resource.deprecation_notice",
+				"module.cos.null_resource.deprecation_notice",
+				"module.cos_bucket1.null_resource.deprecation_notice",
+				"module.cos_bucket2.null_resource.deprecation_notice"}},
+			Region: region,
 		})
 	}
 	return options
@@ -77,6 +87,7 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
+	options.TerraformVars["bucket_endpoint"] = "private"
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
