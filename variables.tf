@@ -76,13 +76,9 @@ variable "existing_cos_instance_id" {
 }
 
 variable "service_endpoints" {
-  description = "(Deprecated) The type of the service endpoint that can be set for the cloud object storage instance."
+  description = "(Deprecated) Will be removed in the next major release"
   type        = string
-  default     = "public-and-private"
-  validation {
-    condition     = contains(["public", "private", "public-and-private"], var.service_endpoints)
-    error_message = "The specified service_endpoints is not a valid selection!"
-  }
+  default     = null
 }
 
 ##############################################################################

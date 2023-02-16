@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 195
+        "line": 191
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 173
+        "line": 169
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 179
+        "line": 175
       }
     },
     "bucket_cbr_rules": {
@@ -45,7 +45,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 233
+        "line": 229
       }
     },
     "bucket_endpoint": {
@@ -58,7 +58,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 115
+        "line": 111
       },
       "options": "public,private,direct"
     },
@@ -73,7 +73,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 109
+        "line": 105
       },
       "immutable": true
     },
@@ -147,7 +147,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 92
+        "line": 88
       }
     },
     "create_cos_instance": {
@@ -186,7 +186,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 98
+        "line": 94
       },
       "immutable": true,
       "options": "us,eu,ap"
@@ -202,7 +202,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 217
+        "line": 213
       }
     },
     "existing_cos_instance_id": {
@@ -223,7 +223,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 211
+        "line": 207
       },
       "immutable": true,
       "computed": true
@@ -235,7 +235,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 189
+        "line": 185
       }
     },
     "hmac_key_name": {
@@ -282,7 +282,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 258
+        "line": 254
       }
     },
     "key_protect_key_crn": {
@@ -294,7 +294,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 223
+        "line": 219
       },
       "immutable": true
     },
@@ -305,7 +305,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 167
+        "line": 163
       }
     },
     "region": {
@@ -349,7 +349,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 131
+        "line": 127
       }
     },
     "retention_enabled": {
@@ -359,7 +359,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 125
+        "line": 121
       }
     },
     "retention_maximum": {
@@ -369,7 +369,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 141
+        "line": 137
       }
     },
     "retention_minimum": {
@@ -379,7 +379,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 151
+        "line": 147
       }
     },
     "retention_permanent": {
@@ -389,22 +389,20 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 161
+        "line": 157
       }
     },
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
-      "description": "(Deprecated) The type of the service endpoint that can be set for the cloud object storage instance.",
-      "default": "public-and-private",
+      "description": "(Deprecated) Will be removed in the next major release",
       "source": [
-        "ibm_resource_instance.cos_instance.service_endpoints"
+        "null_resource.deprecation_notice.count"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 78
-      },
-      "computed": true
+      }
     },
     "sysdig_crn": {
       "name": "sysdig_crn",
@@ -412,7 +410,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 201
+        "line": 197
       }
     }
   },
@@ -539,7 +537,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 77
+        "line": 76
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -558,7 +556,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 153
+        "line": 150
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -573,7 +571,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 61
+        "line": 60
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -586,7 +584,6 @@
         "name": "cos_instance_name",
         "plan": "cos_plan",
         "resource_group_id": "resource_group_id",
-        "service_endpoints": "service_endpoints",
         "tags": "cos_tags"
       },
       "provider": {
@@ -611,19 +608,22 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 46
+        "line": 45
       }
     },
     "null_resource.deprecation_notice": {
       "mode": "managed",
       "type": "null_resource",
       "name": "deprecation_notice",
+      "attributes": {
+        "count": "service_endpoints"
+      },
       "provider": {
         "name": "null"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 300
+        "line": 288
       }
     }
   },
@@ -687,7 +687,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 227
+        "line": 215
       }
     },
     "instance_cbr_rule": {
@@ -748,7 +748,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 266
+        "line": 254
       }
     }
   }
