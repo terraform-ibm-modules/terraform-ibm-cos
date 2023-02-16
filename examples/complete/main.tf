@@ -101,7 +101,6 @@ module "cbr_zone" {
 
 # Create COS instance and Key protect instance.
 # Create COS bucket-1 with:
-# - Retention
 # - Encryption
 # - Monitoring
 # - Activity Tracking
@@ -180,7 +179,6 @@ module "cos_bucket1" {
 
 # We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
 # Create COS bucket-2 with:
-# - Retention
 # - Cross Region Location
 # - Encryption
 # - Monitoring
