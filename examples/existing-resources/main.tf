@@ -64,6 +64,7 @@ module "cos" {
   region                   = var.region
   cross_region_location    = null
   encryption_enabled       = true
-  retention_enabled        = false
-  activity_tracker_crn     = null
+  # disable retention for test environments - enable for stage/prod
+  retention_enabled    = false
+  activity_tracker_crn = null
 }
