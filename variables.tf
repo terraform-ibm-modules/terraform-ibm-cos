@@ -243,7 +243,7 @@ variable "bucket_cbr_rules" {
     tags = optional(list(object({
       name  = string
       value = string
-    })))
+    })), [])
     operations = optional(list(object({
       api_types = list(object({
         api_type_id = string
@@ -268,7 +268,7 @@ variable "instance_cbr_rules" {
     tags = optional(list(object({
       name  = string
       value = string
-    })))
+    })), [])
     operations = optional(list(object({
       api_types = list(object({
         api_type_id = string
