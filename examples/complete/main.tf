@@ -124,16 +124,6 @@ module "cos_bucket1" {
       description      = "sample rule for bucket 1"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      tags = [
-        {
-          name  = "environment"
-          value = "${var.prefix}-test"
-        },
-        {
-          name  = "terraform-rule"
-          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-bucket-1"
-        }
-      ]
       rule_contexts = [{
         attributes = [
           {
@@ -152,16 +142,6 @@ module "cos_bucket1" {
       description      = "sample rule for the instance"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      tags = [
-        {
-          name  = "environment"
-          value = "${var.prefix}-test"
-        },
-        {
-          name  = "terraform-rule"
-          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-instance"
-        }
-      ]
       rule_contexts = [{
         attributes = [
           {
@@ -203,16 +183,6 @@ module "cos_bucket2" {
       description      = "sample rule for bucket 2"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      tags = [
-        {
-          name  = "environment"
-          value = "${var.prefix}-test"
-        },
-        {
-          name  = "terraform-rule"
-          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-bucket-2"
-        }
-      ]
       rule_contexts = [{
         attributes = [
           {
