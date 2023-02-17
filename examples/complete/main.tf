@@ -142,7 +142,7 @@ module "cos_bucket1" {
       description      = "sample rule for the instance"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      # IAM tags on the rule resources should match to the instance level IAM tags.
+      # IAM tags on the rule resources should match to the instance level IAM tags
       tags = [
         {
           name  = "env"
