@@ -37,7 +37,7 @@ locals {
 
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=v2.1.0"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=v2.1.1"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
@@ -124,16 +124,6 @@ module "cos_bucket1" {
       description      = "sample rule for bucket 1"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      tags = [
-        {
-          name  = "environment"
-          value = "${var.prefix}-test"
-        },
-        {
-          name  = "terraform-rule"
-          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-bucket-1"
-        }
-      ]
       rule_contexts = [{
         attributes = [
           {
@@ -152,16 +142,6 @@ module "cos_bucket1" {
       description      = "sample rule for the instance"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      tags = [
-        {
-          name  = "environment"
-          value = "${var.prefix}-test"
-        },
-        {
-          name  = "terraform-rule"
-          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-instance"
-        }
-      ]
       rule_contexts = [{
         attributes = [
           {
@@ -203,16 +183,6 @@ module "cos_bucket2" {
       description      = "sample rule for bucket 2"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      tags = [
-        {
-          name  = "environment"
-          value = "${var.prefix}-test"
-        },
-        {
-          name  = "terraform-rule"
-          value = "allow-${var.prefix}-vpc-to-${var.prefix}-cos-${var.prefix}-bucket-2"
-        }
-      ]
       rule_contexts = [{
         attributes = [
           {

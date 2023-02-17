@@ -32,7 +32,7 @@
     },
     "bucket_cbr_rules": {
       "name": "bucket_cbr_rules",
-      "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })))\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
+      "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })), [])\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
       "description": "(Optional, list) List of CBR rules to create for the bucket",
       "default": [],
       "source": [
@@ -269,7 +269,7 @@
     },
     "instance_cbr_rules": {
       "name": "instance_cbr_rules",
-      "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })))\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
+      "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })), [])\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
       "description": "(Optional, list) List of CBR rules to create for the instance",
       "default": [],
       "source": [
