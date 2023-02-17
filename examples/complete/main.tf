@@ -207,7 +207,7 @@ module "cos_bucket2" {
 
 # IAM tags for the instance to match to the CBR rule tags.
 resource "ibm_resource_tag" "tag1" {
-  resource_id = module.cos_bucket2.cos_instance_id
+  resource_id = module.cos_bucket1.cos_instance_id
   tag_type    = "access"
   tags        = ["env:test"]
 }
