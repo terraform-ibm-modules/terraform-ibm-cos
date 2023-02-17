@@ -241,12 +241,7 @@ module "bucket_cbr_rule" {
         operator = "stringEquals"
       }
     ],
-    tags = var.bucket_cbr_rules[count.index].tags != null ? var.bucket_cbr_rules[count.index].tags : [
-      {
-        name  = "terraform-rule"
-        value = "allow-cos-bucket"
-      }
-    ]
+    tags = var.bucket_cbr_rules[count.index].tags
   }]
   operations = var.bucket_cbr_rules[count.index].operations == null ? [] : var.bucket_cbr_rules[count.index].operations
 }
