@@ -79,6 +79,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   bucket_name           = var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
+  endpoint_type         = var.bucket_endpoint
   cross_region_location = var.cross_region_location
   storage_class         = "standard"
   key_protect           = var.key_protect_key_crn

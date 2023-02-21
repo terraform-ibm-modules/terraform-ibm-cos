@@ -37,7 +37,7 @@ variable "cross_region_location" {
 variable "bucket_endpoint" {
   type        = string
   description = "Bucket endpoint type"
-  default     = "public"
+  default     = "private"
 }
 
 variable "resource_group" {

@@ -54,6 +54,7 @@
       "description": "The type of endpoint to use for the bucket. (public, private, direct)",
       "default": "public",
       "source": [
+        "ibm_cos_bucket.cos_bucket.endpoint_type",
         "ibm_cos_bucket.cos_bucket1.endpoint_type"
       ],
       "pos": {
@@ -520,6 +521,7 @@
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
+        "endpoint_type": "bucket_endpoint",
         "key_protect": "key_protect_key_crn",
         "region_location": "region"
       },
@@ -547,7 +549,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 150
+        "line": 151
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -614,7 +616,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 278
+        "line": 279
       }
     }
   },
@@ -678,7 +680,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 215
+        "line": 216
       }
     },
     "instance_cbr_rule": {
@@ -739,7 +741,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 249
+        "line": 250
       }
     }
   }

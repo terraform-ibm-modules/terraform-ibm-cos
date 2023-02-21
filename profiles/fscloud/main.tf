@@ -14,6 +14,7 @@ module "cos_module" {
   cos_tags                           = var.cos_tags
   existing_cos_instance_id           = var.existing_cos_instance_id
   service_endpoints                  = "private"
+  bucket_endpoint                    = "private"
   create_cos_bucket                  = var.create_cos_bucket
   bucket_name                        = var.bucket_name
   retention_enabled                  = var.retention_enabled
