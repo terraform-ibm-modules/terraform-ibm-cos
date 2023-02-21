@@ -51,7 +51,7 @@
     "bucket_endpoint": {
       "name": "bucket_endpoint",
       "type": "string",
-      "description": "The type of endpoint to use for the bucket. (public, private, direct)",
+      "description": "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work",
       "default": "public",
       "source": [
         "ibm_cos_bucket.cos_bucket.endpoint_type",
