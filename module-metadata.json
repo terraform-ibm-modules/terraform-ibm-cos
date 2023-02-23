@@ -77,6 +77,16 @@
       },
       "immutable": true
     },
+    "central_policy_management": {
+      "name": "central_policy_management",
+      "type": "bool",
+      "description": "Set to true if using centralised IAM policy management to skip any and all IAM policy creation. When using centralised policy management the COS instance creation and encrypted bucket creation must be done in separate module blocks",
+      "default": false,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 279
+      }
+    },
     "cos_instance_name": {
       "name": "cos_instance_name",
       "type": "string",
@@ -528,7 +538,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 76
+        "line": 78
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -547,7 +557,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 150
+        "line": 152
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -562,7 +572,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 60
+        "line": 62
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -582,7 +592,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 35
+        "line": 37
       }
     },
     "ibm_resource_key.resource_key": {
@@ -599,7 +609,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 45
+        "line": 47
       }
     },
     "null_resource.deprecation_notice": {
@@ -614,7 +624,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 278
+        "line": 280
       }
     }
   },
@@ -678,7 +688,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 215
+        "line": 217
       }
     },
     "instance_cbr_rule": {
@@ -739,7 +749,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 249
+        "line": 251
       }
     }
   }

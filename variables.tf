@@ -275,3 +275,9 @@ variable "instance_cbr_rules" {
   default     = []
   # Validation happens in the rule module
 }
+
+variable "central_policy_management" {
+  type        = bool
+  description = "Set to true if using centralised IAM policy management to skip any and all IAM policy creation. When using centralised policy management the COS instance creation and encrypted bucket creation must be done in separate module blocks"
+  default     = false
+}

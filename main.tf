@@ -29,6 +29,8 @@ locals {
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.expire_days cannot be set.") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_central_policy_management = var.create_cos_bucket && var.encryption_enabled && var.create_cos_instance && var.central_policy_management ? tobool("If var.central_policy_management is true, then var.create_cos_instance and var.create_cos_bucket/var.encryption_enabled cannot both be enabled") : true
 }
 
 # Resource to create COS instance if create_cos_instance is true
@@ -53,7 +55,7 @@ resource "ibm_resource_key" "resource_key" {
 locals {
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy = var.encryption_enabled && var.create_cos_instance
+  create_access_policy = var.encryption_enabled && var.create_cos_instance && var.central_policy_management == false
 }
 
 # Create IAM Access Policy to allow Key protect to access COS instance
