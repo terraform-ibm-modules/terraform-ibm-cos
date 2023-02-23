@@ -113,6 +113,7 @@ You need the following permissions to run this module.
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 | [null_resource.deprecation_notice](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [ibm_iam_service_id.resource_key_existing_serviceid](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_service_id) | data source |
 
 ## Inputs
 
@@ -143,6 +144,7 @@ You need the following permissions to run this module.
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. Only used if 'create\_cos\_bucket' is true. | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If you pass a value for this, do not pass one for var.cross\_region\_location. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
+| <a name="input_resource_key_existing_serviceid_name"></a> [resource\_key\_existing\_serviceid\_name](#input\_resource\_key\_existing\_serviceid\_name) | Existing serviceID to bind with resource key to be created | `string` | `null` | no |
 | <a name="input_retention_default"></a> [retention\_default](#input\_retention\_default) | Specifies default duration of time an object that can be kept unmodified for COS bucket. Only used if 'create\_cos\_bucket' is true. | `number` | `90` | no |
 | <a name="input_retention_enabled"></a> [retention\_enabled](#input\_retention\_enabled) | Retention enabled for COS bucket. Only used if 'create\_cos\_bucket' is true. | `bool` | `true` | no |
 | <a name="input_retention_maximum"></a> [retention\_maximum](#input\_retention\_maximum) | Specifies maximum duration of time an object that can be kept unmodified for COS bucket. Only used if 'create\_cos\_bucket' is true. | `number` | `350` | no |

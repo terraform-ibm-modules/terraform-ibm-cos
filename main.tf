@@ -42,12 +42,26 @@ resource "ibm_resource_instance" "cos_instance" {
   tags              = var.cos_tags
 }
 
+# loading existing serviceID to be used for resource key creation
+data "ibm_iam_service_id" "resource_key_existing_serviceid" {
+  count = var.resource_key_existing_serviceid_name != null ? 1 : 0
+  name  = var.resource_key_existing_serviceid_name
+}
+
+locals {
+  # serviceID crn if using an existing serviceID for hmac credentials - otherwise set to null
+  resource_key_serviceid_crn = var.resource_key_existing_serviceid_name != null ? data.ibm_iam_service_id.resource_key_existing_serviceid[0].service_ids[0].crn : null
+}
+
 resource "ibm_resource_key" "resource_key" {
   count                = var.create_hmac_key && var.create_cos_instance ? 1 : 0
   name                 = var.hmac_key_name
   resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
-  parameters           = { "HMAC" = true }
-  role                 = var.hmac_key_role
+  parameters = {
+    "serviceid_crn" = local.resource_key_serviceid_crn
+    "HMAC"          = var.create_hmac_key
+  }
+  role = var.hmac_key_role
 }
 
 locals {
