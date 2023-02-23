@@ -24,7 +24,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cos_id_input = !var.create_cos_instance && var.existing_cos_instance_id == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_kp_guid_input = var.encryption_enabled && var.skip_iam_authorization_policy == false && var.existing_key_protect_instance_guid == null ? tobool("A value must be passed for var.existing_key_protect_instance_guid when var.encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
+  validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.existing_key_protect_instance_guid == null ? tobool("A value must be passed for var.existing_key_protect_instance_guid when var.create_cos_instance and var.encryption_enabled is true.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
   # tflint-ignore: terraform_unused_declarations
@@ -46,31 +46,22 @@ resource "ibm_resource_key" "resource_key" {
   count                = var.create_hmac_key && var.create_cos_instance ? 1 : 0
   name                 = var.hmac_key_name
   resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
-  parameters = {
-    "serviceid_crn" = var.resource_key_existing_serviceid_crn
-    "HMAC"          = var.create_hmac_key
-  }
-  role = var.hmac_key_role
+  parameters           = { "HMAC" = true }
+  role                 = var.hmac_key_role
 }
 
 locals {
-  cos_instance_id          = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
-  cos_instance_guid        = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy_kms = var.encryption_enabled && !var.skip_iam_authorization_policy
-  kms_service = local.create_access_policy_kms && var.key_protect_key_crn != null ? (
-    can(regex(".*kms.*", var.key_protect_key_crn)) ? "kms" : (
-      can(regex(".*hs-crypto.*", var.key_protect_key_crn)) ? "hs-crypto" : null
-    )
-  ) : null
-
+  cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
+  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
+  create_access_policy = var.encryption_enabled && var.create_cos_instance
 }
 
-# Create IAM Authorization Policy to allow COS to access kms for the encryption key
-resource "ibm_iam_authorization_policy" "kms_policy" {
-  count                       = local.create_access_policy_kms ? 1 : 0
+# Create IAM Access Policy to allow Key protect to access COS instance
+resource "ibm_iam_authorization_policy" "policy" {
+  count                       = local.create_access_policy ? 1 : 0
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
-  target_service_name         = local.kms_service
+  target_service_name         = "kms"
   target_resource_instance_id = var.existing_key_protect_instance_guid
   roles                       = ["Reader"]
 }
@@ -84,11 +75,10 @@ resource "ibm_iam_authorization_policy" "kms_policy" {
 
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  depends_on            = [ibm_iam_authorization_policy.kms_policy]
+  depends_on            = [ibm_iam_authorization_policy.policy]
   bucket_name           = var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
-  endpoint_type         = var.bucket_endpoint
   cross_region_location = var.cross_region_location
   storage_class         = var.bucket_storage_class
   key_protect           = var.key_protect_key_crn
@@ -142,8 +132,6 @@ resource "ibm_cos_bucket" "cos_bucket" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  ## This for_each block is NOT a loop to attach to multiple versioning blocks.
-  ## This block is only used to conditionally attach a single versioning block.
   dynamic "object_versioning" {
     for_each = local.object_versioning_enabled
     content {
@@ -154,9 +142,9 @@ resource "ibm_cos_bucket" "cos_bucket" {
 
 # Create COS bucket with:
 # - Retention
+# - Encryption
 # - Monitoring
 # - Activity Tracking
-# - Versioning
 # Create COS bucket without:
 # - Encryption
 resource "ibm_cos_bucket" "cos_bucket1" {
@@ -211,21 +199,11 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  ## This for_each block is NOT a loop to attach to multiple versioning blocks.
-  ## This block is only used to conditionally attach a single versioning block.
-  dynamic "object_versioning" {
-    for_each = local.object_versioning_enabled
-    content {
-      enable = var.object_versioning_enabled
-    }
-  }
 }
 
 locals {
-  bucket_crn           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket1[*].crn
   bucket_id            = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
   bucket_name          = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
-  bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
   bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
   s3_endpoint_public   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
   s3_endpoint_private  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
@@ -237,7 +215,7 @@ locals {
 
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
@@ -271,7 +249,7 @@ module "bucket_cbr_rule" {
 
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
