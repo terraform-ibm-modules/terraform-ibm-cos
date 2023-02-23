@@ -37,7 +37,7 @@ locals {
 
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=v2.1.1"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=v2.2.0"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
@@ -67,7 +67,7 @@ locals {
 }
 
 module "key_protect_all_inclusive" {
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.0.2"
+  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.0.0"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
@@ -142,6 +142,13 @@ module "cos_bucket1" {
       description      = "sample rule for the instance"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      # IAM tags on the rule resources should match to the instance level IAM tags
+      tags = [
+        {
+          name  = "env"
+          value = "test"
+        }
+      ]
       rule_contexts = [{
         attributes = [
           {
@@ -196,4 +203,11 @@ module "cos_bucket2" {
       }]
     }
   ]
+}
+
+# IAM tags for the instance to match to the CBR rule tags.
+resource "ibm_resource_tag" "tag1" {
+  resource_id = module.cos_bucket1.cos_instance_id
+  tag_type    = "access"
+  tags        = ["env:test"]
 }
