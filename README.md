@@ -124,6 +124,7 @@ You need the following permissions to run this module.
 | <a name="input_bucket_cbr_rules"></a> [bucket\_cbr\_rules](#input\_bucket\_cbr\_rules) | (Optional, list) List of CBR rules to create for the bucket | <pre>list(object({<br>    description = string<br>    account_id  = string<br>    rule_contexts = list(object({<br>      attributes = optional(list(object({<br>        name  = string<br>        value = string<br>    }))) }))<br>    enforcement_mode = string<br>    tags = optional(list(object({<br>      name  = string<br>      value = string<br>    })), [])<br>    operations = optional(list(object({<br>      api_types = list(object({<br>        api_type_id = string<br>      }))<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_bucket_endpoint"></a> [bucket\_endpoint](#input\_bucket\_endpoint) | The type of endpoint to use for the bucket. (public, private, direct) | `string` | `"public"` | no |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name to give the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
+| <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | the storage class of the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'. | `string` | `"standard"` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create\_cos\_instance' is true. | `string` | `null` | no |
 | <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location to provision the cloud object storage instance. Only used if 'create\_cos\_instance' is true. | `string` | `"global"` | no |
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan to be used for creating cloud object storage instance. Only used if 'create\_cos\_instance' it true. | `string` | `"standard"` | no |
@@ -157,6 +158,7 @@ You need the following permissions to run this module.
 |------|-------------|
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | Bucket id |
 | <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Bucket Name |
+| <a name="output_bucket_storage_class"></a> [bucket\_storage\_class](#output\_bucket\_storage\_class) | Bucket Storage Class |
 | <a name="output_cos_instance_guid"></a> [cos\_instance\_guid](#output\_cos\_instance\_guid) | The GUID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The ID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_key_protect_key_crn"></a> [key\_protect\_key\_crn](#output\_key\_protect\_key\_crn) | The CRN of the Key Protect Key used to encrypt the COS Bucket |
