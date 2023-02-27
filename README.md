@@ -53,6 +53,12 @@ module "additional_cos_bucket" {
 }
 ```
 
+## Known issues
+
+An IBM Cloud Provider issue [4357](https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4357) has been raised
+to report that the use of bucket_types does not work. When 'private' is selected, the provider attempts to use private
+endpoints (on the COS instance) to create the bucket which fails due to the endpoints being unreachable from deployment environment.
+
 ## Required IAM access policies
 
 <!-- PERMISSIONS REQUIRED TO RUN MODULE
@@ -123,7 +129,7 @@ You need the following permissions to run this module.
 | <a name="input_archive_days"></a> [archive\_days](#input\_archive\_days) | Specifies the number of days when the archive rule action takes effect. Only used if 'create\_cos\_bucket' is true. This must be set to null when when using var.cross\_region\_location as archive data is not supported with this feature. | `number` | `90` | no |
 | <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | Specifies the storage class or archive type to which you want the object to transition. Only used if 'create\_cos\_bucket' is true. | `string` | `"Glacier"` | no |
 | <a name="input_bucket_cbr_rules"></a> [bucket\_cbr\_rules](#input\_bucket\_cbr\_rules) | (Optional, list) List of CBR rules to create for the bucket | <pre>list(object({<br>    description = string<br>    account_id  = string<br>    rule_contexts = list(object({<br>      attributes = optional(list(object({<br>        name  = string<br>        value = string<br>    }))) }))<br>    enforcement_mode = string<br>    tags = optional(list(object({<br>      name  = string<br>      value = string<br>    })), [])<br>    operations = optional(list(object({<br>      api_types = list(object({<br>        api_type_id = string<br>      }))<br>    })))<br>  }))</pre> | `[]` | no |
-| <a name="input_bucket_endpoint"></a> [bucket\_endpoint](#input\_bucket\_endpoint) | The type of endpoint to use for the bucket. (public, private, direct) | `string` | `"public"` | no |
+| <a name="input_bucket_endpoint"></a> [bucket\_endpoint](#input\_bucket\_endpoint) | The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work | `string` | `"public"` | no |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name to give the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | the storage class of the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'. | `string` | `"standard"` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create\_cos\_instance' is true. | `string` | `null` | no |

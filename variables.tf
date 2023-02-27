@@ -120,7 +120,7 @@ variable "bucket_storage_class" {
 }
 
 variable "bucket_endpoint" {
-  description = "The type of endpoint to use for the bucket. (public, private, direct)"
+  description = "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work"
   type        = string
   default     = "public"
   validation {
