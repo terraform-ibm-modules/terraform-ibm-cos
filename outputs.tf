@@ -21,9 +21,19 @@ output "bucket_id" {
   value       = local.bucket_id
 }
 
+output "bucket_crn" {
+  description = "Bucket CRN"
+  value       = local.bucket_crn
+}
+
 output "bucket_name" {
   description = "Bucket Name"
   value       = local.bucket_name
+}
+
+output "bucket_storage_class" {
+  description = "Bucket Storage Class"
+  value       = local.bucket_storage_class
 }
 
 output "key_protect_key_crn" {

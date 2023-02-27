@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 191
+        "line": 202
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 169
+        "line": 180
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 175
+        "line": 186
       }
     },
     "bucket_cbr_rules": {
@@ -45,20 +45,21 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 229
+        "line": 240
       }
     },
     "bucket_endpoint": {
       "name": "bucket_endpoint",
       "type": "string",
-      "description": "The type of endpoint to use for the bucket. (public, private, direct)",
+      "description": "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work",
       "default": "public",
       "source": [
+        "ibm_cos_bucket.cos_bucket.endpoint_type",
         "ibm_cos_bucket.cos_bucket1.endpoint_type"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 122
       },
       "options": "public,private,direct"
     },
@@ -77,6 +78,23 @@
       },
       "immutable": true
     },
+    "bucket_storage_class": {
+      "name": "bucket_storage_class",
+      "type": "string",
+      "description": "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'.",
+      "default": "standard",
+      "source": [
+        "ibm_cos_bucket.cos_bucket.storage_class",
+        "ibm_cos_bucket.cos_bucket1.storage_class"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 111
+      },
+      "immutable": true,
+      "options": "standard,vault,cold,smart,flex,onerate_active",
+      "computed": true
+    },
     "central_policy_management": {
       "name": "central_policy_management",
       "type": "bool",
@@ -84,7 +102,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 279
+        "line": 290
       }
     },
     "cos_instance_name": {
@@ -212,7 +230,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 213
+        "line": 224
       }
     },
     "existing_cos_instance_id": {
@@ -233,7 +251,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 207
+        "line": 218
       },
       "immutable": true,
       "computed": true
@@ -245,7 +263,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 185
+        "line": 196
       }
     },
     "hmac_key_name": {
@@ -292,7 +310,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 254
+        "line": 265
       }
     },
     "key_protect_key_crn": {
@@ -304,7 +322,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 219
+        "line": 230
       },
       "immutable": true
     },
@@ -315,7 +333,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 163
+        "line": 174
       }
     },
     "region": {
@@ -359,7 +377,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 127
+        "line": 138
       }
     },
     "retention_enabled": {
@@ -369,7 +387,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 121
+        "line": 132
       }
     },
     "retention_maximum": {
@@ -379,7 +397,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 137
+        "line": 148
       }
     },
     "retention_minimum": {
@@ -389,7 +407,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 147
+        "line": 158
       }
     },
     "retention_permanent": {
@@ -399,7 +417,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 157
+        "line": 168
       }
     },
     "service_endpoints": {
@@ -420,11 +438,20 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 197
+        "line": 208
       }
     }
   },
   "outputs": {
+    "bucket_crn": {
+      "name": "bucket_crn",
+      "description": "Bucket CRN",
+      "value": "local.bucket_crn",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 24
+      }
+    },
     "bucket_id": {
       "name": "bucket_id",
       "description": "Bucket id",
@@ -440,7 +467,16 @@
       "value": "local.bucket_name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 29
+      }
+    },
+    "bucket_storage_class": {
+      "name": "bucket_storage_class",
+      "description": "Bucket Storage Class",
+      "value": "local.bucket_storage_class",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 34
       }
     },
     "cos_instance_guid": {
@@ -449,7 +485,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
+        "line": 49
       }
     },
     "cos_instance_id": {
@@ -458,7 +494,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 34
+        "line": 44
       }
     },
     "key_protect_key_crn": {
@@ -467,7 +503,7 @@
       "value": "var.key_protect_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 39
       },
       "type": "string"
     },
@@ -530,8 +566,10 @@
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
+        "endpoint_type": "bucket_endpoint",
         "key_protect": "key_protect_key_crn",
-        "region_location": "region"
+        "region_location": "region",
+        "storage_class": "bucket_storage_class"
       },
       "provider": {
         "name": "ibm"
@@ -550,14 +588,15 @@
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
         "endpoint_type": "bucket_endpoint",
-        "region_location": "region"
+        "region_location": "region",
+        "storage_class": "bucket_storage_class"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 152
+        "line": 155
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -624,7 +663,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 280
+        "line": 293
       }
     }
   },
@@ -688,7 +727,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 217
+        "line": 230
       }
     },
     "instance_cbr_rule": {
@@ -749,7 +788,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 251
+        "line": 264
       }
     }
   }
