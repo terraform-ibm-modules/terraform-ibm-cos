@@ -21,6 +21,11 @@ output "bucket_id" {
   value       = local.bucket_id
 }
 
+output "bucket_crn" {
+  description = "Bucket CRN"
+  value       = local.bucket_crn
+}
+
 output "bucket_name" {
   description = "Bucket Name"
   value       = local.bucket_name
