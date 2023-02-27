@@ -81,6 +81,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   region_location       = var.region
   endpoint_type         = var.bucket_endpoint
   cross_region_location = var.cross_region_location
+  endpoint_type         = var.bucket_endpoint
   storage_class         = var.bucket_storage_class
   key_protect           = var.key_protect_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
@@ -145,9 +146,9 @@ resource "ibm_cos_bucket" "cos_bucket" {
 
 # Create COS bucket with:
 # - Retention
-# - Encryption
 # - Monitoring
 # - Activity Tracking
+# - Versioning
 # Create COS bucket without:
 # - Encryption
 resource "ibm_cos_bucket" "cos_bucket1" {
