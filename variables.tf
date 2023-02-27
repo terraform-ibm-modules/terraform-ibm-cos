@@ -108,6 +108,17 @@ variable "bucket_name" {
   default     = null
 }
 
+variable "bucket_storage_class" {
+  type        = string
+  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
+  default     = "standard"
+
+  validation {
+    condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
+    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
+  }
+}
+
 variable "bucket_endpoint" {
   description = "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work"
   type        = string

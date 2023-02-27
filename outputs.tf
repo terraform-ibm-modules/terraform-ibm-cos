@@ -26,6 +26,11 @@ output "bucket_name" {
   value       = local.bucket_name
 }
 
+output "bucket_storage_class" {
+  description = "Bucket Storage Class"
+  value       = local.bucket_storage_class
+}
+
 output "key_protect_key_crn" {
   description = "The CRN of the Key Protect Key used to encrypt the COS Bucket"
   value       = var.key_protect_key_crn
