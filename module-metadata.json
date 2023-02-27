@@ -51,9 +51,10 @@
     "bucket_endpoint": {
       "name": "bucket_endpoint",
       "type": "string",
-      "description": "The type of endpoint to use for the bucket. (public, private, direct)",
+      "description": "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work",
       "default": "public",
       "source": [
+        "ibm_cos_bucket.cos_bucket.endpoint_type",
         "ibm_cos_bucket.cos_bucket1.endpoint_type"
       ],
       "pos": {
@@ -555,6 +556,7 @@
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
+        "endpoint_type": "bucket_endpoint",
         "key_protect": "key_protect_key_crn",
         "region_location": "region",
         "storage_class": "bucket_storage_class"
@@ -584,7 +586,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 152
+        "line": 153
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -651,7 +653,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 290
+        "line": 291
       }
     }
   },
@@ -715,7 +717,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 227
+        "line": 228
       }
     },
     "instance_cbr_rule": {
@@ -776,7 +778,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 261
+        "line": 262
       }
     }
   }
