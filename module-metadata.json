@@ -465,7 +465,7 @@
       "value": "local.bucket_storage_class",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 34
       }
     },
     "cos_instance_guid": {
@@ -474,7 +474,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 44
+        "line": 49
       }
     },
     "cos_instance_id": {
@@ -483,7 +483,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
+        "line": 44
       }
     },
     "key_protect_key_crn": {
@@ -492,7 +492,7 @@
       "value": "var.key_protect_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 34
+        "line": 39
       },
       "type": "string"
     },
@@ -651,7 +651,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 289
+        "line": 290
       }
     }
   },
@@ -715,7 +715,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 226
+        "line": 227
       }
     },
     "instance_cbr_rule": {
@@ -776,7 +776,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 260
+        "line": 261
       }
     }
   }

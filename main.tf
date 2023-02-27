@@ -212,6 +212,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
+  bucket_crn           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket1[*].crn
   bucket_id            = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
   bucket_name          = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
   bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
