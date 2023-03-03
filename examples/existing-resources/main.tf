@@ -44,9 +44,6 @@ resource "ibm_iam_service_id" "resource_key_existing_serviceid" {
 ##############################################################################
 
 module "cos_instance" {
-  depends_on = [
-    ibm_iam_service_id.resource_key_existing_serviceid
-  ]
   source                              = "../../"
   cos_instance_name                   = "${var.prefix}-cos"
   create_cos_bucket                   = false
