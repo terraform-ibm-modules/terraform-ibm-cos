@@ -47,15 +47,15 @@ module "cos_instance" {
   depends_on = [
     ibm_iam_service_id.resource_key_existing_serviceid
   ]
-  source                               = "../../"
-  cos_instance_name                    = "${var.prefix}-cos"
-  create_cos_bucket                    = false
-  resource_group_id                    = module.resource_group.resource_group_id
-  existing_key_protect_instance_guid   = module.key_protect_all_inclusive.key_protect_guid
-  region                               = var.region
-  cross_region_location                = null
-  activity_tracker_crn                 = null
-  resource_key_existing_serviceid_name = ibm_iam_service_id.resource_key_existing_serviceid.name
+  source                              = "../../"
+  cos_instance_name                   = "${var.prefix}-cos"
+  create_cos_bucket                   = false
+  resource_group_id                   = module.resource_group.resource_group_id
+  existing_key_protect_instance_guid  = module.key_protect_all_inclusive.key_protect_guid
+  region                              = var.region
+  cross_region_location               = null
+  activity_tracker_crn                = null
+  resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
 }
 
 ##############################################################################

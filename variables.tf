@@ -29,8 +29,8 @@ variable "create_hmac_key" {
   default     = true
 }
 
-variable "resource_key_existing_serviceid_name" {
-  description = "Existing serviceID to bind with resource key to be created"
+variable "resource_key_existing_serviceid_crn" {
+  description = "CRN of existing serviceID to bind with resource key to be created"
   type        = string
   default     = null
 }

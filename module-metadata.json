@@ -360,24 +360,17 @@
         "resolved_to:id"
       ]
     },
-    "resource_key_existing_serviceid_name": {
-      "name": "resource_key_existing_serviceid_name",
+    "resource_key_existing_serviceid_crn": {
+      "name": "resource_key_existing_serviceid_crn",
       "type": "string",
-      "description": "Existing serviceID to bind with resource key to be created",
-      "required": true,
+      "description": "CRN of existing serviceID to bind with resource key to be created",
       "source": [
-        "data.ibm_iam_service_id.resource_key_existing_serviceid.count",
-        "data.ibm_iam_service_id.resource_key_existing_serviceid.name"
+        "ibm_resource_key.resource_key.parameters"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 32
-      },
-      "cloud_data_type": "iam",
-      "cloud_data_range": [
-        "service:service_id",
-        "resolved_to:name"
-      ]
+      }
     },
     "retention_default": {
       "name": "retention_default",
@@ -585,7 +578,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 90
+        "line": 79
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -605,7 +598,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 167
+        "line": 156
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -620,7 +613,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 74
+        "line": 63
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -650,6 +643,7 @@
       "attributes": {
         "count": "create_hmac_key",
         "name": "hmac_key_name",
+        "parameters": "resource_key_existing_serviceid_crn",
         "role": "hmac_key_role"
       },
       "provider": {
@@ -657,7 +651,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 56
+        "line": 45
       }
     },
     "null_resource.deprecation_notice": {
@@ -672,28 +666,11 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 305
+        "line": 294
       }
     }
   },
-  "data_resources": {
-    "data.ibm_iam_service_id.resource_key_existing_serviceid": {
-      "mode": "data",
-      "type": "ibm_iam_service_id",
-      "name": "resource_key_existing_serviceid",
-      "attributes": {
-        "count": "resource_key_existing_serviceid_name",
-        "name": "resource_key_existing_serviceid_name"
-      },
-      "provider": {
-        "name": "ibm"
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 46
-      }
-    }
-  },
+  "data_resources": {},
   "module_calls": {
     "bucket_cbr_rule": {
       "name": "bucket_cbr_rule",
@@ -753,7 +730,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 242
+        "line": 231
       }
     },
     "instance_cbr_rule": {
@@ -814,7 +791,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 276
+        "line": 265
       }
     }
   }
