@@ -54,3 +54,4 @@ Brewfile.lock.json
 
 # Visual Studio Code
 .vscode/
+*.code-workspace
