@@ -132,7 +132,6 @@ You need the following permissions to run this module.
 | <a name="input_bucket_endpoint"></a> [bucket\_endpoint](#input\_bucket\_endpoint) | The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work | `string` | `"public"` | no |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name to give the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | the storage class of the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'. | `string` | `"standard"` | no |
-| <a name="input_central_policy_management"></a> [central\_policy\_management](#input\_central\_policy\_management) | Set to true if using centralised IAM policy management to skip any and all IAM policy creation. When using centralised policy management the COS instance creation and encrypted bucket creation must be done in separate module blocks | `bool` | `false` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create\_cos\_instance' is true. | `string` | `null` | no |
 | <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location to provision the cloud object storage instance. Only used if 'create\_cos\_instance' is true. | `string` | `"global"` | no |
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan to be used for creating cloud object storage instance. Only used if 'create\_cos\_instance' it true. | `string` | `"standard"` | no |
@@ -158,6 +157,7 @@ You need the following permissions to run this module.
 | <a name="input_retention_minimum"></a> [retention\_minimum](#input\_retention\_minimum) | Specifies minimum duration of time an object must be kept unmodified for COS bucket. Only used if 'create\_cos\_bucket' is true. | `number` | `90` | no |
 | <a name="input_retention_permanent"></a> [retention\_permanent](#input\_retention\_permanent) | Specifies a permanent retention status either enable or disable for COS bucket. Only used if 'create\_cos\_bucket' is true. | `bool` | `false` | no |
 | <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | (Deprecated) Will be removed in the next major release | `string` | `null` | no |
+| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of IAM authorization policy | `bool` | `false` | no |
 | <a name="input_sysdig_crn"></a> [sysdig\_crn](#input\_sysdig\_crn) | Sysdig Monitoring crn for COS bucket (Optional) | `string` | `null` | no |
 
 ## Outputs

@@ -95,16 +95,6 @@
       "options": "standard,vault,cold,smart,flex,onerate_active",
       "computed": true
     },
-    "central_policy_management": {
-      "name": "central_policy_management",
-      "type": "bool",
-      "description": "Set to true if using centralised IAM policy management to skip any and all IAM policy creation. When using centralised policy management the COS instance creation and encrypted bucket creation must be done in separate module blocks",
-      "default": false,
-      "pos": {
-        "filename": "variables.tf",
-        "line": 290
-      }
-    },
     "cos_instance_name": {
       "name": "cos_instance_name",
       "type": "string",
@@ -432,6 +422,16 @@
         "line": 78
       }
     },
+    "skip_iam_authorization_policy": {
+      "name": "skip_iam_authorization_policy",
+      "type": "bool",
+      "description": "Set to true to skip the creation of IAM authorization policy",
+      "default": false,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 290
+      }
+    },
     "sysdig_crn": {
       "name": "sysdig_crn",
       "type": "string",
@@ -576,7 +576,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 78
+        "line": 76
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -596,7 +596,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 155
+        "line": 153
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -611,7 +611,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 62
+        "line": 60
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -631,7 +631,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 37
+        "line": 35
       }
     },
     "ibm_resource_key.resource_key": {
@@ -648,7 +648,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 47
+        "line": 45
       }
     },
     "null_resource.deprecation_notice": {
@@ -663,7 +663,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 293
+        "line": 291
       }
     }
   },
@@ -727,7 +727,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 230
+        "line": 228
       }
     },
     "instance_cbr_rule": {
@@ -788,7 +788,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 264
+        "line": 262
       }
     }
   }
