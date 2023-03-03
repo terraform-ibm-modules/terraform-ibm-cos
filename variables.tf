@@ -30,7 +30,7 @@ variable "create_hmac_key" {
 }
 
 variable "resource_key_existing_serviceid_crn" {
-  description = "CRN of existing serviceID to bind with resource key to be created"
+  description = "CRN of existing serviceID to bind with resource key to be created. If null a new ServiceID is created for the resource key."
   type        = string
   default     = null
 }
