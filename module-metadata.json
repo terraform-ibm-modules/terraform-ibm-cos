@@ -674,7 +674,7 @@
   "module_calls": {
     "bucket_cbr_rule": {
       "name": "bucket_cbr_rule",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.3",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4",
       "attributes": {
         "count": "bucket_cbr_rules",
         "enforcement_mode": "bucket_cbr_rules",
@@ -735,7 +735,7 @@
     },
     "instance_cbr_rule": {
       "name": "instance_cbr_rule",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.3",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4",
       "attributes": {
         "count": "instance_cbr_rules",
         "enforcement_mode": "instance_cbr_rules",
