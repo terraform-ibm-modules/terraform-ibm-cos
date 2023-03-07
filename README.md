@@ -25,25 +25,25 @@ provider "ibm" {
 
 # Creates:
 # - COS instance
-# - COS bucket with retention, encryption, monitoring and activity tracking
+# - COS buckets with retention, encryption, monitoring and activity tracking
 module "cos_module" {
   # Replace "main" with a GIT release version to lock into a specific release
   source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
   resource_group_id                  = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                             = "us-south"
   cos_instance_name                  = "my-cos-instance"
-  bucket_name                        = "my-cos-bucket"
+  bucket_name                        = ["my-cos-bucket-1", "my-cos-bucket-2"]
   existing_key_protect_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
   key_protect_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
   sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
 }
 
-# Creates additional bucket in instance created above:
+# Creates additional buckets in instance created above:
 module "additional_cos_bucket" {
   # Replace "main" with a GIT release version to lock into a specific release
   source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
-  bucket_name                        = "additional-bucket"
+  bucket_name                        = ["my-cos-bucket-3", "my-cos-bucket-4"]
   resource_group_id                  = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                             = "us-south"
   sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
@@ -130,7 +130,7 @@ You need the following permissions to run this module.
 | <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | Specifies the storage class or archive type to which you want the object to transition. Only used if 'create\_cos\_bucket' is true. | `string` | `"Glacier"` | no |
 | <a name="input_bucket_cbr_rules"></a> [bucket\_cbr\_rules](#input\_bucket\_cbr\_rules) | (Optional, list) List of CBR rules to create for the bucket | <pre>list(object({<br>    description = string<br>    account_id  = string<br>    rule_contexts = list(object({<br>      attributes = optional(list(object({<br>        name  = string<br>        value = string<br>    }))) }))<br>    enforcement_mode = string<br>    tags = optional(list(object({<br>      name  = string<br>      value = string<br>    })), [])<br>    operations = optional(list(object({<br>      api_types = list(object({<br>        api_type_id = string<br>      }))<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_bucket_endpoint"></a> [bucket\_endpoint](#input\_bucket\_endpoint) | The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work | `string` | `"public"` | no |
-| <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name to give the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
+| <a name="input_bucket_names"></a> [bucket\_names](#input\_bucket\_names) | List of bucket names to be created | `list(string)` | `[]` | no |
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | the storage class of the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'. | `string` | `"standard"` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create\_cos\_instance' is true. | `string` | `null` | no |
 | <a name="input_cos_location"></a> [cos\_location](#input\_cos\_location) | Location to provision the cloud object storage instance. Only used if 'create\_cos\_instance' is true. | `string` | `"global"` | no |

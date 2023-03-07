@@ -77,7 +77,12 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
-	options.TerraformVars["bucket_endpoint"] = "public" // provider issue 4357
+	options.TerraformVars = map[string]interface{}{
+		"bucket_endpoint":           "public", // provider issue 4357
+		"bucket_names":              []string{"test-cos-bucket-1", "test-cos-bucket-2"},
+		"cross_region_bucket_names": []string{"test-cos-bucket-3"},
+	}
+
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -87,6 +92,9 @@ func TestRunExistingResourcesExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
+	options.TerraformVars = map[string]interface{}{
+		"bucket_names": []string{"test-cos-bucket-4", "test-cos-bucket-5"},
+	}
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")

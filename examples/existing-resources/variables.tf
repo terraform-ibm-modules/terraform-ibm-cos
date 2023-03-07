@@ -27,3 +27,13 @@ variable "resource_tags" {
   description = "Optional list of tags to be added to created resources"
   default     = []
 }
+
+variable "bucket_names" {
+  type        = list(string)
+  description = "List of bucket names to be created"
+
+  validation {
+    condition     = length(var.bucket_names) > 0
+    error_message = "Please provide list of buckets to be created"
+  }
+}

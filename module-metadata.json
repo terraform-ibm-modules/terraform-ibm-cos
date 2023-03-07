@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 202
+        "line": 196
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 180
+        "line": 174
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 186
+        "line": 180
       }
     },
     "bucket_cbr_rules": {
@@ -35,17 +35,9 @@
       "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })), [])\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
       "description": "(Optional, list) List of CBR rules to create for the bucket",
       "default": [],
-      "source": [
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule"
-      ],
       "pos": {
         "filename": "variables.tf",
-        "line": 240
+        "line": 234
       }
     },
     "bucket_endpoint": {
@@ -59,14 +51,15 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 122
+        "line": 116
       },
       "options": "public,private,direct"
     },
-    "bucket_name": {
-      "name": "bucket_name",
-      "type": "string",
-      "description": "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true.",
+    "bucket_names": {
+      "name": "bucket_names",
+      "type": "list(string)",
+      "description": "List of bucket names to be created",
+      "default": [],
       "required": true,
       "source": [
         "ibm_cos_bucket.cos_bucket.bucket_name",
@@ -74,7 +67,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 105
+        "line": 284
       },
       "immutable": true
     },
@@ -89,7 +82,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 105
       },
       "immutable": true,
       "options": "standard,vault,cold,smart,flex,onerate_active",
@@ -220,7 +213,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 224
+        "line": 218
       }
     },
     "existing_cos_instance_id": {
@@ -241,7 +234,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 218
+        "line": 212
       },
       "immutable": true,
       "computed": true
@@ -253,7 +246,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 196
+        "line": 190
       }
     },
     "hmac_key_name": {
@@ -300,7 +293,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 265
+        "line": 259
       }
     },
     "key_protect_key_crn": {
@@ -312,7 +305,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 230
+        "line": 224
       },
       "immutable": true
     },
@@ -323,7 +316,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 174
+        "line": 168
       }
     },
     "region": {
@@ -367,7 +360,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 138
+        "line": 132
       }
     },
     "retention_enabled": {
@@ -377,7 +370,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 132
+        "line": 126
       }
     },
     "retention_maximum": {
@@ -387,7 +380,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 148
+        "line": 142
       }
     },
     "retention_minimum": {
@@ -397,7 +390,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 158
+        "line": 152
       }
     },
     "retention_permanent": {
@@ -407,7 +400,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 168
+        "line": 162
       }
     },
     "service_endpoints": {
@@ -428,7 +421,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 208
+        "line": 202
       }
     }
   },
@@ -553,7 +546,7 @@
       "type": "ibm_cos_bucket",
       "name": "cos_bucket",
       "attributes": {
-        "bucket_name": "bucket_name",
+        "bucket_name": "bucket_names",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
         "endpoint_type": "bucket_endpoint",
@@ -574,7 +567,7 @@
       "type": "ibm_cos_bucket",
       "name": "cos_bucket1",
       "attributes": {
-        "bucket_name": "bucket_name",
+        "bucket_name": "bucket_names",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
         "endpoint_type": "bucket_endpoint",
@@ -653,7 +646,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 291
+        "line": 303
       }
     }
   },
@@ -662,14 +655,6 @@
     "bucket_cbr_rule": {
       "name": "bucket_cbr_rule",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2",
-      "attributes": {
-        "count": "bucket_cbr_rules",
-        "enforcement_mode": "bucket_cbr_rules",
-        "operations": "bucket_cbr_rules",
-        "resources": "bucket_cbr_rules",
-        "rule_contexts": "bucket_cbr_rules",
-        "rule_description": "bucket_cbr_rules"
-      },
       "managed_resources": {
         "ibm_cbr_rule.cbr_rule": {
           "mode": "managed",
@@ -717,7 +702,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 228
+        "line": 236
       }
     },
     "instance_cbr_rule": {
@@ -778,7 +763,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 262
+        "line": 274
       }
     }
   }

@@ -59,7 +59,7 @@ module "cos" {
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_instance.cos_instance_id
   key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  bucket_name              = "${var.prefix}-bucket"
+  bucket_names             = toset(var.bucket_names)
   resource_group_id        = module.resource_group.resource_group_id
   region                   = var.region
   cross_region_location    = null

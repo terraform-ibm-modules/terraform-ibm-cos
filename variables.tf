@@ -102,12 +102,6 @@ variable "cross_region_location" {
   }
 }
 
-variable "bucket_name" {
-  type        = string
-  description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
-  default     = null
-}
-
 variable "bucket_storage_class" {
   type        = string
   description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
@@ -285,4 +279,10 @@ variable "instance_cbr_rules" {
   description = "(Optional, list) List of CBR rules to create for the instance"
   default     = []
   # Validation happens in the rule module
+}
+
+variable "bucket_names" {
+  type        = list(string)
+  description = "List of bucket names to be created"
+  default     = []
 }

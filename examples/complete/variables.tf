@@ -51,3 +51,23 @@ variable "existing_at_instance_crn" {
   description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
   default     = null
 }
+
+variable "bucket_names" {
+  type        = list(string)
+  description = "List of bucket names to be created"
+
+  validation {
+    condition     = length(var.bucket_names) > 0
+    error_message = "Please provide list of buckets to be created"
+  }
+}
+
+variable "cross_region_bucket_names" {
+  type        = list(string)
+  description = "List of bucket names to be created"
+
+  validation {
+    condition     = length(var.cross_region_bucket_names) > 0
+    error_message = "Please provide list of cross region buckets to be created"
+  }
+}
