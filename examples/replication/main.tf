@@ -11,9 +11,8 @@ module "resource_group" {
 
 # Create COS source bucket
 module "cos_source_bucket" {
-  source = "../../"
-  # bucket_name               = "${var.prefix}-bucket-source" # temporary override to match ibm_cos_bucket_replication_rule regex
-  bucket_name               = "cos-replicate-bucket-source"
+  source                    = "../../"
+  bucket_name               = "${var.prefix}-bucket-source"
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
   cos_instance_name         = "${var.prefix}-source-cos"
@@ -27,9 +26,8 @@ module "cos_source_bucket" {
 
 # Create COS target bucket
 module "cos_target_bucket" {
-  source = "../../"
-  # bucket_name               = "${var.prefix}-bucket-target" # temporary override to match ibm_cos_bucket_replication_rule regex
-  bucket_name               = "cos-replicate-bucket-target"
+  source                    = "../../"
+  bucket_name               = "${var.prefix}-bucket-target"
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
   cos_instance_name         = "${var.prefix}-target-cos"
