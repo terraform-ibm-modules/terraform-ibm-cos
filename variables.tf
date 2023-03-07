@@ -295,6 +295,6 @@ variable "instance_cbr_rules" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Set to true to skip the creation of IAM authorization policy"
+  description = "Set to true to skip the creation of IAM authorization policy. WARNING: An authorization policy must be created before an encrypted bucket can be created"
   default     = false
 }

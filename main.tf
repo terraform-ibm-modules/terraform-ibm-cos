@@ -59,7 +59,7 @@ locals {
   create_access_policy = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
 }
 
-# Create IAM Access Policy to allow Key protect to access COS instance
+# Create IAM Authorization Policy to allow COS to access key protect for the encryption key
 resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy ? 1 : 0
   source_service_name         = "cloud-object-storage"
