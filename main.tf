@@ -46,8 +46,11 @@ resource "ibm_resource_key" "resource_key" {
   count                = var.create_hmac_key && var.create_cos_instance ? 1 : 0
   name                 = var.hmac_key_name
   resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
-  parameters           = { "HMAC" = true }
-  role                 = var.hmac_key_role
+  parameters = {
+    "serviceid_crn" = var.resource_key_existing_serviceid_crn
+    "HMAC"          = var.create_hmac_key
+  }
+  role = var.hmac_key_role
 }
 
 locals {
@@ -227,7 +230,7 @@ locals {
 
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
@@ -261,7 +264,7 @@ module "bucket_cbr_rule" {
 
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
