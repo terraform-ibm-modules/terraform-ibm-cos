@@ -56,10 +56,10 @@ resource "ibm_resource_key" "resource_key" {
 locals {
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy = var.encryption_enabled && var.create_cos_instance
+  create_access_policy = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
 }
 
-# Create IAM Access Policy to allow Key protect to access COS instance
+# Create IAM Authorization Policy to allow COS to access key protect for the encryption key
 resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy ? 1 : 0
   source_service_name         = "cloud-object-storage"
