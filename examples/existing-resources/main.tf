@@ -31,18 +31,38 @@ module "key_protect_all_inclusive" {
 }
 
 ##############################################################################
+# Create serviceID to use for resource key hmac
+##############################################################################
+
+resource "ibm_iam_service_id" "resource_key_existing_serviceid" {
+  name        = "${var.prefix}-reskey-serviceid"
+  description = "ServiceID for ${var.prefix} env to use for resource key credentials"
+}
+
+##############################################################################
 # Create COS instance only
 ##############################################################################
 
 module "cos_instance" {
-  source                             = "../../"
-  cos_instance_name                  = "${var.prefix}-cos"
-  create_cos_bucket                  = false
-  resource_group_id                  = module.resource_group.resource_group_id
-  existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
-  region                             = var.region
-  cross_region_location              = null
-  activity_tracker_crn               = null
+  source                              = "../../"
+  cos_instance_name                   = "${var.prefix}-cos"
+  create_cos_bucket                   = false
+  resource_group_id                   = module.resource_group.resource_group_id
+  existing_key_protect_instance_guid  = module.key_protect_all_inclusive.key_protect_guid
+  region                              = var.region
+  cross_region_location               = null
+  activity_tracker_crn                = null
+  resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
+  skip_iam_authorization_policy       = true
+}
+
+# Create IAM Authorization Policy to allow COS to access key protect for the encryption key
+resource "ibm_iam_authorization_policy" "policy" {
+  source_service_name         = "cloud-object-storage"
+  source_resource_instance_id = module.cos_instance.cos_instance_guid
+  target_service_name         = "kms"
+  target_resource_instance_id = module.key_protect_all_inclusive.key_protect_guid
+  roles                       = ["Reader"]
 }
 
 ##############################################################################

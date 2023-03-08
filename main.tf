@@ -46,17 +46,20 @@ resource "ibm_resource_key" "resource_key" {
   count                = var.create_hmac_key && var.create_cos_instance ? 1 : 0
   name                 = var.hmac_key_name
   resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
-  parameters           = { "HMAC" = true }
-  role                 = var.hmac_key_role
+  parameters = {
+    "serviceid_crn" = var.resource_key_existing_serviceid_crn
+    "HMAC"          = var.create_hmac_key
+  }
+  role = var.hmac_key_role
 }
 
 locals {
   cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy = var.encryption_enabled && var.create_cos_instance
+  create_access_policy = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
 }
 
-# Create IAM Access Policy to allow Key protect to access COS instance
+# Create IAM Authorization Policy to allow COS to access key protect for the encryption key
 resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy ? 1 : 0
   source_service_name         = "cloud-object-storage"
@@ -239,7 +242,7 @@ module "bucket_cbr_rule" {
     for bucket_rule in local.cbr_rules : bucket_rule.bucket_name => bucket_rule
   }
 
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
   rule_description = each.value.cbr_rule_block.description
   enforcement_mode = each.value.cbr_rule_block.enforcement_mode
   rule_contexts    = each.value.cbr_rule_block.rule_contexts
@@ -273,7 +276,7 @@ module "bucket_cbr_rule" {
 
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.2"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts

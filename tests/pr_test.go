@@ -113,7 +113,10 @@ func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)
-
+	options.TerraformVars = map[string]interface{}{
+		"bucket_names":              []string{"test-cos-bucket-6"},
+		"cross_region_bucket_names": []string{"test-cos-bucket-7"},
+	}
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")

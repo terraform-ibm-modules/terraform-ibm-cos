@@ -21,6 +21,11 @@ variable "region" {
   description = "Region where resources will be created"
   type        = string
   default     = "us-south"
+
+  validation {
+    condition     = can(regex("us-south|eu-de|jp-tok", var.region))
+    error_message = "Variable 'region' must be 'us-south' or 'eu-de', or 'jp-tok'. The encryption key must be created in a high availability key protect instance for cross region object storage"
+  }
 }
 
 variable "cross_region_location" {

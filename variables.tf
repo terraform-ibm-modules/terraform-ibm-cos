@@ -29,6 +29,12 @@ variable "create_hmac_key" {
   default     = true
 }
 
+variable "resource_key_existing_serviceid_crn" {
+  description = "CRN of existing serviceID to bind with resource key to be created. If null a new ServiceID is created for the resource key."
+  type        = string
+  default     = null
+}
+
 variable "hmac_key_name" {
   description = "The name of the hmac key to be created."
   type        = string
@@ -279,6 +285,12 @@ variable "instance_cbr_rules" {
   description = "(Optional, list) List of CBR rules to create for the instance"
   default     = []
   # Validation happens in the rule module
+}
+
+variable "skip_iam_authorization_policy" {
+  type        = bool
+  description = "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the Key Protect instance in `existing_key_protect_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created"
+  default     = false
 }
 
 variable "bucket_names" {
