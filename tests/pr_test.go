@@ -2,10 +2,13 @@
 package test
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"strings"
 	"testing"
 
+	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"gopkg.in/yaml.v3"
@@ -79,8 +82,8 @@ func TestRunCompleteExample(t *testing.T) {
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
 	options.TerraformVars = map[string]interface{}{
 		"bucket_endpoint":           "public", // provider issue 4357
-		"bucket_names":              []string{"test-cos-bucket-1", "test-cos-bucket-2"},
-		"cross_region_bucket_names": []string{"test-cos-bucket-3"},
+		"bucket_names":              []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))},
+		"cross_region_bucket_names": []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))},
 	}
 
 	output, err := options.RunTestConsistency()
@@ -93,7 +96,7 @@ func TestRunExistingResourcesExample(t *testing.T) {
 
 	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
 	options.TerraformVars = map[string]interface{}{
-		"bucket_names": []string{"test-cos-bucket-4", "test-cos-bucket-5"},
+		"bucket_names": []string{fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId()))},
 	}
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -114,8 +117,8 @@ func TestRunUpgradeExample(t *testing.T) {
 
 	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)
 	options.TerraformVars = map[string]interface{}{
-		"bucket_names":              []string{"test-cos-bucket-6"},
-		"cross_region_bucket_names": []string{"test-cos-bucket-7"},
+		"bucket_names":              []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))},
+		"cross_region_bucket_names": []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))},
 	}
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
