@@ -300,3 +300,13 @@ resource "null_resource" "deprecation_notice" {
     command = "echo 'WARNING: The service_endpoints variable has been deprecated for this module and will be removed with the next major release.'"
   }
 }
+
+resource "null_resource" "deprecation_notice_2" {
+  count = var.bucket_endpoint != null ? 1 : 0
+  triggers = {
+    always_refresh = timestamp()
+  }
+  provisioner "local-exec" {
+    command = "echo 'WARNING: The bucket_endpoint variable has been deprecated for this module and will be removed with the next major release.'"
+  }
+}
