@@ -16,6 +16,7 @@ module "resource_group" {
 locals {
   key_ring_name = "cos-key-ring"
   key_name      = "cos-key"
+  buckets       = length(var.bucket_names) == 0 ? ["${var.prefix}-bucket"] : var.bucket_names
 }
 
 module "key_protect_all_inclusive" {
@@ -79,7 +80,7 @@ module "cos" {
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_instance.cos_instance_id
   key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  bucket_names             = toset(var.bucket_names)
+  bucket_names             = toset(local.buckets)
   resource_group_id        = module.resource_group.resource_group_id
   region                   = var.region
   cross_region_location    = null

@@ -60,19 +60,12 @@ variable "existing_at_instance_crn" {
 variable "bucket_names" {
   type        = list(string)
   description = "List of buckets to be created"
+  default     = []
 
-  validation {
-    condition     = length(var.bucket_names) > 0
-    error_message = "Please provide list of buckets to be created"
-  }
 }
 
 variable "cross_region_bucket_names" {
   type        = list(string)
   description = "List of cross region buckets to be created"
-
-  validation {
-    condition     = length(var.cross_region_bucket_names) > 0
-    error_message = "Please provide list of cross region buckets to be created"
-  }
+  default     = []
 }
