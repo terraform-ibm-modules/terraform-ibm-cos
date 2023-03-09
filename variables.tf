@@ -126,13 +126,9 @@ variable "bucket_storage_class" {
 }
 
 variable "bucket_endpoint" {
-  description = "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work"
+  description = "(Deprecated) Will be removed in the next major release. The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work"
   type        = string
-  default     = "public"
-  validation {
-    condition     = contains(["public", "private", "direct"], var.bucket_endpoint)
-    error_message = "The specified bucket_endpoint is not a valid selection!"
-  }
+  default     = null
 }
 
 variable "retention_enabled" {
