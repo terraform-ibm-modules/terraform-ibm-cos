@@ -30,7 +30,7 @@ variable "resource_tags" {
 
 variable "bucket_names" {
   type        = list(string)
-  description = "List of bucket names to be created"
+  description = "List of buckets to be created"
 
   validation {
     condition     = length(var.bucket_names) > 0

@@ -26,7 +26,7 @@ output "bucket_crn" {
   value       = local.bucket_crn
 }
 
-output "bucket_name" {
+output "bucket_names" {
   description = "Bucket Name"
   value       = local.bucket_name
 }

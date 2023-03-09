@@ -295,6 +295,6 @@ variable "skip_iam_authorization_policy" {
 
 variable "bucket_names" {
   type        = list(string)
-  description = "List of bucket names to be created"
+  description = "List of buckets to be created"
   default     = []
 }

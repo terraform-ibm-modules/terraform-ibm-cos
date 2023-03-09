@@ -66,9 +66,9 @@ resource "ibm_iam_authorization_policy" "policy" {
 }
 
 ##############################################################################
-# Create COS bucket with:
+# Create COS buckets with:
 # - Encryption
-# Create COS bucket without:
+# Create COS buckets without:
 # - Retention
 # - Monitoring
 # - Activity Tracking

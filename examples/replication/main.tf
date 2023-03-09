@@ -81,7 +81,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   subject_attributes {
     name  = "resource"
-    value = module.cos_source_bucket.bucket_name[0]
+    value = module.cos_source_bucket.bucket_names[0]
   }
   subject_attributes {
     name  = "resourceType"
@@ -101,7 +101,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   resource_attributes {
     name  = "resource"
-    value = module.cos_target_bucket.bucket_name[0]
+    value = module.cos_target_bucket.bucket_names[0]
   }
   resource_attributes {
     name  = "resourceType"

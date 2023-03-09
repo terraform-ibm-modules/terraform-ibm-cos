@@ -1,4 +1,4 @@
-output "bucket_name" {
+output "bucket_names" {
   description = "Bucket Name"
-  value       = module.cos.bucket_name
+  value       = module.cos.bucket_names
 }

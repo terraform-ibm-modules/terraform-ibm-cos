@@ -58,7 +58,7 @@
     "bucket_names": {
       "name": "bucket_names",
       "type": "list(string)",
-      "description": "List of bucket names to be created",
+      "description": "List of buckets to be created",
       "default": [],
       "required": true,
       "source": [
@@ -466,8 +466,8 @@
         "line": 19
       }
     },
-    "bucket_name": {
-      "name": "bucket_name",
+    "bucket_names": {
+      "name": "bucket_names",
       "description": "Bucket Name",
       "value": "local.bucket_name",
       "pos": {

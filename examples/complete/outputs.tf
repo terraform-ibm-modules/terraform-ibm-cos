@@ -1,9 +1,9 @@
-output "bucket_name1" {
+output "bucket_names" {
   description = "Bucket Name"
-  value       = module.cos_bucket1.bucket_name
+  value       = module.cos_bucket1.bucket_names
 }
 
-output "bucket_name2" {
+output "cross_region_bucket_names" {
   description = "Bucket Name"
-  value       = module.cos_bucket2.bucket_name
+  value       = module.cos_bucket2.bucket_names
 }

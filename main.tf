@@ -69,7 +69,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   roles                       = ["Reader"]
 }
 
-# Create COS bucket with:
+# Create COS buckets with:
 # - Retention
 # - Encryption
 # - Monitoring
@@ -146,12 +146,12 @@ resource "ibm_cos_bucket" "cos_bucket" {
   }
 }
 
-# Create COS bucket with:
+# Create COS buckets with:
 # - Retention
 # - Monitoring
 # - Activity Tracking
 # - Versioning
-# Create COS bucket without:
+# Create COS buckets without:
 # - Encryption
 resource "ibm_cos_bucket" "cos_bucket1" {
   count                 = (!var.encryption_enabled && var.create_cos_bucket) ? length(var.bucket_names) : 0
@@ -237,7 +237,7 @@ locals {
 ##############################################################################
 
 module "bucket_cbr_rule" {
-  # generates a map of with bucket name as key and bucket rule as object
+  # generates a map with bucket name as key and cbr rule for bucket as value
   for_each = {
     for bucket_rule in local.cbr_rules : bucket_rule.bucket_name => bucket_rule
   }
