@@ -216,12 +216,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  bucket_crn           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket1[*].crn
-  bucket_id            = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
-  bucket_name          = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
-  bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
-  s3_endpoint_public   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
-  s3_endpoint_private  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
+  bucket_name = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
   cbr_rules = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? [
 
     # returns a set containing rules and the bucket to which the rules to be applied to

@@ -39,13 +39,23 @@ module "cos_target_bucket" {
   expire_days               = null
 }
 
+locals {
+  # index should be 0, only one bucket created, lookup as example
+  source_bucket_index = index(module.cos_source_bucket.buckets[*].bucket_name, "${var.prefix}-bucket-source")
+  target_bucket_index = index(module.cos_target_bucket.buckets[*].bucket_name, "${var.prefix}-bucket-target")
+  replica_set = {
+    source = module.cos_source_bucket.buckets[local.source_bucket_index],
+    target = module.cos_target_bucket.buckets[local.target_bucket_index]
+  }
+}
+
 ### Configure replication rule
 
 resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
   depends_on = [
     ibm_iam_authorization_policy.policy
   ]
-  bucket_crn      = module.cos_source_bucket.bucket_crn[0]
+  bucket_crn      = module.cos_source_bucket.buckets[local.source_bucket_index].crn
   bucket_location = var.region
   replication_rule {
     rule_id = "replicate-everything"
@@ -53,7 +63,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
     # prefix = "prefix"
     priority                        = 50
     deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_target_bucket.bucket_crn[0]
+    destination_bucket_crn          = module.cos_target_bucket.buckets[local.target_bucket_index].crn
   }
 }
 
@@ -81,7 +91,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   subject_attributes {
     name  = "resource"
-    value = module.cos_source_bucket.bucket_names[0]
+    value = module.cos_source_bucket.buckets[local.source_bucket_index].bucket_name
   }
   subject_attributes {
     name  = "resourceType"
@@ -101,7 +111,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   resource_attributes {
     name  = "resource"
-    value = module.cos_target_bucket.bucket_names[0]
+    value = module.cos_target_bucket.buckets[local.target_bucket_index].bucket_name
   }
   resource_attributes {
     name  = "resourceType"

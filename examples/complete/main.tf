@@ -113,7 +113,7 @@ module "cos_bucket1" {
   cross_region_location              = null
   cos_instance_name                  = "${var.prefix}-cos"
   cos_tags                           = var.resource_tags
-  bucket_names                       = toset(local.buckets)
+  bucket_names                       = local.buckets
   bucket_endpoint                    = var.bucket_endpoint
   existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
   key_protect_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
@@ -174,7 +174,7 @@ module "cos_bucket1" {
 # - Activity Tracking
 module "cos_bucket2" {
   source                   = "../../"
-  bucket_names             = toset(local.cross_region_buckets)
+  bucket_names             = local.cross_region_buckets
   bucket_endpoint          = var.bucket_endpoint
   resource_group_id        = module.resource_group.resource_group_id
   region                   = null
