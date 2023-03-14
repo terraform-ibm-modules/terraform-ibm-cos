@@ -39,13 +39,45 @@ module "cos_target_bucket" {
   expire_days               = null
 }
 
+locals {
+  # index should be 0, only one bucket created, lookup as example
+  source_bucket_index = index(module.cos_source_bucket.buckets[*].bucket_name, "${var.prefix}-bucket-source")
+  target_bucket_index = index(module.cos_target_bucket.buckets[*].bucket_name, "${var.prefix}-bucket-target")
+  replica_set = {
+    source = merge({
+      bucket_name          = module.cos_source_bucket.buckets[local.source_bucket_index].bucket_name,
+      bucket_crn           = module.cos_source_bucket.buckets[local.source_bucket_index].crn,
+      bucket_id            = module.cos_source_bucket.buckets[local.source_bucket_index].id,
+      s3_endpoint_private  = module.cos_source_bucket.buckets[local.source_bucket_index].s3_endpoint_private,
+      s3_endpoint_public   = module.cos_source_bucket.buckets[local.source_bucket_index].s3_endpoint_public,
+      bucket_storage_class = module.cos_source_bucket.buckets[local.source_bucket_index].storage_class,
+      cos_instance_guid    = module.cos_source_bucket.cos_instance_guid,
+      cos_instance_id      = module.cos_source_bucket.cos_instance_id,
+      key_protect_key_crn  = module.cos_source_bucket.key_protect_key_crn,
+      resource_group_id    = module.cos_source_bucket.resource_group_id
+    })
+    target = merge({
+      bucket_name          = module.cos_target_bucket.buckets[local.target_bucket_index].bucket_name,
+      bucket_crn           = module.cos_target_bucket.buckets[local.target_bucket_index].crn,
+      bucket_id            = module.cos_target_bucket.buckets[local.target_bucket_index].id,
+      s3_endpoint_private  = module.cos_target_bucket.buckets[local.target_bucket_index].s3_endpoint_private,
+      s3_endpoint_public   = module.cos_target_bucket.buckets[local.target_bucket_index].s3_endpoint_public,
+      bucket_storage_class = module.cos_target_bucket.buckets[local.target_bucket_index].storage_class,
+      cos_instance_guid    = module.cos_target_bucket.cos_instance_guid,
+      cos_instance_id      = module.cos_target_bucket.cos_instance_id,
+      key_protect_key_crn  = module.cos_target_bucket.key_protect_key_crn,
+      resource_group_id    = module.cos_target_bucket.resource_group_id
+    })
+  }
+}
+
 ### Configure replication rule
 
 resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
   depends_on = [
     ibm_iam_authorization_policy.policy
   ]
-  bucket_crn      = module.cos_source_bucket.bucket_crn[0]
+  bucket_crn      = module.cos_source_bucket.buckets[local.source_bucket_index].crn
   bucket_location = var.region
   replication_rule {
     rule_id = "replicate-everything"
@@ -53,7 +85,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
     # prefix = "prefix"
     priority                        = 50
     deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_target_bucket.bucket_crn[0]
+    destination_bucket_crn          = module.cos_target_bucket.buckets[local.target_bucket_index].crn
   }
 }
 
@@ -81,7 +113,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   subject_attributes {
     name  = "resource"
-    value = module.cos_source_bucket.bucket_names[0]
+    value = module.cos_source_bucket.buckets[local.source_bucket_index].bucket_name
   }
   subject_attributes {
     name  = "resourceType"
@@ -101,7 +133,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   resource_attributes {
     name  = "resource"
-    value = module.cos_target_bucket.bucket_names[0]
+    value = module.cos_target_bucket.buckets[local.target_bucket_index].bucket_name
   }
   resource_attributes {
     name  = "resourceType"

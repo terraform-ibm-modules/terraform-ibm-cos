@@ -17,6 +17,20 @@ locals {
   key_ring_name = "cos-key-ring"
   key_name      = "cos-key"
   buckets       = length(var.bucket_names) == 0 ? ["${var.prefix}-bucket"] : var.bucket_names
+  exisiting_buckets_map = { for bucket in module.cos.buckets : bucket.bucket_name =>
+    merge({
+      bucket_name          = bucket.bucket_name,
+      bucket_crn           = bucket.crn,
+      bucket_id            = bucket.id,
+      s3_endpoint_private  = bucket.s3_endpoint_private,
+      s3_endpoint_public   = bucket.s3_endpoint_public,
+      bucket_storage_class = bucket.storage_class,
+      cos_instance_guid    = module.cos.cos_instance_guid,
+      cos_instance_id      = module.cos.cos_instance_id,
+      key_protect_key_crn  = module.cos.key_protect_key_crn,
+      resource_group_id    = module.cos.resource_group_id
+      }
+  ) }
 }
 
 module "key_protect_all_inclusive" {

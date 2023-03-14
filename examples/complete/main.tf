@@ -213,3 +213,33 @@ resource "ibm_resource_tag" "tag1" {
   tag_type    = "access"
   tags        = ["env:test"]
 }
+
+locals {
+  bucket_map = merge(
+    { for bucket in module.cos_bucket1.buckets : bucket.bucket_name =>
+      merge({
+        bucket_name          = bucket.bucket_name,
+        bucket_crn           = bucket.crn,
+        bucket_id            = bucket.id,
+        s3_endpoint_private  = bucket.s3_endpoint_private,
+        s3_endpoint_public   = bucket.s3_endpoint_public,
+        bucket_storage_class = bucket.storage_class,
+        cos_instance_guid    = module.cos_bucket1.cos_instance_guid,
+        cos_instance_id      = module.cos_bucket1.cos_instance_id,
+        key_protect_key_crn  = module.cos_bucket1.key_protect_key_crn,
+        resource_group_id    = module.cos_bucket1.resource_group_id
+    }) },
+    { for bucket in module.cos_bucket2.buckets : bucket.bucket_name =>
+      merge({
+        bucket_name          = bucket.bucket_name,
+        bucket_crn           = bucket.crn,
+        bucket_id            = bucket.id,
+        s3_endpoint_private  = bucket.s3_endpoint_private,
+        s3_endpoint_public   = bucket.s3_endpoint_public,
+        bucket_storage_class = bucket.storage_class, cos_instance_guid = module.cos_bucket2.cos_instance_guid,
+        cos_instance_id      = module.cos_bucket2.cos_instance_id,
+        key_protect_key_crn  = module.cos_bucket2.key_protect_key_crn,
+        resource_group_id    = module.cos_bucket2.resource_group_id
+    }) }
+  )
+}

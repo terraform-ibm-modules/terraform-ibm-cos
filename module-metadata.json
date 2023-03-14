@@ -448,40 +448,12 @@
     }
   },
   "outputs": {
-    "bucket_crn": {
-      "name": "bucket_crn",
-      "description": "Bucket CRN",
-      "value": "local.bucket_crn",
+    "buckets": {
+      "name": "buckets",
+      "description": "Map of buckets created in the Cloud Object Storage Instance",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
-      }
-    },
-    "bucket_id": {
-      "name": "bucket_id",
-      "description": "Bucket id",
-      "value": "local.bucket_id",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 19
-      }
-    },
-    "bucket_names": {
-      "name": "bucket_names",
-      "description": "Bucket Name",
-      "value": "local.bucket_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 29
-      }
-    },
-    "bucket_storage_class": {
-      "name": "bucket_storage_class",
-      "description": "Bucket Storage Class",
-      "value": "local.bucket_storage_class",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 34
+        "line": 23
       }
     },
     "cos_instance_guid": {
@@ -490,7 +462,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 49
+        "line": 18
       }
     },
     "cos_instance_id": {
@@ -499,7 +471,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 44
+        "line": 13
       }
     },
     "key_protect_key_crn": {
@@ -508,7 +480,7 @@
       "value": "var.key_protect_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
+        "line": 8
       },
       "type": "string"
     },
@@ -525,24 +497,6 @@
       "cloud_data_range": [
         "resolved_to:id"
       ]
-    },
-    "s3_endpoint_private": {
-      "name": "s3_endpoint_private",
-      "description": "S3 private endpoint",
-      "value": "local.s3_endpoint_private",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 9
-      }
-    },
-    "s3_endpoint_public": {
-      "name": "s3_endpoint_public",
-      "description": "S3 public endpoint",
-      "value": "local.s3_endpoint_public",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 14
-      }
     }
   },
   "required_core": [
@@ -669,7 +623,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 306
+        "line": 301
       }
     }
   },
@@ -725,7 +679,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 239
+        "line": 234
       }
     },
     "instance_cbr_rule": {
@@ -786,7 +740,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 277
+        "line": 272
       }
     }
   }
