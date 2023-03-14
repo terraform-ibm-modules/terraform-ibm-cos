@@ -83,7 +83,6 @@ resource "ibm_cos_bucket" "cos_bucket" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
-  endpoint_type         = var.bucket_endpoint
   storage_class         = var.bucket_storage_class
   key_protect           = var.key_protect_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
@@ -159,7 +158,6 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
-  endpoint_type         = var.bucket_endpoint
   storage_class         = var.bucket_storage_class
   dynamic "retention_rule" {
     for_each = local.retention_enabled
@@ -296,14 +294,4 @@ module "instance_cbr_rule" {
     tags = var.instance_cbr_rules[count.index].tags
   }]
   operations = var.instance_cbr_rules[count.index].operations == null ? [] : var.instance_cbr_rules[count.index].operations
-}
-
-resource "null_resource" "deprecation_notice" {
-  count = var.service_endpoints != null ? 1 : 0
-  triggers = {
-    always_refresh = timestamp()
-  }
-  provisioner "local-exec" {
-    command = "echo 'WARNING: The service_endpoints variable has been deprecated for this module and will be removed with the next major release.'"
-  }
 }

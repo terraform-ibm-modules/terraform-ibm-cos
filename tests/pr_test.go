@@ -81,7 +81,6 @@ func TestRunCompleteExample(t *testing.T) {
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
 	options.TerraformVars = map[string]interface{}{
-		"bucket_endpoint":           "public", // provider issue 4357
 		"bucket_names":              []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))},
 		"cross_region_bucket_names": []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))},
 	}

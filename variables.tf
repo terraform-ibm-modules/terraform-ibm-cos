@@ -81,12 +81,6 @@ variable "existing_cos_instance_id" {
   default     = null
 }
 
-variable "service_endpoints" {
-  description = "(Deprecated) Will be removed in the next major release"
-  type        = string
-  default     = null
-}
-
 ##############################################################################
 # COS bucket variables
 ##############################################################################
@@ -116,16 +110,6 @@ variable "bucket_storage_class" {
   validation {
     condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
     error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
-  }
-}
-
-variable "bucket_endpoint" {
-  description = "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work"
-  type        = string
-  default     = "public"
-  validation {
-    condition     = contains(["public", "private", "direct"], var.bucket_endpoint)
-    error_message = "The specified bucket_endpoint is not a valid selection!"
   }
 }
 

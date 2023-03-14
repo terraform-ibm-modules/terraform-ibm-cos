@@ -39,12 +39,6 @@ variable "cross_region_location" {
   }
 }
 
-variable "bucket_endpoint" {
-  type        = string
-  description = "Bucket endpoint type"
-  default     = "public"
-}
-
 variable "resource_group" {
   type        = string
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
