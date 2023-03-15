@@ -53,7 +53,7 @@ locals {
       bucket_storage_class = module.cos_source_bucket.buckets[local.source_bucket_index].storage_class,
       cos_instance_guid    = module.cos_source_bucket.cos_instance_guid,
       cos_instance_id      = module.cos_source_bucket.cos_instance_id,
-      key_protect_key_crn  = module.cos_source_bucket.key_protect_key_crn,
+      key_protect_key_crn  = null, # not encrypting buckets in this example
       resource_group_id    = module.cos_source_bucket.resource_group_id
     })
     target = merge({
@@ -65,7 +65,7 @@ locals {
       bucket_storage_class = module.cos_target_bucket.buckets[local.target_bucket_index].storage_class,
       cos_instance_guid    = module.cos_target_bucket.cos_instance_guid,
       cos_instance_id      = module.cos_target_bucket.cos_instance_id,
-      key_protect_key_crn  = module.cos_target_bucket.key_protect_key_crn,
+      key_protect_key_crn  = null, # not encrypting buckets in this example
       resource_group_id    = module.cos_target_bucket.resource_group_id
     })
   }

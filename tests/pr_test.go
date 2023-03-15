@@ -80,10 +80,8 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
-	options.TerraformVars = map[string]interface{}{
-		"bucket_names":              []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))},
-		"cross_region_bucket_names": []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))},
-	}
+	options.TerraformVars["bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))}
+	options.TerraformVars["cross_region_bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))}
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -94,9 +92,8 @@ func TestRunExistingResourcesExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
-	options.TerraformVars = map[string]interface{}{
-		"bucket_names": []string{fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId()))},
-	}
+	options.TerraformVars["bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId()))}
+
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -115,10 +112,9 @@ func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)
-	options.TerraformVars = map[string]interface{}{
-		"bucket_names":              []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))},
-		"cross_region_bucket_names": []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))},
-	}
+	options.TerraformVars["bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))}
+	options.TerraformVars["cross_region_bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))}
+
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")
