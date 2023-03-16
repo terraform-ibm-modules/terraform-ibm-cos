@@ -13,6 +13,7 @@ import (
 
 const completeExampleTerraformDir = "examples/complete"
 const completeExistingTerraformDir = "examples/existing-resources"
+const replicateExampleTerraformDir = "examples/replication"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -60,7 +61,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		},
 	})
 	// completeExistingTerraformDir does not implement any activity tracker functionality
-	if dir == completeExistingTerraformDir {
+	if dir == completeExistingTerraformDir || dir == replicateExampleTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:       t,
 			TerraformDir:  dir,
@@ -86,6 +87,15 @@ func TestRunExistingResourcesExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunReplicateExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "cos-replicate", replicateExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")

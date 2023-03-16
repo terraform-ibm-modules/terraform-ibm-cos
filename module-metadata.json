@@ -433,6 +433,15 @@
     }
   },
   "outputs": {
+    "bucket_crn": {
+      "name": "bucket_crn",
+      "description": "Bucket CRN",
+      "value": "local.bucket_crn",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 24
+      }
+    },
     "bucket_id": {
       "name": "bucket_id",
       "description": "Bucket id",
@@ -448,7 +457,7 @@
       "value": "local.bucket_name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 29
       }
     },
     "bucket_storage_class": {
@@ -457,7 +466,7 @@
       "value": "local.bucket_storage_class",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 34
       }
     },
     "cos_instance_guid": {
@@ -466,7 +475,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 44
+        "line": 49
       }
     },
     "cos_instance_id": {
@@ -475,7 +484,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
+        "line": 44
       }
     },
     "key_protect_key_crn": {
@@ -484,7 +493,7 @@
       "value": "var.key_protect_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 34
+        "line": 39
       },
       "type": "string"
     },
@@ -577,7 +586,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 151
+        "line": 153
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -644,7 +653,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 279
+        "line": 291
       }
     }
   },
@@ -708,7 +717,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 216
+        "line": 228
       }
     },
     "instance_cbr_rule": {
@@ -769,7 +778,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 250
+        "line": 262
       }
     }
   }
