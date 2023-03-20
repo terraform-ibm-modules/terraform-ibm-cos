@@ -7,12 +7,6 @@ variable "resource_group_id" {
   description = "The resource group ID where resources will be provisioned."
 }
 
-variable "region" {
-  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location."
-  type        = string
-  default     = "us-south"
-}
-
 ##############################################################################
 # COS instance variables
 ##############################################################################
@@ -26,13 +20,7 @@ variable "create_cos_instance" {
 variable "create_hmac_key" {
   description = "Set as true to create a new HMAC key for the Cloud Object Storage instance."
   type        = bool
-  default     = true
-}
-
-variable "resource_key_existing_serviceid_crn" {
-  description = "CRN of existing serviceID to bind with resource key to be created. If null a new ServiceID is created for the resource key."
-  type        = string
-  default     = null
+  default     = false
 }
 
 variable "hmac_key_name" {
@@ -59,16 +47,6 @@ variable "cos_location" {
   default     = "global"
 }
 
-variable "cos_plan" {
-  description = "Plan to be used for creating cloud object storage instance. Only used if 'create_cos_instance' it true."
-  type        = string
-  default     = "standard"
-  validation {
-    condition     = contains(["standard", "lite"], var.cos_plan)
-    error_message = "The specified cos_plan is not a valid selection!"
-  }
-}
-
 variable "cos_tags" {
   description = "Optional list of tags to be added to cloud object storage instance. Only used if 'create_cos_instance' it true."
   type        = list(string)
@@ -77,12 +55,6 @@ variable "cos_tags" {
 
 variable "existing_cos_instance_id" {
   description = "The ID of an existing cloud object storage instance. Required if 'var.create_cos_instance' is false."
-  type        = string
-  default     = null
-}
-
-variable "service_endpoints" {
-  description = "(Deprecated) Will be removed in the next major release"
   type        = string
   default     = null
 }
@@ -98,13 +70,13 @@ variable "create_cos_bucket" {
 }
 
 variable "cross_region_location" {
-  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'. If you pass a value for this, ensure to set the value of var.region to null."
+  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'"
   type        = string
-  default     = null
+  default     = "eu"
 
   validation {
-    condition     = var.cross_region_location == null || can(regex("us|eu|ap", var.cross_region_location))
-    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', 'ap', or 'null'."
+    condition     = can(regex("us|eu|ap", var.cross_region_location))
+    error_message = "Variable 'cross_region_location' must be 'us' or 'eu' or 'ap'."
   }
 }
 
@@ -112,27 +84,6 @@ variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
   default     = null
-}
-
-variable "bucket_storage_class" {
-  type        = string
-  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
-  default     = "standard"
-
-  validation {
-    condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
-    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
-  }
-}
-
-variable "bucket_endpoint" {
-  description = "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work"
-  type        = string
-  default     = "public"
-  validation {
-    condition     = contains(["public", "private", "direct"], var.bucket_endpoint)
-    error_message = "The specified bucket_endpoint is not a valid selection!"
-  }
 }
 
 variable "retention_enabled" {
@@ -183,22 +134,6 @@ variable "object_versioning_enabled" {
   default     = false
 }
 
-variable "archive_days" {
-  description = "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true. This must be set to null when when using var.cross_region_location as archive data is not supported with this feature."
-  type        = number
-  default     = 90
-}
-
-variable "archive_type" {
-  description = "Specifies the storage class or archive type to which you want the object to transition. Only used if 'create_cos_bucket' is true."
-  type        = string
-  default     = "Glacier"
-  validation {
-    condition     = contains(["Glacier", "Accelerated"], var.archive_type)
-    error_message = "The specified archive_type is not a valid selection!"
-  }
-}
-
 variable "expire_days" {
   description = "Specifies the number of days when the expire rule action takes effect. Only used if 'create_cos_bucket' is true."
   type        = number
@@ -222,21 +157,14 @@ variable "sysdig_crn" {
 ##############################################################################
 
 variable "existing_key_protect_instance_guid" {
-  description = "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance."
+  description = "The GUID of the Key Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
   type        = string
   default     = null
 }
 
-variable "encryption_enabled" {
-  description = "Set as true to use Key Protect encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true)."
-  type        = bool
-  default     = true
-}
-
-variable "key_protect_key_crn" {
-  description = "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true."
+variable "hpcs_crn" {
+  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
   type        = string
-  default     = null
 }
 
 ##############################################################
@@ -291,10 +219,4 @@ variable "instance_cbr_rules" {
   description = "(Optional, list) List of CBR rules to create for the instance"
   default     = []
   # Validation happens in the rule module
-}
-
-variable "skip_iam_authorization_policy" {
-  type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the Key Protect instance in `existing_key_protect_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created"
-  default     = false
 }
