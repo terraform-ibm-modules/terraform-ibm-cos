@@ -1,0 +1,130 @@
+# TODO: validate regions do not match
+
+module "cos_instance" {
+  source                        = "../../"
+  resource_group_id             = var.resource_group_id
+  create_cos_instance           = var.create_cos_instance
+  existing_cos_instance_id      = var.existing_cos_instance_id
+  create_cos_bucket             = false
+  cos_instance_name             = var.cos_instance_name
+  skip_iam_authorization_policy = true
+  create_hmac_key               = var.create_hmac_key
+  hmac_key_name                 = var.hmac_key_name
+  hmac_key_role                 = var.hmac_key_role
+  cos_location                  = var.cos_location
+  cos_plan                      = var.cos_plan
+  cos_tags                      = var.cos_tags
+  sysdig_crn                    = var.sysdig_crn
+  activity_tracker_crn          = var.activity_tracker_crn
+  instance_cbr_rules            = var.instance_cbr_rules
+}
+
+module "cos_primary_bucket" {
+  source                             = "../../"
+  resource_group_id                  = var.resource_group_id
+  region                             = var.primary_region
+  create_cos_instance                = false
+  existing_cos_instance_id           = module.cos_instance.cos_instance_id
+  create_cos_bucket                  = var.create_cos_bucket
+  bucket_name                        = "${var.bucket_name}-${var.primary_region}"
+  bucket_storage_class               = var.bucket_storage_class
+  retention_enabled                  = false
+  archive_days                       = null
+  expire_days                        = null
+  object_versioning_enabled          = "true"
+  existing_key_protect_instance_guid = var.primary_existing_hpcs_instance_guid
+  key_protect_key_crn                = var.primary_hpcs_key_crn
+  encryption_enabled                 = "true"
+  activity_tracker_crn               = var.activity_tracker_crn
+  bucket_cbr_rules                   = var.bucket_cbr_rules
+}
+
+module "cos_secondary_bucket" {
+  source                             = "../../"
+  resource_group_id                  = var.resource_group_id
+  region                             = var.secondary_region
+  create_cos_instance                = false
+  existing_cos_instance_id           = module.cos_instance.cos_instance_id
+  create_cos_bucket                  = var.create_cos_bucket
+  bucket_name                        = "${var.bucket_name}-${var.secondary_region}"
+  bucket_storage_class               = var.bucket_storage_class
+  retention_enabled                  = false
+  archive_days                       = null
+  expire_days                        = null
+  object_versioning_enabled          = "true"
+  existing_key_protect_instance_guid = var.secondary_existing_hpcs_instance_guid
+  key_protect_key_crn                = var.secondary_hpcs_key_crn
+  encryption_enabled                 = "true"
+  activity_tracker_crn               = var.activity_tracker_crn
+  bucket_cbr_rules                   = var.bucket_cbr_rules
+}
+
+### Configure replication rule
+
+resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
+  depends_on = [
+    ibm_iam_authorization_policy.policy
+  ]
+  bucket_crn      = module.cos_primary_bucket.bucket_crn[0]
+  bucket_location = var.primary_region
+  replication_rule {
+    rule_id                         = "replicate-everything"
+    enable                          = true
+    priority                        = 50
+    deletemarker_replication_status = false
+    destination_bucket_crn          = module.cos_secondary_bucket.bucket_crn[0]
+  }
+}
+
+### Configure IAM authorization policy
+
+# Data source to retrieve account ID
+data "ibm_iam_account_settings" "iam_account_settings" {
+}
+
+# TODO: how do we support buckets in different accounts?
+resource "ibm_iam_authorization_policy" "policy" {
+  roles = [
+    "Writer",
+  ]
+  subject_attributes {
+    name  = "accountId"
+    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+  }
+  subject_attributes {
+    name  = "serviceName"
+    value = "cloud-object-storage"
+  }
+  subject_attributes {
+    name  = "serviceInstance"
+    value = module.cos_instance.cos_instance_guid
+  }
+  subject_attributes {
+    name  = "resource"
+    value = module.cos_primary_bucket.bucket_name[0]
+  }
+  subject_attributes {
+    name  = "resourceType"
+    value = "bucket"
+  }
+  resource_attributes {
+    name  = "accountId"
+    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+  }
+  resource_attributes {
+    name  = "serviceName"
+    value = "cloud-object-storage"
+  }
+  resource_attributes {
+    name  = "serviceInstance"
+    value = module.cos_secondary_bucket.cos_instance_guid
+  }
+  resource_attributes {
+    name  = "resource"
+    value = module.cos_secondary_bucket.bucket_name[0]
+  }
+  resource_attributes {
+    name  = "resourceType"
+    value = "bucket"
+  }
+}
