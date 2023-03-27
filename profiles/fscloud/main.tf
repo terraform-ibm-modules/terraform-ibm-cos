@@ -11,7 +11,6 @@ module "cos_instance" {
   create_cos_bucket             = false
   cos_instance_name             = var.cos_instance_name
   skip_iam_authorization_policy = true
-  encryption_enabled            = "false"
   create_hmac_key               = var.create_hmac_key
   hmac_key_name                 = var.hmac_key_name
   hmac_key_role                 = var.hmac_key_role
