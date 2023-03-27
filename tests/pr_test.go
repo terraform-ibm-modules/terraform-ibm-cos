@@ -2,13 +2,13 @@
 package test
 
 import (
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
-	"gopkg.in/yaml.v3"
 )
 
 const completeExampleTerraformDir = "examples/complete"
@@ -25,28 +25,17 @@ const region = "us-south"
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
-type Config struct {
-	ActivityTrackerCrn string `yaml:"activityTrackerFrankfurtCrn"`
-}
-
-var activityTrackerCrn string
+var permanentResources map[string]interface{}
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
 func TestMain(m *testing.M) {
-	// Read the YAML file contents
-	data, err := os.ReadFile(yamlLocation)
+
+	var err error
+	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Create a struct to hold the YAML data
-	var config Config
-	// Unmarshal the YAML data into the struct
-	err = yaml.Unmarshal(data, &config)
-	if err != nil {
-		log.Fatal(err)
-	}
-	// Parse the SM guid and region from data
-	activityTrackerCrn = config.ActivityTrackerCrn
+
 	os.Exit(m.Run())
 }
 
@@ -58,7 +47,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		ResourceGroup: resourceGroup,
 		Region:        region,
 		TerraformVars: map[string]interface{}{
-			"existing_at_instance_crn": activityTrackerCrn,
+			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
 		},
 	})
 	// completeExistingTerraformDir does not implement any activity tracker functionality
@@ -88,6 +77,8 @@ func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-fscloud", fsCloudTerraformDir)
+	options.TerraformVars["primary_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
+	options.TerraformVars["secondary_existing_hpcs_instance_guid"] = permanentResources["hpcs_east"]
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
