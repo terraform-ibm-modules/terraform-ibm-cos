@@ -36,6 +36,7 @@ module "cos_primary_bucket" {
   key_protect_key_crn                = var.primary_hpcs_key_crn
   encryption_enabled                 = "true"
   activity_tracker_crn               = var.activity_tracker_crn
+  sysdig_crn                         = var.sysdig_crn
   bucket_cbr_rules                   = var.bucket_cbr_rules
 }
 
@@ -56,6 +57,7 @@ module "cos_secondary_bucket" {
   key_protect_key_crn                = var.secondary_hpcs_key_crn
   encryption_enabled                 = "true"
   activity_tracker_crn               = var.activity_tracker_crn
+  sysdig_crn                         = var.sysdig_crn
   bucket_cbr_rules                   = var.bucket_cbr_rules
 }
 
