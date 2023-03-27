@@ -16,6 +16,6 @@ jobs:
     uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-terraform-module-ci.yml@v1.7.3
     secrets: inherit
     with:
-      craTarget: "examples/complete"
+      craTarget: "examples/fscloud"
       craGoalIgnoreFile: "cra-tf-validate-ignore-goals.json"
       craEnvironmentVariables: "TF_VAR_existing_at_instance_crn=crn:v1:bluemix:public:logdnaat:eu-de:a/abac0df06b644a9cabc6e44f55b3880e:b1ef3365-dfbf-4d8f-8ac8-75f4f84d6f4a::"
