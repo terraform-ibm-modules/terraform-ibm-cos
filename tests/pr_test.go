@@ -12,6 +12,7 @@ import (
 )
 
 const completeExampleTerraformDir = "examples/complete"
+const fsCloudTerraformDir = "examples/fscloud"
 const completeExistingTerraformDir = "examples/existing-resources"
 const replicateExampleTerraformDir = "examples/replication"
 
@@ -78,6 +79,15 @@ func TestRunCompleteExample(t *testing.T) {
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
 	options.TerraformVars["bucket_endpoint"] = "public" // provider issue 4357
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunFSCloudExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "cos-fscloud", fsCloudTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
