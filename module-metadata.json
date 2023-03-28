@@ -237,7 +237,7 @@
       "type": "string",
       "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
       "source": [
-        "ibm_iam_authorization_policy.kms_policy.target_resource_instance_id"
+        "ibm_iam_authorization_policy.policy.target_resource_instance_id"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -611,10 +611,10 @@
         "line": 162
       }
     },
-    "ibm_iam_authorization_policy.kms_policy": {
+    "ibm_iam_authorization_policy.policy": {
       "mode": "managed",
       "type": "ibm_iam_authorization_policy",
-      "name": "kms_policy",
+      "name": "policy",
       "attributes": {
         "target_resource_instance_id": "existing_key_protect_instance_guid"
       },

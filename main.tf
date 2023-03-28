@@ -66,7 +66,7 @@ locals {
 }
 
 # Create IAM Authorization Policy to allow COS to access kms for the encryption key
-resource "ibm_iam_authorization_policy" "kms_policy" {
+resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy_kms ? 1 : 0
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
@@ -84,7 +84,7 @@ resource "ibm_iam_authorization_policy" "kms_policy" {
 
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  depends_on            = [ibm_iam_authorization_policy.kms_policy]
+  depends_on            = [ibm_iam_authorization_policy.policy]
   bucket_name           = var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
