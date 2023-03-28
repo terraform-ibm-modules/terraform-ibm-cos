@@ -4,23 +4,21 @@ locals {
 }
 
 module "cos_instance" {
-  source                        = "../../"
-  resource_group_id             = var.resource_group_id
-  create_cos_instance           = var.create_cos_instance
-  existing_cos_instance_id      = var.existing_cos_instance_id
-  create_cos_bucket             = false
-  cos_instance_name             = var.cos_instance_name
-  skip_iam_authorization_policy = true
-  encryption_enabled            = "false"
-  create_hmac_key               = var.create_hmac_key
-  hmac_key_name                 = var.hmac_key_name
-  hmac_key_role                 = var.hmac_key_role
-  cos_location                  = var.cos_location
-  cos_plan                      = var.cos_plan
-  cos_tags                      = var.cos_tags
-  sysdig_crn                    = var.sysdig_crn
-  activity_tracker_crn          = var.activity_tracker_crn
-  instance_cbr_rules            = var.instance_cbr_rules
+  source                   = "../../"
+  resource_group_id        = var.resource_group_id
+  create_cos_instance      = var.create_cos_instance
+  existing_cos_instance_id = var.existing_cos_instance_id
+  create_cos_bucket        = false
+  cos_instance_name        = var.cos_instance_name
+  create_hmac_key          = var.create_hmac_key
+  hmac_key_name            = var.hmac_key_name
+  hmac_key_role            = var.hmac_key_role
+  cos_location             = var.cos_location
+  cos_plan                 = var.cos_plan
+  cos_tags                 = var.cos_tags
+  sysdig_crn               = var.sysdig_crn
+  activity_tracker_crn     = var.activity_tracker_crn
+  instance_cbr_rules       = var.instance_cbr_rules
 }
 
 module "cos_primary_bucket" {
