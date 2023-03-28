@@ -56,7 +56,7 @@ resource "ibm_resource_key" "resource_key" {
 locals {
   cos_instance_id          = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   cos_instance_guid        = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy_kms = var.encryption_enabled && !var.skip_iam_authorization_policy
+  create_access_policy_kms = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
   kms_service = local.create_access_policy_kms && var.key_protect_key_crn != null ? (
     can(regex(".*kms.*", var.key_protect_key_crn)) ? "kms" : (
       can(regex(".*hs-crypto.*", var.key_protect_key_crn)) ? "hs-crypto" : null

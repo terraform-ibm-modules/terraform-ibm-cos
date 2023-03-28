@@ -9,16 +9,37 @@ module "cos_instance" {
   create_cos_instance      = var.create_cos_instance
   existing_cos_instance_id = var.existing_cos_instance_id
   create_cos_bucket        = false
-  cos_instance_name        = var.cos_instance_name
-  create_hmac_key          = var.create_hmac_key
-  hmac_key_name            = var.hmac_key_name
-  hmac_key_role            = var.hmac_key_role
-  cos_location             = var.cos_location
-  cos_plan                 = var.cos_plan
-  cos_tags                 = var.cos_tags
-  sysdig_crn               = var.sysdig_crn
-  activity_tracker_crn     = var.activity_tracker_crn
-  instance_cbr_rules       = var.instance_cbr_rules
+  #  Since two policies are needed we disable here and define them manually bellow
+  skip_iam_authorization_policy = true
+  cos_instance_name             = var.cos_instance_name
+  create_hmac_key               = var.create_hmac_key
+  hmac_key_name                 = var.hmac_key_name
+  hmac_key_role                 = var.hmac_key_role
+  cos_location                  = var.cos_location
+  cos_plan                      = var.cos_plan
+  cos_tags                      = var.cos_tags
+  sysdig_crn                    = var.sysdig_crn
+  activity_tracker_crn          = var.activity_tracker_crn
+  instance_cbr_rules            = var.instance_cbr_rules
+}
+
+# Create IAM Authorization Policies to allow COS to access kms for the encryption key
+resource "ibm_iam_authorization_policy" "primary_kms_policy" {
+  count                       = var.skip_iam_authorization_policy ? 0 : 1
+  source_service_name         = "cloud-object-storage"
+  source_resource_instance_id = module.cos_instance.cos_instance_guid
+  target_service_name         = "hs-crypto"
+  target_resource_instance_id = var.primary_existing_hpcs_instance_guid
+  roles                       = ["Reader"]
+}
+
+resource "ibm_iam_authorization_policy" "secondary_kms_policy" {
+  count                       = var.skip_iam_authorization_policy ? 0 : 1
+  source_service_name         = "cloud-object-storage"
+  source_resource_instance_id = module.cos_instance.cos_instance_guid
+  target_service_name         = "hs-crypto"
+  target_resource_instance_id = var.secondary_existing_hpcs_instance_guid
+  roles                       = ["Reader"]
 }
 
 module "cos_primary_bucket" {
