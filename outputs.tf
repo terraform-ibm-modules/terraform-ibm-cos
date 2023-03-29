@@ -5,9 +5,9 @@ output "resource_group_id" {
   description = "Resource Group ID"
   value       = var.resource_group_id
 }
-output "key_protect_key_crn" {
+output "kms_key_crn" {
   description = "The CRN of the Key Protect Key used to encrypt the COS Bucket"
-  value       = var.key_protect_key_crn
+  value       = var.kms_key_crn
 }
 
 output "cos_instance_id" {

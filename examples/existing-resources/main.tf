@@ -27,7 +27,7 @@ locals {
       bucket_storage_class = bucket.storage_class,
       cos_instance_guid    = module.cos.cos_instance_guid,
       cos_instance_id      = module.cos.cos_instance_id,
-      key_protect_key_crn  = module.cos.key_protect_key_crn,
+      kms_key_crn          = module.cos.kms_key_crn,
       resource_group_id    = module.cos.resource_group_id
       }
   ) }
@@ -63,7 +63,7 @@ module "cos_instance" {
   cos_instance_name                   = "${var.prefix}-cos"
   create_cos_bucket                   = false
   resource_group_id                   = module.resource_group.resource_group_id
-  existing_key_protect_instance_guid  = module.key_protect_all_inclusive.key_protect_guid
+  existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
   region                              = var.region
   cross_region_location               = null
   activity_tracker_crn                = null
@@ -93,7 +93,7 @@ module "cos" {
   source                   = "../../"
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_instance.cos_instance_id
-  key_protect_key_crn      = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  kms_key_crn              = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_names             = toset(local.buckets)
   resource_group_id        = module.resource_group.resource_group_id
   region                   = var.region

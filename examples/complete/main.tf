@@ -107,16 +107,16 @@ module "cbr_zone" {
 # - Monitoring
 # - Activity Tracking
 module "cos_bucket1" {
-  source                             = "../../"
-  resource_group_id                  = module.resource_group.resource_group_id
-  region                             = var.region
-  cross_region_location              = null
-  cos_instance_name                  = "${var.prefix}-cos"
-  cos_tags                           = var.resource_tags
-  bucket_names                       = toset(local.buckets)
-  existing_key_protect_instance_guid = module.key_protect_all_inclusive.key_protect_guid
-  key_protect_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  sysdig_crn                         = module.observability_instances.sysdig_crn
+  source                     = "../../"
+  resource_group_id          = module.resource_group.resource_group_id
+  region                     = var.region
+  cross_region_location      = null
+  cos_instance_name          = "${var.prefix}-cos"
+  cos_tags                   = var.resource_tags
+  bucket_names               = toset(local.buckets)
+  existing_kms_instance_guid = module.key_protect_all_inclusive.key_protect_guid
+  kms_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  sysdig_crn                 = module.observability_instances.sysdig_crn
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   activity_tracker_crn = local.at_crn
@@ -183,8 +183,8 @@ module "cos_bucket2" {
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_bucket1.cos_instance_id
   # disable retention for test environments - enable for stage/prod
-  retention_enabled   = false
-  key_protect_key_crn = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  retention_enabled = false
+  kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
@@ -224,7 +224,7 @@ locals {
         bucket_storage_class = bucket.storage_class,
         cos_instance_guid    = module.cos_bucket1.cos_instance_guid,
         cos_instance_id      = module.cos_bucket1.cos_instance_id,
-        key_protect_key_crn  = module.cos_bucket1.key_protect_key_crn,
+        kms_key_crn          = module.cos_bucket1.kms_key_crn,
         resource_group_id    = module.cos_bucket1.resource_group_id
     }) },
     { for bucket in module.cos_bucket2.buckets : bucket.bucket_name =>
@@ -236,7 +236,7 @@ locals {
         s3_endpoint_public   = bucket.s3_endpoint_public,
         bucket_storage_class = bucket.storage_class, cos_instance_guid = module.cos_bucket2.cos_instance_guid,
         cos_instance_id      = module.cos_bucket2.cos_instance_id,
-        key_protect_key_crn  = module.cos_bucket2.key_protect_key_crn,
+        kms_key_crn          = module.cos_bucket2.kms_key_crn,
         resource_group_id    = module.cos_bucket2.resource_group_id
     }) }
   )
