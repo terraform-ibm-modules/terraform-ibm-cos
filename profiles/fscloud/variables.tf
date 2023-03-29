@@ -41,12 +41,6 @@ variable "cos_instance_name" {
   default     = null
 }
 
-variable "cos_location" {
-  description = "Location to provision the cloud object storage instance. Only used if 'create_cos_instance' is true."
-  type        = string
-  default     = "global"
-}
-
 variable "cos_tags" {
   description = "Optional list of tags to be added to cloud object storage instance. Only used if 'create_cos_instance' it true."
   type        = list(string)
@@ -110,13 +104,13 @@ variable "bucket_storage_class" {
 
 variable "activity_tracker_crn" {
   type        = string
-  description = "Activity tracker crn for COS bucket (Optional)"
+  description = "Activity tracker crn for COS bucket. Only required if 'create_cos_bucket' is true."
   default     = null
 }
 
 variable "sysdig_crn" {
   type        = string
-  description = "Sysdig Monitoring crn for COS bucket (Optional)"
+  description = "Sysdig Monitoring crn for COS bucket. Only required if 'create_cos_bucket' is true."
   default     = null
 }
 
@@ -125,23 +119,27 @@ variable "sysdig_crn" {
 ##############################################################################
 
 variable "primary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
+  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
   type        = string
+  default     = null
 }
 
 variable "secondary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
+  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
   type        = string
+  default     = null
 }
 
 variable "primary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
+  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. Only required if 'create_cos_bucket' is true."
   type        = string
+  default     = null
 }
 
 variable "secondary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
+  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. Only required if 'create_cos_bucket' is true."
   type        = string
+  default     = null
 }
 
 ##############################################################
@@ -197,7 +195,6 @@ variable "instance_cbr_rules" {
   default     = []
   # Validation happens in the rule module
 }
-
 
 variable "skip_iam_authorization_policy" {
   type        = bool

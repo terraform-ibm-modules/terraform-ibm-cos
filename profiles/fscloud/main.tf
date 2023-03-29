@@ -1,6 +1,22 @@
 locals {
   # tflint-ignore: terraform_unused_declarations
   validate_different_regions = var.primary_region == var.secondary_region ? tobool("primary and secondary bucket regions must not match") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_at_set = var.create_cos_bucket && var.activity_tracker_crn == null ? tobool("when var.create_cos_bucket is true, var.activity_tracker_crn must be provided") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_sysdig_set = var.create_cos_bucket && var.sysdig_crn == null ? tobool("when var.create_cos_bucket is true, var.sysdig_crn must be provided") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_primary_hpcs_instance_guid = var.create_cos_bucket && var.primary_existing_hpcs_instance_guid == null ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_guid must be provided") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_primary_hpcs_key_crn = var.create_cos_bucket && var.primary_hpcs_key_crn == null ? tobool("when var.create_cos_bucket is true, var.primary_hpcs_key_crn must be provided") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_secondary_hpcs_instance_guid = var.create_cos_bucket && var.secondary_existing_hpcs_instance_guid == null ? tobool("when var.create_cos_bucket is true, var.secondary_existing_hpcs_instance_guid must be provided") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_secondary_hpcs_key_crn = var.create_cos_bucket && var.secondary_hpcs_key_crn == null ? tobool("when var.create_cos_bucket is true, var.secondary_hpcs_key_crn must be provided") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_hpcs_instance_guids_different = var.create_cos_bucket && var.primary_existing_hpcs_instance_guid == var.secondary_existing_hpcs_instance_guid ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_guid and var.secondary_existing_hpcs_instance_guid must be different") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_secondary_hpcs_key_crns_different = var.create_cos_bucket && var.primary_hpcs_key_crn == var.secondary_hpcs_key_crn ? tobool("when var.create_cos_bucket is true, var.primary_hpcs_key_crn and var.secondary_hpcs_key_crn must be different") : true
 }
 
 module "cos_instance" {
@@ -9,13 +25,12 @@ module "cos_instance" {
   create_cos_instance      = var.create_cos_instance
   existing_cos_instance_id = var.existing_cos_instance_id
   create_cos_bucket        = false
-  #  Since two policies are needed we disable here and define them manually bellow
+  #  Since two policies are needed we disable here and define them manually below
   skip_iam_authorization_policy = true
   cos_instance_name             = var.cos_instance_name
   create_hmac_key               = var.create_hmac_key
   hmac_key_name                 = var.hmac_key_name
   hmac_key_role                 = var.hmac_key_role
-  cos_location                  = var.cos_location
   cos_plan                      = var.cos_plan
   cos_tags                      = var.cos_tags
   sysdig_crn                    = var.sysdig_crn
