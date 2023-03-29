@@ -157,13 +157,6 @@ module "cos_fscloud" {
       description      = "sample rule for the instance"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      # IAM tags on the rule resources should match to the instance level IAM tags
-      tags = [
-        {
-          name  = "env"
-          value = "test"
-        }
-      ]
       rule_contexts = [{
         attributes = [
           {
@@ -177,12 +170,4 @@ module "cos_fscloud" {
       }]
     }
   ]
-}
-
-# IAM tags for the instance to match to the CBR rule tags.
-# Tags are expected to exist in advance
-resource "ibm_resource_tag" "instance_tags" {
-  resource_id = module.cos_fscloud.cos_instance_id
-  tag_type    = "access" # MUST be type access for CBR rule to work
-  tags        = ["env:test"]
 }
