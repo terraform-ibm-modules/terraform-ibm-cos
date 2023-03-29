@@ -235,10 +235,11 @@ module "bucket_cbr_rule" {
     for bucket_rule in local.cbr_rules : bucket_rule.bucket_name => bucket_rule
   }
 
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0"
   rule_description = each.value.cbr_rule_block.description
   enforcement_mode = each.value.cbr_rule_block.enforcement_mode
   rule_contexts    = each.value.cbr_rule_block.rule_contexts
+
   resources = [{
     attributes = [
       {
@@ -269,7 +270,7 @@ module "bucket_cbr_rule" {
 
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.1.4"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
