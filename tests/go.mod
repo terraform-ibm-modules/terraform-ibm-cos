@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/stretchr/testify v1.8.2
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.8.3
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.8.4
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -17,7 +17,7 @@ require (
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20230120122421-afb48116b8f1 // indirect
 	github.com/IBM-Cloud/power-go-client v1.2.2 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.13.1 // indirect
-	github.com/IBM/platform-services-go-sdk v0.32.2 // indirect
+	github.com/IBM/platform-services-go-sdk v0.34.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230217124315-7d5c6f04bbb8 // indirect
@@ -26,7 +26,7 @@ require (
 	github.com/acomagu/bufpipe v1.0.4 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
-	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/aws/aws-sdk-go v1.44.122 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/cloudflare/circl v1.1.0 // indirect
@@ -42,7 +42,7 @@ require (
 	github.com/go-openapi/loads v0.21.1 // indirect
 	github.com/go-openapi/runtime v0.23.0 // indirect
 	github.com/go-openapi/spec v0.20.4 // indirect
-	github.com/go-openapi/strfmt v0.21.5 // indirect
+	github.com/go-openapi/strfmt v0.21.7 // indirect
 	github.com/go-openapi/swag v0.21.1 // indirect
 	github.com/go-openapi/validate v0.20.3 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -88,7 +88,7 @@ require (
 	github.com/ulikunitz/xz v0.5.10 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/zclconf/go-cty v1.9.1 // indirect
-	go.mongodb.org/mongo-driver v1.11.2 // indirect
+	go.mongodb.org/mongo-driver v1.11.3 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
