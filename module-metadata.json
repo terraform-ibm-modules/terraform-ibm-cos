@@ -582,14 +582,6 @@
     "bucket_cbr_rule": {
       "name": "bucket_cbr_rule",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0",
-      "attributes": {
-        "count": "bucket_cbr_rules",
-        "enforcement_mode": "bucket_cbr_rules",
-        "operations": "bucket_cbr_rules",
-        "resources": "bucket_cbr_rules",
-        "rule_contexts": "bucket_cbr_rules",
-        "rule_description": "bucket_cbr_rules"
-      },
       "managed_resources": {
         "ibm_cbr_rule.cbr_rule": {
           "mode": "managed",
@@ -730,7 +722,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 270
+        "line": 271
       }
     }
   }
