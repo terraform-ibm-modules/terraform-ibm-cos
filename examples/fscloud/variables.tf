@@ -35,27 +35,23 @@ variable "secondary_region" {
 }
 
 variable "primary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. If not set a Key Protect instance will be used for demo purposes but will not be FS cloud compliant"
+  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
   type        = string
-  default     = null
 }
 
 variable "secondary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. If not set a Key Protect instance will be used for demo purposes but will not be FS cloud compliant"
+  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
   type        = string
-  default     = null
 }
 
 variable "primary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. If not set a Key Protect key will be created and used for demo purposes but will not be FS cloud compliant"
+  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
   type        = string
-  default     = null
 }
 
 variable "secondary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. If not set a Key Protect key will be created and used for demo purposes but will not be FS cloud compliant"
+  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
   type        = string
-  default     = null
 }
 
 variable "resource_group" {
