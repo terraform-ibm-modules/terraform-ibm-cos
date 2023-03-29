@@ -58,48 +58,6 @@ module "observability_instances" {
 }
 
 ##############################################################################
-# Create Key Protect resources for Demo purposes for FSCloud use Hyper Protect Crypto Service
-##############################################################################
-
-locals {
-  key_ring_name = "cos-key-ring"
-  key_name      = "cos-key"
-}
-
-module "key_protect_all_inclusive_primary" {
-  count                     = var.primary_existing_hpcs_instance_guid != null ? 0 : 1
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.0.0"
-  key_protect_instance_name = "${var.prefix}-primary-kp"
-  resource_group_id         = module.resource_group.resource_group_id
-  enable_metrics            = false
-  region                    = var.primary_region
-  key_map = {
-    (local.key_ring_name) = [local.key_name]
-  }
-  resource_tags = var.resource_tags
-}
-
-module "key_protect_all_inclusive_secondary" {
-  count                     = var.secondary_existing_hpcs_instance_guid != null ? 0 : 1
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.0.0"
-  key_protect_instance_name = "${var.prefix}-secondary-kp"
-  resource_group_id         = module.resource_group.resource_group_id
-  enable_metrics            = false
-  region                    = var.secondary_region
-  key_map = {
-    (local.key_ring_name) = [local.key_name]
-  }
-  resource_tags = var.resource_tags
-}
-
-
-locals {
-  primary_kms_guid      = var.primary_existing_hpcs_instance_guid != null ? var.primary_existing_hpcs_instance_guid : module.key_protect_all_inclusive_primary[0].key_protect_guid
-  primary_kms_key_crn   = var.primary_existing_hpcs_instance_guid != null ? var.primary_hpcs_key_crn : module.key_protect_all_inclusive_primary[0].keys["${local.key_ring_name}.${local.key_name}"].crn
-  secondary_kms_guid    = var.secondary_existing_hpcs_instance_guid != null ? var.secondary_existing_hpcs_instance_guid : module.key_protect_all_inclusive_secondary[0].key_protect_guid
-  secondary_kms_key_crn = var.secondary_existing_hpcs_instance_guid != null ? var.secondary_hpcs_key_crn : module.key_protect_all_inclusive_secondary[0].keys["${local.key_ring_name}.${local.key_name}"].crn
-}
-##############################################################################
 # Get Cloud Account ID
 ##############################################################################
 
@@ -127,11 +85,11 @@ module "cos_fscloud" {
   cos_tags                              = var.resource_tags
   bucket_name                           = "${var.prefix}-bucket-1"
   primary_region                        = var.primary_region
-  primary_existing_hpcs_instance_guid   = local.primary_kms_guid
-  primary_hpcs_key_crn                  = local.primary_kms_key_crn
-  secondary_existing_hpcs_instance_guid = local.secondary_kms_guid
+  primary_existing_hpcs_instance_guid   = var.primary_existing_hpcs_instance_guid
+  primary_hpcs_key_crn                  = var.primary_hpcs_key_crn
+  secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid
   secondary_region                      = var.secondary_region
-  secondary_hpcs_key_crn                = local.secondary_kms_key_crn
+  secondary_hpcs_key_crn                = var.secondary_hpcs_key_crn
   sysdig_crn                            = module.observability_instances.sysdig_crn
   activity_tracker_crn                  = local.at_crn
   bucket_cbr_rules = [
