@@ -85,7 +85,13 @@ variable "secondary_region" {
   default     = "us-east"
 }
 
-variable "bucket_name" {
+variable "primary_bucket_name" {
+  type        = string
+  description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
+  default     = null
+}
+
+variable "secondary_bucket_name" {
   type        = string
   description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
   default     = null
@@ -112,6 +118,22 @@ variable "sysdig_crn" {
   type        = string
   description = "Sysdig Monitoring crn for COS bucket. Only required if 'create_cos_bucket' is true."
   default     = null
+}
+
+variable "archive_days" {
+  description = "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true."
+  type        = number
+  default     = 90
+}
+
+variable "archive_type" {
+  description = "Specifies the storage class or archive type to which you want the object to transition. Only used if 'create_cos_bucket' is true."
+  type        = string
+  default     = "Glacier"
+  validation {
+    condition     = contains(["Glacier", "Accelerated"], var.archive_type)
+    error_message = "The specified archive_type is not a valid selection!"
+  }
 }
 
 ##############################################################################

@@ -17,6 +17,7 @@ locals {
   validate_hpcs_instance_guids_different = var.create_cos_bucket && var.primary_existing_hpcs_instance_guid == var.secondary_existing_hpcs_instance_guid ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_guid and var.secondary_existing_hpcs_instance_guid must be different") : true
   # tflint-ignore: terraform_unused_declarations
   validate_secondary_hpcs_key_crns_different = var.create_cos_bucket && var.primary_hpcs_key_crn == var.secondary_hpcs_key_crn ? tobool("when var.create_cos_bucket is true, var.primary_hpcs_key_crn and var.secondary_hpcs_key_crn must be different") : true
+
 }
 
 module "cos_instance" {
@@ -64,10 +65,11 @@ module "cos_primary_bucket" {
   create_cos_instance                = false
   existing_cos_instance_id           = module.cos_instance.cos_instance_id
   create_cos_bucket                  = var.create_cos_bucket
-  bucket_name                        = "${var.bucket_name}-${var.primary_region}"
+  bucket_name                        = var.primary_bucket_name
   bucket_storage_class               = var.bucket_storage_class
   retention_enabled                  = false
-  archive_days                       = null
+  archive_days                       = var.archive_days
+  archive_type                       = var.archive_type
   expire_days                        = null
   object_versioning_enabled          = "true"
   existing_key_protect_instance_guid = var.primary_existing_hpcs_instance_guid
@@ -85,10 +87,11 @@ module "cos_secondary_bucket" {
   create_cos_instance                = false
   existing_cos_instance_id           = module.cos_instance.cos_instance_id
   create_cos_bucket                  = var.create_cos_bucket
-  bucket_name                        = "${var.bucket_name}-${var.secondary_region}"
+  bucket_name                        = var.secondary_bucket_name
   bucket_storage_class               = var.bucket_storage_class
   retention_enabled                  = false
-  archive_days                       = null
+  archive_days                       = var.archive_days
+  archive_type                       = var.archive_type
   expire_days                        = null
   object_versioning_enabled          = "true"
   existing_key_protect_instance_guid = var.secondary_existing_hpcs_instance_guid

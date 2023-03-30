@@ -83,10 +83,11 @@ module "cos_fscloud" {
   resource_group_id                     = module.resource_group.resource_group_id
   cos_instance_name                     = "${var.prefix}-cos"
   cos_tags                              = var.resource_tags
-  bucket_name                           = "${var.prefix}-bucket-1"
+  primary_bucket_name                   = "${var.prefix}-bucket-primary"
   primary_region                        = var.primary_region
   primary_existing_hpcs_instance_guid   = var.primary_existing_hpcs_instance_guid
   primary_hpcs_key_crn                  = var.primary_hpcs_key_crn
+  secondary_bucket_name                 = "${var.prefix}-bucket-secondary"
   secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid
   secondary_region                      = var.secondary_region
   secondary_hpcs_key_crn                = var.secondary_hpcs_key_crn
