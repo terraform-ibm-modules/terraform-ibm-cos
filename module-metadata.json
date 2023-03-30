@@ -235,7 +235,7 @@
     "existing_key_protect_instance_guid": {
       "name": "existing_key_protect_instance_guid",
       "type": "string",
-      "description": "The GUID of the Key Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance.",
+      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
       "source": [
         "ibm_iam_authorization_policy.policy.target_resource_instance_id"
       ],
@@ -588,7 +588,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 79
+        "line": 85
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -608,7 +608,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 156
+        "line": 162
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -623,7 +623,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 63
+        "line": 69
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -676,7 +676,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 294
+        "line": 300
       }
     }
   },
@@ -756,7 +756,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 231
+        "line": 237
       }
     },
     "instance_cbr_rule": {
@@ -833,7 +833,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 265
+        "line": 271
       }
     }
   }
