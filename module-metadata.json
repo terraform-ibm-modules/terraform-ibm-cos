@@ -220,7 +220,7 @@
     "existing_kms_instance_guid": {
       "name": "existing_kms_instance_guid",
       "type": "string",
-      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
+      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
       "source": [
         "ibm_iam_authorization_policy.policy.target_resource_instance_id"
       ],
@@ -573,7 +573,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 155
+        "line": 161
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -706,7 +706,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 229
+        "line": 235
       }
     },
     "instance_cbr_rule": {
@@ -783,7 +783,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 263
+        "line": 269
       }
     }
   }
