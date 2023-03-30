@@ -16,7 +16,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_encryption_inputs = !var.create_cos_instance && !var.create_cos_bucket ? tobool("var.create_cos_instance and var.create_cos_bucket cannot be both set to false") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_key_inputs = var.create_cos_bucket && var.encryption_enabled && var.key_protect_key_crn == null ? tobool("A value must be passed for var.key_protect_key_crn when both var.create_cos_bucket and var.encryption_enabled are true") : true
+  validate_key_inputs = var.create_cos_bucket && var.encryption_enabled && var.kms_key_crn == null ? tobool("A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.encryption_enabled are true") : true
   # tflint-ignore: terraform_unused_declarations
   validate_bucket_inputs = var.create_cos_bucket && var.bucket_name == null ? tobool("If var.create_cos_bucket is true, then provide value for var.bucket_name") : true
   # tflint-ignore: terraform_unused_declarations
@@ -24,7 +24,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cos_id_input = !var.create_cos_instance && var.existing_cos_instance_id == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.existing_key_protect_instance_guid == null ? tobool("A value must be passed for var.existing_key_protect_instance_guid when var.create_cos_instance and var.encryption_enabled is true.") : true
+  validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when var.create_cos_instance and var.encryption_enabled is true.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
   # tflint-ignore: terraform_unused_declarations
@@ -59,13 +59,13 @@ locals {
   create_access_policy = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
 }
 
-# Create IAM Authorization Policy to allow COS to access key protect for the encryption key
+# Create IAM Authorization Policy to allow COS to access KMS for the encryption key
 resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy ? 1 : 0
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
   target_service_name         = "kms"
-  target_resource_instance_id = var.existing_key_protect_instance_guid
+  target_resource_instance_id = var.existing_kms_instance_guid
   roles                       = ["Reader"]
 }
 
@@ -83,9 +83,8 @@ resource "ibm_cos_bucket" "cos_bucket" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
-  endpoint_type         = var.bucket_endpoint
   storage_class         = var.bucket_storage_class
-  key_protect           = var.key_protect_key_crn
+  key_protect           = var.kms_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -159,7 +158,6 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
-  endpoint_type         = var.bucket_endpoint
   storage_class         = var.bucket_storage_class
   dynamic "retention_rule" {
     for_each = local.retention_enabled
@@ -289,14 +287,4 @@ module "instance_cbr_rule" {
     tags = var.instance_cbr_rules[count.index].tags
   }]
   operations = var.instance_cbr_rules[count.index].operations == null ? [] : var.instance_cbr_rules[count.index].operations
-}
-
-resource "null_resource" "deprecation_notice" {
-  count = var.service_endpoints != null ? 1 : 0
-  triggers = {
-    always_refresh = timestamp()
-  }
-  provisioner "local-exec" {
-    command = "echo 'WARNING: The service_endpoints variable has been deprecated for this module and will be removed with the next major release.'"
-  }
 }

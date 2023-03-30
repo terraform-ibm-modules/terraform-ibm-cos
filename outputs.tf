@@ -36,9 +36,9 @@ output "bucket_storage_class" {
   value       = local.bucket_storage_class
 }
 
-output "key_protect_key_crn" {
-  description = "The CRN of the Key Protect Key used to encrypt the COS Bucket"
-  value       = var.key_protect_key_crn
+output "kms_key_crn" {
+  description = "The CRN of the KMS Key used to encrypt the COS Bucket"
+  value       = var.kms_key_crn
 }
 
 output "cos_instance_id" {
