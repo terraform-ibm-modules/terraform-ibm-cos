@@ -24,7 +24,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cos_id_input = !var.create_cos_instance && var.existing_cos_instance_id == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when var.create_cos_instance and var.encryption_enabled is true.") : true
+  validate_kp_guid_input = var.encryption_enabled && var.create_cos_instance && var.skip_iam_authorization_policy == false && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when creating an instance, var.encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
   # tflint-ignore: terraform_unused_declarations
@@ -54,17 +54,23 @@ resource "ibm_resource_key" "resource_key" {
 }
 
 locals {
-  cos_instance_id      = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
-  cos_instance_guid    = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
+  cos_instance_id          = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
+  cos_instance_guid        = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
+  create_access_policy_kms = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
+  kms_service = local.create_access_policy_kms && var.key_protect_key_crn != null ? (
+    can(regex(".*kms.*", var.key_protect_key_crn)) ? "kms" : (
+      can(regex(".*hs-crypto.*", var.key_protect_key_crn)) ? "hs-crypto" : null
+    )
+  ) : null
+
 }
 
 # Create IAM Authorization Policy to allow COS to access KMS for the encryption key
 resource "ibm_iam_authorization_policy" "policy" {
-  count                       = local.create_access_policy ? 1 : 0
+  count                       = local.create_access_policy_kms ? 1 : 0
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
-  target_service_name         = "kms"
+  target_service_name         = local.kms_service
   target_resource_instance_id = var.existing_kms_instance_guid
   roles                       = ["Reader"]
 }
