@@ -199,8 +199,8 @@ variable "sysdig_crn" {
 # COS bucket encryption variables
 ##############################################################################
 
-variable "existing_kms_instance_guid" {
-  description = "The GUID of the Key Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance."
+variable "existing_key_protect_instance_guid" {
+  description = "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance."
   type        = string
   default     = null
 }

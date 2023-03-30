@@ -90,7 +90,8 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](examples/complete)
-- [ COS Buckets without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
+- [ COS Bucket without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
+- [ Financial Services Cloud Profile example](examples/fscloud)
 - [ Cloud Object Storage replication example](examples/replication)
 <!-- END EXAMPLES HOOK -->
 

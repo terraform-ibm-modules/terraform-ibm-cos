@@ -2,7 +2,7 @@
 package test
 
 import (
-	"fmt"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
 	"os"
 	"strings"
@@ -11,10 +11,10 @@ import (
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
-	"gopkg.in/yaml.v3"
 )
 
 const completeExampleTerraformDir = "examples/complete"
+const fsCloudTerraformDir = "examples/fscloud"
 const completeExistingTerraformDir = "examples/existing-resources"
 const replicateExampleTerraformDir = "examples/replication"
 
@@ -27,28 +27,17 @@ const region = "us-south"
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
-type Config struct {
-	ActivityTrackerCrn string `yaml:"activityTrackerFrankfurtCrn"`
-}
-
-var activityTrackerCrn string
+var permanentResources map[string]interface{}
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
 func TestMain(m *testing.M) {
-	// Read the YAML file contents
-	data, err := os.ReadFile(yamlLocation)
+
+	var err error
+	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Create a struct to hold the YAML data
-	var config Config
-	// Unmarshal the YAML data into the struct
-	err = yaml.Unmarshal(data, &config)
-	if err != nil {
-		log.Fatal(err)
-	}
-	// Parse the SM guid and region from data
-	activityTrackerCrn = config.ActivityTrackerCrn
+
 	os.Exit(m.Run())
 }
 
@@ -60,7 +49,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		ResourceGroup: resourceGroup,
 		Region:        region,
 		TerraformVars: map[string]interface{}{
-			"existing_at_instance_crn": activityTrackerCrn,
+			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
 		},
 	})
 	// completeExistingTerraformDir does not implement any activity tracker functionality
@@ -83,6 +72,19 @@ func TestRunCompleteExample(t *testing.T) {
 	options.TerraformVars["bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))}
 	options.TerraformVars["cross_region_bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))}
 
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunFSCloudExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "cos-fscloud", fsCloudTerraformDir)
+	options.TerraformVars["primary_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
+	options.TerraformVars["primary_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
+	options.TerraformVars["secondary_existing_hpcs_instance_guid"] = permanentResources["hpcs_east"]
+	options.TerraformVars["secondary_hpcs_key_crn"] = permanentResources["hpcs_east_root_key_crn"]
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
