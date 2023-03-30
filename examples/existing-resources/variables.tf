@@ -27,9 +27,3 @@ variable "resource_tags" {
   description = "Optional list of tags to be added to created resources"
   default     = []
 }
-
-variable "bucket_names" {
-  type        = list(string)
-  description = "List of buckets to be created"
-  default     = []
-}

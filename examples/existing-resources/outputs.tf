@@ -1,9 +1,9 @@
 output "buckets" {
   description = "Map of buckets created in the Cloud Object Storage Instance"
-  value       = local.exisiting_buckets_map
+  value       = module.buckets.buckets
 }
 
 output "bucket_configs" {
   description = "Map of buckets created in the Cloud Object Storage Instance"
-  value       = module.cos.bucket_configs
+  value       = module.buckets.bucket_configs
 }
