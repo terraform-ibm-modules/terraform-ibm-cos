@@ -90,7 +90,7 @@ resource "ibm_iam_authorization_policy" "policy" {
 ##############################################################################
 
 module "cos" {
-  source                   = "../../"
+  source                   = "../../modules/buckets"
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_instance.cos_instance_id
   kms_key_crn              = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
@@ -102,4 +102,12 @@ module "cos" {
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   activity_tracker_crn = null
+  bucket_configs = [
+    {
+      bucket_name          = "${var.prefix}-bucket"
+      kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+      region_location      = var.region
+      resource_instance_id = module.cos_instance.cos_instance_id
+    }
+  ]
 }

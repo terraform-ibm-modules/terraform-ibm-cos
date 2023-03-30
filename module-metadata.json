@@ -426,7 +426,7 @@
       "description": "Map of buckets created in the Cloud Object Storage Instance",
       "pos": {
         "filename": "outputs.tf",
-        "line": 23
+        "line": 24
       }
     },
     "cos_instance_guid": {
@@ -435,7 +435,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 18
+        "line": 19
       }
     },
     "cos_instance_id": {
@@ -444,7 +444,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 13
+        "line": 14
       }
     },
     "kms_key_crn": {
@@ -453,7 +453,7 @@
       "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 8
+        "line": 9
       },
       "type": "string"
     },

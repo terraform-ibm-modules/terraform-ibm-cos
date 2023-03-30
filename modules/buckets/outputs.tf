@@ -25,3 +25,8 @@ output "buckets" {
   description = "Map of buckets created in the Cloud Object Storage Instance"
   value       = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*] : ibm_cos_bucket.cos_bucket1[*]
 }
+
+output "bucket_configs" {
+  description = "List of bucket config definitions"
+  value       = var.bucket_configs
+}
