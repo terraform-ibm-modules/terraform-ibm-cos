@@ -69,9 +69,6 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
-	options.TerraformVars["bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))}
-	options.TerraformVars["cross_region_bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-complete-bucket", strings.ToLower(random.UniqueId()))}
-
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")

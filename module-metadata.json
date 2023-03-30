@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 186
+        "line": 192
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 164
+        "line": 170
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 170
+        "line": 176
       }
     },
     "bucket_cbr_rules": {
@@ -37,14 +37,13 @@
       "default": [],
       "pos": {
         "filename": "variables.tf",
-        "line": 224
+        "line": 230
       }
     },
-    "bucket_names": {
-      "name": "bucket_names",
-      "type": "list(string)",
-      "description": "List of buckets to be created",
-      "default": [],
+    "bucket_name": {
+      "name": "bucket_name",
+      "type": "string",
+      "description": "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true.",
       "required": true,
       "source": [
         "ibm_cos_bucket.cos_bucket.bucket_name",
@@ -52,7 +51,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 280
+        "line": 105
       },
       "immutable": true
     },
@@ -67,7 +66,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 105
+        "line": 111
       },
       "immutable": true,
       "options": "standard,vault,cold,smart,flex,onerate_active",
@@ -190,7 +189,7 @@
     "encryption_enabled": {
       "name": "encryption_enabled",
       "type": "bool",
-      "description": "Set as true to use Key Protect encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
+      "description": "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
       "default": true,
       "source": [
         "ibm_cos_bucket.cos_bucket.count",
@@ -198,7 +197,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 208
+        "line": 214
       }
     },
     "existing_cos_instance_id": {
@@ -213,13 +212,13 @@
     "existing_kms_instance_guid": {
       "name": "existing_kms_instance_guid",
       "type": "string",
-      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
+      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
       "source": [
         "ibm_iam_authorization_policy.policy.target_resource_instance_id"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 202
+        "line": 208
       },
       "immutable": true,
       "computed": true
@@ -231,7 +230,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 180
+        "line": 186
       }
     },
     "hmac_key_name": {
@@ -278,19 +277,19 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 249
+        "line": 255
       }
     },
     "kms_key_crn": {
       "name": "kms_key_crn",
       "type": "string",
-      "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
+      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
       "source": [
         "ibm_cos_bucket.cos_bucket.key_protect"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 214
+        "line": 220
       },
       "immutable": true
     },
@@ -301,7 +300,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 158
+        "line": 164
       }
     },
     "region": {
@@ -357,7 +356,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 122
+        "line": 128
       }
     },
     "retention_enabled": {
@@ -367,7 +366,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 116
+        "line": 122
       }
     },
     "retention_maximum": {
@@ -377,7 +376,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 132
+        "line": 138
       }
     },
     "retention_minimum": {
@@ -387,7 +386,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 142
+        "line": 148
       }
     },
     "retention_permanent": {
@@ -397,17 +396,17 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 152
+        "line": 158
       }
     },
     "skip_iam_authorization_policy": {
       "name": "skip_iam_authorization_policy",
       "type": "bool",
-      "description": "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the Key Protect instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created",
+      "description": "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created",
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 274
+        "line": 280
       }
     },
     "sysdig_crn": {
@@ -416,7 +415,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 192
+        "line": 198
       }
     }
   },
@@ -449,7 +448,7 @@
     },
     "kms_key_crn": {
       "name": "kms_key_crn",
-      "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
+      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
       "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",
@@ -520,7 +519,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 162
+        "line": 161
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -645,7 +644,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 237
+        "line": 235
       }
     },
     "instance_cbr_rule": {
@@ -722,7 +721,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 271
+        "line": 269
       }
     }
   }
