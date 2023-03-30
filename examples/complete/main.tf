@@ -31,10 +31,8 @@ resource "ibm_is_subnet" "testacc_subnet" {
 ##############################################################################
 
 locals {
-  existing_at          = var.existing_at_instance_crn != null ? true : false
-  at_crn               = var.existing_at_instance_crn == null ? module.observability_instances.activity_tracker_crn : var.existing_at_instance_crn
-  buckets              = length(var.bucket_names) == 0 ? ["${var.prefix}-bucket-1"] : var.bucket_names
-  cross_region_buckets = length(var.cross_region_bucket_names) == 0 ? ["${var.prefix}-bucket-2"] : var.cross_region_bucket_names
+  existing_at = var.existing_at_instance_crn != null ? true : false
+  at_crn      = var.existing_at_instance_crn == null ? module.observability_instances.activity_tracker_crn : var.existing_at_instance_crn
 }
 
 # Create Sysdig and Activity Tracker instance
@@ -102,7 +100,7 @@ module "cbr_zone" {
 }
 
 # Create COS instance and Key protect instance.
-# Create COS buckets with:
+# Create COS bucket-1 with:
 # - Encryption
 # - Monitoring
 # - Activity Tracking
@@ -166,7 +164,7 @@ module "cos_bucket1" {
 }
 
 # We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
-# Create COS buckets with:
+# Create COS bucket-2 with:
 # - Cross Region Location
 # - Encryption
 # - Monitoring
@@ -210,34 +208,4 @@ resource "ibm_resource_tag" "tag1" {
   resource_id = module.cos_bucket1.cos_instance_id
   tag_type    = "access"
   tags        = ["env:test"]
-}
-
-locals {
-  bucket_map = merge(
-    { for bucket in module.cos_bucket1.buckets : bucket.bucket_name =>
-      merge({
-        bucket_name          = bucket.bucket_name,
-        bucket_crn           = bucket.crn,
-        bucket_id            = bucket.id,
-        s3_endpoint_private  = bucket.s3_endpoint_private,
-        s3_endpoint_public   = bucket.s3_endpoint_public,
-        bucket_storage_class = bucket.storage_class,
-        cos_instance_guid    = module.cos_bucket1.cos_instance_guid,
-        cos_instance_id      = module.cos_bucket1.cos_instance_id,
-        kms_key_crn          = module.cos_bucket1.kms_key_crn,
-        resource_group_id    = module.cos_bucket1.resource_group_id
-    }) },
-    { for bucket in module.cos_bucket2.buckets : bucket.bucket_name =>
-      merge({
-        bucket_name          = bucket.bucket_name,
-        bucket_crn           = bucket.crn,
-        bucket_id            = bucket.id,
-        s3_endpoint_private  = bucket.s3_endpoint_private,
-        s3_endpoint_public   = bucket.s3_endpoint_public,
-        bucket_storage_class = bucket.storage_class, cos_instance_guid = module.cos_bucket2.cos_instance_guid,
-        cos_instance_id      = module.cos_bucket2.cos_instance_id,
-        kms_key_crn          = module.cos_bucket2.kms_key_crn,
-        resource_group_id    = module.cos_bucket2.resource_group_id
-    }) }
-  )
 }

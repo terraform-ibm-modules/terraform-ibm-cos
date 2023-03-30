@@ -18,7 +18,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_key_inputs = var.create_cos_bucket && var.encryption_enabled && var.kms_key_crn == null ? tobool("A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.encryption_enabled are true") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_bucket_inputs = var.create_cos_bucket && length(var.bucket_names) == 0 ? tobool("If var.create_cos_bucket is true, then provide value for var.bucket_names") : true
+  validate_bucket_inputs = var.create_cos_bucket && var.bucket_name == null ? tobool("If var.create_cos_bucket is true, then provide value for var.bucket_name") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cos_inputs = var.create_cos_instance && var.cos_instance_name == null ? tobool("If var.create_cos_instance is true, then provide value for var.cos_instance_name") : true
   # tflint-ignore: terraform_unused_declarations
@@ -75,7 +75,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   roles                       = ["Reader"]
 }
 
-# Create COS buckets with:
+# Create COS bucket with:
 # - Retention
 # - Encryption
 # - Monitoring
@@ -83,9 +83,9 @@ resource "ibm_iam_authorization_policy" "policy" {
 # - Versioning
 
 resource "ibm_cos_bucket" "cos_bucket" {
-  count                 = (var.encryption_enabled && var.create_cos_bucket) ? length(var.bucket_names) : 0
+  count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [ibm_iam_authorization_policy.policy]
-  bucket_name           = var.bucket_names[count.index]
+  bucket_name           = var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
@@ -151,16 +151,16 @@ resource "ibm_cos_bucket" "cos_bucket" {
   }
 }
 
-# Create COS buckets with:
+# Create COS bucket with:
 # - Retention
 # - Monitoring
 # - Activity Tracking
 # - Versioning
-# Create COS buckets without:
+# Create COS bucket without:
 # - Encryption
 resource "ibm_cos_bucket" "cos_bucket1" {
-  count                 = (!var.encryption_enabled && var.create_cos_bucket) ? length(var.bucket_names) : 0
-  bucket_name           = var.bucket_names[count.index]
+  count                 = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  bucket_name           = var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
@@ -220,15 +220,12 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  bucket_name = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
-  cbr_rules = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? [
-
-    # returns a set containing rules and the bucket to which the rules to be applied to
-    for pair in setproduct(var.bucket_cbr_rules, toset(local.bucket_name)) : {
-      cbr_rule_block = pair[0]
-      bucket_name    = pair[1]
-    }
-  ] : []
+  bucket_crn           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket1[*].crn
+  bucket_id            = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
+  bucket_name          = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
+  bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
+  s3_endpoint_public   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
+  s3_endpoint_private  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
 }
 
 ##############################################################################
@@ -236,26 +233,21 @@ locals {
 ##############################################################################
 
 module "bucket_cbr_rule" {
-  # generates a map with bucket name as key and cbr rule for bucket as value
-  for_each = {
-    for bucket_rule in local.cbr_rules : bucket_rule.bucket_name => bucket_rule
-  }
-
+  count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
   source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0"
-  rule_description = each.value.cbr_rule_block.description
-  enforcement_mode = each.value.cbr_rule_block.enforcement_mode
-  rule_contexts    = each.value.cbr_rule_block.rule_contexts
-
+  rule_description = var.bucket_cbr_rules[count.index].description
+  enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
+  rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
   resources = [{
     attributes = [
       {
         name     = "accountId"
-        value    = each.value.cbr_rule_block.account_id
+        value    = var.bucket_cbr_rules[count.index].account_id
         operator = "stringEquals"
       },
       {
         name     = "resource"
-        value    = each.value.bucket_name
+        value    = local.bucket_name[0]
         operator = "stringEquals"
       },
       {
@@ -269,9 +261,9 @@ module "bucket_cbr_rule" {
         operator = "stringEquals"
       }
     ],
-    tags = each.value.cbr_rule_block.tags
+    tags = var.bucket_cbr_rules[count.index].tags
   }]
-  operations = each.value.cbr_rule_block.operations == null ? [] : each.value.cbr_rule_block.operations
+  operations = var.bucket_cbr_rules[count.index].operations == null ? [] : var.bucket_cbr_rules[count.index].operations
 }
 
 module "instance_cbr_rule" {

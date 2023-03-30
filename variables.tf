@@ -102,6 +102,12 @@ variable "cross_region_location" {
   }
 }
 
+variable "bucket_name" {
+  type        = string
+  description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
+  default     = null
+}
+
 variable "bucket_storage_class" {
   type        = string
   description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
@@ -275,10 +281,4 @@ variable "skip_iam_authorization_policy" {
   type        = bool
   description = "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created"
   default     = false
-}
-
-variable "bucket_names" {
-  type        = list(string)
-  description = "List of buckets to be created"
-  default     = []
 }

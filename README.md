@@ -90,7 +90,7 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](examples/complete)
-- [ COS Bucket without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
+- [ COS Buckets without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
 - [ Financial Services Cloud Profile example](examples/fscloud)
 - [ Cloud Object Storage replication example](examples/replication)
 <!-- END EXAMPLES HOOK -->
@@ -162,11 +162,16 @@ You need the following permissions to run this module.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_buckets"></a> [buckets](#output\_buckets) | Map of buckets created in the Cloud Object Storage Instance |
+| <a name="output_bucket_crn"></a> [bucket\_crn](#output\_bucket\_crn) | Bucket CRN |
+| <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | Bucket id |
+| <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Bucket Name |
+| <a name="output_bucket_storage_class"></a> [bucket\_storage\_class](#output\_bucket\_storage\_class) | Bucket Storage Class |
 | <a name="output_cos_instance_guid"></a> [cos\_instance\_guid](#output\_cos\_instance\_guid) | The GUID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The ID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_kms_key_crn"></a> [kms\_key\_crn](#output\_kms\_key\_crn) | The CRN of the KMS Key used to encrypt the COS Bucket |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |
+| <a name="output_s3_endpoint_private"></a> [s3\_endpoint\_private](#output\_s3\_endpoint\_private) | S3 private endpoint |
+| <a name="output_s3_endpoint_public"></a> [s3\_endpoint\_public](#output\_s3\_endpoint\_public) | S3 public endpoint |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- BEGIN CONTRIBUTING HOOK -->

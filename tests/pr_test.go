@@ -5,10 +5,8 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
 	"os"
-	"strings"
 	"testing"
 
-	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
@@ -91,8 +89,6 @@ func TestRunExistingResourcesExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
-	options.TerraformVars["bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-existing-bucket", strings.ToLower(random.UniqueId()))}
-
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -111,8 +107,6 @@ func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)
-	options.TerraformVars["bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId())), fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))}
-	options.TerraformVars["cross_region_bucket_names"] = []string{fmt.Sprintf("%s-%s", "cos-upgrade-bucket", strings.ToLower(random.UniqueId()))}
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {

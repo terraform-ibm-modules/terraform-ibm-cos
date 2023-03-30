@@ -35,6 +35,14 @@
       "type": "list(object({\n    description = string\n    account_id  = string\n    rule_contexts = list(object({\n      attributes = optional(list(object({\n        name  = string\n        value = string\n    }))) }))\n    enforcement_mode = string\n    tags = optional(list(object({\n      name  = string\n      value = string\n    })), [])\n    operations = optional(list(object({\n      api_types = list(object({\n        api_type_id = string\n      }))\n    })))\n  }))",
       "description": "(Optional, list) List of CBR rules to create for the bucket",
       "default": [],
+      "source": [
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule",
+        "module.bucket_cbr_rule"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 230
@@ -420,12 +428,40 @@
     }
   },
   "outputs": {
-    "buckets": {
-      "name": "buckets",
-      "description": "Map of buckets created in the Cloud Object Storage Instance",
+    "bucket_crn": {
+      "name": "bucket_crn",
+      "description": "Bucket CRN",
+      "value": "local.bucket_crn",
       "pos": {
         "filename": "outputs.tf",
         "line": 24
+      }
+    },
+    "bucket_id": {
+      "name": "bucket_id",
+      "description": "Bucket id",
+      "value": "local.bucket_id",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 19
+      }
+    },
+    "bucket_name": {
+      "name": "bucket_name",
+      "description": "Bucket Name",
+      "value": "local.bucket_name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 29
+      }
+    },
+    "bucket_storage_class": {
+      "name": "bucket_storage_class",
+      "description": "Bucket Storage Class",
+      "value": "local.bucket_storage_class",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 34
       }
     },
     "cos_instance_guid": {
@@ -434,7 +470,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 19
+        "line": 49
       }
     },
     "cos_instance_id": {
@@ -443,7 +479,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 14
+        "line": 44
       }
     },
     "kms_key_crn": {
@@ -452,7 +488,7 @@
       "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 9
+        "line": 39
       },
       "type": "string"
     },
@@ -469,6 +505,24 @@
       "cloud_data_range": [
         "resolved_to:id"
       ]
+    },
+    "s3_endpoint_private": {
+      "name": "s3_endpoint_private",
+      "description": "S3 private endpoint",
+      "value": "local.s3_endpoint_private",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 9
+      }
+    },
+    "s3_endpoint_public": {
+      "name": "s3_endpoint_public",
+      "description": "S3 public endpoint",
+      "value": "local.s3_endpoint_public",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 14
+      }
     }
   },
   "required_core": [
@@ -488,7 +542,7 @@
       "type": "ibm_cos_bucket",
       "name": "cos_bucket",
       "attributes": {
-        "bucket_name": "bucket_names",
+        "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
         "key_protect": "kms_key_crn",
@@ -508,7 +562,7 @@
       "type": "ibm_cos_bucket",
       "name": "cos_bucket1",
       "attributes": {
-        "bucket_name": "bucket_names",
+        "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
         "region_location": "region",
@@ -581,6 +635,14 @@
     "bucket_cbr_rule": {
       "name": "bucket_cbr_rule",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0",
+      "attributes": {
+        "count": "bucket_cbr_rules",
+        "enforcement_mode": "bucket_cbr_rules",
+        "operations": "bucket_cbr_rules",
+        "resources": "bucket_cbr_rules",
+        "rule_contexts": "bucket_cbr_rules",
+        "rule_description": "bucket_cbr_rules"
+      },
       "managed_resources": {
         "ibm_cbr_rule.cbr_rule": {
           "mode": "managed",
