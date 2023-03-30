@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 208
+        "line": 192
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 186
+        "line": 170
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 192
+        "line": 176
       }
     },
     "bucket_cbr_rules": {
@@ -45,23 +45,8 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 246
+        "line": 230
       }
-    },
-    "bucket_endpoint": {
-      "name": "bucket_endpoint",
-      "type": "string",
-      "description": "The type of endpoint to use for the bucket. (public, private, direct). Provider issue 4357 reports that private does not work",
-      "default": "public",
-      "source": [
-        "ibm_cos_bucket.cos_bucket.endpoint_type",
-        "ibm_cos_bucket.cos_bucket1.endpoint_type"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 128
-      },
-      "options": "public,private,direct"
     },
     "bucket_name": {
       "name": "bucket_name",
@@ -74,7 +59,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 105
       },
       "immutable": true
     },
@@ -89,7 +74,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 117
+        "line": 111
       },
       "immutable": true,
       "options": "standard,vault,cold,smart,flex,onerate_active",
@@ -165,7 +150,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 94
+        "line": 88
       }
     },
     "create_cos_instance": {
@@ -204,7 +189,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 100
+        "line": 94
       },
       "immutable": true,
       "options": "us,eu,ap"
@@ -212,7 +197,7 @@
     "encryption_enabled": {
       "name": "encryption_enabled",
       "type": "bool",
-      "description": "Set as true to use Key Protect encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
+      "description": "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
       "default": true,
       "source": [
         "ibm_cos_bucket.cos_bucket.count",
@@ -220,7 +205,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 230
+        "line": 214
       }
     },
     "existing_cos_instance_id": {
@@ -232,16 +217,16 @@
         "line": 78
       }
     },
-    "existing_key_protect_instance_guid": {
-      "name": "existing_key_protect_instance_guid",
+    "existing_kms_instance_guid": {
+      "name": "existing_kms_instance_guid",
       "type": "string",
-      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.key_protect_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
+      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
       "source": [
         "ibm_iam_authorization_policy.policy.target_resource_instance_id"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 224
+        "line": 208
       },
       "immutable": true,
       "computed": true
@@ -253,7 +238,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 202
+        "line": 186
       }
     },
     "hmac_key_name": {
@@ -300,19 +285,19 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 271
+        "line": 255
       }
     },
-    "key_protect_key_crn": {
-      "name": "key_protect_key_crn",
+    "kms_key_crn": {
+      "name": "kms_key_crn",
       "type": "string",
-      "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
+      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
       "source": [
         "ibm_cos_bucket.cos_bucket.key_protect"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 236
+        "line": 220
       },
       "immutable": true
     },
@@ -323,7 +308,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 180
+        "line": 164
       }
     },
     "region": {
@@ -379,7 +364,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 144
+        "line": 128
       }
     },
     "retention_enabled": {
@@ -389,7 +374,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 138
+        "line": 122
       }
     },
     "retention_maximum": {
@@ -399,7 +384,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 154
+        "line": 138
       }
     },
     "retention_minimum": {
@@ -409,7 +394,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 164
+        "line": 148
       }
     },
     "retention_permanent": {
@@ -419,29 +404,17 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 174
-      }
-    },
-    "service_endpoints": {
-      "name": "service_endpoints",
-      "type": "string",
-      "description": "(Deprecated) Will be removed in the next major release",
-      "source": [
-        "null_resource.deprecation_notice.count"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 84
+        "line": 158
       }
     },
     "skip_iam_authorization_policy": {
       "name": "skip_iam_authorization_policy",
       "type": "bool",
-      "description": "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the Key Protect instance in `existing_key_protect_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created",
+      "description": "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created",
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 296
+        "line": 280
       }
     },
     "sysdig_crn": {
@@ -450,7 +423,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 214
+        "line": 198
       }
     }
   },
@@ -509,10 +482,10 @@
         "line": 44
       }
     },
-    "key_protect_key_crn": {
-      "name": "key_protect_key_crn",
-      "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
-      "value": "var.key_protect_key_crn",
+    "kms_key_crn": {
+      "name": "kms_key_crn",
+      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
+      "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",
         "line": 39
@@ -561,12 +534,6 @@
       "version_constraints": [
         "\u003e= 1.51.0"
       ]
-    },
-    "null": {
-      "source": "hashicorp/null",
-      "version_constraints": [
-        "\u003e=3.2.1"
-      ]
     }
   },
   "managed_resources": {
@@ -578,8 +545,7 @@
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
-        "endpoint_type": "bucket_endpoint",
-        "key_protect": "key_protect_key_crn",
+        "key_protect": "kms_key_crn",
         "region_location": "region",
         "storage_class": "bucket_storage_class"
       },
@@ -599,7 +565,6 @@
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
-        "endpoint_type": "bucket_endpoint",
         "region_location": "region",
         "storage_class": "bucket_storage_class"
       },
@@ -608,7 +573,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 162
+        "line": 161
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -616,7 +581,7 @@
       "type": "ibm_iam_authorization_policy",
       "name": "policy",
       "attributes": {
-        "target_resource_instance_id": "existing_key_protect_instance_guid"
+        "target_resource_instance_id": "existing_kms_instance_guid"
       },
       "provider": {
         "name": "ibm"
@@ -662,21 +627,6 @@
       "pos": {
         "filename": "main.tf",
         "line": 45
-      }
-    },
-    "null_resource.deprecation_notice": {
-      "mode": "managed",
-      "type": "null_resource",
-      "name": "deprecation_notice",
-      "attributes": {
-        "count": "service_endpoints"
-      },
-      "provider": {
-        "name": "null"
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 300
       }
     }
   },
@@ -756,7 +706,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 237
+        "line": 235
       }
     },
     "instance_cbr_rule": {
@@ -833,7 +783,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 271
+        "line": 269
       }
     }
   }
