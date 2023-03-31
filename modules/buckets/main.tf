@@ -45,60 +45,6 @@ module "buckets" {
   retention_maximum   = can(each.value.retention_rule.maximum) ? each.value.retention_rule.maximum : 350
   retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
-}
 
-locals {
-  cos_instance_guid = element(split(":", var.bucket_configs[0].resource_instance_id), length(split(":", var.bucket_configs[0].resource_instance_id)) - 3)
-  bucket_name       = var.bucket_configs[0].bucket_name
-  cbr_rules = (length(var.bucket_configs[0].cbr_rules) > 0) ? [
-
-    # returns a set containing rules and the bucket to which the rules to be applied to
-    for pair in setproduct(var.bucket_configs[0].cbr_rules, toset(local.bucket_name)) : {
-      cbr_rule_block = pair[0]
-      bucket_name    = pair[1]
-    }
-  ] : []
-}
-
-##############################################################################
-# Context Based Restrictions
-##############################################################################
-
-module "bucket_cbr_rule" {
-  # generates a map with bucket name as key and cbr rule for bucket as value
-  for_each = {
-    for bucket_rule in local.cbr_rules : bucket_rule.bucket_name => bucket_rule
-  }
-
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0"
-  rule_description = each.value.cbr_rule_block.description
-  enforcement_mode = each.value.cbr_rule_block.enforcement_mode
-  rule_contexts    = each.value.cbr_rule_block.rule_contexts
-
-  resources = [{
-    attributes = [
-      {
-        name     = "accountId"
-        value    = each.value.cbr_rule_block.account_id
-        operator = "stringEquals"
-      },
-      {
-        name     = "resource"
-        value    = each.value.bucket_name
-        operator = "stringEquals"
-      },
-      {
-        name     = "serviceInstance"
-        value    = local.cos_instance_guid
-        operator = "stringEquals"
-      },
-      {
-        name     = "serviceName"
-        value    = "cloud-object-storage"
-        operator = "stringEquals"
-      }
-    ],
-    tags = each.value.cbr_rule_block.tags
-  }]
-  operations = each.value.cbr_rule_block.operations == null ? [] : each.value.cbr_rule_block.operations
+  bucket_cbr_rules = can(each.value.cbr_rules) ? each.value.cbr_rules : null
 }
