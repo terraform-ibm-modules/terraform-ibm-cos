@@ -3,7 +3,7 @@
 ##############################################################################
 output "buckets" {
   description = "Map of buckets created in the Cloud Object Storage Instance"
-  value       = ibm_cos_bucket.cos_bucket
+  value       = module.buckets
 }
 
 output "bucket_configs" {

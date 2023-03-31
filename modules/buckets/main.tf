@@ -11,71 +11,40 @@ locals {
 }
 
 # Create COS buckets from bucket_configs
-resource "ibm_cos_bucket" "cos_bucket" {
-  bucket_name           = var.bucket_configs[0].bucket_name
-  resource_instance_id  = var.bucket_configs[0].resource_instance_id
-  region_location       = var.bucket_configs[0].region_location
-  cross_region_location = var.bucket_configs[0].cross_region_location
-  storage_class         = var.bucket_configs[0].storage_class
-  key_protect           = var.bucket_configs[0].kms_key_crn
-  ## This for_each block is NOT a loop to attach to multiple retention blocks.
-  ## This block is only used to conditionally add retention block depending on retention is enabled.
-  dynamic "retention_rule" {
-    for_each = []
-    content {
-      default   = var.bucket_configs[0].retention_rule.default
-      maximum   = var.bucket_configs[0].retention_rule.maximum
-      minimum   = var.bucket_configs[0].retention_rule.minimum
-      permanent = var.bucket_configs[0].retention_rule.permanent
-    }
+
+module "buckets" {
+  for_each = {
+    for index, bucket in var.bucket_configs :
+    bucket.bucket_name => bucket
   }
-  ## This for_each block is NOT a loop to attach to multiple archive blocks.
-  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
-  dynamic "archive_rule" {
-    for_each = []
-    content {
-      enable = true
-      days   = var.bucket_configs[0].archive_rule.days
-      type   = var.bucket_configs[0].archive_rule.type
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple expire blocks.
-  ## This block is only used to conditionally add retention block depending on expire rule is enabled.
-  dynamic "expire_rule" {
-    for_each = []
-    content {
-      enable = true
-      days   = var.expire_days
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
-  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
-  dynamic "activity_tracking" {
-    for_each = []
-    content {
-      read_data_events     = true
-      write_data_events    = true
-      activity_tracker_crn = var.activity_tracker_crn
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Sysdig instances.
-  ## This block is only used to conditionally attach monitoring depending on Sydig CRN is provided.
-  dynamic "metrics_monitoring" {
-    for_each = []
-    content {
-      usage_metrics_enabled   = true
-      request_metrics_enabled = true
-      metrics_monitoring_crn  = var.sysdig_crn
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple versioning blocks.
-  ## This block is only used to conditionally attach a single versioning block.
-  dynamic "object_versioning" {
-    for_each = []
-    content {
-      enable = var.object_versioning_enabled
-    }
-  }
+  source                   = "../../"
+  bucket_name              = each.value.bucket_name
+  create_cos_instance      = false
+  existing_cos_instance_id = each.value.resource_instance_id
+  resource_group_id        = var.resource_group_id
+  region                   = each.value.region_location
+
+  cross_region_location = each.value.cross_region_location
+  bucket_storage_class  = each.value.storage_class
+  kms_key_crn           = each.value.kms_key_crn
+  encryption_enabled    = false
+
+  activity_tracker_crn = can(each.value.activity_tracking.activity_tracker_crn) ? each.value.activity_tracking.activity_tracker_crn : null
+
+  archive_days = can(each.value.archive_rule.days) ? (each.value.archive_rule.enable ? each.value.archive_rule.days : null) : null
+  archive_type = can(each.value.archive_rule.type) ? (each.value.archive_rule.enable ? each.value.archive_rule.type : "Glacier") : "Glacier"
+
+  expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
+
+  sysdig_crn = can(each.value.metrics_monitoring.metrics_monitoring_crn) ? each.value.metrics_monitoring.metrics_monitoring_crn : null
+
+  object_versioning_enabled = can(each.value.object_versioning.enable) ? each.value.object_versioning.enable : false
+
+  retention_enabled   = can(each.value.retention_rule.default) || can(each.value.retention_rule.maximum) || can(each.value.retention_rule.minimum) || can(each.value.retention_rule.permanent) ? true : false
+  retention_default   = can(each.value.retention_rule.default) ? each.value.retention_rule.default : 90
+  retention_maximum   = can(each.value.retention_rule.maximum) ? each.value.retention_rule.maximum : 350
+  retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
+  retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
 }
 
 locals {

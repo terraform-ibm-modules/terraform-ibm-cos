@@ -75,7 +75,8 @@ resource "ibm_iam_authorization_policy" "policy" {
 ##############################################################################
 
 module "buckets" {
-  source = "../../modules/buckets"
+  source            = "../../modules/buckets"
+  resource_group_id = module.resource_group.resource_group_id
   bucket_configs = [
     {
       bucket_name          = "${var.prefix}-encrypted-bucket"

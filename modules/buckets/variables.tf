@@ -1,6 +1,10 @@
 ##############################################################################
 # Common variables
 ##############################################################################
+variable "resource_group_id" {
+  type        = string
+  description = "The resource group ID where resources will be provisioned."
+}
 
 ##############################################################################
 # COS bucket configs
