@@ -64,7 +64,7 @@ variable "cos_plan" {
   type        = string
   default     = "standard"
   validation {
-    condition     = contains(["standard", "lite"], var.cos_plan)
+    condition     = contains(["standard", "lite", "cos-one-rate-plan"], var.cos_plan)
     error_message = "The specified cos_plan is not a valid selection!"
   }
 }
