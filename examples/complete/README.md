@@ -10,10 +10,12 @@ An end-to-end example that will:
   - Encryption
   - Monitoring
   - Activity Tracking
+  - Standard plan
 - Create COS bucket-2 with:
   - Cross Region Location
   - Encryption
   - Monitoring
   - Activity Tracking
+  - One rate plan
 - Create a Sample VPC.
 - Create Context Based Restriction(CBR) to only allow buckets to be accessible from the VPC.

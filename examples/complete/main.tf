@@ -93,10 +93,12 @@ module "cbr_zone" {
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-  addresses = [{
-    type  = "vpc", # to bind a specific vpc to the zone
-    value = ibm_is_vpc.example_vpc.crn,
-  }]
+  addresses = [
+    {
+      type  = "vpc", # to bind a specific vpc to the zone
+      value = ibm_is_vpc.example_vpc.crn,
+    }
+  ]
 }
 
 # Create COS instance and Key protect instance.
@@ -123,17 +125,20 @@ module "cos_bucket1" {
       description      = "sample rule for bucket 1"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
+      rule_contexts = [
+        {
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = module.cbr_zone.zone_id
+            }
+          ]
+        }
+      ]
     }
   ]
   instance_cbr_rules = [
@@ -148,17 +153,20 @@ module "cos_bucket1" {
           value = "test"
         }
       ]
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
+      rule_contexts = [
+        {
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = module.cbr_zone.zone_id
+            }
+          ]
+        }
+      ]
     }
   ]
 }
@@ -183,24 +191,27 @@ module "cos_bucket2" {
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  cos_plan             = var.cos_plan
+  cos_plan             = "cos-one-rate-plan"
   bucket_storage_class = var.bucket_storage_class
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
+      rule_contexts = [
+        {
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = module.cbr_zone.zone_id
+            }
+          ]
+        }
+      ]
     }
   ]
 }
