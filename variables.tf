@@ -114,8 +114,8 @@ variable "bucket_storage_class" {
   default     = "standard"
 
   validation {
-    condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
-    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
+    condition     = can(regex("^standard$|^vault$|^cold$|^smart$|^onerate_active", var.bucket_storage_class))
+    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', 'smart' or 'onerate_active'."
   }
 }
 

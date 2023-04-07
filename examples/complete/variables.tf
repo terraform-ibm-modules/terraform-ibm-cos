@@ -50,3 +50,15 @@ variable "existing_at_instance_crn" {
   description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
   default     = null
 }
+
+variable "cos_plan" {
+  description = "Plan to be used for creating cloud object storage instance. Only used if 'create_cos_instance' it true."
+  type        = string
+  default     = "cos-one-rate-plan"
+}
+
+variable "bucket_storage_class" {
+  description = "Storage plan to be applied to your cos instance, only valid one rate plan storage class."
+  type        = string
+  default     = "onerate_active"
+}
