@@ -104,6 +104,7 @@ module "cbr_zone" {
 # - Encryption
 # - Monitoring
 # - Activity Tracking
+# - One Rate Plan & One Rate Active Bucket Storage Class
 module "cos_bucket1" {
   source                     = "../../"
   resource_group_id          = module.resource_group.resource_group_id
@@ -118,7 +119,7 @@ module "cos_bucket1" {
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   cos_plan             = "cos-one-rate-plan"
-  bucket_storage_class = null
+  bucket_storage_class = "onerate_active"
   activity_tracker_crn = local.at_crn
   bucket_cbr_rules = [
     {
@@ -163,53 +164,4 @@ module "cos_bucket1" {
       }]
     }
   ]
-}
-
-# We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
-# Create COS bucket-2 with:
-# - Cross Region Location
-# - Encryption
-# - Monitoring
-# - Activity Tracking
-module "cos_bucket2" {
-  source                   = "../../"
-  bucket_name              = "${var.prefix}-bucket-2"
-  resource_group_id        = module.resource_group.resource_group_id
-  region                   = null
-  cross_region_location    = var.cross_region_location
-  archive_days             = null
-  sysdig_crn               = module.observability_instances.sysdig_crn
-  activity_tracker_crn     = local.at_crn
-  create_cos_instance      = false
-  existing_cos_instance_id = module.cos_bucket1.cos_instance_id
-  # disable retention for test environments - enable for stage/prod
-  retention_enabled    = false
-  kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  cos_plan             = "standard"
-  bucket_storage_class = "standard"
-  bucket_cbr_rules = [
-    {
-      description      = "sample rule for bucket 2"
-      enforcement_mode = "report"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
-    }
-  ]
-}
-
-# IAM tags for the instance to match to the CBR rule tags.
-resource "ibm_resource_tag" "tag1" {
-  resource_id = module.cos_bucket1.cos_instance_id
-  tag_type    = "access"
-  tags        = ["env:test"]
 }
