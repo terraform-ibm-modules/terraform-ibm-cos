@@ -118,7 +118,7 @@ module "cos_bucket1" {
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   cos_plan             = "cos-one-rate-plan"
-  bucket_storage_class = var.bucket_storage_class
+  bucket_storage_class = "onerate_active"
   activity_tracker_crn = local.at_crn
   bucket_cbr_rules = [
     {
@@ -186,6 +186,7 @@ module "cos_bucket2" {
   retention_enabled    = false
   kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   cos_plan             = "standard"
+  bucket_storage_class = "standard"
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
