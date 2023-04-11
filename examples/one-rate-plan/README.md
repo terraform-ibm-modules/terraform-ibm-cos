@@ -6,16 +6,8 @@ An end-to-end example that will:
 - Create a new Key Protect instance (with metrics enabled), Key Ring, and Key in the given resource group and region.
 - Create a new Cloud Object Storage instance in the given resource group and region.
 - Create an IAM Access Policy to allow Key Protect to access COS instance.
-- Create COS bucket-1 with:
+- Create COS bucket with:
   - Encryption
   - Monitoring
   - Activity Tracking
   - Standard plan
-- Create COS bucket-2 with:
-  - Cross Region Location
-  - Encryption
-  - Monitoring
-  - Activity Tracking
-  - One rate plan
-- Create a Sample VPC.
-- Create Context Based Restriction(CBR) to only allow buckets to be accessible from the VPC.
