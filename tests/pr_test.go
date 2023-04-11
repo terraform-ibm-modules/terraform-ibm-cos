@@ -15,6 +15,7 @@ const completeExampleTerraformDir = "examples/complete"
 const fsCloudTerraformDir = "examples/fscloud"
 const completeExistingTerraformDir = "examples/existing-resources"
 const replicateExampleTerraformDir = "examples/replication"
+const oneRateExampleTerraformDir = "examples/one-rate-plan"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -67,6 +68,15 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunOneRateExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "one-rate-plan", oneRateExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
