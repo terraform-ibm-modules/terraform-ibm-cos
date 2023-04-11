@@ -10,4 +10,4 @@ An end-to-end example that will:
   - Encryption
   - Monitoring
   - Activity Tracking
-  - Standard plan
+  - One rate plan
