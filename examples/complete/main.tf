@@ -117,8 +117,6 @@ module "cos_bucket1" {
   sysdig_crn                 = module.observability_instances.sysdig_crn
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
-  cos_plan             = "cos-one-rate-plan"
-  bucket_storage_class = "onerate_active"
   activity_tracker_crn = local.at_crn
   bucket_cbr_rules = [
     {
@@ -183,10 +181,8 @@ module "cos_bucket2" {
   create_cos_instance      = false
   existing_cos_instance_id = module.cos_bucket1.cos_instance_id
   # disable retention for test environments - enable for stage/prod
-  retention_enabled    = false
-  kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  cos_plan             = "standard"
-  bucket_storage_class = "standard"
+  retention_enabled = false
+  kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
