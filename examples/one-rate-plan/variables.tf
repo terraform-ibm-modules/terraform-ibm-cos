@@ -21,22 +21,6 @@ variable "region" {
   description = "Region where resources will be created"
   type        = string
   default     = "us-south"
-
-  validation {
-    condition     = can(regex("us-south|eu-de|jp-tok", var.region))
-    error_message = "Variable 'region' must be 'us-south' or 'eu-de', or 'jp-tok'. The encryption key must be created in a high availability key protect instance for cross region object storage"
-  }
-}
-
-variable "cross_region_location" {
-  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'."
-  type        = string
-  default     = "us"
-
-  validation {
-    condition     = can(regex("us|eu|ap", var.cross_region_location))
-    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', or 'ap'."
-  }
 }
 
 variable "resource_group" {
