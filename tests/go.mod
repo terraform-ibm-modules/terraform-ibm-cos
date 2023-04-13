@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/stretchr/testify v1.8.2
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.8.7
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.8.8
 )
 
 require (
@@ -53,7 +53,7 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.7.0 // indirect
-	github.com/gruntwork-io/terratest v0.41.17 // indirect
+	github.com/gruntwork-io/terratest v0.41.18 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-getter v1.7.1 // indirect
