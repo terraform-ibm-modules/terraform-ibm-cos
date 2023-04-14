@@ -22,7 +22,6 @@ module "cos_bucket" {
   cos_instance_name     = "${var.prefix}-cos"
   cos_tags              = var.resource_tags
   bucket_name           = "${var.prefix}-bucket-one-rate"
-  activity_tracker_crn  = var.existing_at_instance_crn
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   encryption_enabled   = false
