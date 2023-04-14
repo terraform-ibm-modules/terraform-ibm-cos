@@ -16,6 +16,7 @@ resource "ibm_is_vpc" "example_vpc" {
   name           = "${var.prefix}-vpc"
   resource_group = module.resource_group.resource_group_id
   tags           = var.resource_tags
+  access_tags    = var.access_tags
 }
 
 resource "ibm_is_subnet" "testacc_subnet" {
@@ -83,6 +84,7 @@ module "cos_fscloud" {
   resource_group_id                     = module.resource_group.resource_group_id
   cos_instance_name                     = "${var.prefix}-cos"
   cos_tags                              = var.resource_tags
+  access_tags                           = var.access_tags
   primary_bucket_name                   = "${var.prefix}-bucket-primary"
   primary_region                        = var.primary_region
   primary_existing_hpcs_instance_guid   = var.primary_existing_hpcs_instance_guid
