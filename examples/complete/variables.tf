@@ -41,7 +41,7 @@ variable "cross_region_location" {
 
 variable "management_endpoint_type_for_bucket" {
   type        = string
-  description = "The type of endpoint for the IBM provider to use to manage the bucket. (public, private, direct)"
+  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)"
   default     = "public"
 }
 

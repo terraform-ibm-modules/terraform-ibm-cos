@@ -120,7 +120,7 @@ variable "bucket_storage_class" {
 }
 
 variable "management_endpoint_type_for_bucket" {
-  description = "The type of endpoint for the IBM provider to use to manage the bucket. (public, private, direct)"
+  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)"
   type        = string
   default     = "public"
   validation {
