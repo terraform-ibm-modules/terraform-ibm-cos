@@ -28,7 +28,6 @@ module "key_protect_all_inclusive" {
     (local.key_ring_name) = [local.key_name]
   }
   resource_tags = var.resource_tags
-  access_tags   = var.access_tags
 }
 
 ##############################################################################

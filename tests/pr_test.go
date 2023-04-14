@@ -40,7 +40,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal(err)
 	}
-    // Parse the existing access tags from data
+	// Parse the existing access tags from data
 	existingAccessTags = config.ExistingAccessTags
 
 	os.Exit(m.Run())
@@ -55,7 +55,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Region:        region,
 		TerraformVars: map[string]interface{}{
 			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
-            "access_tags": existingAccessTags,
+			"access_tags":              existingAccessTags,
 		},
 	})
 	// completeExistingTerraformDir does not implement any activity tracker functionality
