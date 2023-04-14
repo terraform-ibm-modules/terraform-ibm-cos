@@ -25,7 +25,12 @@ const region = "us-south"
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
+type Config struct {
+	ExistingAccessTags []string `yaml:"accessTags"`
+}
+
 var permanentResources map[string]interface{}
+var existingAccessTags []string
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
 func TestMain(m *testing.M) {
@@ -35,6 +40,8 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal(err)
 	}
+    // Parse the existing access tags from data
+	existingAccessTags = config.ExistingAccessTags
 
 	os.Exit(m.Run())
 }
@@ -48,6 +55,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Region:        region,
 		TerraformVars: map[string]interface{}{
 			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
+            "access_tags": existingAccessTags,
 		},
 	})
 	// completeExistingTerraformDir does not implement any activity tracker functionality

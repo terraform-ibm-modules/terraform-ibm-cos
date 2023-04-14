@@ -42,6 +42,13 @@ resource "ibm_resource_instance" "cos_instance" {
   tags              = var.cos_tags
 }
 
+resource "ibm_resource_tag" "cos_access_tag" {
+  count       = !var.create_cos_instance || length(var.access_tags) == 0 ? 0 : 1
+  resource_id = ibm_resource_instance.cos_instance[0].crn
+  tags        = var.access_tags
+  tag_type    = "access"
+}
+
 resource "ibm_resource_key" "resource_key" {
   count                = var.create_hmac_key && var.create_cos_instance ? 1 : 0
   name                 = var.hmac_key_name

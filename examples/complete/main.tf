@@ -111,6 +111,7 @@ module "cos_bucket1" {
   cross_region_location      = null
   cos_instance_name          = "${var.prefix}-cos"
   cos_tags                   = var.resource_tags
+  access_tags                = var.access_tags
   bucket_name                = "${var.prefix}-bucket-1"
   existing_kms_instance_guid = module.key_protect_all_inclusive.key_protect_guid
   kms_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
