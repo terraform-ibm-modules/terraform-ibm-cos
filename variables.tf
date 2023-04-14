@@ -119,13 +119,13 @@ variable "bucket_storage_class" {
   }
 }
 
-variable "bucket_endpoint" {
+variable "management_endpoint_type_for_bucket" {
   description = "The type of endpoint for the IBM provider to use to manage the bucket. (public, private, direct)"
   type        = string
   default     = "public"
   validation {
-    condition     = contains(["public", "private", "direct"], var.bucket_endpoint)
-    error_message = "The specified bucket_endpoint is not a valid selection!"
+    condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+    error_message = "The specified management_endpoint_type_for_bucket is not a valid selection!"
   }
 }
 

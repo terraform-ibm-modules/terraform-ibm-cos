@@ -164,7 +164,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
-  endpoint_type         = var.bucket_endpoint
+  endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
   dynamic "retention_rule" {
     for_each = local.retention_enabled
