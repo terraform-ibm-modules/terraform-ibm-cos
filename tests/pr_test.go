@@ -40,6 +40,13 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// Create a struct to hold the YAML data
+	var config Config
+	// Unmarshal the YAML data into the struct
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Parse the existing access tags from data
 	existingAccessTags = config.ExistingAccessTags
 
