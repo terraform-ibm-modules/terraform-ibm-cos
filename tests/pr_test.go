@@ -2,13 +2,13 @@
 package test
 
 import (
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
+	"gopkg.in/yaml.v3"
 )
 
 const completeExampleTerraformDir = "examples/complete"
@@ -34,16 +34,14 @@ var existingAccessTags []string
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
 func TestMain(m *testing.M) {
-
-	var err error
-	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
+	permanentResources, err := os.ReadFile(yamlLocation)
 	if err != nil {
 		log.Fatal(err)
 	}
 	// Create a struct to hold the YAML data
 	var config Config
 	// Unmarshal the YAML data into the struct
-	err = yaml.Unmarshal(data, &config)
+	err = yaml.Unmarshal(permanentResources, &config)
 	if err != nil {
 		log.Fatal(err)
 	}
