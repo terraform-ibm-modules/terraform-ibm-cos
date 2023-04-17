@@ -7,7 +7,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 192
+        "line": 202
       }
     },
     "archive_days": {
@@ -17,7 +17,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 170
+        "line": 180
       }
     },
     "archive_type": {
@@ -27,7 +27,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 176
+        "line": 186
       }
     },
     "bucket_cbr_rules": {
@@ -45,7 +45,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 230
+        "line": 240
       }
     },
     "bucket_name": {
@@ -205,7 +205,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 214
+        "line": 224
       }
     },
     "existing_cos_instance_id": {
@@ -226,7 +226,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 208
+        "line": 218
       },
       "immutable": true,
       "computed": true
@@ -238,7 +238,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 186
+        "line": 196
       }
     },
     "hmac_key_name": {
@@ -285,7 +285,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 255
+        "line": 265
       }
     },
     "kms_key_crn": {
@@ -297,9 +297,23 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 220
+        "line": 230
       },
       "immutable": true
+    },
+    "management_endpoint_type_for_bucket": {
+      "name": "management_endpoint_type_for_bucket",
+      "type": "string",
+      "description": "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)",
+      "default": "public",
+      "source": [
+        "ibm_cos_bucket.cos_bucket1.endpoint_type"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 122
+      },
+      "options": "public,private,direct"
     },
     "object_versioning_enabled": {
       "name": "object_versioning_enabled",
@@ -308,7 +322,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 164
+        "line": 174
       }
     },
     "region": {
@@ -364,7 +378,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 128
+        "line": 138
       }
     },
     "retention_enabled": {
@@ -374,7 +388,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 122
+        "line": 132
       }
     },
     "retention_maximum": {
@@ -384,7 +398,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 138
+        "line": 148
       }
     },
     "retention_minimum": {
@@ -394,7 +408,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 148
+        "line": 158
       }
     },
     "retention_permanent": {
@@ -404,7 +418,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 158
+        "line": 168
       }
     },
     "skip_iam_authorization_policy": {
@@ -414,7 +428,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 280
+        "line": 290
       }
     },
     "sysdig_crn": {
@@ -423,7 +437,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 198
+        "line": 208
       }
     }
   },
@@ -565,6 +579,7 @@
         "bucket_name": "bucket_name",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
+        "endpoint_type": "management_endpoint_type_for_bucket",
         "region_location": "region",
         "storage_class": "bucket_storage_class"
       },
@@ -706,7 +721,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 235
+        "line": 236
       }
     },
     "instance_cbr_rule": {
@@ -783,7 +798,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 269
+        "line": 270
       }
     }
   }
