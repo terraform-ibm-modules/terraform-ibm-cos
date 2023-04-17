@@ -93,6 +93,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	options.TerraformVars["primary_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
 	options.TerraformVars["secondary_existing_hpcs_instance_guid"] = permanentResources["hpcs_east"]
 	options.TerraformVars["secondary_hpcs_key_crn"] = permanentResources["hpcs_east_root_key_crn"]
+	options.TerraformVars["existing_at_instance_crn"] = permanentResources["activityTrackerFrankfurtCrn"]
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
