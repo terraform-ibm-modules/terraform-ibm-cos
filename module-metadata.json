@@ -27,7 +27,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 205
+        "line": 215
       }
     },
     "archive_days": {
@@ -37,7 +37,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 183
+        "line": 193
       }
     },
     "archive_type": {
@@ -47,7 +47,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 189
+        "line": 199
       }
     },
     "bucket_cbr_rules": {
@@ -65,7 +65,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 243
+        "line": 253
       }
     },
     "bucket_name": {
@@ -226,7 +226,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 227
+        "line": 237
       }
     },
     "existing_cos_instance_id": {
@@ -247,7 +247,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 221
+        "line": 231
       },
       "immutable": true,
       "computed": true
@@ -259,7 +259,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 199
+        "line": 209
       }
     },
     "hmac_key_name": {
@@ -306,7 +306,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 268
+        "line": 278
       }
     },
     "kms_key_crn": {
@@ -318,7 +318,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 233
+        "line": 243
       },
       "immutable": true
     },
@@ -332,7 +332,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 122
+        "line": 135
       },
       "options": "public,private,direct"
     },
@@ -343,7 +343,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 177
+        "line": 187
       }
     },
     "region": {
@@ -399,7 +399,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 141
+        "line": 151
       }
     },
     "retention_enabled": {
@@ -409,7 +409,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 135
+        "line": 145
       }
     },
     "retention_maximum": {
@@ -419,7 +419,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 151
+        "line": 161
       }
     },
     "retention_minimum": {
@@ -429,7 +429,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 161
+        "line": 171
       }
     },
     "retention_permanent": {
@@ -439,7 +439,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 171
+        "line": 181
       }
     },
     "skip_iam_authorization_policy": {
@@ -449,7 +449,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 293
+        "line": 303
       }
     },
     "sysdig_crn": {
@@ -458,7 +458,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 211
+        "line": 221
       }
     }
   },
@@ -758,7 +758,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 242
+        "line": 243
       }
     },
     "instance_cbr_rule": {
@@ -835,7 +835,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 276
+        "line": 277
       }
     }
   }
