@@ -16,7 +16,6 @@ resource "ibm_is_vpc" "example_vpc" {
   name           = "${var.prefix}-vpc"
   resource_group = module.resource_group.resource_group_id
   tags           = var.resource_tags
-  access_tags    = var.access_tags
 }
 
 resource "ibm_is_subnet" "testacc_subnet" {
