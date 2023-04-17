@@ -53,12 +53,6 @@ module "additional_cos_bucket" {
 }
 ```
 
-## Known issues
-
-An IBM Cloud Provider issue [4357](https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4357) has been raised
-to report that the use of bucket_types does not work. When 'private' is selected, the provider attempts to use private
-endpoints (on the COS instance) to create the bucket which fails due to the endpoints being unreachable from deployment environment.
-
 ## Required IAM access policies
 
 <!-- PERMISSIONS REQUIRED TO RUN MODULE
