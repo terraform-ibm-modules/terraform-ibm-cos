@@ -39,6 +39,12 @@ variable "cross_region_location" {
   }
 }
 
+variable "management_endpoint_type_for_bucket" {
+  type        = string
+  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)"
+  default     = "public"
+}
+
 variable "resource_group" {
   type        = string
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
