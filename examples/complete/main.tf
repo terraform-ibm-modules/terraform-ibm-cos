@@ -171,16 +171,17 @@ module "cos_bucket1" {
 # - Monitoring
 # - Activity Tracking
 module "cos_bucket2" {
-  source                   = "../../"
-  bucket_name              = "${var.prefix}-bucket-2"
-  resource_group_id        = module.resource_group.resource_group_id
-  region                   = null
-  cross_region_location    = var.cross_region_location
-  archive_days             = null
-  sysdig_crn               = module.observability_instances.sysdig_crn
-  activity_tracker_crn     = local.at_crn
-  create_cos_instance      = false
-  existing_cos_instance_id = module.cos_bucket1.cos_instance_id
+  source                              = "../../"
+  bucket_name                         = "${var.prefix}-bucket-2"
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  resource_group_id                   = module.resource_group.resource_group_id
+  region                              = null
+  cross_region_location               = var.cross_region_location
+  archive_days                        = null
+  sysdig_crn                          = module.observability_instances.sysdig_crn
+  activity_tracker_crn                = local.at_crn
+  create_cos_instance                 = false
+  existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   # disable retention for test environments - enable for stage/prod
   retention_enabled = false
   kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
