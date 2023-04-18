@@ -62,7 +62,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			TerraformVars: map[string]interface{}{
 				"access_tags": permanentResources["accessTags"],
 			},
-		})
+		}) // fsCloudTerraformDir does not implement any access tag functionality
 	} else if dir == fsCloudTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:       t,
