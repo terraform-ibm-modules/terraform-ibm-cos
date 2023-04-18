@@ -105,17 +105,18 @@ module "cbr_zone" {
 # - Monitoring
 # - Activity Tracking
 module "cos_bucket1" {
-  source                     = "../../"
-  resource_group_id          = module.resource_group.resource_group_id
-  region                     = var.region
-  cross_region_location      = null
-  cos_instance_name          = "${var.prefix}-cos"
-  cos_tags                   = var.resource_tags
-  access_tags                = var.access_tags
-  bucket_name                = "${var.prefix}-bucket-1"
-  existing_kms_instance_guid = module.key_protect_all_inclusive.key_protect_guid
-  kms_key_crn                = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  sysdig_crn                 = module.observability_instances.sysdig_crn
+  source                              = "../../"
+  resource_group_id                   = module.resource_group.resource_group_id
+  region                              = var.region
+  cross_region_location               = null
+  cos_instance_name                   = "${var.prefix}-cos"
+  cos_tags                            = var.resource_tags
+  bucket_name                         = "${var.prefix}-bucket-1"
+  access_tags                         = var.access_tags
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
+  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  sysdig_crn                          = module.observability_instances.sysdig_crn
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   activity_tracker_crn = local.at_crn

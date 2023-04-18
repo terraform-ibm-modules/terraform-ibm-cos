@@ -25,28 +25,16 @@ const region = "us-south"
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
-type Config struct {
-	ExistingAccessTags []string `yaml:"accessTags"`
-}
-
 var permanentResources map[string]interface{}
-var existingAccessTags []string
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
 func TestMain(m *testing.M) {
-	permanentResources, err := os.ReadFile(yamlLocation)
+
+	var err error
+	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Create a struct to hold the YAML data
-	var config Config
-	// Unmarshal the YAML data into the struct
-	err = yaml.Unmarshal(permanentResources, &config)
-	if err != nil {
-		log.Fatal(err)
-	}
-	// Parse the existing access tags from data
-	existingAccessTags = config.ExistingAccessTags
 
 	os.Exit(m.Run())
 }
@@ -60,7 +48,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Region:        region,
 		TerraformVars: map[string]interface{}{
 			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
-			"access_tags":              existingAccessTags,
+			"access_tags":              permanentResources["accessTags"],
 		},
 	})
 	// completeExistingTerraformDir does not implement any activity tracker functionality
@@ -72,7 +60,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			ResourceGroup: resourceGroup,
 			Region:        region,
 			TerraformVars: map[string]interface{}{
-				"access_tags": existingAccessTags,
+				"access_tags": permanentResources["accessTags"],
 			},
 		})
 	} else if dir == fsCloudTerraformDir {
@@ -107,7 +95,6 @@ func TestRunFSCloudExample(t *testing.T) {
 	options.TerraformVars["primary_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
 	options.TerraformVars["secondary_existing_hpcs_instance_guid"] = permanentResources["hpcs_east"]
 	options.TerraformVars["secondary_hpcs_key_crn"] = permanentResources["hpcs_east_root_key_crn"]
-	options.TerraformVars["existing_at_instance_crn"] = permanentResources["activityTrackerFrankfurtCrn"]
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
