@@ -644,7 +644,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 35
+        "line": 37
       }
     },
     "ibm_resource_key.resource_key": {

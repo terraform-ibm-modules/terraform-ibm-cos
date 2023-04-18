@@ -64,7 +64,7 @@ variable "cos_plan" {
   type        = string
   default     = "standard"
   validation {
-    condition     = contains(["standard", "lite"], var.cos_plan)
+    condition     = contains(["standard", "lite", "cos-one-rate-plan"], var.cos_plan)
     error_message = "The specified cos_plan is not a valid selection!"
   }
 }
@@ -127,8 +127,8 @@ variable "bucket_storage_class" {
   default     = "standard"
 
   validation {
-    condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
-    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
+    condition     = can(regex("^standard$|^vault$|^cold$|^smart$|^onerate_active", var.bucket_storage_class))
+    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', 'smart' or 'onerate_active'."
   }
 }
 
