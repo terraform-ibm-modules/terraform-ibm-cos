@@ -27,4 +27,5 @@ module "cos_bucket" {
   encryption_enabled   = false
   cos_plan             = "cos-one-rate-plan"
   bucket_storage_class = "onerate_active"
+  access_tags          = var.access_tags
 }
