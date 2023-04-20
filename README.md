@@ -86,6 +86,7 @@ You need the following permissions to run this module.
 - [ Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](examples/complete)
 - [ COS Buckets without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
 - [ Financial Services Cloud Profile example](examples/fscloud)
+- [ One Rate Plan Example (COS Bucket with One Rate Plan)](examples/one-rate-plan)
 - [ Cloud Object Storage replication example](examples/replication)
 <!-- END EXAMPLES HOOK -->
 
