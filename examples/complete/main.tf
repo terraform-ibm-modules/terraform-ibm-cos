@@ -205,6 +205,58 @@ module "cos_bucket2" {
   ]
 }
 
+module "buckets" {
+  source            = "../../modules/buckets"
+  resource_group_id = module.resource_group.resource_group_id
+  bucket_configs = [
+    {
+      bucket_name          = "${var.prefix}-encrypted-bucket"
+      kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+      region_location      = var.region
+      resource_instance_id = module.cos_bucket1.cos_instance_id
+      retention_rule = {
+        permanent = false
+      }
+      cbr_rules = [
+        {
+          description      = "sample rule for encrypted bucket"
+          enforcement_mode = "report"
+          account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+          rule_contexts = [{
+            attributes = [
+              {
+                "name" : "endpointType",
+                "value" : "private"
+              },
+              {
+                name  = "networkZoneId"
+                value = module.cbr_zone.zone_id
+            }]
+          }]
+        }
+      ]
+    },
+    {
+      bucket_name          = "${var.prefix}-versioned-bucket"
+      kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+      region_location      = var.region
+      resource_instance_id = module.cos_bucket1.cos_instance_id
+      archive_rule = {
+        days   = 90
+        enable = true
+        type   = "Accelerated"
+      }
+      expire_rule = {
+        days   = 90
+        enable = true
+      }
+      object_versioning = {
+        enable = true
+      }
+    }
+  ]
+}
+
 # IAM tags for the instance to match to the CBR rule tags.
 resource "ibm_resource_tag" "tag1" {
   resource_id = module.cos_bucket1.cos_instance_id

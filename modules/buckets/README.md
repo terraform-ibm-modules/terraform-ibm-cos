@@ -25,41 +25,32 @@ provider "ibm" {
   region           = "us-south"
 }
 
-# Creates:
-# - COS instance
-# - COS buckets with retention, encryption, monitoring and activity tracking
-module "cos_module" {
+# Create:
+# - COS buckets, one with encryption and another with versioning
+module "buckets" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
-  resource_group_id                  = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region                             = "us-south"
-  cos_instance_name                  = "my-cos-instance"
-  bucket_name                        = ["my-cos-bucket-1", "my-cos-bucket-2"]
-  existing_kms_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
-  kms_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
-  sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-}
-
-# Creates additional buckets in instance created above:
-module "additional_cos_bucket" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
-  bucket_name                        = ["my-cos-bucket-3", "my-cos-bucket-4"]
-  resource_group_id                  = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region                             = "us-south"
-  sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  existing_cos_instance_id           = module.cos_module.cos_instance_id
-  kms_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos.git//modules/buckets?ref=main"
+  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  bucket_configs = [
+    {
+      bucket_name          = "my-encrypted-bucket"
+      kms_key_crn          = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+      region_location      = "us-south"
+      resource_instance_id = "crn:v1:bluemix:public:cloud-object-storage:global:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx::"
+    },
+    {
+      bucket_name          = "my-versioned-bucket"
+      region_location      = "us-south"
+      resource_instance_id = ""crn:v1:bluemix:public:cloud-object-storage:global:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx::""
+      object_versioning = {
+        enable = true
+      }
+    }
+  ]
 }
 ```
 
 ## Known issues
-
-An IBM Cloud Provider issue [4357](https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4357) has been raised
-to report that the use of bucket_types does not work. When 'private' is selected, the provider attempts to use private
-endpoints (on the COS instance) to create the bucket which fails due to the endpoints being unreachable from deployment environment.
 
 ## Required IAM access policies
 
@@ -77,12 +68,6 @@ You need the following permissions to run this module.
     - **Resource Group** service
         - `Viewer` platform access
 - IAM Services
-    - **IBM Cloud Activity Tracker** service
-        - `Editor` platform access
-        - `Manager` service access
-    - **IBM Cloud Monitoring** service
-        - `Editor` platform access
-        - `Manager` service access
     - **IBM Cloud Object Storage** service
         - `Editor` platform access
         - `Manager` service access
@@ -91,9 +76,7 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](examples/complete)
 - [ COS Buckets without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
-- [ Cloud Object Storage replication example](examples/replication)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -118,7 +101,7 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_bucket_configs"></a> [bucket\_configs](#input\_bucket\_configs) | Cloud Object Storage bucket configuration | <pre>list(object({<br>    bucket_name           = string<br>    kms_key_crn           = optional(string, null)<br>    cross_region_location = optional(string, null)<br>    storage_class         = optional(string, "smart")<br>    region_location       = optional(string, null)<br>    resource_instance_id  = optional(string, null)<br><br>    activity_tracking = optional(object({<br>      read_data_events     = optional(bool, true)<br>      write_data_events    = optional(bool, true)<br>      activity_tracker_crn = optional(string, null)<br>    }))<br>    archive_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 20)<br>      type   = optional(string, "Glacier")<br>    }))<br>    expire_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 365)<br>    }))<br>    metrics_monitoring = optional(object({<br>      usage_metrics_enabled   = optional(bool, true)<br>      request_metrics_enabled = optional(bool, true)<br>      metrics_monitoring_crn  = optional(string, null)<br>    }))<br>    object_versioning = optional(object({<br>      enable = optional(bool, false)<br>    }))<br>    retention_rule = optional(object({<br>      default   = optional(number, 90)<br>      maximum   = optional(number, 350)<br>      minimum   = optional(number, 90)<br>      permanent = optional(bool, false)<br>    }))<br>    cbr_rules = optional(list(object({<br>      description = string<br>      account_id  = string<br>      rule_contexts = list(object({<br>        attributes = optional(list(object({<br>          name  = string<br>          value = string<br>      }))) }))<br>      enforcement_mode = string<br>      tags = optional(list(object({<br>        name  = string<br>        value = string<br>      })), [])<br>      operations = optional(list(object({<br>        api_types = list(object({<br>          api_type_id = string<br>        }))<br>      })))<br>    })), [])<br><br>  }))</pre> | `null` | no |
+| <a name="input_bucket_configs"></a> [bucket\_configs](#input\_bucket\_configs) | Cloud Object Storage bucket configurations | <pre>list(object({<br>    bucket_name           = string<br>    kms_key_crn           = optional(string, null)<br>    cross_region_location = optional(string, null)<br>    storage_class         = optional(string, "smart")<br>    region_location       = optional(string, null)<br>    resource_instance_id  = optional(string, null)<br><br>    activity_tracking = optional(object({<br>      read_data_events     = optional(bool, true)<br>      write_data_events    = optional(bool, true)<br>      activity_tracker_crn = optional(string, null)<br>    }))<br>    archive_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 20)<br>      type   = optional(string, "Glacier")<br>    }))<br>    expire_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 365)<br>    }))<br>    metrics_monitoring = optional(object({<br>      usage_metrics_enabled   = optional(bool, true)<br>      request_metrics_enabled = optional(bool, true)<br>      metrics_monitoring_crn  = optional(string, null)<br>    }))<br>    object_versioning = optional(object({<br>      enable = optional(bool, false)<br>    }))<br>    retention_rule = optional(object({<br>      default   = optional(number, 90)<br>      maximum   = optional(number, 350)<br>      minimum   = optional(number, 90)<br>      permanent = optional(bool, false)<br>    }))<br>    cbr_rules = optional(list(object({<br>      description = string<br>      account_id  = string<br>      rule_contexts = list(object({<br>        attributes = optional(list(object({<br>          name  = string<br>          value = string<br>      }))) }))<br>      enforcement_mode = string<br>      tags = optional(list(object({<br>        name  = string<br>        value = string<br>      })), [])<br>      operations = optional(list(object({<br>        api_types = list(object({<br>          api_type_id = string<br>        }))<br>      })))<br>    })), [])<br><br>  }))</pre> | `null` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
 
 ## Outputs

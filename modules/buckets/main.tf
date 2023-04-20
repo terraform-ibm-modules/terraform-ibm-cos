@@ -27,12 +27,12 @@ module "buckets" {
   cross_region_location = each.value.cross_region_location
   bucket_storage_class  = each.value.storage_class
   kms_key_crn           = each.value.kms_key_crn
-  encryption_enabled    = false
+  encryption_enabled    = true # can(each.value.kms_key_crn)
 
   activity_tracker_crn = can(each.value.activity_tracking.activity_tracker_crn) ? each.value.activity_tracking.activity_tracker_crn : null
 
   archive_days = can(each.value.archive_rule.days) ? (each.value.archive_rule.enable ? each.value.archive_rule.days : null) : null
-  archive_type = can(each.value.archive_rule.type) ? (each.value.archive_rule.enable ? each.value.archive_rule.type : "Glacier") : "Glacier"
+  archive_type = can(each.value.archive_rule.type) ? each.value.archive_rule.type : "Glacier"
 
   expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
 
@@ -46,5 +46,5 @@ module "buckets" {
   retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
 
-  bucket_cbr_rules = can(each.value.cbr_rules) ? each.value.cbr_rules : null
+  bucket_cbr_rules = each.value.cbr_rules
 }

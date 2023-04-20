@@ -67,37 +67,6 @@ variable "bucket_configs" {
     })), [])
 
   }))
-  description = "Cloud Object Storage bucket configuration"
+  description = "Cloud Object Storage bucket configurations"
   default     = null
-
-  #  validation {
-  #    condition     = var.bucket_configs.retention_rule.retention_default > 0 && var.bucket_configs.retention_rule.retention_default < 365243
-  #    error_message = "The specified duration for retention default period is not a valid selection"
-  #  }
-
-  #  validation {
-  #    condition     = var.bucket_configs.retention_rule.retention_maximum > 0 && var.bucket_configs.retention_rule.retention_maximum < 365243
-  #    error_message = "The specified duration for retention maximum period is not a valid selection"
-  #  }
-
-  #  validation {
-  #    condition     = var.bucket_configs.retention_rule.retention_minimum > 0 && var.bucket_configs.retention_rule.retention_minimum < 365243
-  #    error_message = "The specified duration for retention minimum period is not a valid selection"
-  #  }
-
-  #  validation {
-  #    condition     = contains(["Glacier", "Accelerated"], var.bucket_configs.archive_rule.type)
-  #    error_message = "The specified var.bucket_configs.archive_rule.type is not a valid selection"
-  #  }
-
-  #  validation {
-  #    condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
-  #    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
-  #  }
-
-  #  validation {
-  #    condition     = var.bucket_configs.cross_region_location == null || can(regex("us|eu|ap", var.bucket_configs.cross_region_location))
-  #    error_message = "Variable 'cross_region_location' must be 'us' or 'eu', 'ap', or 'null'."
-  #  }
-
 }
