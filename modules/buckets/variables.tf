@@ -12,6 +12,7 @@ variable "resource_group_id" {
 variable "bucket_configs" {
   type = list(object({
     bucket_name           = string
+    encryption_enabled    = optional(bool, false)
     kms_key_crn           = optional(string, null)
     cross_region_location = optional(string, null)
     storage_class         = optional(string, "smart")

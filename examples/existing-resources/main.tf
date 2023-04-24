@@ -80,6 +80,7 @@ module "buckets" {
   bucket_configs = [
     {
       bucket_name          = "${var.prefix}-encrypted-bucket"
+      encryption_enabled   = true
       kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
       region_location      = var.region
       resource_instance_id = module.cos_instance.cos_instance_id
@@ -89,6 +90,20 @@ module "buckets" {
       region_location      = var.region
       resource_instance_id = module.cos_instance.cos_instance_id
       object_versioning = {
+        enable = true
+      }
+    },
+    {
+      bucket_name          = "${var.prefix}-archive-bucket"
+      region_location      = var.region
+      resource_instance_id = module.cos_instance.cos_instance_id
+      archive_rule = {
+        days   = 90
+        enable = true
+        type   = "Accelerated"
+      }
+      expire_rule = {
+        days   = 90
         enable = true
       }
     }

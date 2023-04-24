@@ -27,7 +27,7 @@ module "buckets" {
   cross_region_location = each.value.cross_region_location
   bucket_storage_class  = each.value.storage_class
   kms_key_crn           = each.value.kms_key_crn
-  encryption_enabled    = true # can(each.value.kms_key_crn)
+  encryption_enabled    = each.value.encryption_enabled
 
   activity_tracker_crn = can(each.value.activity_tracking.activity_tracker_crn) ? each.value.activity_tracking.activity_tracker_crn : null
 
