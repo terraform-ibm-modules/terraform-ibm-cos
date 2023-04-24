@@ -132,7 +132,7 @@ variable "management_endpoint_type_for_bucket" {
 variable "retention_enabled" {
   description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
   type        = bool
-  default     = true
+  default     = false # retention disabled for test environments - enable for stage/prod
 }
 
 variable "retention_default" {

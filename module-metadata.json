@@ -385,7 +385,7 @@
       "name": "retention_enabled",
       "type": "bool",
       "description": "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true.",
-      "default": true,
+      "default": false,
       "pos": {
         "filename": "variables.tf",
         "line": 132

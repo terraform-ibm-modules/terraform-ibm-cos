@@ -93,6 +93,7 @@ module "cos_fscloud" {
   secondary_hpcs_key_crn                = var.secondary_hpcs_key_crn
   sysdig_crn                            = module.observability_instances.sysdig_crn
   activity_tracker_crn                  = local.at_crn
+  retention_enabled                     = false # retention disabled for test environments - enable for stage/prod
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 1"
