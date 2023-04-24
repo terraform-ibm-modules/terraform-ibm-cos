@@ -120,6 +120,12 @@ variable "sysdig_crn" {
   default     = null
 }
 
+variable "retention_enabled" {
+  description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
+  type        = bool
+  default     = true
+}
+
 variable "archive_days" {
   description = "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true."
   type        = number

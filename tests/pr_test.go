@@ -11,6 +11,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
+const basicExampleTerraformDir = "examples/basic"
 const completeExampleTerraformDir = "examples/complete"
 const fsCloudTerraformDir = "examples/fscloud"
 const completeExistingTerraformDir = "examples/existing-resources"
@@ -41,27 +42,39 @@ func TestMain(m *testing.M) {
 }
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
+	// completeExampleTerraformDir and fsCloudTerraformDir only implements activity tracker functionality
+	if dir == completeExampleTerraformDir || dir == fsCloudTerraformDir {
+		options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+			Testing:       t,
+			TerraformDir:  dir,
+			Prefix:        prefix,
+			ResourceGroup: resourceGroup,
+			Region:        region,
+			TerraformVars: map[string]interface{}{
+				"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
+			},
+		})
+		return options
+	}
+
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
 		TerraformDir:  dir,
 		Prefix:        prefix,
 		ResourceGroup: resourceGroup,
 		Region:        region,
-		TerraformVars: map[string]interface{}{
-			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
-		},
 	})
-	// completeExistingTerraformDir does not implement any activity tracker functionality
-	if dir == completeExistingTerraformDir || dir == replicateExampleTerraformDir || dir == oneRateExampleTerraformDir {
-		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-			Testing:       t,
-			TerraformDir:  dir,
-			Prefix:        prefix,
-			ResourceGroup: resourceGroup,
-			Region:        region,
-		})
-	}
+
 	return options
+}
+
+func TestRunBasicExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "cos-basic", basicExampleTerraformDir)
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }
 
 func TestRunCompleteExample(t *testing.T) {
