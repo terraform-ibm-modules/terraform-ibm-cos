@@ -83,7 +83,7 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Basic Example (multiple COS Buckets without retention, encryption, tracking and monitoring enabled)](examples/basic)
+- [ Basic Example (multiple COS Buckets with retention, encryption, tracking and monitoring disabled)](examples/basic)
 - [ Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](examples/complete)
 - [ COS Bucket without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
 - [ Financial Services Cloud Profile example](examples/fscloud)
