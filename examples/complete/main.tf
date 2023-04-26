@@ -173,6 +173,7 @@ module "cos_bucket1" {
 module "cos_bucket2" {
   source                              = "../../"
   bucket_name                         = "${var.prefix}-bucket-2"
+  add_bucket_name_suffix              = true
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   resource_group_id                   = module.resource_group.resource_group_id
   region                              = null
