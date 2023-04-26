@@ -77,6 +77,14 @@ resource "ibm_iam_authorization_policy" "policy" {
   roles                       = ["Reader"]
 }
 
+# Create random string which is added to COS bucket name as a suffix
+resource "random_string" "bucket_name_suffix" {
+  count   = var.add_bucket_name_suffix ? 1 : 0
+  length  = 4
+  special = false
+  upper   = false
+}
+
 # Create COS bucket with:
 # - Retention
 # - Encryption
@@ -84,16 +92,10 @@ resource "ibm_iam_authorization_policy" "policy" {
 # - Activity Tracking
 # - Versioning
 
-resource "random_string" "bucket_name_suffix" {
-  length  = 4
-  special = false
-  upper   = false
-}
-
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [ibm_iam_authorization_policy.policy]
-  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix.result}" : var.bucket_name
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
@@ -168,7 +170,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
 # - Encryption
 resource "ibm_cos_bucket" "cos_bucket1" {
   count                 = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix.result}" : var.bucket_name
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location

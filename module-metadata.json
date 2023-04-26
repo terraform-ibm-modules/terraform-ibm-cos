@@ -18,7 +18,8 @@
       "required": true,
       "source": [
         "ibm_cos_bucket.cos_bucket.bucket_name",
-        "ibm_cos_bucket.cos_bucket1.bucket_name"
+        "ibm_cos_bucket.cos_bucket1.bucket_name",
+        "random_string.bucket_name_suffix.count"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -593,7 +594,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 93
+        "line": 95
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -613,7 +614,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 169
+        "line": 171
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -673,12 +674,15 @@
       "mode": "managed",
       "type": "random_string",
       "name": "bucket_name_suffix",
+      "attributes": {
+        "count": "add_bucket_name_suffix"
+      },
       "provider": {
         "name": "random"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 87
+        "line": 81
       }
     }
   },
@@ -758,7 +762,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 245
+        "line": 247
       }
     },
     "instance_cbr_rule": {
@@ -835,7 +839,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 279
+        "line": 281
       }
     }
   }
