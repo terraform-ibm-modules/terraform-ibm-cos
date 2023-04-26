@@ -83,91 +83,16 @@ resource "ibm_iam_authorization_policy" "policy" {
 # - Monitoring
 # - Activity Tracking
 # - Versioning
-
 resource "ibm_cos_bucket" "cos_bucket" {
-  count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  count                 = var.create_cos_bucket ? 1 : 0
   depends_on            = [ibm_iam_authorization_policy.policy]
   bucket_name           = var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
   storage_class         = var.bucket_storage_class
-  key_protect           = var.kms_key_crn
-  ## This for_each block is NOT a loop to attach to multiple retention blocks.
-  ## This block is only used to conditionally add retention block depending on retention is enabled.
-  dynamic "retention_rule" {
-    for_each = local.retention_enabled
-    content {
-      default   = var.retention_default
-      maximum   = var.retention_maximum
-      minimum   = var.retention_minimum
-      permanent = var.retention_permanent
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple archive blocks.
-  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
-  dynamic "archive_rule" {
-    for_each = local.archive_enabled
-    content {
-      enable = true
-      days   = var.archive_days
-      type   = var.archive_type
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple expire blocks.
-  ## This block is only used to conditionally add retention block depending on expire rule is enabled.
-  dynamic "expire_rule" {
-    for_each = local.expire_enabled
-    content {
-      enable = true
-      days   = var.expire_days
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
-  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
-  dynamic "activity_tracking" {
-    for_each = local.at_enabled
-    content {
-      read_data_events     = true
-      write_data_events    = true
-      activity_tracker_crn = var.activity_tracker_crn
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Sysdig instances.
-  ## This block is only used to conditionally attach monitoring depending on Sydig CRN is provided.
-  dynamic "metrics_monitoring" {
-    for_each = local.metrics_enabled
-    content {
-      usage_metrics_enabled   = true
-      request_metrics_enabled = true
-      metrics_monitoring_crn  = var.sysdig_crn
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple versioning blocks.
-  ## This block is only used to conditionally attach a single versioning block.
-  dynamic "object_versioning" {
-    for_each = local.object_versioning_enabled
-    content {
-      enable = var.object_versioning_enabled
-    }
-  }
-}
-
-# Create COS bucket with:
-# - Retention
-# - Monitoring
-# - Activity Tracking
-# - Versioning
-# Create COS bucket without:
-# - Encryption
-resource "ibm_cos_bucket" "cos_bucket1" {
-  count                 = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name           = var.bucket_name
-  resource_instance_id  = local.cos_instance_id
-  region_location       = var.region
-  cross_region_location = var.cross_region_location
+  key_protect           = var.encryption_enabled ? var.kms_key_crn : null
   endpoint_type         = var.management_endpoint_type_for_bucket
-  storage_class         = var.bucket_storage_class
   dynamic "retention_rule" {
     for_each = local.retention_enabled
     content {
@@ -223,13 +148,13 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  bucket_crn           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket1[*].crn
-  bucket_id            = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
-  bucket_name          = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
-  bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
-  s3_endpoint_public   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
-  s3_endpoint_private  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
-  s3_endpoint_direct   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_direct : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_direct
+  bucket_crn           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket[*].crn
+  bucket_id            = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket[*].id
+  bucket_name          = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket[*].bucket_name
+  bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket[*].storage_class
+  s3_endpoint_public   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket[*].s3_endpoint_public
+  s3_endpoint_private  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket[*].s3_endpoint_private
+  s3_endpoint_direct   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_direct : ibm_cos_bucket.cos_bucket[*].s3_endpoint_direct
 }
 
 ##############################################################################

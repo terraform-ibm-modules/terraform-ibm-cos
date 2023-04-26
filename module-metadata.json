@@ -54,8 +54,7 @@
       "description": "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true.",
       "required": true,
       "source": [
-        "ibm_cos_bucket.cos_bucket.bucket_name",
-        "ibm_cos_bucket.cos_bucket1.bucket_name"
+        "ibm_cos_bucket.cos_bucket.bucket_name"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -69,8 +68,7 @@
       "description": "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'.",
       "default": "standard",
       "source": [
-        "ibm_cos_bucket.cos_bucket.storage_class",
-        "ibm_cos_bucket.cos_bucket1.storage_class"
+        "ibm_cos_bucket.cos_bucket.storage_class"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -148,6 +146,9 @@
       "type": "bool",
       "description": "Set as true to create a new Cloud Object Storage bucket",
       "default": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.count"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 88
@@ -184,8 +185,7 @@
       "type": "string",
       "description": "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'. If you pass a value for this, ensure to set the value of var.region to null.",
       "source": [
-        "ibm_cos_bucket.cos_bucket.cross_region_location",
-        "ibm_cos_bucket.cos_bucket1.cross_region_location"
+        "ibm_cos_bucket.cos_bucket.cross_region_location"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -200,13 +200,13 @@
       "description": "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
       "default": true,
       "source": [
-        "ibm_cos_bucket.cos_bucket.count",
-        "ibm_cos_bucket.cos_bucket1.count"
+        "ibm_cos_bucket.cos_bucket.key_protect"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 224
-      }
+      },
+      "immutable": true
     },
     "existing_cos_instance_id": {
       "name": "existing_cos_instance_id",
@@ -292,14 +292,10 @@
       "name": "kms_key_crn",
       "type": "string",
       "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
-      "source": [
-        "ibm_cos_bucket.cos_bucket.key_protect"
-      ],
       "pos": {
         "filename": "variables.tf",
         "line": 230
-      },
-      "immutable": true
+      }
     },
     "management_endpoint_type_for_bucket": {
       "name": "management_endpoint_type_for_bucket",
@@ -307,7 +303,7 @@
       "description": "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)",
       "default": "public",
       "source": [
-        "ibm_cos_bucket.cos_bucket1.endpoint_type"
+        "ibm_cos_bucket.cos_bucket.endpoint_type"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -331,8 +327,7 @@
       "description": "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location.",
       "default": "us-south",
       "source": [
-        "ibm_cos_bucket.cos_bucket.region_location",
-        "ibm_cos_bucket.cos_bucket1.region_location"
+        "ibm_cos_bucket.cos_bucket.region_location"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -566,29 +561,10 @@
       "name": "cos_bucket",
       "attributes": {
         "bucket_name": "bucket_name",
-        "count": "encryption_enabled",
-        "cross_region_location": "cross_region_location",
-        "key_protect": "kms_key_crn",
-        "region_location": "region",
-        "storage_class": "bucket_storage_class"
-      },
-      "provider": {
-        "name": "ibm"
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 87
-      }
-    },
-    "ibm_cos_bucket.cos_bucket1": {
-      "mode": "managed",
-      "type": "ibm_cos_bucket",
-      "name": "cos_bucket1",
-      "attributes": {
-        "bucket_name": "bucket_name",
-        "count": "encryption_enabled",
+        "count": "create_cos_bucket",
         "cross_region_location": "cross_region_location",
         "endpoint_type": "management_endpoint_type_for_bucket",
+        "key_protect": "encryption_enabled",
         "region_location": "region",
         "storage_class": "bucket_storage_class"
       },
@@ -597,7 +573,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 163
+        "line": 86
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -730,7 +706,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 239
+        "line": 164
       }
     },
     "instance_cbr_rule": {
@@ -807,7 +783,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 273
+        "line": 198
       }
     }
   }
