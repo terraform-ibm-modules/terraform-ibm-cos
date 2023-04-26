@@ -83,7 +83,7 @@ module "cos" {
   resource_group_id        = module.resource_group.resource_group_id
   region                   = var.region
   cross_region_location    = null
-  encryption_enabled       = true
+  kms_encryption_enabled   = true
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   activity_tracker_crn = null

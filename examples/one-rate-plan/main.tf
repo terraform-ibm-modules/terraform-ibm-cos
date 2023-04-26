@@ -23,8 +23,8 @@ module "cos_bucket" {
   cos_tags              = var.resource_tags
   bucket_name           = "${var.prefix}-bucket-one-rate"
   # disable retention for test environments - enable for stage/prod
-  retention_enabled    = false
-  encryption_enabled   = false
-  cos_plan             = "cos-one-rate-plan"
-  bucket_storage_class = "onerate_active"
+  retention_enabled      = false
+  kms_encryption_enabled = false
+  cos_plan               = "cos-one-rate-plan"
+  bucket_storage_class   = "onerate_active"
 }

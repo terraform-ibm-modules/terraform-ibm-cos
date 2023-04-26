@@ -194,20 +194,6 @@
       "immutable": true,
       "options": "us,eu,ap"
     },
-    "encryption_enabled": {
-      "name": "encryption_enabled",
-      "type": "bool",
-      "description": "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
-      "default": true,
-      "source": [
-        "ibm_cos_bucket.cos_bucket.count",
-        "ibm_cos_bucket.cos_bucket1.count"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 224
-      }
-    },
     "existing_cos_instance_id": {
       "name": "existing_cos_instance_id",
       "type": "string",
@@ -286,6 +272,20 @@
       "pos": {
         "filename": "variables.tf",
         "line": 265
+      }
+    },
+    "kms_encryption_enabled": {
+      "name": "kms_encryption_enabled",
+      "type": "bool",
+      "description": "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true).",
+      "default": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.count",
+        "ibm_cos_bucket.cos_bucket1.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 224
       }
     },
     "kms_key_crn": {
@@ -566,7 +566,7 @@
       "name": "cos_bucket",
       "attributes": {
         "bucket_name": "bucket_name",
-        "count": "encryption_enabled",
+        "count": "kms_encryption_enabled",
         "cross_region_location": "cross_region_location",
         "key_protect": "kms_key_crn",
         "region_location": "region",
@@ -586,7 +586,7 @@
       "name": "cos_bucket1",
       "attributes": {
         "bucket_name": "bucket_name",
-        "count": "encryption_enabled",
+        "count": "kms_encryption_enabled",
         "cross_region_location": "cross_region_location",
         "endpoint_type": "management_endpoint_type_for_bucket",
         "region_location": "region",
