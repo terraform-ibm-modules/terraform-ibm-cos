@@ -91,7 +91,6 @@ resource "random_string" "bucket_name_suffix" {
 # - Monitoring
 # - Activity Tracking
 # - Versioning
-
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [ibm_iam_authorization_policy.policy]

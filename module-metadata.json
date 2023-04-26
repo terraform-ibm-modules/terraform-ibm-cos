@@ -594,7 +594,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 95
+        "line": 94
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -614,7 +614,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 171
+        "line": 170
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -762,7 +762,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 247
+        "line": 246
       }
     },
     "instance_cbr_rule": {
@@ -839,7 +839,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 281
+        "line": 280
       }
     }
   }
