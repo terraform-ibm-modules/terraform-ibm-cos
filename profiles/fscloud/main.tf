@@ -59,6 +59,7 @@ resource "ibm_iam_authorization_policy" "secondary_kms_policy" {
 }
 
 module "cos_primary_bucket" {
+  depends_on                 = [ibm_iam_authorization_policy.primary_kms_policy]
   source                     = "../../"
   resource_group_id          = var.resource_group_id
   region                     = var.primary_region
@@ -81,6 +82,7 @@ module "cos_primary_bucket" {
 }
 
 module "cos_secondary_bucket" {
+  depends_on                 = [ibm_iam_authorization_policy.secondary_kms_policy]
   source                     = "../../"
   resource_group_id          = var.resource_group_id
   region                     = var.secondary_region
