@@ -45,7 +45,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 240
+        "line": 246
       }
     },
     "bucket_name": {
@@ -205,7 +205,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 224
+        "line": 230
       }
     },
     "existing_cos_instance_id": {
@@ -220,13 +220,22 @@
     "existing_kms_instance_guid": {
       "name": "existing_kms_instance_guid",
       "type": "string",
-      "description": "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
+      "description": "WARNING: Deprecated KMS GUID, pass the full service instance id via existing_kms_instance_id",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 218
+      }
+    },
+    "existing_kms_instance_id": {
+      "name": "existing_kms_instance_id",
+      "type": "string",
+      "description": "The KMS service instance id of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance.",
       "source": [
         "ibm_iam_authorization_policy.policy.target_resource_instance_id"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 218
+        "line": 224
       },
       "immutable": true,
       "computed": true
@@ -285,7 +294,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 265
+        "line": 271
       }
     },
     "kms_key_crn": {
@@ -297,7 +306,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 230
+        "line": 236
       },
       "immutable": true
     },
@@ -428,7 +437,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 290
+        "line": 296
       }
     },
     "sysdig_crn": {
@@ -557,6 +566,12 @@
       "version_constraints": [
         "\u003e= 1.51.0"
       ]
+    },
+    "null": {
+      "source": "hashicorp/null",
+      "version_constraints": [
+        "\u003e=3.2.1"
+      ]
     }
   },
   "managed_resources": {
@@ -577,7 +592,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 87
+        "line": 85
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -597,7 +612,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 163
+        "line": 161
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -605,14 +620,14 @@
       "type": "ibm_iam_authorization_policy",
       "name": "policy",
       "attributes": {
-        "target_resource_instance_id": "existing_kms_instance_guid"
+        "target_resource_instance_id": "existing_kms_instance_id"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 71
+        "line": 69
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -651,6 +666,18 @@
       "pos": {
         "filename": "main.tf",
         "line": 47
+      }
+    },
+    "null_resource.deprecation_notice": {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "deprecation_notice",
+      "provider": {
+        "name": "null"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 300
       }
     }
   },
@@ -730,7 +757,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 239
+        "line": 237
       }
     },
     "instance_cbr_rule": {
@@ -807,7 +834,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 273
+        "line": 271
       }
     }
   }

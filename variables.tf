@@ -216,7 +216,13 @@ variable "sysdig_crn" {
 ##############################################################################
 
 variable "existing_kms_instance_guid" {
-  description = "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance."
+  description = "WARNING: Deprecated KMS GUID, pass the full service instance id via existing_kms_instance_id"
+  type        = string
+  default     = null
+}
+
+variable "existing_kms_instance_id" {
+  description = "The KMS service instance id of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance."
   type        = string
   default     = null
 }
