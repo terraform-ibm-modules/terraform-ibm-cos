@@ -4,7 +4,7 @@
     "access_tags": {
       "name": "access_tags",
       "type": "list(string)",
-      "description": "A list of access tags to apply to the resources created by the module, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial for more details",
+      "description": "A list of access tags to apply to the cos instance created by the module, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial for more details",
       "default": [],
       "source": [
         "ibm_resource_tag.cos_access_tag.tags"
@@ -767,7 +767,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 245
+        "line": 246
       }
     },
     "instance_cbr_rule": {
@@ -844,7 +844,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 279
+        "line": 280
       }
     }
   }
