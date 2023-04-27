@@ -91,6 +91,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
+  endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
   key_protect           = var.kms_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
@@ -168,6 +169,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   cross_region_location = var.cross_region_location
   endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
+  ## This for_each block is NOT a loop to attach to multiple retention blocks.
+  ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
     for_each = local.retention_enabled
     content {
@@ -177,6 +180,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       permanent = var.retention_permanent
     }
   }
+  ## This for_each block is NOT a loop to attach to multiple archive blocks.
+  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
   dynamic "archive_rule" {
     for_each = local.archive_enabled
     content {
@@ -185,6 +190,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       type   = var.archive_type
     }
   }
+  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
+  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
   dynamic "expire_rule" {
     for_each = local.expire_enabled
     content {
