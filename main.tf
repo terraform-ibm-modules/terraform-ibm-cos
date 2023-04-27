@@ -236,6 +236,7 @@ locals {
   bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
   s3_endpoint_public   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
   s3_endpoint_private  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
+  s3_endpoint_direct   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_direct : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_direct
 }
 
 ##############################################################################

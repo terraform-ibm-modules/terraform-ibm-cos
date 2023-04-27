@@ -16,6 +16,11 @@ output "s3_endpoint_public" {
   value       = local.s3_endpoint_public
 }
 
+output "s3_endpoint_direct" {
+  description = "S3 direct endpoint"
+  value       = local.s3_endpoint_direct
+}
+
 output "bucket_id" {
   description = "Bucket id"
   value       = local.bucket_id

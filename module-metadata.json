@@ -469,7 +469,7 @@
       "value": "local.bucket_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 29
       }
     },
     "bucket_id": {
@@ -478,7 +478,7 @@
       "value": "local.bucket_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 19
+        "line": 24
       }
     },
     "bucket_name": {
@@ -487,7 +487,7 @@
       "value": "local.bucket_name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 34
       }
     },
     "bucket_storage_class": {
@@ -496,7 +496,7 @@
       "value": "local.bucket_storage_class",
       "pos": {
         "filename": "outputs.tf",
-        "line": 34
+        "line": 39
       }
     },
     "cos_instance_guid": {
@@ -505,7 +505,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 49
+        "line": 54
       }
     },
     "cos_instance_id": {
@@ -514,7 +514,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 44
+        "line": 49
       }
     },
     "kms_key_crn": {
@@ -523,7 +523,7 @@
       "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
+        "line": 44
       },
       "type": "string"
     },
@@ -540,6 +540,15 @@
       "cloud_data_range": [
         "resolved_to:id"
       ]
+    },
+    "s3_endpoint_direct": {
+      "name": "s3_endpoint_direct",
+      "description": "S3 direct endpoint",
+      "value": "local.s3_endpoint_direct",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 19
+      }
     },
     "s3_endpoint_private": {
       "name": "s3_endpoint_private",
