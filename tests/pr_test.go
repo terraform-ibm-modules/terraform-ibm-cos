@@ -52,7 +52,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			"access_tags":              permanentResources["accessTags"],
 		},
 	})
-	// completeExistingTerraformDir does not implement any activity tracker functionality
+	// below dirs do not implement any activity tracker functionality
 	if dir == completeExistingTerraformDir || dir == replicateExampleTerraformDir || dir == oneRateExampleTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:       t,
@@ -62,17 +62,6 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			Region:        region,
 			TerraformVars: map[string]interface{}{
 				"access_tags": permanentResources["accessTags"],
-			},
-		}) // fsCloudTerraformDir does not implement any access tag functionality
-	} else if dir == fsCloudTerraformDir {
-		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-			Testing:       t,
-			TerraformDir:  dir,
-			Prefix:        prefix,
-			ResourceGroup: resourceGroup,
-			Region:        region,
-			TerraformVars: map[string]interface{}{
-				"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
 			},
 		})
 	}
