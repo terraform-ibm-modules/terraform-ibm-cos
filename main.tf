@@ -56,8 +56,8 @@ resource "ibm_resource_key" "resource_key" {
 }
 
 locals {
-  cos_instance_id          = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
-  cos_instance_guid        = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
+  cos_instance_id          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
+  cos_instance_guid        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
   create_access_policy_kms = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
   kms_service = local.create_access_policy_kms && var.kms_key_crn != null ? (
     can(regex(".*kms.*", var.kms_key_crn)) ? "kms" : (
@@ -223,13 +223,13 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  bucket_crn           = var.create_cos_bucket ? (var.encryption_enabled == true ? tolist(ibm_cos_bucket.cos_bucket[*].crn)[0] : tolist(ibm_cos_bucket.cos_bucket1[*].crn)[0]) : null
-  bucket_id            = var.create_cos_bucket ? (var.encryption_enabled == true ? tolist(ibm_cos_bucket.cos_bucket[*].id)[0] : tolist(ibm_cos_bucket.cos_bucket1[*].id)[0]) : null
-  bucket_name          = var.create_cos_bucket ? (var.encryption_enabled == true ? tolist(ibm_cos_bucket.cos_bucket[*].bucket_name)[0] : tolist(ibm_cos_bucket.cos_bucket1[*].bucket_name)[0]) : null
-  bucket_storage_class = var.create_cos_bucket ? (var.encryption_enabled == true ? tolist(ibm_cos_bucket.cos_bucket[*].storage_class)[0] : tolist(ibm_cos_bucket.cos_bucket1[*].storage_class)[0]) : null
-  s3_endpoint_public   = var.create_cos_bucket ? (var.encryption_enabled == true ? tolist(ibm_cos_bucket.cos_bucket[*].s3_endpoint_public)[0] : tolist(ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public)[0]) : null
-  s3_endpoint_private  = var.create_cos_bucket ? (var.encryption_enabled == true ? tolist(ibm_cos_bucket.cos_bucket[*].s3_endpoint_private)[0] : tolist(ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private)[0]) : null
-  s3_endpoint_direct   = var.create_cos_bucket ? (var.encryption_enabled == true ? tolist(ibm_cos_bucket.cos_bucket[*].s3_endpoint_direct)[0] : tolist(ibm_cos_bucket.cos_bucket1[*].s3_endpoint_direct)[0]) : null
+  bucket_crn           = var.create_cos_bucket ? (var.encryption_enabled ? ibm_cos_bucket.cos_bucket[0].crn : ibm_cos_bucket.cos_bucket1[0].crn) : null
+  bucket_id            = var.create_cos_bucket ? (var.encryption_enabled ? ibm_cos_bucket.cos_bucket[0].id : ibm_cos_bucket.cos_bucket1[0].id) : null
+  bucket_name          = var.create_cos_bucket ? (var.encryption_enabled ? ibm_cos_bucket.cos_bucket[0].bucket_name : ibm_cos_bucket.cos_bucket1[0].bucket_name) : null
+  bucket_storage_class = var.create_cos_bucket ? (var.encryption_enabled ? ibm_cos_bucket.cos_bucket[0].storage_class : ibm_cos_bucket.cos_bucket1[0].storage_class) : null
+  s3_endpoint_public   = var.create_cos_bucket ? (var.encryption_enabled ? ibm_cos_bucket.cos_bucket[0].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[0].s3_endpoint_public) : null
+  s3_endpoint_private  = var.create_cos_bucket ? (var.encryption_enabled ? ibm_cos_bucket.cos_bucket[0].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[0].s3_endpoint_private) : null
+  s3_endpoint_direct   = var.create_cos_bucket ? (var.encryption_enabled ? ibm_cos_bucket.cos_bucket[0].s3_endpoint_direct : ibm_cos_bucket.cos_bucket1[0].s3_endpoint_direct) : null
 }
 
 ##############################################################################
