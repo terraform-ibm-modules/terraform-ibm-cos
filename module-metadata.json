@@ -318,6 +318,7 @@
       "description": "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)",
       "default": "public",
       "source": [
+        "ibm_cos_bucket.cos_bucket.endpoint_type",
         "ibm_cos_bucket.cos_bucket1.endpoint_type"
       ],
       "pos": {
@@ -585,6 +586,7 @@
         "bucket_name": "add_bucket_name_suffix",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
+        "endpoint_type": "management_endpoint_type_for_bucket",
         "key_protect": "kms_key_crn",
         "region_location": "region",
         "storage_class": "bucket_storage_class"
@@ -614,7 +616,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 170
+        "line": 171
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -762,7 +764,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 246
+        "line": 253
       }
     },
     "instance_cbr_rule": {
@@ -839,7 +841,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 280
+        "line": 287
       }
     }
   }
