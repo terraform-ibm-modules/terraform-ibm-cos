@@ -110,7 +110,7 @@ variable "bucket_name" {
 
 variable "add_bucket_name_suffix" {
   type        = bool
-  description = "Add random generated suffix to the newly provisioned COS bucket name (Optional)."
+  description = "Add random generated suffix (4 characters long) to the newly provisioned COS bucket name (Optional)."
   default     = false
 }
 
