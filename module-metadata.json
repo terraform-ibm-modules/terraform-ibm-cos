@@ -616,7 +616,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 170
+        "line": 171
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -764,7 +764,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 246
+        "line": 253
       }
     },
     "instance_cbr_rule": {
@@ -841,7 +841,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 280
+        "line": 287
       }
     }
   }
