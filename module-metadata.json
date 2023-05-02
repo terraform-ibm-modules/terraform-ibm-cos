@@ -27,7 +27,7 @@
       "description": "Activity tracker crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 215
+        "line": 221
       }
     },
     "add_bucket_name_suffix": {
@@ -43,7 +43,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 124
       },
       "immutable": true
     },
@@ -54,7 +54,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 193
+        "line": 199
       }
     },
     "archive_type": {
@@ -64,7 +64,7 @@
       "default": "Glacier",
       "pos": {
         "filename": "variables.tf",
-        "line": 199
+        "line": 205
       }
     },
     "bucket_cbr_rules": {
@@ -82,7 +82,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 253
+        "line": 259
       }
     },
     "bucket_name": {
@@ -92,8 +92,7 @@
       "pos": {
         "filename": "variables.tf",
         "line": 118
-      },
-      "immutable": true
+      }
     },
     "bucket_storage_class": {
       "name": "bucket_storage_class",
@@ -106,7 +105,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 124
+        "line": 130
       },
       "immutable": true,
       "options": "standard,vault,cold,smart,flex,onerate_active",
@@ -238,7 +237,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 237
+        "line": 243
       }
     },
     "existing_cos_instance_id": {
@@ -259,7 +258,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 231
+        "line": 237
       },
       "immutable": true,
       "computed": true
@@ -271,7 +270,7 @@
       "default": 365,
       "pos": {
         "filename": "variables.tf",
-        "line": 209
+        "line": 215
       }
     },
     "hmac_key_name": {
@@ -318,7 +317,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 278
+        "line": 284
       }
     },
     "kms_key_crn": {
@@ -330,7 +329,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 243
+        "line": 249
       },
       "immutable": true
     },
@@ -345,7 +344,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 135
+        "line": 141
       },
       "options": "public,private,direct"
     },
@@ -356,7 +355,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 187
+        "line": 193
       }
     },
     "region": {
@@ -412,7 +411,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 151
+        "line": 157
       }
     },
     "retention_enabled": {
@@ -422,7 +421,7 @@
       "default": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 145
+        "line": 151
       }
     },
     "retention_maximum": {
@@ -432,7 +431,7 @@
       "default": 350,
       "pos": {
         "filename": "variables.tf",
-        "line": 161
+        "line": 167
       }
     },
     "retention_minimum": {
@@ -442,7 +441,7 @@
       "default": 90,
       "pos": {
         "filename": "variables.tf",
-        "line": 171
+        "line": 177
       }
     },
     "retention_permanent": {
@@ -452,7 +451,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 181
+        "line": 187
       }
     },
     "skip_iam_authorization_policy": {
@@ -462,7 +461,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 303
+        "line": 309
       }
     },
     "sysdig_crn": {
@@ -471,7 +470,7 @@
       "description": "Sysdig Monitoring crn for COS bucket (Optional)",
       "pos": {
         "filename": "variables.tf",
-        "line": 221
+        "line": 227
       }
     }
   },
@@ -618,7 +617,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 94
+        "line": 101
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -638,7 +637,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 170
+        "line": 178
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -722,7 +721,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 81
+        "line": 88
       }
     }
   },
@@ -802,7 +801,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 246
+        "line": 260
       }
     },
     "instance_cbr_rule": {
@@ -879,7 +878,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 280
+        "line": 294
       }
     }
   }
