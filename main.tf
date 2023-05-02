@@ -84,20 +84,28 @@ resource "ibm_iam_authorization_policy" "policy" {
   roles                       = ["Reader"]
 }
 
+# Create random string which is added to COS bucket name as a suffix
+resource "random_string" "bucket_name_suffix" {
+  count   = var.add_bucket_name_suffix ? 1 : 0
+  length  = 4
+  special = false
+  upper   = false
+}
+
 # Create COS bucket with:
 # - Retention
 # - Encryption
 # - Monitoring
 # - Activity Tracking
 # - Versioning
-
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [ibm_iam_authorization_policy.policy]
-  bucket_name           = var.bucket_name
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
+  endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
   key_protect           = var.kms_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
@@ -169,12 +177,14 @@ resource "ibm_cos_bucket" "cos_bucket" {
 # - Encryption
 resource "ibm_cos_bucket" "cos_bucket1" {
   count                 = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name           = var.bucket_name
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
   endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
+  ## This for_each block is NOT a loop to attach to multiple retention blocks.
+  ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
     for_each = local.retention_enabled
     content {
@@ -184,6 +194,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       permanent = var.retention_permanent
     }
   }
+  ## This for_each block is NOT a loop to attach to multiple archive blocks.
+  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
   dynamic "archive_rule" {
     for_each = local.archive_enabled
     content {
@@ -192,6 +204,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       type   = var.archive_type
     }
   }
+  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
+  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
   dynamic "expire_rule" {
     for_each = local.expire_enabled
     content {

@@ -30,6 +30,23 @@
         "line": 215
       }
     },
+    "add_bucket_name_suffix": {
+      "name": "add_bucket_name_suffix",
+      "type": "bool",
+      "description": "Add random generated suffix (4 characters long) to the newly provisioned COS bucket name (Optional).",
+      "default": false,
+      "required": true,
+      "source": [
+        "ibm_cos_bucket.cos_bucket.bucket_name",
+        "ibm_cos_bucket.cos_bucket1.bucket_name",
+        "random_string.bucket_name_suffix.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 111
+      },
+      "immutable": true
+    },
     "archive_days": {
       "name": "archive_days",
       "type": "number",
@@ -72,11 +89,6 @@
       "name": "bucket_name",
       "type": "string",
       "description": "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true.",
-      "required": true,
-      "source": [
-        "ibm_cos_bucket.cos_bucket.bucket_name",
-        "ibm_cos_bucket.cos_bucket1.bucket_name"
-      ],
       "pos": {
         "filename": "variables.tf",
         "line": 118
@@ -328,6 +340,7 @@
       "description": "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)",
       "default": "public",
       "source": [
+        "ibm_cos_bucket.cos_bucket.endpoint_type",
         "ibm_cos_bucket.cos_bucket1.endpoint_type"
       ],
       "pos": {
@@ -578,6 +591,12 @@
       "version_constraints": [
         "\u003e= 1.51.0"
       ]
+    },
+    "random": {
+      "source": "hashicorp/random",
+      "version_constraints": [
+        "\u003e= 3.5.1"
+      ]
     }
   },
   "managed_resources": {
@@ -586,9 +605,10 @@
       "type": "ibm_cos_bucket",
       "name": "cos_bucket",
       "attributes": {
-        "bucket_name": "bucket_name",
+        "bucket_name": "add_bucket_name_suffix",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
+        "endpoint_type": "management_endpoint_type_for_bucket",
         "key_protect": "kms_key_crn",
         "region_location": "region",
         "storage_class": "bucket_storage_class"
@@ -606,7 +626,7 @@
       "type": "ibm_cos_bucket",
       "name": "cos_bucket1",
       "attributes": {
-        "bucket_name": "bucket_name",
+        "bucket_name": "add_bucket_name_suffix",
         "count": "encryption_enabled",
         "cross_region_location": "cross_region_location",
         "endpoint_type": "management_endpoint_type_for_bucket",
@@ -688,6 +708,21 @@
       "pos": {
         "filename": "main.tf",
         "line": 47
+      }
+    },
+    "random_string.bucket_name_suffix": {
+      "mode": "managed",
+      "type": "random_string",
+      "name": "bucket_name_suffix",
+      "attributes": {
+        "count": "add_bucket_name_suffix"
+      },
+      "provider": {
+        "name": "random"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 81
       }
     }
   },
