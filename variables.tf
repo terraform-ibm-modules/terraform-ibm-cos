@@ -108,6 +108,12 @@ variable "bucket_name" {
   default     = null
 }
 
+variable "add_bucket_name_suffix" {
+  type        = bool
+  description = "Add random generated suffix (4 characters long) to the newly provisioned COS bucket name (Optional)."
+  default     = false
+}
+
 variable "bucket_storage_class" {
   type        = string
   description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
