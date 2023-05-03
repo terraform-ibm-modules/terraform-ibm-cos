@@ -240,7 +240,7 @@ variable "existing_kms_instance_guid" {
   default     = null
 }
 
-variable "encryption_enabled" {
+variable "kms_encryption_enabled" {
   description = "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true)."
   type        = bool
   default     = true

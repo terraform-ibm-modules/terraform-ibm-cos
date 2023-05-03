@@ -19,7 +19,7 @@ module "cos_source_bucket" {
   cos_tags                  = var.resource_tags
   access_tags               = var.access_tags
   object_versioning_enabled = true
-  encryption_enabled        = false
+  kms_encryption_enabled    = false
   retention_enabled         = false
   archive_days              = null
   expire_days               = null
@@ -35,7 +35,7 @@ module "cos_target_bucket" {
   cos_tags                  = var.resource_tags
   access_tags               = var.access_tags
   object_versioning_enabled = true
-  encryption_enabled        = false
+  kms_encryption_enabled    = false
   retention_enabled         = false
   archive_days              = null
   expire_days               = null
