@@ -6,5 +6,9 @@ terraform {
       source  = "ibm-cloud/ibm"
       version = ">= 1.51.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.5.1"
+    }
   }
 }
