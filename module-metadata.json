@@ -317,7 +317,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 230
+        "line": 243
       }
     },
     "kms_key_crn": {
