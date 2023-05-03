@@ -223,3 +223,9 @@ variable "skip_iam_authorization_policy" {
   description = "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `primary_existing_hpcs_instance_guid` and `secondary_existing_hpcs_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created"
   default     = false
 }
+
+variable "access_tags" {
+  type        = list(string)
+  description = "Optional list of access tags to be added to the created resources"
+  default     = []
+}

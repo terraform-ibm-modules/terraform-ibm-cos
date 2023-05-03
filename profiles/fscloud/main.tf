@@ -37,6 +37,7 @@ module "cos_instance" {
   sysdig_crn                    = var.sysdig_crn
   activity_tracker_crn          = var.activity_tracker_crn
   instance_cbr_rules            = var.instance_cbr_rules
+  access_tags                   = var.access_tags
 }
 
 # Create IAM Authorization Policies to allow COS to access kms for the encryption key
@@ -79,6 +80,7 @@ module "cos_primary_bucket" {
   activity_tracker_crn       = var.activity_tracker_crn
   sysdig_crn                 = var.sysdig_crn
   bucket_cbr_rules           = var.bucket_cbr_rules
+  access_tags                = var.access_tags
 }
 
 module "cos_secondary_bucket" {
@@ -102,6 +104,7 @@ module "cos_secondary_bucket" {
   activity_tracker_crn       = var.activity_tracker_crn
   sysdig_crn                 = var.sysdig_crn
   bucket_cbr_rules           = var.bucket_cbr_rules
+  access_tags                = var.access_tags
 }
 
 ### Configure replication rule
