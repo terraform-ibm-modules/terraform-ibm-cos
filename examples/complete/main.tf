@@ -112,6 +112,7 @@ module "cos_bucket1" {
   cos_instance_name                   = "${var.prefix}-cos"
   cos_tags                            = var.resource_tags
   bucket_name                         = "${var.prefix}-bucket-1"
+  access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
@@ -204,11 +205,4 @@ module "cos_bucket2" {
       }]
     }
   ]
-}
-
-# IAM tags for the instance to match to the CBR rule tags.
-resource "ibm_resource_tag" "tag1" {
-  resource_id = module.cos_bucket1.cos_instance_id
-  tag_type    = "access"
-  tags        = ["env:test"]
 }
