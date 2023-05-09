@@ -229,3 +229,9 @@ variable "access_tags" {
   description = "Optional list of access tags to be added to the created resources"
   default     = []
 }
+
+variable "retention_enabled" {
+  description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
+  type        = bool
+  default     = true
+}
