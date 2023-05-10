@@ -26,7 +26,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_and_plan_input = var.cross_region_location != null && var.cos_plan == "cos-one-rate-plan" ? tobool("var.cos_plan is 'cos-one-rate-plan', then var.cross_region_location cannot be set as the one rate plan does not support cross region.") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_kp_id_input = var.encryption_enabled && var.create_cos_instance && var.skip_iam_authorization_policy == false && var.existing_kms_instance_id == null ? tobool("A value must be passed for var.existing_kms_instance_id when creating an instance, var.encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
+  validate_kp_id_input = var.kms_encryption_enabled && var.create_cos_instance && var.skip_iam_authorization_policy == false && var.existing_kms_instance_id == null ? tobool("A value must be passed for var.existing_kms_instance_id when creating an instance, var.kms_encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
   # tflint-ignore: terraform_unused_declarations
@@ -65,7 +65,7 @@ resource "ibm_resource_key" "resource_key" {
 locals {
   cos_instance_id          = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].id)[0] : var.existing_cos_instance_id
   cos_instance_guid        = var.create_cos_instance == true ? tolist(ibm_resource_instance.cos_instance[*].guid)[0] : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy_kms = var.encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
+  create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
   # "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9::"
   # "crn:v1:bluemix:public:kms:ca-tor:a/abac0df06b644a9cabc6e44f55b3880e:f2663809-20bd-40de-bcef-8fd6a9c1d247::"
   # non capture group a-z and 0-9 followed by a colon, times 4, capture group a-z and - (the service)

@@ -253,7 +253,7 @@ variable "kms_encryption_enabled" {
 }
 
 variable "kms_key_crn" {
-  description = "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true."
+  description = "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.kms_encryption_enabled and var.create_cos_bucket are true."
   type        = string
   default     = null
 }

@@ -82,7 +82,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 246
+        "line": 265
       }
     },
     "bucket_name": {
@@ -241,7 +241,7 @@
       "description": "WARNING: Deprecated KMS GUID, pass the full service instance id via existing_kms_instance_id",
       "pos": {
         "filename": "variables.tf",
-        "line": 218
+        "line": 237
       }
     },
     "existing_kms_instance_id": {
@@ -253,7 +253,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 224
+        "line": 243
       },
       "immutable": true,
       "computed": true
@@ -312,7 +312,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 284
+        "line": 290
       }
     },
     "kms_encryption_enabled": {
@@ -326,19 +326,19 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 243
+        "line": 249
       }
     },
     "kms_key_crn": {
       "name": "kms_key_crn",
       "type": "string",
-      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
+      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.kms_encryption_enabled and var.create_cos_bucket are true.",
       "source": [
         "ibm_cos_bucket.cos_bucket.key_protect"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 249
+        "line": 255
       },
       "immutable": true
     },
@@ -470,7 +470,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 296
+        "line": 315
       }
     },
     "sysdig_crn": {
@@ -540,7 +540,7 @@
     },
     "kms_key_crn": {
       "name": "kms_key_crn",
-      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
+      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.kms_encryption_enabled and var.create_cos_bucket are true.",
       "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",
@@ -604,10 +604,13 @@
       "source": "hashicorp/null",
       "version_constraints": [
         "\u003e=3.2.1"
+      ]
+    },
     "random": {
       "source": "hashicorp/random",
       "version_constraints": [
-        "\u003e= 3.5.1"      ]
+        "\u003e= 3.5.1"
+      ]
     }
   },
   "managed_resources": {
@@ -629,7 +632,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 85
+        "line": 99
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -649,7 +652,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 161
+        "line": 176
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -664,7 +667,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 69
+        "line": 76
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -730,7 +733,9 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 300
+        "line": 321
+      }
+    },
     "random_string.bucket_name_suffix": {
       "mode": "managed",
       "type": "random_string",
@@ -743,7 +748,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 88
+        "line": 86
       }
     }
   },
@@ -823,7 +828,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 237
+        "line": 258
       }
     },
     "instance_cbr_rule": {
@@ -900,7 +905,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 271
+        "line": 292
       }
     }
   }
