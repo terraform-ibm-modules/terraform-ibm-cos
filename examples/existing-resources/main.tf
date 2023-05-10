@@ -19,8 +19,7 @@ locals {
 }
 
 module "key_protect_all_inclusive" {
-  # DO NOT MERGE - pending new feature via PR into official version
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=expose-id"
+  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.1.0"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
@@ -54,8 +53,6 @@ module "cos_instance" {
   cross_region_location               = null
   activity_tracker_crn                = null
   resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
-  # DO NOT MERGE - just to drive logic in main module!
-  skip_iam_authorization_policy = false
 }
 
 # Create IAM Authorization Policy to allow COS to access key protect for the encryption key
