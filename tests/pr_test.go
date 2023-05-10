@@ -2,12 +2,12 @@
 package test
 
 import (
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
@@ -49,9 +49,10 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Region:        region,
 		TerraformVars: map[string]interface{}{
 			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
+			"access_tags":              permanentResources["accessTags"],
 		},
 	})
-	// completeExistingTerraformDir does not implement any activity tracker functionality
+	// below dirs do not implement any activity tracker functionality
 	if dir == completeExistingTerraformDir || dir == replicateExampleTerraformDir || dir == oneRateExampleTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:       t,
@@ -59,6 +60,9 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			Prefix:        prefix,
 			ResourceGroup: resourceGroup,
 			Region:        region,
+			TerraformVars: map[string]interface{}{
+				"access_tags": permanentResources["accessTags"],
+			},
 		})
 	}
 	return options

@@ -37,6 +37,7 @@ module "cos_instance" {
   sysdig_crn                    = var.sysdig_crn
   activity_tracker_crn          = var.activity_tracker_crn
   instance_cbr_rules            = var.instance_cbr_rules
+  access_tags                   = var.access_tags
 }
 
 # Create IAM Authorization Policies to allow COS to access kms for the encryption key
@@ -59,6 +60,7 @@ resource "ibm_iam_authorization_policy" "secondary_kms_policy" {
 }
 
 module "cos_primary_bucket" {
+  depends_on                 = [ibm_iam_authorization_policy.primary_kms_policy]
   source                     = "../../"
   resource_group_id          = var.resource_group_id
   region                     = var.primary_region
@@ -74,13 +76,15 @@ module "cos_primary_bucket" {
   object_versioning_enabled  = "true"
   existing_kms_instance_guid = var.primary_existing_hpcs_instance_guid
   kms_key_crn                = var.primary_hpcs_key_crn
-  encryption_enabled         = "true"
+  kms_encryption_enabled     = "true"
   activity_tracker_crn       = var.activity_tracker_crn
   sysdig_crn                 = var.sysdig_crn
   bucket_cbr_rules           = var.bucket_cbr_rules
+  access_tags                = var.access_tags
 }
 
 module "cos_secondary_bucket" {
+  depends_on                 = [ibm_iam_authorization_policy.secondary_kms_policy]
   source                     = "../../"
   resource_group_id          = var.resource_group_id
   region                     = var.secondary_region
@@ -96,10 +100,11 @@ module "cos_secondary_bucket" {
   object_versioning_enabled  = "true"
   existing_kms_instance_guid = var.secondary_existing_hpcs_instance_guid
   kms_key_crn                = var.secondary_hpcs_key_crn
-  encryption_enabled         = "true"
+  kms_encryption_enabled     = "true"
   activity_tracker_crn       = var.activity_tracker_crn
   sysdig_crn                 = var.sysdig_crn
   bucket_cbr_rules           = var.bucket_cbr_rules
+  access_tags                = var.access_tags
 }
 
 ### Configure replication rule

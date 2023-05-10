@@ -16,7 +16,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_encryption_inputs = !var.create_cos_instance && !var.create_cos_bucket ? tobool("var.create_cos_instance and var.create_cos_bucket cannot be both set to false") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_key_inputs = var.create_cos_bucket && var.encryption_enabled && var.kms_key_crn == null ? tobool("A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.encryption_enabled are true") : true
+  validate_key_inputs = var.create_cos_bucket && var.kms_encryption_enabled && var.kms_key_crn == null ? tobool("A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.kms_encryption_enabled are true") : true
   # tflint-ignore: terraform_unused_declarations
   validate_bucket_inputs = var.create_cos_bucket && var.bucket_name == null ? tobool("If var.create_cos_bucket is true, then provide value for var.bucket_name") : true
   # tflint-ignore: terraform_unused_declarations
@@ -42,6 +42,13 @@ resource "ibm_resource_instance" "cos_instance" {
   plan              = var.cos_plan
   location          = var.cos_location
   tags              = var.cos_tags
+}
+
+resource "ibm_resource_tag" "cos_access_tag" {
+  count       = !var.create_cos_instance || length(var.access_tags) == 0 ? 0 : 1
+  resource_id = ibm_resource_instance.cos_instance[0].crn
+  tags        = var.access_tags
+  tag_type    = "access"
 }
 
 resource "ibm_resource_key" "resource_key" {
@@ -75,20 +82,28 @@ resource "ibm_iam_authorization_policy" "policy" {
   roles                       = ["Reader"]
 }
 
+# Create random string which is added to COS bucket name as a suffix
+resource "random_string" "bucket_name_suffix" {
+  count   = var.add_bucket_name_suffix ? 1 : 0
+  length  = 4
+  special = false
+  upper   = false
+}
+
 # Create COS bucket with:
 # - Retention
 # - Encryption
 # - Monitoring
 # - Activity Tracking
 # - Versioning
-
 resource "ibm_cos_bucket" "cos_bucket" {
-  count                 = (var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  count                 = (var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [ibm_iam_authorization_policy.policy]
-  bucket_name           = var.bucket_name
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
+  endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
   key_protect           = var.kms_key_crn
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
@@ -159,13 +174,15 @@ resource "ibm_cos_bucket" "cos_bucket" {
 # Create COS bucket without:
 # - Encryption
 resource "ibm_cos_bucket" "cos_bucket1" {
-  count                 = (!var.encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name           = var.bucket_name
+  count                 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
   endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
+  ## This for_each block is NOT a loop to attach to multiple retention blocks.
+  ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
     for_each = local.retention_enabled
     content {
@@ -175,6 +192,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       permanent = var.retention_permanent
     }
   }
+  ## This for_each block is NOT a loop to attach to multiple archive blocks.
+  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
   dynamic "archive_rule" {
     for_each = local.archive_enabled
     content {
@@ -183,6 +202,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       type   = var.archive_type
     }
   }
+  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
+  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
   dynamic "expire_rule" {
     for_each = local.expire_enabled
     content {
@@ -221,13 +242,13 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  bucket_crn           = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket1[*].crn
-  bucket_id            = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
-  bucket_name          = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
-  bucket_storage_class = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
-  s3_endpoint_public   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
-  s3_endpoint_private  = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
-  s3_endpoint_direct   = var.encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_direct : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_direct
+  bucket_crn           = var.kms_encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].crn : ibm_cos_bucket.cos_bucket1[*].crn
+  bucket_id            = var.kms_encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].id : ibm_cos_bucket.cos_bucket1[*].id
+  bucket_name          = var.kms_encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].bucket_name : ibm_cos_bucket.cos_bucket1[*].bucket_name
+  bucket_storage_class = var.kms_encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].storage_class : ibm_cos_bucket.cos_bucket1[*].storage_class
+  s3_endpoint_public   = var.kms_encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_public
+  s3_endpoint_private  = var.kms_encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_private
+  s3_endpoint_direct   = var.kms_encryption_enabled == true ? ibm_cos_bucket.cos_bucket[*].s3_endpoint_direct : ibm_cos_bucket.cos_bucket1[*].s3_endpoint_direct
 }
 
 ##############################################################################
