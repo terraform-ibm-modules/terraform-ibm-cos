@@ -617,7 +617,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 103
+        "line": 101
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -637,7 +637,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 180
+        "line": 178
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -652,7 +652,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 80
+        "line": 78
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -672,7 +672,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 39
+        "line": 37
       }
     },
     "ibm_resource_key.resource_key": {
@@ -690,7 +690,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 56
+        "line": 54
       }
     },
     "ibm_resource_tag.cos_access_tag": {
@@ -706,7 +706,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 49
+        "line": 47
       }
     },
     "random_string.bucket_name_suffix": {
@@ -721,7 +721,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 90
+        "line": 88
       }
     }
   },
@@ -801,7 +801,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 262
+        "line": 260
       }
     },
     "instance_cbr_rule": {
@@ -878,7 +878,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 296
+        "line": 294
       }
     }
   }

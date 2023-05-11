@@ -120,7 +120,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
     enable                          = true
     priority                        = 50
     deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_secondary_bucket.bucket_crn[0]
+    destination_bucket_crn          = module.cos_secondary_bucket.bucket_crn
   }
 }
 
@@ -149,7 +149,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   subject_attributes {
     name  = "resource"
-    value = module.cos_primary_bucket.bucket_name[0]
+    value = module.cos_primary_bucket.bucket_name
   }
   subject_attributes {
     name  = "resourceType"
@@ -169,7 +169,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   resource_attributes {
     name  = "resource"
-    value = module.cos_secondary_bucket.bucket_name[0]
+    value = module.cos_secondary_bucket.bucket_name
   }
   resource_attributes {
     name  = "resourceType"
