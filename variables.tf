@@ -247,7 +247,7 @@ variable "existing_kms_instance_id" {
 }
 
 variable "kms_encryption_enabled" {
-  description = "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true)."
+  description = "Set this to true to control the encryption keys used to encrypt the data that you store in IBM Cloud® Object Storage. If set to false, the data is encrypted by using randomly generated keys"
   type        = bool
   default     = true
 }
