@@ -69,11 +69,11 @@ module "cos_primary_bucket" {
   create_cos_bucket          = var.create_cos_bucket
   bucket_name                = var.primary_bucket_name
   bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = var.retention_enabled
+  retention_enabled          = true
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
-  object_versioning_enabled  = "false"
+  object_versioning_enabled  = "true"
   existing_kms_instance_guid = var.primary_existing_hpcs_instance_guid
   kms_key_crn                = var.primary_hpcs_key_crn
   kms_encryption_enabled     = "true"
@@ -93,7 +93,7 @@ module "cos_secondary_bucket" {
   create_cos_bucket          = var.create_cos_bucket
   bucket_name                = var.secondary_bucket_name
   bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = !var.retention_enabled
+  retention_enabled          = true
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
@@ -120,7 +120,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
     enable                          = true
     priority                        = 50
     deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_secondary_bucket.bucket_crn
+    destination_bucket_crn          = module.cos_secondary_bucket.bucket_crn[0]
   }
 }
 
@@ -149,7 +149,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   subject_attributes {
     name  = "resource"
-    value = module.cos_primary_bucket.bucket_name
+    value = module.cos_primary_bucket.bucket_name[0]
   }
   subject_attributes {
     name  = "resourceType"
@@ -169,7 +169,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   resource_attributes {
     name  = "resource"
-    value = module.cos_secondary_bucket.bucket_name
+    value = module.cos_secondary_bucket.bucket_name[0]
   }
   resource_attributes {
     name  = "resourceType"
