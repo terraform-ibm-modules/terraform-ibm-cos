@@ -93,7 +93,7 @@ module "cos_secondary_bucket" {
   create_cos_bucket          = var.create_cos_bucket
   bucket_name                = var.secondary_bucket_name
   bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = var.retention_enabled
+  retention_enabled          = !var.retention_enabled
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null

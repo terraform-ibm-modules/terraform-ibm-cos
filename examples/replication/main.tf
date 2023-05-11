@@ -47,7 +47,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
   depends_on = [
     ibm_iam_authorization_policy.policy
   ]
-  bucket_crn      = module.cos_source_bucket.bucket_crn
+  bucket_crn      = module.cos_source_bucket.bucket_crn[0]
   bucket_location = var.region
   replication_rule {
     rule_id = "replicate-everything"
@@ -55,7 +55,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
     # prefix = "prefix"
     priority                        = 50
     deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_target_bucket.bucket_crn
+    destination_bucket_crn          = module.cos_target_bucket.bucket_crn[0]
   }
 }
 
@@ -83,7 +83,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   subject_attributes {
     name  = "resource"
-    value = module.cos_source_bucket.bucket_name
+    value = module.cos_source_bucket.bucket_name[0]
   }
   subject_attributes {
     name  = "resourceType"
@@ -103,7 +103,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   resource_attributes {
     name  = "resource"
-    value = module.cos_target_bucket.bucket_name
+    value = module.cos_target_bucket.bucket_name[0]
   }
   resource_attributes {
     name  = "resourceType"
