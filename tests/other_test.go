@@ -9,6 +9,8 @@ import (
 	"testing"
 )
 
+const basicExampleTerraformDir = "examples/basic"
+
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
 
