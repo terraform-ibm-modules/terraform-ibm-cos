@@ -23,5 +23,4 @@ module "cos_bucket" {
   # disable retention for test environments - enable for stage/prod
   retention_enabled      = false
   kms_encryption_enabled = false
-  access_tags            = var.access_tags
 }
