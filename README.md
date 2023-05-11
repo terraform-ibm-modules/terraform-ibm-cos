@@ -54,18 +54,6 @@ module "additional_cos_bucket" {
 }
 ```
 
-## Known UI issue with access tags
-
-You might experience an issue in the IBM Cloud console UI when you view or edit a rule that includes access tags for resources.
-
-### Why it happens
-
-The UI does not support creating or editing rules with tags.
-
-### How do I solve this problem?
-
-To change the tag in a rule, edit the rule outside the UI. For example, see the Terraform [documentation about tags](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/cbr_rule#tags) in `ibm_cbr_rule`.
-
 ## Required IAM access policies
 
 <!-- PERMISSIONS REQUIRED TO RUN MODULE
