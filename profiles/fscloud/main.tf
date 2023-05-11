@@ -73,7 +73,7 @@ module "cos_primary_bucket" {
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
-  object_versioning_enabled  = "true"
+  object_versioning_enabled  = "false"
   existing_kms_instance_guid = var.primary_existing_hpcs_instance_guid
   kms_key_crn                = var.primary_hpcs_key_crn
   kms_encryption_enabled     = "true"
