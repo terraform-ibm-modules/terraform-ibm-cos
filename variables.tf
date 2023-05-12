@@ -75,6 +75,19 @@ variable "cos_tags" {
   default     = []
 }
 
+variable "access_tags" {
+  type        = list(string)
+  description = "A list of access tags to apply to the cos instance created by the module, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial for more details"
+  default     = []
+
+  validation {
+    condition = alltrue([
+      for tag in var.access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+    ])
+    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\", see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits for more details"
+  }
+}
+
 variable "existing_cos_instance_id" {
   description = "The ID of an existing cloud object storage instance. Required if 'var.create_cos_instance' is false."
   type        = string
@@ -227,7 +240,7 @@ variable "existing_kms_instance_guid" {
   default     = null
 }
 
-variable "encryption_enabled" {
+variable "kms_encryption_enabled" {
   description = "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true)."
   type        = bool
   default     = true

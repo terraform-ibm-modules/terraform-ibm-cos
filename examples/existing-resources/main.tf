@@ -52,6 +52,7 @@ module "cos_instance" {
   region                              = var.region
   cross_region_location               = null
   activity_tracker_crn                = null
+  access_tags                         = var.access_tags
   resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
   skip_iam_authorization_policy       = true
 }
