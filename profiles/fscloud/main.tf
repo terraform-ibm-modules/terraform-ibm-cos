@@ -73,10 +73,10 @@ module "cos_primary_bucket" {
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
-  object_versioning_enabled  = "true"
+  object_versioning_enabled  = true
   existing_kms_instance_guid = var.primary_existing_hpcs_instance_guid
   kms_key_crn                = var.primary_hpcs_key_crn
-  kms_encryption_enabled     = "true"
+  kms_encryption_enabled     = true
   activity_tracker_crn       = var.activity_tracker_crn
   sysdig_crn                 = var.sysdig_crn
   bucket_cbr_rules           = var.bucket_cbr_rules
@@ -97,10 +97,10 @@ module "cos_secondary_bucket" {
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
-  object_versioning_enabled  = "true"
+  object_versioning_enabled  = true
   existing_kms_instance_guid = var.secondary_existing_hpcs_instance_guid
   kms_key_crn                = var.secondary_hpcs_key_crn
-  kms_encryption_enabled     = "true"
+  kms_encryption_enabled     = true
   activity_tracker_crn       = var.activity_tracker_crn
   sysdig_crn                 = var.sysdig_crn
   bucket_cbr_rules           = var.bucket_cbr_rules
