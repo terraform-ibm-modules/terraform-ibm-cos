@@ -10,13 +10,9 @@ The rule is ignored because it is covered by the context-based restriction rule.
 
 > 3000116 - Check whether Cloud Object Storage bucket resiliency is set to cross region
 
-This is ignored because cross-regional buckets and keep-your-own-key (KYOK) encryption (HPCS) are not compatible. The solution is to provision two buckets with replication in separate regions. This solution gives you cross-region support and KYOK encryption. CRA does not validate the rule.
+This rule is ignored because cross-regional buckets and keep-your-own-key (KYOK) encryption with Hyper Protect Crypto Services are not compatible. The solution is to provision two buckets with replication in separate regions. That solution gives you cross-region support and KYOK encryption. CRA does not validate the rule.
 
-The IBM Cloud Framework for Financial Services mandates the application of an inbound network-based allowlist in front of the IBM Cloud Object Storage instance. You can comply with this requirement in the following ways:
-
-- Use the `allowlist` variable in the module (legacy method).
-- Use the `cbr_rules` variable in the module, which creates a narrow context-based restriction rule that is scoped to the ICD PostgreSQL instance.
-- Create a context-based restriction rule through the [https://github.com/terraform-ibm-modules/terraform-ibm-cbr](terraform-ibm-cbr) module. For example, create a rule to cover all IBM Cloud Databases for PostgreSQL instances in the account. For more information, see [What are context-based restrictions?](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) in the IBM Cloud Docs.
+The IBM Cloud Framework for Financial Services mandates the application of an inbound network-based allowlist in front of the IBM Cloud Object Storage instance. You can comply with this requirement by using the `cbr_rules` variable in the module, which can be used to create a narrow context-based restriction rule that is scoped to the IBM Cloud Storage instance. CRA does not support checking for context-based restrictions, so you can ignore the failing rule after you are set the context-based restrictions.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
