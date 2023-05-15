@@ -1,23 +1,21 @@
 ##############################################################################
 # Common variables
 ##############################################################################
-variable "resource_group_id" {
-  type        = string
-  description = "The resource group ID where resources will be provisioned."
-}
 
 ##############################################################################
 # COS bucket configs
 ##############################################################################
 variable "bucket_configs" {
   type = list(object({
-    bucket_name           = string
-    encryption_enabled    = optional(bool, false)
-    kms_key_crn           = optional(string, null)
-    cross_region_location = optional(string, null)
-    storage_class         = optional(string, "smart")
-    region_location       = optional(string, null)
-    resource_instance_id  = optional(string, null)
+    access_tags            = optional(list(string), [])
+    bucket_name            = string
+    kms_encryption_enabled = optional(bool, false)
+    kms_key_crn            = optional(string, null)
+    cross_region_location  = optional(string, null)
+    storage_class          = optional(string, "smart")
+    region_location        = optional(string, null)
+    resource_group_id      = string
+    resource_instance_id   = optional(string, null)
 
     activity_tracking = optional(object({
       read_data_events     = optional(bool, true)
@@ -69,5 +67,4 @@ variable "bucket_configs" {
 
   }))
   description = "Cloud Object Storage bucket configurations"
-  default     = null
 }
