@@ -6,13 +6,11 @@ The default values in this profile were scanned by [IBM Code Risk Analyzer (CRA)
 
 > 3000107 - Check whether Cloud Object Storage network access is restricted to a specific IP range
 
-The rule is ignored because it is covered by the context-based restriction rule. CRA does not check the rule.
+The IBM Cloud Framework for Financial Services mandates the application of an inbound network-based allowlist in front of the IBM Cloud Object Storage instance. You can comply with this requirement with the `bucket_cbr_rules` and `instance_cbr_rules` variables in the module. Use these variables to create a narrow context-based restriction rule that is scoped to the IBM Cloud Storage instance. CRA does not support checking for context-based restrictions, so you can ignore the failing rule after you are set the context-based restrictions.
 
 > 3000116 - Check whether Cloud Object Storage bucket resiliency is set to cross region
 
-This rule is ignored because cross-regional buckets and keep-your-own-key (KYOK) encryption with Hyper Protect Crypto Services are not compatible. The solution is to provision two buckets with replication in separate regions. That solution gives you cross-region support and KYOK encryption. CRA does not validate the rule.
-
-The IBM Cloud Framework for Financial Services mandates the application of an inbound network-based allowlist in front of the IBM Cloud Object Storage instance. You can comply with this requirement by using the `cbr_rules` variable in the module, which can be used to create a narrow context-based restriction rule that is scoped to the IBM Cloud Storage instance. CRA does not support checking for context-based restrictions, so you can ignore the failing rule after you are set the context-based restrictions.
+This rule is ignored because the module achieves the same resiliency as cross-regional buckets by provisioning two regional buckets with replication in separate regions. CRA does not validate replication rules, which is why it fails.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
