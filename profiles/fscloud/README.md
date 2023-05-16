@@ -24,9 +24,8 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_buckets"></a> [buckets](#module\_buckets) | ../../modules/buckets | n/a |
 | <a name="module_cos_instance"></a> [cos\_instance](#module\_cos\_instance) | ../../ | n/a |
-| <a name="module_cos_primary_bucket"></a> [cos\_primary\_bucket](#module\_cos\_primary\_bucket) | ../../ | n/a |
-| <a name="module_cos_secondary_bucket"></a> [cos\_secondary\_bucket](#module\_cos\_secondary\_bucket) | ../../ | n/a |
 
 ## Resources
 
@@ -74,6 +73,7 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 
 | Name | Description |
 |------|-------------|
+| <a name="output_buckets"></a> [buckets](#output\_buckets) | Bucket module output |
 | <a name="output_cos_instance_guid"></a> [cos\_instance\_guid](#output\_cos\_instance\_guid) | The GUID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The ID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_primary_bucket_id"></a> [primary\_bucket\_id](#output\_primary\_bucket\_id) | Primary Bucket id |
@@ -81,5 +81,5 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |
 | <a name="output_s3_endpoint_private"></a> [s3\_endpoint\_private](#output\_s3\_endpoint\_private) | S3 private endpoint |
 | <a name="output_secondary_bucket_id"></a> [secondary\_bucket\_id](#output\_secondary\_bucket\_id) | Secondary Bucket id |
-| <a name="output_secondary_bucket_name"></a> [secondary\_bucket\_name](#output\_secondary\_bucket\_name) | Primary Bucket Name |
+| <a name="output_secondary_bucket_name"></a> [secondary\_bucket\_name](#output\_secondary\_bucket\_name) | Secondary Bucket Name |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
