@@ -26,6 +26,7 @@ An end-to-end example that uses the IBM Cloud Terraform provider to create the f
 
 ## Before you begin
 
+Before you run the example, make sure that you set up the following prerequisites.
+
 - You need Hyper Protect Crypto Service instances available in the two regions that you want to deploy your primary and secondary buckets.
 - You need a root key that is available to use for bucket encryption in each region.
-- You must deploy into an account that complies with the framework.
