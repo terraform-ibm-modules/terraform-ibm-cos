@@ -41,7 +41,7 @@ output "cos_instance_guid" {
   value       = module.cos_instance.cos_instance_guid
 }
 
-output "buckts" {
+output "buckets" {
   description = "Bucket module output"
-  value       = module.buckets
+  value       = module.buckets.buckets
 }

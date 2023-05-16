@@ -115,54 +115,6 @@ module "buckets" {
   ]
 }
 
-#module "cos_primary_bucket" {
-#  depends_on                 = [ibm_iam_authorization_policy.primary_kms_policy]
-#  source                     = "../../"
-#  resource_group_id          = var.resource_group_id
-#  region                     = var.primary_region
-#  create_cos_instance        = false
-#  existing_cos_instance_id   = module.cos_instance.cos_instance_id
-#  create_cos_bucket          = var.create_cos_bucket
-#  bucket_name                = var.primary_bucket_name
-#  bucket_storage_class       = var.bucket_storage_class
-#  retention_enabled          = false
-#  archive_days               = var.archive_days
-#  archive_type               = var.archive_type
-#  expire_days                = null
-#  object_versioning_enabled  = true
-#  existing_kms_instance_guid = var.primary_existing_hpcs_instance_guid
-#  kms_key_crn                = var.primary_hpcs_key_crn
-#  kms_encryption_enabled     = true
-#  activity_tracker_crn       = var.activity_tracker_crn
-#  sysdig_crn                 = var.sysdig_crn
-#  bucket_cbr_rules           = var.bucket_cbr_rules
-#  access_tags                = var.access_tags
-#}
-
-#module "cos_secondary_bucket" {
-#  depends_on                 = [ibm_iam_authorization_policy.secondary_kms_policy]
-#  source                     = "../../"
-#  resource_group_id          = var.resource_group_id
-#  region                     = var.secondary_region
-#  create_cos_instance        = false
-#  existing_cos_instance_id   = module.cos_instance.cos_instance_id
-#  create_cos_bucket          = var.create_cos_bucket
-#  bucket_name                = var.secondary_bucket_name
-#  bucket_storage_class       = var.bucket_storage_class
-#  retention_enabled          = false
-#  archive_days               = var.archive_days
-#  archive_type               = var.archive_type
-#  expire_days                = null
-#  object_versioning_enabled  = true
-#  existing_kms_instance_guid = var.secondary_existing_hpcs_instance_guid
-#  kms_key_crn                = var.secondary_hpcs_key_crn
-#  kms_encryption_enabled     = true
-#  activity_tracker_crn       = var.activity_tracker_crn
-#  sysdig_crn                 = var.sysdig_crn
-#  bucket_cbr_rules           = var.bucket_cbr_rules
-#  access_tags                = var.access_tags
-#}
-
 ### Configure replication rule
 
 resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {

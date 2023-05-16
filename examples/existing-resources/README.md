@@ -1,8 +1,10 @@
-# COS Buckets without encryption using an existing COS instance and Key Protect instance + Keys
+# Cloud Object Storage buckets example
 
 An end-to-end example that will:
-- Create a new resource group (if existing one is not passed in).
-- Create a new Key Protect instance, Key Ring, and Key in the given resource group and region.
-- Using the terraform-ibm-cos module, create a new Cloud Object Storage instance in the given resource group and region (with no buckets).
-- Create an IAM Access Policy to allow Key Protect to access COS instance (outside of the terraform-ibm-cos module).
-- Using the terraform-ibm-cos module, create a COS Buckets without encryption using the existing COS instance, Key Protect instance + Keys created at the start of this example.
+- A new resource group, if one is not passed in.
+- A Key Protect instance, key ring, and key in a resource group and region.
+- A Cloud Object Storage instance with no buckets in a resource group and region.
+This example uses the code in the main `terraform-ibm-cos` module.
+- An IAM access policy to allow Cloud Object Storage to access Key Protect for the encryption key
+- Cloud Object Storage buckets with encryption, versioning and archiving respectively.
+This example uses the code in the `buckets` module.
