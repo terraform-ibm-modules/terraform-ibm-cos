@@ -52,7 +52,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			"access_tags":              permanentResources["accessTags"],
 		},
 	})
-	// below dirs do not implement any activity tracker functionality
+	// below dirs do not implement Activity Tracker functionality
 	if dir == completeExistingTerraformDir || dir == replicateExampleTerraformDir || dir == oneRateExampleTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:       t,
