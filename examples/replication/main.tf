@@ -17,8 +17,9 @@ module "cos_source_bucket" {
   region                    = var.region
   cos_instance_name         = "${var.prefix}-source-cos"
   cos_tags                  = var.resource_tags
+  access_tags               = var.access_tags
   object_versioning_enabled = true
-  encryption_enabled        = false
+  kms_encryption_enabled    = false
   retention_enabled         = false
   archive_days              = null
   expire_days               = null
@@ -32,8 +33,9 @@ module "cos_target_bucket" {
   region                    = var.region
   cos_instance_name         = "${var.prefix}-target-cos"
   cos_tags                  = var.resource_tags
+  access_tags               = var.access_tags
   object_versioning_enabled = true
-  encryption_enabled        = false
+  kms_encryption_enabled    = false
   retention_enabled         = false
   archive_days              = null
   expire_days               = null
@@ -45,7 +47,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
   depends_on = [
     ibm_iam_authorization_policy.policy
   ]
-  bucket_crn      = module.cos_source_bucket.bucket_crn[0]
+  bucket_crn      = module.cos_source_bucket.bucket_crn
   bucket_location = var.region
   replication_rule {
     rule_id = "replicate-everything"
@@ -53,7 +55,7 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
     # prefix = "prefix"
     priority                        = 50
     deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_target_bucket.bucket_crn[0]
+    destination_bucket_crn          = module.cos_target_bucket.bucket_crn
   }
 }
 
@@ -81,7 +83,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   subject_attributes {
     name  = "resource"
-    value = module.cos_source_bucket.bucket_name[0]
+    value = module.cos_source_bucket.bucket_name
   }
   subject_attributes {
     name  = "resourceType"
@@ -101,7 +103,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
   resource_attributes {
     name  = "resource"
-    value = module.cos_target_bucket.bucket_name[0]
+    value = module.cos_target_bucket.bucket_name
   }
   resource_attributes {
     name  = "resourceType"
