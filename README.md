@@ -58,27 +58,28 @@ module "cos_buckets" {
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos//modules/buckets?ref=main"
   bucket_configs = [
     {
-      bucket_name            = "my-encrypted-bucket"
-      kms_encryption_enabled = true
-      kms_key_crn            = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
-      region_location        = "us-south"
-      resource_group_id      = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-      resource_instance_id   = module.cos_module.cos_instance_id
-    },
-    {
-      bucket_name          = "my-versioned-bucket"
+      bucket_name          = "my-encrypted-bucket"
+      kms_key_crn          = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
       region_location      = "us-south"
       resource_group_id    = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
       resource_instance_id = module.cos_module.cos_instance_id
+    },
+    {
+      bucket_name            = "my-versioned-bucket"
+      kms_encryption_enabled = false
+      region_location        = "us-south"
+      resource_group_id      = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      resource_instance_id   = module.cos_module.cos_instance_id
       object_versioning = {
         enable = true
       }
     },
     {
-      bucket_name          = "my-archive-bucket"
-      region_location      = "us-south"
-      resource_group_id    = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-      resource_instance_id = module.cos_module.cos_instance_id
+      bucket_name            = "my-archive-bucket"
+      kms_encryption_enabled = false
+      region_location        = "us-south"
+      resource_group_id      = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      resource_instance_id   = module.cos_module.cos_instance_id
       archive_rule = {
         days   = 90
         enable = true

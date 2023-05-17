@@ -63,14 +63,13 @@ module "buckets" {
   source = "../../modules/buckets"
   bucket_configs = [
     {
-      access_tags            = var.access_tags
-      bucket_name            = var.primary_bucket_name
-      kms_encryption_enabled = true
-      kms_key_crn            = var.primary_hpcs_key_crn
-      storage_class          = var.bucket_storage_class
-      region_location        = var.primary_region
-      resource_group_id      = var.resource_group_id
-      resource_instance_id   = module.cos_instance.cos_instance_id
+      access_tags          = var.access_tags
+      bucket_name          = var.primary_bucket_name
+      kms_key_crn          = var.primary_hpcs_key_crn
+      storage_class        = var.bucket_storage_class
+      region_location      = var.primary_region
+      resource_group_id    = var.resource_group_id
+      resource_instance_id = module.cos_instance.cos_instance_id
       activity_tracking = {
         activity_tracker_crn = var.activity_tracker_crn
       }
@@ -88,14 +87,13 @@ module "buckets" {
       cbr_rules = var.bucket_cbr_rules
     },
     {
-      access_tags            = var.access_tags
-      bucket_name            = var.secondary_bucket_name
-      kms_encryption_enabled = true
-      kms_key_crn            = var.secondary_hpcs_key_crn
-      storage_class          = var.bucket_storage_class
-      region_location        = var.secondary_region
-      resource_group_id      = var.resource_group_id
-      resource_instance_id   = module.cos_instance.cos_instance_id
+      access_tags          = var.access_tags
+      bucket_name          = var.secondary_bucket_name
+      kms_key_crn          = var.secondary_hpcs_key_crn
+      storage_class        = var.bucket_storage_class
+      region_location      = var.secondary_region
+      resource_group_id    = var.resource_group_id
+      resource_instance_id = module.cos_instance.cos_instance_id
       activity_tracking = {
         activity_tracker_crn = var.activity_tracker_crn
       }

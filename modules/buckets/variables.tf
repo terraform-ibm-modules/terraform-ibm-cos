@@ -9,7 +9,7 @@ variable "bucket_configs" {
   type = list(object({
     access_tags            = optional(list(string), [])
     bucket_name            = string
-    kms_encryption_enabled = optional(bool, false)
+    kms_encryption_enabled = optional(bool, true)
     kms_key_crn            = optional(string, null)
     cross_region_location  = optional(string, null)
     storage_class          = optional(string, "smart")
