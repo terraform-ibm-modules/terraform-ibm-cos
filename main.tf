@@ -78,7 +78,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
   target_service_name         = local.kms_service
-  target_resource_instance_id = var.existing_kms_instance_id != null ? var.existing_kms_instance_id : var.existing_kms_instance_guid
+  target_resource_instance_id = var.existing_kms_instance_id
   roles                       = ["Reader"]
 }
 
@@ -316,14 +316,4 @@ module "instance_cbr_rule" {
     tags = var.instance_cbr_rules[count.index].tags
   }]
   operations = var.instance_cbr_rules[count.index].operations == null ? [] : var.instance_cbr_rules[count.index].operations
-}
-
-resource "null_resource" "deprecation_notice" {
-  #  count = var.existing_kms_instance_guid != null ? 1 : 0
-  triggers = {
-    always_refresh = timestamp()
-  }
-  provisioner "local-exec" {
-    command = "echo 'WARNING: The existing_kms_instance_guid variable has been deprecated for this module and will be removed with the next major release. Please use existing_kms_instance_id to pass the full id of the instance'"
-  }
 }

@@ -34,13 +34,13 @@ variable "secondary_region" {
   default     = "us-east"
 }
 
-variable "primary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
+variable "primary_existing_hpcs_instance_id" {
+  description = "The ID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
   type        = string
 }
 
-variable "secondary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
+variable "secondary_existing_hpcs_instance_id" {
+  description = "The ID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
   type        = string
 }
 

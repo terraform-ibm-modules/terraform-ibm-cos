@@ -82,7 +82,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 265
+        "line": 258
       }
     },
     "bucket_name": {
@@ -235,15 +235,6 @@
         "line": 91
       }
     },
-    "existing_kms_instance_guid": {
-      "name": "existing_kms_instance_guid",
-      "type": "string",
-      "description": "WARNING: Deprecated KMS GUID, pass the full service instance id via existing_kms_instance_id",
-      "pos": {
-        "filename": "variables.tf",
-        "line": 237
-      }
-    },
     "existing_kms_instance_id": {
       "name": "existing_kms_instance_id",
       "type": "string",
@@ -253,7 +244,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 243
+        "line": 236
       },
       "immutable": true,
       "computed": true
@@ -312,7 +303,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 290
+        "line": 283
       }
     },
     "kms_encryption_enabled": {
@@ -326,7 +317,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 249
+        "line": 242
       }
     },
     "kms_key_crn": {
@@ -338,7 +329,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 255
+        "line": 248
       },
       "immutable": true
     },
@@ -466,11 +457,11 @@
     "skip_iam_authorization_policy": {
       "name": "skip_iam_authorization_policy",
       "type": "bool",
-      "description": "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created",
+      "description": "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_id`. WARNING: An authorization policy must exist before an encrypted bucket can be created",
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 315
+        "line": 308
       }
     },
     "sysdig_crn": {
@@ -600,12 +591,6 @@
         "\u003e= 1.51.0"
       ]
     },
-    "null": {
-      "source": "hashicorp/null",
-      "version_constraints": [
-        "\u003e=3.2.1"
-      ]
-    },
     "random": {
       "source": "hashicorp/random",
       "version_constraints": [
@@ -722,18 +707,6 @@
       "pos": {
         "filename": "main.tf",
         "line": 47
-      }
-    },
-    "null_resource.deprecation_notice": {
-      "mode": "managed",
-      "type": "null_resource",
-      "name": "deprecation_notice",
-      "provider": {
-        "name": "null"
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 321
       }
     },
     "random_string.bucket_name_suffix": {

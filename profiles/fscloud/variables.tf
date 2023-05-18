@@ -140,14 +140,14 @@ variable "archive_type" {
 # COS bucket encryption variables
 ##############################################################################
 
-variable "primary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
+variable "primary_existing_hpcs_instance_id" {
+  description = "The ID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
   type        = string
   default     = null
 }
 
-variable "secondary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
+variable "secondary_existing_hpcs_instance_id" {
+  description = "The ID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
   type        = string
   default     = null
 }

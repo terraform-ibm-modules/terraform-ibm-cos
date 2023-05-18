@@ -79,21 +79,21 @@ module "cbr_zone" {
 }
 
 module "cos_fscloud" {
-  source                                = "../../profiles/fscloud"
-  resource_group_id                     = module.resource_group.resource_group_id
-  cos_instance_name                     = "${var.prefix}-cos"
-  cos_tags                              = var.resource_tags
-  primary_bucket_name                   = "${var.prefix}-bucket-primary"
-  primary_region                        = var.primary_region
-  primary_existing_hpcs_instance_guid   = var.primary_existing_hpcs_instance_guid
-  primary_hpcs_key_crn                  = var.primary_hpcs_key_crn
-  secondary_bucket_name                 = "${var.prefix}-bucket-secondary"
-  secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid
-  secondary_region                      = var.secondary_region
-  secondary_hpcs_key_crn                = var.secondary_hpcs_key_crn
-  sysdig_crn                            = module.observability_instances.sysdig_crn
-  activity_tracker_crn                  = local.at_crn
-  access_tags                           = var.access_tags
+  source                              = "../../profiles/fscloud"
+  resource_group_id                   = module.resource_group.resource_group_id
+  cos_instance_name                   = "${var.prefix}-cos"
+  cos_tags                            = var.resource_tags
+  primary_bucket_name                 = "${var.prefix}-bucket-primary"
+  primary_region                      = var.primary_region
+  primary_existing_hpcs_instance_id   = var.primary_existing_hpcs_instance_id
+  primary_hpcs_key_crn                = var.primary_hpcs_key_crn
+  secondary_bucket_name               = "${var.prefix}-bucket-secondary"
+  secondary_existing_hpcs_instance_id = var.secondary_existing_hpcs_instance_id
+  secondary_region                    = var.secondary_region
+  secondary_hpcs_key_crn              = var.secondary_hpcs_key_crn
+  sysdig_crn                          = module.observability_instances.sysdig_crn
+  activity_tracker_crn                = local.at_crn
+  access_tags                         = var.access_tags
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 1"

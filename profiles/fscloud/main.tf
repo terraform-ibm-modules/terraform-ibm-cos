@@ -6,15 +6,15 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_sysdig_set = var.create_cos_bucket && var.sysdig_crn == null ? tobool("when var.create_cos_bucket is true, var.sysdig_crn must be provided") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_primary_hpcs_instance_guid = var.create_cos_bucket && var.primary_existing_hpcs_instance_guid == null ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_guid must be provided") : true
+  validate_primary_hpcs_instance_guid = var.create_cos_bucket && var.primary_existing_hpcs_instance_id == null ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_id must be provided") : true
   # tflint-ignore: terraform_unused_declarations
   validate_primary_hpcs_key_crn = var.create_cos_bucket && var.primary_hpcs_key_crn == null ? tobool("when var.create_cos_bucket is true, var.primary_hpcs_key_crn must be provided") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_secondary_hpcs_instance_guid = var.create_cos_bucket && var.secondary_existing_hpcs_instance_guid == null ? tobool("when var.create_cos_bucket is true, var.secondary_existing_hpcs_instance_guid must be provided") : true
+  validate_secondary_hpcs_instance_guid = var.create_cos_bucket && var.secondary_existing_hpcs_instance_id == null ? tobool("when var.create_cos_bucket is true, var.secondary_existing_hpcs_instance_id must be provided") : true
   # tflint-ignore: terraform_unused_declarations
   validate_secondary_hpcs_key_crn = var.create_cos_bucket && var.secondary_hpcs_key_crn == null ? tobool("when var.create_cos_bucket is true, var.secondary_hpcs_key_crn must be provided") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_hpcs_instance_guids_different = var.create_cos_bucket && var.primary_existing_hpcs_instance_guid == var.secondary_existing_hpcs_instance_guid ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_guid and var.secondary_existing_hpcs_instance_guid must be different") : true
+  validate_hpcs_instance_guids_different = var.create_cos_bucket && var.primary_existing_hpcs_instance_id == var.secondary_existing_hpcs_instance_id ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_id and var.secondary_existing_hpcs_instance_id must be different") : true
   # tflint-ignore: terraform_unused_declarations
   validate_secondary_hpcs_key_crns_different = var.create_cos_bucket && var.primary_hpcs_key_crn == var.secondary_hpcs_key_crn ? tobool("when var.create_cos_bucket is true, var.primary_hpcs_key_crn and var.secondary_hpcs_key_crn must be different") : true
 
@@ -46,7 +46,7 @@ resource "ibm_iam_authorization_policy" "primary_kms_policy" {
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = module.cos_instance.cos_instance_guid
   target_service_name         = "hs-crypto"
-  target_resource_instance_id = var.primary_existing_hpcs_instance_guid
+  target_resource_instance_id = var.primary_existing_hpcs_instance_id
   roles                       = ["Reader"]
 }
 
@@ -55,56 +55,56 @@ resource "ibm_iam_authorization_policy" "secondary_kms_policy" {
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = module.cos_instance.cos_instance_guid
   target_service_name         = "hs-crypto"
-  target_resource_instance_id = var.secondary_existing_hpcs_instance_guid
+  target_resource_instance_id = var.secondary_existing_hpcs_instance_id
   roles                       = ["Reader"]
 }
 
 module "cos_primary_bucket" {
-  depends_on                 = [ibm_iam_authorization_policy.primary_kms_policy]
-  source                     = "../../"
-  resource_group_id          = var.resource_group_id
-  region                     = var.primary_region
-  create_cos_instance        = false
-  existing_cos_instance_id   = module.cos_instance.cos_instance_id
-  create_cos_bucket          = var.create_cos_bucket
-  bucket_name                = var.primary_bucket_name
-  bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = false
-  archive_days               = var.archive_days
-  archive_type               = var.archive_type
-  expire_days                = null
-  object_versioning_enabled  = true
-  existing_kms_instance_guid = var.primary_existing_hpcs_instance_guid
-  kms_key_crn                = var.primary_hpcs_key_crn
-  kms_encryption_enabled     = true
-  activity_tracker_crn       = var.activity_tracker_crn
-  sysdig_crn                 = var.sysdig_crn
-  bucket_cbr_rules           = var.bucket_cbr_rules
-  access_tags                = var.access_tags
+  depends_on                = [ibm_iam_authorization_policy.primary_kms_policy]
+  source                    = "../../"
+  resource_group_id         = var.resource_group_id
+  region                    = var.primary_region
+  create_cos_instance       = false
+  existing_cos_instance_id  = module.cos_instance.cos_instance_id
+  create_cos_bucket         = var.create_cos_bucket
+  bucket_name               = var.primary_bucket_name
+  bucket_storage_class      = var.bucket_storage_class
+  retention_enabled         = false
+  archive_days              = var.archive_days
+  archive_type              = var.archive_type
+  expire_days               = null
+  object_versioning_enabled = true
+  existing_kms_instance_id  = var.primary_existing_hpcs_instance_id
+  kms_key_crn               = var.primary_hpcs_key_crn
+  kms_encryption_enabled    = true
+  activity_tracker_crn      = var.activity_tracker_crn
+  sysdig_crn                = var.sysdig_crn
+  bucket_cbr_rules          = var.bucket_cbr_rules
+  access_tags               = var.access_tags
 }
 
 module "cos_secondary_bucket" {
-  depends_on                 = [ibm_iam_authorization_policy.secondary_kms_policy]
-  source                     = "../../"
-  resource_group_id          = var.resource_group_id
-  region                     = var.secondary_region
-  create_cos_instance        = false
-  existing_cos_instance_id   = module.cos_instance.cos_instance_id
-  create_cos_bucket          = var.create_cos_bucket
-  bucket_name                = var.secondary_bucket_name
-  bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = false
-  archive_days               = var.archive_days
-  archive_type               = var.archive_type
-  expire_days                = null
-  object_versioning_enabled  = true
-  existing_kms_instance_guid = var.secondary_existing_hpcs_instance_guid
-  kms_key_crn                = var.secondary_hpcs_key_crn
-  kms_encryption_enabled     = true
-  activity_tracker_crn       = var.activity_tracker_crn
-  sysdig_crn                 = var.sysdig_crn
-  bucket_cbr_rules           = var.bucket_cbr_rules
-  access_tags                = var.access_tags
+  depends_on                = [ibm_iam_authorization_policy.secondary_kms_policy]
+  source                    = "../../"
+  resource_group_id         = var.resource_group_id
+  region                    = var.secondary_region
+  create_cos_instance       = false
+  existing_cos_instance_id  = module.cos_instance.cos_instance_id
+  create_cos_bucket         = var.create_cos_bucket
+  bucket_name               = var.secondary_bucket_name
+  bucket_storage_class      = var.bucket_storage_class
+  retention_enabled         = false
+  archive_days              = var.archive_days
+  archive_type              = var.archive_type
+  expire_days               = null
+  object_versioning_enabled = true
+  existing_kms_instance_id  = var.secondary_existing_hpcs_instance_id
+  kms_key_crn               = var.secondary_hpcs_key_crn
+  kms_encryption_enabled    = true
+  activity_tracker_crn      = var.activity_tracker_crn
+  sysdig_crn                = var.sysdig_crn
+  bucket_cbr_rules          = var.bucket_cbr_rules
+  access_tags               = var.access_tags
 }
 
 ### Configure replication rule

@@ -114,7 +114,7 @@ module "cos_bucket1" {
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
-  existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
+  existing_kms_instance_id            = module.key_protect_all_inclusive.key_protect_id
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                          = module.observability_instances.sysdig_crn
   # disable retention for test environments - enable for stage/prod

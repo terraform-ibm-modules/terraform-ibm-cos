@@ -34,7 +34,7 @@ module "cos_module" {
   region                             = "us-south"
   cos_instance_name                  = "my-cos-instance"
   bucket_name                        = "my-cos-bucket"
-  existing_kms_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
+  existing_kms_instance_id = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
   kms_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
   sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
@@ -99,7 +99,6 @@ You need the following permissions to run this module.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.51.0 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | >=3.2.1 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1 |
 
 ## Modules
@@ -119,7 +118,6 @@ You need the following permissions to run this module.
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 | [ibm_resource_tag.cos_access_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
-| [null_resource.deprecation_notice](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [random_string.bucket_name_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 
 ## Inputs
@@ -143,7 +141,6 @@ You need the following permissions to run this module.
 | <a name="input_create_hmac_key"></a> [create\_hmac\_key](#input\_create\_hmac\_key) | Set as true to create a new HMAC key for the Cloud Object Storage instance. | `bool` | `true` | no |
 | <a name="input_cross_region_location"></a> [cross\_region\_location](#input\_cross\_region\_location) | Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'. If you pass a value for this, ensure to set the value of var.region to null. | `string` | `null` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | The ID of an existing cloud object storage instance. Required if 'var.create\_cos\_instance' is false. | `string` | `null` | no |
-| <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | WARNING: Deprecated KMS GUID, pass the full service instance id via existing\_kms\_instance\_id | `string` | `null` | no |
 | <a name="input_existing_kms_instance_id"></a> [existing\_kms\_instance\_id](#input\_existing\_kms\_instance\_id) | The KMS service instance id of the Key Protect or Hyper Protect instance in which the key specified in var.kms\_key\_crn is coming from. Required if var.skip\_iam\_authorization\_policy is false in order to create an IAM Access Policy to allow Key protect or Hyper Protect to access the newly created COS instance. | `string` | `null` | no |
 | <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | Specifies the number of days when the expire rule action takes effect. Only used if 'create\_cos\_bucket' is true. | `number` | `365` | no |
 | <a name="input_hmac_key_name"></a> [hmac\_key\_name](#input\_hmac\_key\_name) | The name of the hmac key to be created. | `string` | `"hmac-cos-key"` | no |
@@ -161,7 +158,7 @@ You need the following permissions to run this module.
 | <a name="input_retention_maximum"></a> [retention\_maximum](#input\_retention\_maximum) | Specifies maximum duration of time an object that can be kept unmodified for COS bucket. Only used if 'create\_cos\_bucket' is true. | `number` | `350` | no |
 | <a name="input_retention_minimum"></a> [retention\_minimum](#input\_retention\_minimum) | Specifies minimum duration of time an object must be kept unmodified for COS bucket. Only used if 'create\_cos\_bucket' is true. | `number` | `90` | no |
 | <a name="input_retention_permanent"></a> [retention\_permanent](#input\_retention\_permanent) | Specifies a permanent retention status either enable or disable for COS bucket. Only used if 'create\_cos\_bucket' is true. | `bool` | `false` | no |
-| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created | `bool` | `false` | no |
+| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_id`. WARNING: An authorization policy must exist before an encrypted bucket can be created | `bool` | `false` | no |
 | <a name="input_sysdig_crn"></a> [sysdig\_crn](#input\_sysdig\_crn) | Sysdig Monitoring crn for COS bucket (Optional) | `string` | `null` | no |
 
 ## Outputs
