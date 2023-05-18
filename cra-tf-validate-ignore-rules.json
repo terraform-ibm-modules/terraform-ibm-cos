@@ -3,13 +3,13 @@
         {
             "scc_rule_id": "rule-8cbd597c-7471-42bd-9c88-36b2696456e9",
             "description": "Check whether Cloud Object Storage network access is restricted to a specific IP range",
-            "ignore_reason": "Tracking in https://github.ibm.com/GoldenEye/issues/issues/3571",
+            "ignore_reason": "This module supports restricting network access using Context Based Restrictions (CBRs), however SCC does not yet support scanning for CBR rules, hence the rule currently fails. SCC CBR support is being tracked in AHA SCC-961",
             "is_valid": true
         },
         {
             "scc_rule_id": "rule-216e2449-27d7-4afc-929a-b66e196a9cf9",
             "description": "Check whether Flow Logs for VPC are enabled",
-            "ignore_reason": "This is part of the test example and not the current module",
+            "ignore_reason": "This rule is not relevant to the module itself, just the VPC resource that is used in the example that is scanned",
             "is_valid": false
         }
     ]
