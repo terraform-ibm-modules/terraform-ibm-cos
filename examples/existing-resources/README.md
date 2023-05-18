@@ -1,4 +1,4 @@
-# Cloud Object Storage buckets example
+# Create Cloud Object Storage instance and a bucket
 
 An end-to-end example that will:
 - A new resource group, if one is not passed in.

@@ -12,22 +12,22 @@ output "s3_endpoint_private" {
 }
 
 output "primary_bucket_id" {
-  description = "Primary Bucket id"
+  description = "Primary bucket id"
   value       = module.buckets.buckets[var.primary_bucket_name].bucket_id
 }
 
 output "secondary_bucket_id" {
-  description = "Secondary Bucket id"
+  description = "Secondary bucket id"
   value       = module.buckets.buckets[var.secondary_bucket_name].bucket_id
 }
 
 output "primary_bucket_name" {
-  description = "Primary Bucket Name"
+  description = "Primary bucket name"
   value       = module.buckets.buckets[var.primary_bucket_name].bucket_name
 }
 
 output "secondary_bucket_name" {
-  description = "Secondary Bucket Name"
+  description = "Secondary bucket name"
   value       = module.buckets.buckets[var.secondary_bucket_name].bucket_name
 }
 
@@ -42,6 +42,6 @@ output "cos_instance_guid" {
 }
 
 output "buckets" {
-  description = "Bucket module output"
+  description = "Buckets module output"
   value       = module.buckets.buckets
 }

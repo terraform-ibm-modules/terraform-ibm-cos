@@ -1,15 +1,15 @@
 <!-- BEGIN MODULE HOOK -->
-# Cloud Object Storage Buckets Module
+# Cloud Object Storage buckets module
 
-This module can be used to provision and configure IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) buckets.
+You can use this submodule to provision and configure IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) buckets.
 
 You can configure the following aspects of your instances:
-1. [Bucket encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tutorial-kp-encrypt-bucket) - based on Key Protect keys
-2. [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing
-3. [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)
-4. Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options
+- [Bucket encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tutorial-kp-encrypt-bucket) - based on Key Protect keys
+- [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing
+- [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)
+- Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options
 
-This module extends the root modules ability to create a single bucket, allowing multiple buckets to be defined and created with a single module call. All options available on the root module are supported. Examples are included in the basic, existing_resources and fscloud examples. The advantage of the root module, is the simplicity of creating an instance and a single bucket, it offer ease of use for small deployments. The advantage of the buckets module is the ability to create all required buckets in a single place. With scale comes complexity and the ability to keep the entire definition in one place helps retain clarity on the bucket properties. The outputs for all the buckets are included in a single map, again improving clarity and enabling the results to be iterated over.
+The submodule extends the root module by including support for multiple buckets. When multiple buckets are required, you keep all the bucket definitions in one place and the deployment information is available in a map that can be iterated over.
 
 ## Usage
 ```hcl
@@ -45,8 +45,6 @@ module "buckets" {
 }
 ```
 
-## Known issues
-
 ## Required IAM access policies
 
 You need the following permissions to run this module.
@@ -63,8 +61,9 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ COS Buckets without encryption using an existing COS instance and Key Protect instance + Keys](examples/existing-resources)
-- [ Financial Services Cloud Profile example](examples/fscloud)
+- [ Basic Example](../../examples/basic)
+- [ Cloud Object Storage buckets example](../../examples/existing-resources)
+- [ Financial Services Cloud Profile example](../../examples/fscloud)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

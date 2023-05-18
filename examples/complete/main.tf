@@ -99,7 +99,7 @@ module "cbr_zone" {
   }]
 }
 
-# Create COS instance and Key protect instance.
+# Create COS instance and Key Protect instance.
 # Create COS bucket-1 with:
 # - Encryption
 # - Monitoring

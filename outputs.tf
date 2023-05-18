@@ -32,7 +32,7 @@ output "bucket_crn" {
 }
 
 output "bucket_name" {
-  description = "Bucket Name"
+  description = "Bucket name"
   value       = local.bucket_name
 }
 
@@ -42,7 +42,7 @@ output "bucket_storage_class" {
 }
 
 output "kms_key_crn" {
-  description = "The CRN of the KMS Key used to encrypt the COS Bucket"
+  description = "The CRN of the KMS key used to encrypt the COS bucket"
   value       = var.kms_key_crn
 }
 
