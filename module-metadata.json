@@ -82,7 +82,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 258
+        "line": 266
       }
     },
     "bucket_name": {
@@ -303,14 +303,14 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 283
+        "line": 291
       }
     },
     "kms_encryption_enabled": {
       "name": "kms_encryption_enabled",
       "type": "bool",
       "description": "Set this to true to control the encryption keys used to encrypt the data that you store in IBM Cloud® Object Storage. If set to false, the data is encrypted by using randomly generated keys",
-      "default": true,
+      "default": false,
       "source": [
         "ibm_cos_bucket.cos_bucket.count",
         "ibm_cos_bucket.cos_bucket1.count"
@@ -323,7 +323,7 @@
     "kms_key_crn": {
       "name": "kms_key_crn",
       "type": "string",
-      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.kms_encryption_enabled and var.create_cos_bucket are true.",
+      "description": "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Services (HPCS) that you want to use for disk encryption. Only used if var.kms_encryption_enabled is set to true.",
       "source": [
         "ibm_cos_bucket.cos_bucket.key_protect"
       ],
@@ -461,7 +461,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 308
+        "line": 316
       }
     },
     "sysdig_crn": {
@@ -531,7 +531,7 @@
     },
     "kms_key_crn": {
       "name": "kms_key_crn",
-      "description": "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.kms_encryption_enabled and var.create_cos_bucket are true.",
+      "description": "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Services (HPCS) that you want to use for disk encryption. Only used if var.kms_encryption_enabled is set to true.",
       "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",

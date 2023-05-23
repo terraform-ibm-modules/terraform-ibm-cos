@@ -242,13 +242,21 @@ variable "existing_kms_instance_id" {
 variable "kms_encryption_enabled" {
   description = "Set this to true to control the encryption keys used to encrypt the data that you store in IBM Cloud® Object Storage. If set to false, the data is encrypted by using randomly generated keys"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "kms_key_crn" {
-  description = "CRN of the KMS Key to use to encrypt the data in the COS Bucket. Required if var.kms_encryption_enabled and var.create_cos_bucket are true."
   type        = string
+  description = "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Services (HPCS) that you want to use for disk encryption. Only used if var.kms_encryption_enabled is set to true."
   default     = null
+  validation {
+    condition = anytrue([
+      var.kms_key_crn == null,
+      can(regex(".*kms.*", var.kms_key_crn)),
+      can(regex(".*hs-crypto.*", var.kms_key_crn)),
+    ])
+    error_message = "Value must be the root key CRN from either the Key Protect or Hyper Protect Crypto Service (HPCS)"
+  }
 }
 
 ##############################################################

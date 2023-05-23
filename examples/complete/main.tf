@@ -116,6 +116,7 @@ module "cos_bucket1" {
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   existing_kms_instance_id            = module.key_protect_all_inclusive.key_protect_id
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  kms_encryption_enabled              = true
   sysdig_crn                          = module.observability_instances.sysdig_crn
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
@@ -185,8 +186,9 @@ module "cos_bucket2" {
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   # disable retention for test environments - enable for stage/prod
-  retention_enabled = false
-  kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  retention_enabled      = false
+  kms_key_crn            = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  kms_encryption_enabled = true
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"

@@ -21,6 +21,5 @@ module "cos_bucket" {
   cos_tags          = var.resource_tags
   bucket_name       = "${var.prefix}-bucket"
   # disable retention for test environments - enable for stage/prod
-  retention_enabled      = false
-  kms_encryption_enabled = false
+  retention_enabled = false
 }
