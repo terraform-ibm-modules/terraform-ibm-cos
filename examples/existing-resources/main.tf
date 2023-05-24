@@ -53,16 +53,6 @@ module "cos_instance" {
   activity_tracker_crn                = null
   access_tags                         = var.access_tags
   resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
-  skip_iam_authorization_policy       = true
-}
-
-# Create IAM Authorization Policy to allow COS to access key protect for the encryption key
-resource "ibm_iam_authorization_policy" "policy" {
-  source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = module.cos_instance.cos_instance_guid
-  target_service_name         = "kms"
-  target_resource_instance_id = module.key_protect_all_inclusive.key_protect_guid
-  roles                       = ["Reader"]
 }
 
 ##############################################################################
