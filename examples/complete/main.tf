@@ -173,6 +173,7 @@ module "cos_bucket1" {
 # - Activity Tracking
 module "cos_bucket2" {
   source                              = "../../"
+  depends_on                          = [module.cos_bucket1] # Required since bucket1 creates the IAM authorization policy
   bucket_name                         = "${var.prefix}-bucket-2"
   add_bucket_name_suffix              = true
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
@@ -184,7 +185,7 @@ module "cos_bucket2" {
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
-  skip_iam_authorization_policy       = true
+  skip_iam_authorization_policy       = true # Required since bucket1 creates the IAM authorization policy
   # disable retention for test environments - enable for stage/prod
   retention_enabled = false
   kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
