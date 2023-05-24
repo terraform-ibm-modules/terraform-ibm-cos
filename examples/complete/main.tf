@@ -184,6 +184,7 @@ module "cos_bucket2" {
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
+  skip_iam_authorization_policy       = true
   # disable retention for test environments - enable for stage/prod
   retention_enabled = false
   kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn

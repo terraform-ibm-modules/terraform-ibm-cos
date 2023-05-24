@@ -48,7 +48,6 @@ module "cos_instance" {
   cos_instance_name                   = "${var.prefix}-cos"
   create_cos_bucket                   = false
   resource_group_id                   = module.resource_group.resource_group_id
-  existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
   region                              = var.region
   cross_region_location               = null
   activity_tracker_crn                = null
@@ -87,6 +86,7 @@ module "cos" {
   cross_region_location    = null
   kms_encryption_enabled   = true
   # disable retention for test environments - enable for stage/prod
-  retention_enabled    = false
-  activity_tracker_crn = null
+  retention_enabled          = false
+  activity_tracker_crn       = null
+  existing_kms_instance_guid = module.key_protect_all_inclusive.key_protect_guid
 }
