@@ -18,6 +18,7 @@ You can configure the following aspects of your instances:
 - Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive), and archiving options
 
 ## Usage
+
 ```hcl
 provider "ibm" {
   ibmcloud_api_key = "XXXXXXXXXX" # pragma: allowlist secret
