@@ -12,3 +12,5 @@ repository:
   name: terraform-ibm-cos
 
   description: "Configures a Cloud Object Storage instance and/or bucket with options"
+
+  topics: "core-team"
