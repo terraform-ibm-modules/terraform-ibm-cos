@@ -588,7 +588,7 @@
     "ibm": {
       "source": "ibm-cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.53.0"
+        "\u003e= 1.51.0"
       ]
     },
     "random": {
@@ -729,7 +729,8 @@
   "module_calls": {
     "bucket_cbr_rule": {
       "name": "bucket_cbr_rule",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0",
+      "source": "terraform-ibm-modules/cbr/ibm//cbr-rule-module",
+      "version": "1.2.0",
       "attributes": {
         "count": "bucket_cbr_rules",
         "enforcement_mode": "bucket_cbr_rules",
@@ -806,7 +807,8 @@
     },
     "instance_cbr_rule": {
       "name": "instance_cbr_rule",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0",
+      "source": "terraform-ibm-modules/cbr/ibm//cbr-rule-module",
+      "version": "1.2.0",
       "attributes": {
         "count": "instance_cbr_rules",
         "enforcement_mode": "instance_cbr_rules",
@@ -878,7 +880,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 294
+        "line": 295
       }
     }
   }
