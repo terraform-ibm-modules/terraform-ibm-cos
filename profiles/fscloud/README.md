@@ -34,8 +34,6 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 |------|------|
 | [ibm_cos_bucket_replication_rule.cos_replication_rule](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_replication_rule) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
-| [ibm_iam_authorization_policy.primary_kms_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
-| [ibm_iam_authorization_policy.secondary_kms_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_iam_account_settings.iam_account_settings](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_account_settings) | data source |
 
 ## Inputs
@@ -67,7 +65,6 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 | <a name="input_secondary_existing_hpcs_instance_guid"></a> [secondary\_existing\_hpcs\_instance\_guid](#input\_secondary\_existing\_hpcs\_instance\_guid) | The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs\_key\_crn is coming from. Required if var.create\_cos\_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 | <a name="input_secondary_hpcs_key_crn"></a> [secondary\_hpcs\_key\_crn](#input\_secondary\_hpcs\_key\_crn) | CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 | <a name="input_secondary_region"></a> [secondary\_region](#input\_secondary\_region) | region for the secondary bucket | `string` | `"us-east"` | no |
-| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `primary_existing_hpcs_instance_guid` and `secondary_existing_hpcs_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created | `bool` | `false` | no |
 | <a name="input_sysdig_crn"></a> [sysdig\_crn](#input\_sysdig\_crn) | Sysdig Monitoring crn for COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 
 ## Outputs
