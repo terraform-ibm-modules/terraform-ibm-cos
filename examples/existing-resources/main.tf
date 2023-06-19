@@ -71,6 +71,7 @@ module "buckets" {
   bucket_configs = [
     {
       bucket_name          = "${var.prefix}-encrypted-bucket"
+      kms_guid             = module.key_protect_all_inclusive.key_protect_guid
       kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
       region_location      = var.region
       resource_group_id    = module.resource_group.resource_group_id

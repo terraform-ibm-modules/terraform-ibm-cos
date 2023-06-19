@@ -39,29 +39,13 @@ module "cos_instance" {
   access_tags                   = var.access_tags
 }
 
-# Create IAM Authorization Policies to allow COS to access kms for the encryption key
-resource "ibm_iam_authorization_policy" "primary_kms_policy" {
-  source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = module.cos_instance.cos_instance_guid
-  target_service_name         = "hs-crypto"
-  target_resource_instance_id = var.primary_existing_hpcs_instance_guid
-  roles                       = ["Reader"]
-}
-
-resource "ibm_iam_authorization_policy" "secondary_kms_policy" {
-  source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = module.cos_instance.cos_instance_guid
-  target_service_name         = "hs-crypto"
-  target_resource_instance_id = var.secondary_existing_hpcs_instance_guid
-  roles                       = ["Reader"]
-}
-
 module "buckets" {
   source = "../../modules/buckets"
   bucket_configs = [
     {
       access_tags          = var.access_tags
       bucket_name          = var.primary_bucket_name
+      kms_guid             = var.primary_existing_hpcs_instance_guid
       kms_key_crn          = var.primary_hpcs_key_crn
       storage_class        = var.bucket_storage_class
       region_location      = var.primary_region
@@ -86,6 +70,7 @@ module "buckets" {
     {
       access_tags          = var.access_tags
       bucket_name          = var.secondary_bucket_name
+      kms_guid             = var.secondary_existing_hpcs_instance_guid
       kms_key_crn          = var.secondary_hpcs_key_crn
       storage_class        = var.bucket_storage_class
       region_location      = var.secondary_region

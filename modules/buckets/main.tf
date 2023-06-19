@@ -24,10 +24,11 @@ module "buckets" {
   resource_group_id        = each.value.resource_group_id
   region                   = each.value.region_location
 
-  cross_region_location  = each.value.cross_region_location
-  bucket_storage_class   = each.value.storage_class
-  kms_key_crn            = each.value.kms_key_crn
-  kms_encryption_enabled = each.value.kms_encryption_enabled
+  cross_region_location      = each.value.cross_region_location
+  bucket_storage_class       = each.value.storage_class
+  existing_kms_instance_guid = each.value.kms_guid
+  kms_key_crn                = each.value.kms_key_crn
+  kms_encryption_enabled     = each.value.kms_encryption_enabled
 
   access_tags = can(each.value.access_tags) ? each.value.access_tags : []
 
