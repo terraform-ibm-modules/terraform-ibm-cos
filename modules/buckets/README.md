@@ -58,15 +58,12 @@ You need the following permissions to run this module.
         - `Manager` service access
 
 
-<!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
 - [ Basic Example](../../examples/basic)
 - [ Cloud Object Storage buckets example](../../examples/existing-resources)
 - [ Financial Services Cloud Profile example](../../examples/fscloud)
-<!-- END EXAMPLES HOOK -->
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -96,15 +93,3 @@ No resources.
 |------|-------------|
 | <a name="output_bucket_configs"></a> [bucket\_configs](#output\_bucket\_configs) | List of bucket config definitions |
 | <a name="output_buckets"></a> [buckets](#output\_buckets) | Map of buckets created in the Cloud Object Storage Instance |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-<!-- BEGIN CONTRIBUTING HOOK -->
-
-<!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
-## Contributing
-
-You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
-
-To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
-<!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
-<!-- END CONTRIBUTING HOOK -->
