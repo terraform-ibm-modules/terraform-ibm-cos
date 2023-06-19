@@ -3,7 +3,8 @@
 ##############################################################################
 
 module "resource_group" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.5"
+  source  = "terraform-ibm-modules/resource-group/ibm"
+  version = "1.0.5"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -37,7 +38,8 @@ locals {
 
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=v2.5.1"
+  source  = "terraform-ibm-modules/observability-instances/ibm"
+  version = "2.7.0"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
@@ -67,7 +69,8 @@ locals {
 }
 
 module "key_protect_all_inclusive" {
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.1.0"
+  source                    = "terraform-ibm-modules/key-protect-all-inclusive/ibm"
+  version                   = "4.2.0"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
@@ -89,7 +92,8 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 # Create CBR Zone
 ##############################################################################
 module "cbr_zone" {
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.2.0"
+  source           = "terraform-ibm-modules/cbr/ibm//cbr-zone-module"
+  version          = "1.2.0"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -173,6 +177,7 @@ module "cos_bucket1" {
 # - Activity Tracking
 module "cos_bucket2" {
   source                              = "../../"
+  depends_on                          = [module.cos_bucket1] # Required since bucket1 creates the IAM authorization policy
   bucket_name                         = "${var.prefix}-bucket-2"
   add_bucket_name_suffix              = true
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
@@ -184,6 +189,7 @@ module "cos_bucket2" {
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
+  skip_iam_authorization_policy       = true # Required since bucket1 creates the IAM authorization policy
   # disable retention for test environments - enable for stage/prod
   retention_enabled = false
   kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn

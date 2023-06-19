@@ -21,12 +21,11 @@ locals {
 }
 
 module "cos_instance" {
-  source                   = "../../"
-  resource_group_id        = var.resource_group_id
-  create_cos_instance      = var.create_cos_instance
-  existing_cos_instance_id = var.existing_cos_instance_id
-  create_cos_bucket        = false
-  #  Since two policies are needed we disable here and define them manually below
+  source                        = "../../"
+  resource_group_id             = var.resource_group_id
+  create_cos_instance           = var.create_cos_instance
+  existing_cos_instance_id      = var.existing_cos_instance_id
+  create_cos_bucket             = false
   skip_iam_authorization_policy = true
   cos_instance_name             = var.cos_instance_name
   create_hmac_key               = var.create_hmac_key
@@ -42,7 +41,6 @@ module "cos_instance" {
 
 # Create IAM Authorization Policies to allow COS to access kms for the encryption key
 resource "ibm_iam_authorization_policy" "primary_kms_policy" {
-  count                       = var.skip_iam_authorization_policy ? 0 : 1
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = module.cos_instance.cos_instance_guid
   target_service_name         = "hs-crypto"
@@ -51,7 +49,6 @@ resource "ibm_iam_authorization_policy" "primary_kms_policy" {
 }
 
 resource "ibm_iam_authorization_policy" "secondary_kms_policy" {
-  count                       = var.skip_iam_authorization_policy ? 0 : 1
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = module.cos_instance.cos_instance_guid
   target_service_name         = "hs-crypto"

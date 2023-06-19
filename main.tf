@@ -26,7 +26,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_and_plan_input = var.cross_region_location != null && var.cos_plan == "cos-one-rate-plan" ? tobool("var.cos_plan is 'cos-one-rate-plan', then var.cross_region_location cannot be set as the one rate plan does not support cross region.") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_kp_guid_input = var.kms_encryption_enabled && var.create_cos_instance && var.skip_iam_authorization_policy == false && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when creating an instance, var.kms_encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
+  validate_kp_guid_input = var.kms_encryption_enabled && var.create_cos_bucket && var.skip_iam_authorization_policy == false && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when creating a bucket when var.kms_encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
   # tflint-ignore: terraform_unused_declarations
@@ -65,8 +65,8 @@ resource "ibm_resource_key" "resource_key" {
 locals {
   cos_instance_id          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
   cos_instance_guid        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_instance && !var.skip_iam_authorization_policy
-  kms_service = local.create_access_policy_kms && var.kms_key_crn != null ? (
+  create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
+  kms_service = local.create_access_policy_kms ? (
     can(regex(".*kms.*", var.kms_key_crn)) ? "kms" : (
       can(regex(".*hs-crypto.*", var.kms_key_crn)) ? "hs-crypto" : null
     )
@@ -178,6 +178,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
 resource "ibm_cos_bucket" "cos_bucket1" {
   count                 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
   bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
+  depends_on            = [ibm_iam_authorization_policy.policy]
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
@@ -259,7 +260,8 @@ locals {
 
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0"
+  source           = "terraform-ibm-modules/cbr/ibm//cbr-rule-module"
+  version          = "1.2.0"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
@@ -293,7 +295,8 @@ module "bucket_cbr_rule" {
 
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module?ref=v1.2.0"
+  source           = "terraform-ibm-modules/cbr/ibm//cbr-rule-module"
+  version          = "1.2.0"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts

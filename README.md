@@ -2,7 +2,6 @@
 # Cloud Object Storage module
 
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build Status](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-cos?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases/latest)
@@ -17,6 +16,7 @@ You can configure the following aspects of your instances:
 - Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options
 
 ## Usage
+
 ```hcl
 provider "ibm" {
   ibmcloud_api_key = "XXXXXXXXXX" # pragma: allowlist secret
@@ -27,8 +27,8 @@ provider "ibm" {
 # - COS instance
 # - COS buckets with retention, encryption, monitoring and activity tracking
 module "cos_module" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source                     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
+  source                     = "terraform-ibm-modules/cos/ibm"
+  version                    = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id          = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                     = "us-south"
   cos_instance_name          = "my-cos-instance"
@@ -42,8 +42,8 @@ module "cos_module" {
 # Creates additional buckets in instance created above:
 module "additional_cos_bucket" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source                   = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
-  bucket_name              = "additional-cos-bucket"
+  source                   = "terraform-ibm-modules/cos/ibm"
+  version                  = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id        = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                   = "us-south"
   sysdig_crn               = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
@@ -55,7 +55,8 @@ module "additional_cos_bucket" {
 # Creates additional Cloud Object Storage buckets using the buckets sub module
 module "cos_buckets" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos//modules/buckets?ref=main"
+  source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
+  version = "latest" # Replace "latest" with a release version to lock into a specific release
   bucket_configs = [
     {
       bucket_name          = "my-encrypted-bucket"
@@ -145,8 +146,8 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module | v1.2.0 |
-| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module | v1.2.0 |
+| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//cbr-rule-module | 1.2.0 |
+| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//cbr-rule-module | 1.2.0 |
 
 ## Resources
 
