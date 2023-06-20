@@ -5,8 +5,8 @@ An end-to-end example that uses the [Profile for IBM Cloud Framework for Financi
 An end-to-end example that uses the IBM Cloud Terraform provider to create the following infrastructure:
 
 - A resource group, if one is not passed in.
-- A Sysdig instance and Activity Tracker instance (unless an Activity Tracker instance CRN is passed in) in the resource group and region.
-- A IBM Cloud Object Storage instance in the resource group and region.
+- A Sysdig instance and Activity Tracker instance (unless an Activity Tracker instance CRN is passed in) in a resource group and region.
+- A IBM Cloud Object Storage instance in a resource group and region.
 - An IAM access policy to allow Hyper Protect Crypto Services to access the Cloud Object Storage instance.
 - Two buckets, primary and secondary, in separate regions, with replication enabled.
     - Primary Cloud Object Storage bucket configuration:

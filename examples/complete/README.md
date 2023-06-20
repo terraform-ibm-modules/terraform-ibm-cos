@@ -1,10 +1,10 @@
 # Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)
 
 An end-to-end example that will create the following infrastructure:
-- A new resource group (if existing one is not passed in).
-- A Sysdig and Activity Tracker instances in the given resource group and region.
-- A new Key Protect instance (with metrics enabled), Key Ring, and Key in the given resource group and region.
-- A new Cloud Object Storage instance in the given resource group and region.
+- A new resource group, if one is not passed in.
+- A Sysdig and Activity Tracker instances in a resource group and region.
+- A new Key Protect instance (with metrics enabled), Key Ring, and Key in a resource group and region.
+- A new Cloud Object Storage instance in a resource group and region.
 - An IAM Access Policy to allow Key Protect to access COS instance.
 - COS bucket-1 with:
   - Encryption
