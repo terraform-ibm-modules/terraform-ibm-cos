@@ -28,12 +28,12 @@ provider "ibm" {
 # - COS instance
 # - COS bucket with retention, encryption, monitoring and activity tracking
 module "cos_module" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source                     = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
-  resource_group_id          = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region                     = "us-south"
-  cos_instance_name          = "my-cos-instance"
-  bucket_name                = "my-cos-bucket"
+  source  = "terraform-ibm-modules/cos/ibm"
+  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  resource_group_id                  = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                             = "us-south"
+  cos_instance_name                  = "my-cos-instance"
+  bucket_name                        = "my-cos-bucket"
   existing_kms_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
   kms_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
   sysdig_crn                 = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
@@ -42,15 +42,15 @@ module "cos_module" {
 
 # Creates additional bucket in instance created above:
 module "additional_cos_bucket" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source                   = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=main"
-  bucket_name              = "additional-bucket"
-  resource_group_id        = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region                   = "us-south"
-  sysdig_crn               = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  activity_tracker_crn     = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  existing_cos_instance_id = module.cos_module.cos_instance_id
-  kms_key_crn              = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+  source  = "terraform-ibm-modules/cos/ibm"
+  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  bucket_name                        = "additional-bucket"
+  resource_group_id                  = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                             = "us-south"
+  sysdig_crn                         = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  activity_tracker_crn               = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  existing_cos_instance_id           = module.cos_module.cos_instance_id
+  kms_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
 }
 ```
 
@@ -105,8 +105,8 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module | v1.2.0 |
-| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-rule-module | v1.2.0 |
+| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//cbr-rule-module | 1.2.0 |
+| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//cbr-rule-module | 1.2.0 |
 
 ## Resources
 
