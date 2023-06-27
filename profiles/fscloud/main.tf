@@ -48,7 +48,7 @@ module "cos_primary_bucket" {
   create_cos_bucket          = var.create_cos_bucket
   bucket_name                = var.primary_bucket_name
   bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = true
+  retention_enabled          = false
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
@@ -71,7 +71,7 @@ module "cos_secondary_bucket" {
   create_cos_bucket          = var.create_cos_bucket
   bucket_name                = var.secondary_bucket_name
   bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = true
+  retention_enabled          = false
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null

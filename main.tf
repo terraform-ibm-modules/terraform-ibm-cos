@@ -9,7 +9,7 @@ locals {
   metrics_enabled           = var.sysdig_crn == null ? [] : [1]
   archive_enabled           = var.archive_days == null ? [] : [1]
   expire_enabled            = var.expire_days == null ? [] : [1]
-  retention_enabled         = var.retention_enabled ? [1] : null
+  retention_enabled         = var.retention_enabled ? [1] : []
   object_versioning_enabled = var.object_versioning_enabled ? [1] : []
 
   # input variable validation
