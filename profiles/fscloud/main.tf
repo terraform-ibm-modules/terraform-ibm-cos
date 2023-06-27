@@ -48,11 +48,11 @@ module "cos_primary_bucket" {
   create_cos_bucket          = var.create_cos_bucket
   bucket_name                = var.primary_bucket_name
   bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = false
+  retention_enabled          = true
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
-  object_versioning_enabled  = true
+  object_versioning_enabled  = false
   existing_kms_instance_guid = var.primary_existing_hpcs_instance_guid
   kms_key_crn                = var.primary_hpcs_key_crn
   kms_encryption_enabled     = true
@@ -71,11 +71,11 @@ module "cos_secondary_bucket" {
   create_cos_bucket          = var.create_cos_bucket
   bucket_name                = var.secondary_bucket_name
   bucket_storage_class       = var.bucket_storage_class
-  retention_enabled          = false
+  retention_enabled          = true
   archive_days               = var.archive_days
   archive_type               = var.archive_type
   expire_days                = null
-  object_versioning_enabled  = true
+  object_versioning_enabled  = false
   existing_kms_instance_guid = var.secondary_existing_hpcs_instance_guid
   kms_key_crn                = var.secondary_hpcs_key_crn
   kms_encryption_enabled     = true
