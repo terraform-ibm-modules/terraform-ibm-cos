@@ -21,8 +21,8 @@ provider "ibm" {
 # Create:
 # - COS buckets, one with encryption and another with versioning
 module "buckets" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos.git//modules/buckets?ref=main"
+  source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
+  version = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   bucket_configs = [
     {

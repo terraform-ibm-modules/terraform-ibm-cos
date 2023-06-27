@@ -41,11 +41,11 @@ module "cos_module" {
 
 # Creates additional buckets in instance created above:
 module "additional_cos_bucket" {
-  # Replace "main" with a GIT release version to lock into a specific release
   source                   = "terraform-ibm-modules/cos/ibm"
   version                  = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id        = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                   = "us-south"
+  create_cos_instance      = false
   sysdig_crn               = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   activity_tracker_crn     = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   existing_cos_instance_id = module.cos_module.cos_instance_id
@@ -54,7 +54,6 @@ module "additional_cos_bucket" {
 
 # Creates additional Cloud Object Storage buckets using the buckets sub module
 module "cos_buckets" {
-  # Replace "main" with a GIT release version to lock into a specific release
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
   version = "latest" # Replace "latest" with a release version to lock into a specific release
   bucket_configs = [
