@@ -80,6 +80,11 @@ You need the following permissions to run this module.
         - `Editor` platform access
         - `Manager` service access
 
+<!-- BEGIN TF SUBMODULES HOOK -->
+## Modules
+
+- [ Profile for IBM Cloud Framework for Financial Services](modules/fscloud)
+<!-- END TF SUBMODULES HOOK -->
 
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
