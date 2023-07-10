@@ -39,7 +39,7 @@ module "cos_module" {
   activity_tracker_crn       = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
 }
 
-# Creates additional buckets in instance created above:
+# Creates additional buckets in existing instance:
 module "additional_cos_bucket" {
   source                   = "terraform-ibm-modules/cos/ibm"
   version                  = "latest" # Replace "latest" with a release version to lock into a specific release

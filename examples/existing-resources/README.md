@@ -1,6 +1,6 @@
 # Create Cloud Object Storage instance and a bucket
 
-An end-to-end example that will create the following infrastructure:
+This example creates the following infrastructure:
 - A new resource group, if one is not passed in.
 - A Key Protect instance, key ring, and key in a resource group and region.
 - An IAM access policy to allow Cloud Object Storage to access Key Protect for the encryption key.
