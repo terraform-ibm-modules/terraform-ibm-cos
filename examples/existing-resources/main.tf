@@ -66,19 +66,42 @@ module "cos_instance" {
 # - Activity Tracking
 ##############################################################################
 
-module "cos" {
-  source                   = "../../"
-  create_cos_instance      = false
-  existing_cos_instance_id = module.cos_instance.cos_instance_id
-  kms_key_crn              = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  bucket_name              = "${var.prefix}-bucket"
-  resource_group_id        = module.resource_group.resource_group_id
-  access_tags              = var.access_tags
-  region                   = var.region
-  cross_region_location    = null
-  kms_encryption_enabled   = true
-  # disable retention for test environments - enable for stage/prod
-  retention_enabled          = false
-  activity_tracker_crn       = null
-  existing_kms_instance_guid = module.key_protect_all_inclusive.key_protect_guid
+module "buckets" {
+  source = "../../modules/buckets"
+  bucket_configs = [
+    {
+      bucket_name          = "${var.prefix}-encrypted-bucket"
+      kms_guid             = module.key_protect_all_inclusive.key_protect_guid
+      kms_key_crn          = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+      region_location      = var.region
+      resource_group_id    = module.resource_group.resource_group_id
+      resource_instance_id = module.cos_instance.cos_instance_id
+    },
+    {
+      bucket_name            = "${var.prefix}-versioned-bucket"
+      kms_encryption_enabled = false
+      region_location        = var.region
+      resource_group_id      = module.resource_group.resource_group_id
+      resource_instance_id   = module.cos_instance.cos_instance_id
+      object_versioning = {
+        enable = true
+      }
+    },
+    {
+      bucket_name            = "${var.prefix}-archive-bucket"
+      kms_encryption_enabled = false
+      region_location        = var.region
+      resource_group_id      = module.resource_group.resource_group_id
+      resource_instance_id   = module.cos_instance.cos_instance_id
+      archive_rule = {
+        days   = 90
+        enable = true
+        type   = "Accelerated"
+      }
+      expire_rule = {
+        days   = 90
+        enable = true
+      }
+    }
+  ]
 }

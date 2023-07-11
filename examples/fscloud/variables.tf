@@ -45,12 +45,12 @@ variable "secondary_existing_hpcs_instance_guid" {
 }
 
 variable "primary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
+  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket"
   type        = string
 }
 
 variable "secondary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket"
+  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket"
   type        = string
 }
 

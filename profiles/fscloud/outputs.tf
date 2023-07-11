@@ -12,23 +12,23 @@ output "s3_endpoint_private" {
 }
 
 output "primary_bucket_id" {
-  description = "Primary Bucket id"
-  value       = module.cos_primary_bucket.bucket_id
+  description = "Primary bucket id"
+  value       = module.buckets.buckets[var.primary_bucket_name].bucket_id
 }
 
 output "secondary_bucket_id" {
-  description = "Secondary Bucket id"
-  value       = module.cos_secondary_bucket.bucket_id
+  description = "Secondary bucket id"
+  value       = module.buckets.buckets[var.secondary_bucket_name].bucket_id
 }
 
 output "primary_bucket_name" {
-  description = "Primary Bucket Name"
-  value       = module.cos_primary_bucket.bucket_name
+  description = "Primary bucket name"
+  value       = module.buckets.buckets[var.primary_bucket_name].bucket_name
 }
 
 output "secondary_bucket_name" {
-  description = "Primary Bucket Name"
-  value       = module.cos_secondary_bucket.bucket_name
+  description = "Secondary bucket name"
+  value       = module.buckets.buckets[var.secondary_bucket_name].bucket_name
 }
 
 output "cos_instance_id" {
@@ -39,4 +39,9 @@ output "cos_instance_id" {
 output "cos_instance_guid" {
   description = "The GUID of the Cloud Object Storage Instance where the buckets are created"
   value       = module.cos_instance.cos_instance_guid
+}
+
+output "buckets" {
+  description = "Buckets module output"
+  value       = module.buckets.buckets
 }

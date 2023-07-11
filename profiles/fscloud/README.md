@@ -24,9 +24,8 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_buckets"></a> [buckets](#module\_buckets) | ../../modules/buckets | n/a |
 | <a name="module_cos_instance"></a> [cos\_instance](#module\_cos\_instance) | ../../ | n/a |
-| <a name="module_cos_primary_bucket"></a> [cos\_primary\_bucket](#module\_cos\_primary\_bucket) | ../../ | n/a |
-| <a name="module_cos_secondary_bucket"></a> [cos\_secondary\_bucket](#module\_cos\_secondary\_bucket) | ../../ | n/a |
 
 ## Resources
 
@@ -57,13 +56,13 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 | <a name="input_hmac_key_role"></a> [hmac\_key\_role](#input\_hmac\_key\_role) | The role you want to be associated with your new hmac key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'. | `string` | `"Manager"` | no |
 | <a name="input_instance_cbr_rules"></a> [instance\_cbr\_rules](#input\_instance\_cbr\_rules) | (Optional, list) List of CBR rules to create for the instance | <pre>list(object({<br>    description = string<br>    account_id  = string<br>    rule_contexts = list(object({<br>      attributes = optional(list(object({<br>        name  = string<br>        value = string<br>    }))) }))<br>    enforcement_mode = string<br>    tags = optional(list(object({<br>      name  = string<br>      value = string<br>    })), [])<br>    operations = optional(list(object({<br>      api_types = list(object({<br>        api_type_id = string<br>      }))<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_primary_bucket_name"></a> [primary\_bucket\_name](#input\_primary\_bucket\_name) | The name to give the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
-| <a name="input_primary_existing_hpcs_instance_guid"></a> [primary\_existing\_hpcs\_instance\_guid](#input\_primary\_existing\_hpcs\_instance\_guid) | The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs\_key\_crn is coming from. Required if var.create\_cos\_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
-| <a name="input_primary_hpcs_key_crn"></a> [primary\_hpcs\_key\_crn](#input\_primary\_hpcs\_key\_crn) | CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
+| <a name="input_primary_existing_hpcs_instance_guid"></a> [primary\_existing\_hpcs\_instance\_guid](#input\_primary\_existing\_hpcs\_instance\_guid) | The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs\_key\_crn is coming from. Required if var.create\_cos\_instance is true in order to create an IAM Access Policy to allow Key Protect to access the newly created COS instance. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
+| <a name="input_primary_hpcs_key_crn"></a> [primary\_hpcs\_key\_crn](#input\_primary\_hpcs\_key\_crn) | CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 | <a name="input_primary_region"></a> [primary\_region](#input\_primary\_region) | region for the primary bucket | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_secondary_bucket_name"></a> [secondary\_bucket\_name](#input\_secondary\_bucket\_name) | The name to give the newly provisioned COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
-| <a name="input_secondary_existing_hpcs_instance_guid"></a> [secondary\_existing\_hpcs\_instance\_guid](#input\_secondary\_existing\_hpcs\_instance\_guid) | The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs\_key\_crn is coming from. Required if var.create\_cos\_instance is true in order to create an IAM Access Policy to allow Key protect to access the newly created COS instance. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
-| <a name="input_secondary_hpcs_key_crn"></a> [secondary\_hpcs\_key\_crn](#input\_secondary\_hpcs\_key\_crn) | CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS Bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
+| <a name="input_secondary_existing_hpcs_instance_guid"></a> [secondary\_existing\_hpcs\_instance\_guid](#input\_secondary\_existing\_hpcs\_instance\_guid) | The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs\_key\_crn is coming from. Required if var.create\_cos\_instance is true in order to create an IAM Access Policy to allow Key Protect to access the newly created COS instance. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
+| <a name="input_secondary_hpcs_key_crn"></a> [secondary\_hpcs\_key\_crn](#input\_secondary\_hpcs\_key\_crn) | CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 | <a name="input_secondary_region"></a> [secondary\_region](#input\_secondary\_region) | region for the secondary bucket | `string` | `"us-east"` | no |
 | <a name="input_sysdig_crn"></a> [sysdig\_crn](#input\_sysdig\_crn) | Sysdig Monitoring crn for COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 
@@ -71,12 +70,13 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 
 | Name | Description |
 |------|-------------|
+| <a name="output_buckets"></a> [buckets](#output\_buckets) | Buckets module output |
 | <a name="output_cos_instance_guid"></a> [cos\_instance\_guid](#output\_cos\_instance\_guid) | The GUID of the Cloud Object Storage Instance where the buckets are created |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The ID of the Cloud Object Storage Instance where the buckets are created |
-| <a name="output_primary_bucket_id"></a> [primary\_bucket\_id](#output\_primary\_bucket\_id) | Primary Bucket id |
-| <a name="output_primary_bucket_name"></a> [primary\_bucket\_name](#output\_primary\_bucket\_name) | Primary Bucket Name |
+| <a name="output_primary_bucket_id"></a> [primary\_bucket\_id](#output\_primary\_bucket\_id) | Primary bucket id |
+| <a name="output_primary_bucket_name"></a> [primary\_bucket\_name](#output\_primary\_bucket\_name) | Primary bucket name |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |
 | <a name="output_s3_endpoint_private"></a> [s3\_endpoint\_private](#output\_s3\_endpoint\_private) | S3 private endpoint |
-| <a name="output_secondary_bucket_id"></a> [secondary\_bucket\_id](#output\_secondary\_bucket\_id) | Secondary Bucket id |
-| <a name="output_secondary_bucket_name"></a> [secondary\_bucket\_name](#output\_secondary\_bucket\_name) | Primary Bucket Name |
+| <a name="output_secondary_bucket_id"></a> [secondary\_bucket\_id](#output\_secondary\_bucket\_id) | Secondary bucket id |
+| <a name="output_secondary_bucket_name"></a> [secondary\_bucket\_name](#output\_secondary\_bucket\_name) | Secondary bucket name |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

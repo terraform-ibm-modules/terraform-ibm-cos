@@ -11,10 +11,10 @@ module "resource_group" {
 }
 
 ##############################################################################
-# Create COS
+# Create Cloud Object Storage instance and a bucket
 ##############################################################################
 
-module "cos_bucket" {
+module "cos" {
   source            = "../../"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
@@ -24,4 +24,21 @@ module "cos_bucket" {
   # disable retention for test environments - enable for stage/prod
   retention_enabled      = false
   kms_encryption_enabled = false
+}
+
+##############################################################################
+# Create Cloud Object Storage bucket using sub module
+##############################################################################
+
+module "buckets" {
+  source = "../../modules/buckets"
+  bucket_configs = [
+    {
+      bucket_name            = "${var.prefix}-bucket-module"
+      kms_encryption_enabled = false
+      region_location        = var.region
+      resource_group_id      = module.resource_group.resource_group_id
+      resource_instance_id   = module.cos.cos_instance_id
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 # Basic Example
 
-An example that will:
-- Create a new resource group (if existing one is not passed in).
-- Create a new Cloud Object Storage instance and a bucket.
+This example creates the following infrastructure:
+- A new resource group, if one is not passed in.
+- A new Cloud Object Storage instance and a bucket in a resource group and region.
