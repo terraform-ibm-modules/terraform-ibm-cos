@@ -33,6 +33,13 @@ locals {
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.expire_days cannot be set.") : true
 }
 
+# workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+resource "time_sleep" "wait_for_authorization_policy" {
+  depends_on = [ibm_iam_authorization_policy.policy]
+
+  create_duration = "30s"
+}
+
 # Resource to create COS instance if create_cos_instance is true
 resource "ibm_resource_instance" "cos_instance" {
   count             = var.create_cos_instance ? 1 : 0
