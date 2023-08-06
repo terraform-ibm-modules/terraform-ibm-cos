@@ -13,21 +13,21 @@ The IBM Cloud Framework for Financial Services mandates the application of an in
 This rule is ignored because the module achieves the same resiliency as cross-regional buckets by provisioning two regional buckets with replication in separate regions. CRA does not validate replication rules, which is why it fails.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.54.0 |
 
-## Modules
+### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_buckets"></a> [buckets](#module\_buckets) | ../../modules/buckets | n/a |
 | <a name="module_cos_instance"></a> [cos\_instance](#module\_cos\_instance) | ../../ | n/a |
 
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
@@ -35,7 +35,7 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_iam_account_settings.iam_account_settings](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_account_settings) | data source |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -66,7 +66,7 @@ This rule is ignored because the module achieves the same resiliency as cross-re
 | <a name="input_secondary_region"></a> [secondary\_region](#input\_secondary\_region) | region for the secondary bucket | `string` | `"us-east"` | no |
 | <a name="input_sysdig_crn"></a> [sysdig\_crn](#input\_sysdig\_crn) | Sysdig Monitoring crn for COS bucket. Only required if 'create\_cos\_bucket' is true. | `string` | `null` | no |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|

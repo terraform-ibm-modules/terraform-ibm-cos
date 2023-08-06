@@ -133,7 +133,7 @@ You need the following permissions to run this module.
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
@@ -141,14 +141,14 @@ You need the following permissions to run this module.
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.54.0, < 2.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1 |
 
-## Modules
+### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//cbr-rule-module | 1.2.0 |
 | <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//cbr-rule-module | 1.2.0 |
 
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
@@ -160,7 +160,7 @@ You need the following permissions to run this module.
 | [ibm_resource_tag.cos_access_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
 | [random_string.bucket_name_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -201,7 +201,7 @@ You need the following permissions to run this module.
 | <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created | `bool` | `false` | no |
 | <a name="input_sysdig_crn"></a> [sysdig\_crn](#input\_sysdig\_crn) | Sysdig Monitoring crn for COS bucket (Optional) | `string` | `null` | no |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|
