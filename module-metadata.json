@@ -596,6 +596,12 @@
       "version_constraints": [
         "\u003e= 3.5.1"
       ]
+    },
+    "time": {
+      "source": "hashicorp/time",
+      "version_constraints": [
+        "\u003e= 0.9.1"
+      ]
     }
   },
   "managed_resources": {
@@ -617,7 +623,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 101
+        "line": 108
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -637,7 +643,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 178
+        "line": 185
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -652,7 +658,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 78
+        "line": 85
       }
     },
     "ibm_resource_instance.cos_instance": {
@@ -672,7 +678,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 37
+        "line": 44
       }
     },
     "ibm_resource_key.resource_key": {
@@ -690,7 +696,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 54
+        "line": 61
       }
     },
     "ibm_resource_tag.cos_access_tag": {
@@ -706,7 +712,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 47
+        "line": 54
       }
     },
     "random_string.bucket_name_suffix": {
@@ -721,7 +727,19 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 88
+        "line": 95
+      }
+    },
+    "time_sleep.wait_for_authorization_policy": {
+      "mode": "managed",
+      "type": "time_sleep",
+      "name": "wait_for_authorization_policy",
+      "provider": {
+        "name": "time"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 37
       }
     }
   },
@@ -802,7 +820,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 261
+        "line": 268
       }
     },
     "instance_cbr_rule": {
@@ -880,7 +898,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 296
+        "line": 303
       }
     }
   }
