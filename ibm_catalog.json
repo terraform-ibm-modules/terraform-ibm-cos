@@ -1,0 +1,283 @@
+{
+    "products": [
+        {
+            "name": "terraform-ibm-cos",
+            "label": "Cloud Object Storage module",
+            "product_kind": "module",
+            "tags": [
+                "dev_ops",
+                "target_terraform",
+                "terraform",
+                "module"
+            ],
+            "keywords": [
+                "terraform",
+                "cos"
+            ],
+            "short_description": "Configures a Cloud Object Storage instance and/or bucket with options.",
+            "long_description": "Illustrates several configurations of an IBM Cloud Object Storage IaC module.",
+            "offering_docs_url": "",
+            "offering_icon_url": "https://globalcatalog.test.cloud.ibm.com/api/v1/1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc/artifacts/terraform.svg",
+            "flavors": [
+                {
+                    "label": "Basic",
+                    "name": "basic",
+                    "working_directory" : "examples/basic",
+                    "usage_template": "module \"basic\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/basic?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"slz\"\n}\n\n",
+                    "terraform_version": "1.2",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud for Financial Services",
+                                "profile_version": "1.3.0"
+                            }
+                        ]
+                    },
+                    "iam_persmissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                            ],
+                            "service_name": "cloud-object-storage"
+                        }
+                    ],
+                    "architecture": {
+                        "descriptions": "",
+                        "features": [
+                            {
+                                "title": "Basic Example",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "Basic example",
+                                    "url": "https://raw.githubusercontent.com/kbiegert/terraform-ibm-cos/main/diagrams/ibm-arch-diagram.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This is the Basic example."
+                            }
+                        ]
+                    }
+                },
+                {
+                    "label": "Complete",
+                    "name": "complete",
+                    "working_directory" : "examples/complete",
+                    "usage_template": "module \"complete\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/complete?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"slz\"\n}\n\n",
+                    "terraform_version": "1.2",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud for Financial Services",
+                                "profile_version": "1.3.0"
+                            }
+                        ]
+                    },
+                    "iam_persmissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                            ],
+                            "service_name": "cloud-object-storage"
+                        }
+                    ],
+                    "architecture": {
+                        "descriptions": "",
+                        "features": [
+                            {
+                                "title": "Complete Example",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "Complete example",
+                                    "url": "https://raw.githubusercontent.com/kbiegert/terraform-ibm-cos/main/diagrams/ibm-arch-diagram.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This is the Complete example."
+                            }
+                        ]
+                    }
+                },
+                {
+                    "label": "Existing Resources",
+                    "name": "existing-resources",
+                    "working_directory" : "examples/existing-resources",
+                    "usage_template": "module \"existing-resources\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/existing-resources?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"slz\"\n}\n\n",
+                    "terraform_version": "1.2",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud for Financial Services",
+                                "profile_version": "1.3.0"
+                            }
+                        ]
+                    },
+                    "iam_persmissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                            ],
+                            "service_name": "cloud-object-storage"
+                        }
+                    ],
+                    "architecture": {
+                        "descriptions": "",
+                        "features": [
+                            {
+                                "title": "Existing Resources Example",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "Existing Resources example",
+                                    "url": "https://raw.githubusercontent.com/kbiegert/terraform-ibm-cos/main/diagrams/ibm-arch-diagram.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This is the Existing Resources example."
+                            }
+                        ]
+                    }
+                },
+                {
+                    "label": "FS Cloud",
+                    "name": "fscloud",
+                    "working_directory" : "examples/fscloud",
+                    "usage_template": "module \"fscloud\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/fscloud?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"slz\"\n}\n\n",
+                    "terraform_version": "1.2",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud for Financial Services",
+                                "profile_version": "1.3.0"
+                            }
+                        ]
+                    },
+                    "iam_persmissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                            ],
+                            "service_name": "cloud-object-storage"
+                        }
+                    ],
+                    "architecture": {
+                        "descriptions": "",
+                        "features": [
+                            {
+                                "title": "FS Cloud Example",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "FS Cloud example",
+                                    "url": "https://raw.githubusercontent.com/kbiegert/terraform-ibm-cos/main/diagrams/ibm-arch-diagram.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This is the FS Cloud example."
+                            }
+                        ]
+                    }
+                },
+                {
+                    "label": "One Rate Plan",
+                    "name": "one-rate-plan",
+                    "working_directory" : "examples/one-rate-plan",
+                    "usage_template": "module \"one-rate-plan\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/one-rate-plan?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"slz\"\n}\n\n",
+                    "terraform_version": "1.2",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud for Financial Services",
+                                "profile_version": "1.3.0"
+                            }
+                        ]
+                    },
+                    "iam_persmissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                            ],
+                            "service_name": "cloud-object-storage"
+                        }
+                    ],
+                    "architecture": {
+                        "descriptions": "",
+                        "features": [
+                            {
+                                "title": "One Rate Plan Example",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "One Rate Plan example",
+                                    "url": "https://raw.githubusercontent.com/kbiegert/terraform-ibm-cos/main/diagrams/ibm-arch-diagram.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This is the One Rate Plan example."
+                            }
+                        ]
+                    }
+                },
+                {
+                    "label": "Replication",
+                    "name": "replication",
+                    "working_directory" : "examples/replication",
+                    "usage_template": "module \"replication\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/replication?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"slz\"\n}\n\n",
+                    "terraform_version": "1.2",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud for Financial Services",
+                                "profile_version": "1.3.0"
+                            }
+                        ]
+                    },
+                    "iam_persmissions": [
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                            ],
+                            "service_name": "cloud-object-storage"
+                        }
+                    ],
+                    "architecture": {
+                        "descriptions": "",
+                        "features": [
+                            {
+                                "title": "Replication Example",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "Replication example",
+                                    "url": "https://raw.githubusercontent.com/kbiegert/terraform-ibm-cos/main/diagrams/ibm-arch-diagram.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This is the Replication example."
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
