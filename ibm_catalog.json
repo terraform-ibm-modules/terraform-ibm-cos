@@ -132,8 +132,28 @@
                         "descriptions": "",
                         "features": [
                             {
-                                "title": "Basic Example",
-                                "description": "Yes"
+                                "description": "Basic",
+                                "title": "Example"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates COS"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates buckets"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Data lake"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "More data"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Even more data"
                             }
                         ],
                         "diagrams": [
@@ -280,8 +300,28 @@
                         "descriptions": "",
                         "features": [
                             {
-                                "title": "Complete Example",
-                                "description": "Yes"
+                                "description": "Complete",
+                                "title": "Example"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates COS"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates buckets"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Data lake"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "More data"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Even more data"
                             }
                         ],
                         "diagrams": [
@@ -401,8 +441,28 @@
                         "descriptions": "",
                         "features": [
                             {
-                                "title": "Existing Resources Example",
-                                "description": "Yes"
+                                "description": "Existing Resources",
+                                "title": "Example"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates COS"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates buckets"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Data lake"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "More data"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Even more data"
                             }
                         ],
                         "diagrams": [
@@ -590,8 +650,28 @@
                         "descriptions": "",
                         "features": [
                             {
-                                "title": "FS Cloud Example",
-                                "description": "Yes"
+                                "description": "FS Cloud",
+                                "title": "Example"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates COS"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates buckets"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Data lake"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "More data"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Even more data"
                             }
                         ],
                         "diagrams": [
@@ -711,8 +791,28 @@
                         "descriptions": "",
                         "features": [
                             {
-                                "title": "One Rate Plan Example",
-                                "description": "Yes"
+                                "description": "One Rate Plan",
+                                "title": "Example"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates COS"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates buckets"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Data lake"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "More data"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Even more data"
                             }
                         ],
                         "diagrams": [
@@ -832,8 +932,28 @@
                         "descriptions": "",
                         "features": [
                             {
-                                "title": "Replication Example",
-                                "description": "Yes"
+                                "description": "Replication",
+                                "title": "Example"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates COS"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Creates buckets"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Data lake"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "More data"
+                            },
+                            {
+                                "description": "Yes",
+                                "title": "Even more data"
                             }
                         ],
                         "diagrams": [
