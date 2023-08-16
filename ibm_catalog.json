@@ -33,29 +33,12 @@
                     ],
                     "compliance_v3": {
                         "authority": "scc-v3",
-                        "claims": {
-                            "controls": [
-                                {
-                                    "names": [
-                                        "CM-7(a)",
-                                        "CM-7(b)",
-                                        "SI-12(0)",
-                                        "AC-4(0)",
-                                        "SC-13(0)",
-                                        "SC-8(0)",
-                                        "SC-7(4)(c)",
-                                        "SC-23(0)",
-                                        "SC-8(1)(0)",
-                                        "SC-11(0)"
-                                    ],
-                                    "profile": {
-                                        "id": "943351aa-e18e-4abc-8592-c8cc1e212436",
-                                        "name": "IBM Cloud for Financial Services",
-                                        "version": "1.4.0"
-                                    }
-                                }
-                            ]
-                        }
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud for Financial Services",
+                                "profile_version": "1.4.0"
+                            }
+                        ]
                     },
                     "iam_permissions": [
                         {
@@ -172,7 +155,7 @@
                     "label": "Complete",
                     "name": "complete",
                     "working_directory" : "examples/complete",
-                    "usage_template": "module \"complete\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/complete?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n,  resource_tags    = var.resource_tags\n  access_tags      = var.access_tags\n  cross_region_location = var.cross_region_location\n  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket\n  resource_group   = var.resource_group\n  existing_at_instance_crn = var.existing_at_instance_crn\n}\n\n",
+                    "usage_template": "module \"complete\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/complete?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  access_tags      = var.access_tags\n  resource_group   = var.resource_group\n  cross_region_location = var.cross_region_location\n  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket\n  existing_at_instance_crn = var.existing_at_instance_crn\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
@@ -481,7 +464,7 @@
                     "label": "FS Cloud",
                     "name": "fscloud",
                     "working_directory" : "examples/fscloud",
-                    "usage_template": "module \"fscloud\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/fscloud?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos-fscloud\"\n  resource_tags    = var.resource_tags\n  primary_region   = var.primary_region\n  secondary_region = var.secondary_region\n  primary_existing_hpcs_instance_guid = var.primary_existing_hpcs_instance_guid\n  secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid\n  primary_hpcs_key_crn = var.primary_hpcs_key_crn\n  secondary_hpcs_key_crn = var.secondary_hpcs_key_crn\n  resource_group   = var.resource_group\n  existing_at_instance_crn = var.existing_at_instance_crn\n  access_tags      = var.access_tags\n}\n\n",
+                    "usage_template": "module \"fscloud\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/fscloud?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos-fscloud\"\n  resource_tags    = var.resource_tags\n  primary_region   = var.primary_region\n  secondary_region = var.secondary_region\n  resource_group   = var.resource_group\n  access_tags      = var.access_tags\n  primary_existing_hpcs_instance_guid = var.primary_existing_hpcs_instance_guid\n  secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid\n  primary_hpcs_key_crn = var.primary_hpcs_key_crn\n  secondary_hpcs_key_crn = var.secondary_hpcs_key_crn\n  existing_at_instance_crn = var.existing_at_instance_crn\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
