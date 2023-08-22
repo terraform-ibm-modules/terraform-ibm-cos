@@ -588,7 +588,7 @@
     "ibm": {
       "source": "ibm-cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.54.0, \u003c 2.0.0"
+        "\u003e= 1.56.1, \u003c 2.0.0"
       ]
     },
     "random": {
