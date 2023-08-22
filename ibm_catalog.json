@@ -23,7 +23,7 @@
                     "label": "Basic",
                     "name": "basic",
                     "working_directory" : "examples/basic",
-                    "usage_template": "module \"basic\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/basic?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  resource_group   = var.resource_group\n}\n\n",
+                    "usage_template": "module \"basic\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  resource_group   = var.resource_group\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
@@ -155,7 +155,7 @@
                     "label": "Complete",
                     "name": "complete",
                     "working_directory" : "examples/complete",
-                    "usage_template": "module \"complete\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/complete?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  access_tags      = var.access_tags\n  resource_group   = var.resource_group\n  cross_region_location = var.cross_region_location\n  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket\n  existing_at_instance_crn = var.existing_at_instance_crn\n}\n\n",
+                    "usage_template": "module \"complete\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  access_tags      = var.access_tags\n  resource_group   = var.resource_group\n  cross_region_location = var.cross_region_location\n  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket\n  existing_at_instance_crn = var.existing_at_instance_crn\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
@@ -323,7 +323,7 @@
                     "label": "Existing Resources",
                     "name": "existing-resources",
                     "working_directory" : "examples/existing-resources",
-                    "usage_template": "module \"existing-resources\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/existing-resources?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"exist-cos\"\n  resource_group   = var.resource_group\n  resource_tags    = var.resource_tags\n  access_tags      = var.access_tags\n}\n\n",
+                    "usage_template": "module \"existing-resources\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"exist-cos\"\n  resource_group   = var.resource_group\n  resource_tags    = var.resource_tags\n  access_tags      = var.access_tags\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
@@ -464,7 +464,7 @@
                     "label": "FS Cloud",
                     "name": "fscloud",
                     "working_directory" : "examples/fscloud",
-                    "usage_template": "module \"fscloud\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/fscloud?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos-fscloud\"\n  resource_tags    = var.resource_tags\n  primary_region   = var.primary_region\n  secondary_region = var.secondary_region\n  resource_group   = var.resource_group\n  access_tags      = var.access_tags\n  primary_existing_hpcs_instance_guid = var.primary_existing_hpcs_instance_guid\n  secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid\n  primary_hpcs_key_crn = var.primary_hpcs_key_crn\n  secondary_hpcs_key_crn = var.secondary_hpcs_key_crn\n  existing_at_instance_crn = var.existing_at_instance_crn\n}\n\n",
+                    "usage_template": "module \"fscloud\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos-fscloud\"\n  resource_tags    = var.resource_tags\n  primary_region   = var.primary_region\n  secondary_region = var.secondary_region\n  resource_group   = var.resource_group\n  access_tags      = var.access_tags\n  primary_existing_hpcs_instance_guid = var.primary_existing_hpcs_instance_guid\n  secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid\n  primary_hpcs_key_crn = var.primary_hpcs_key_crn\n  secondary_hpcs_key_crn = var.secondary_hpcs_key_crn\n  existing_at_instance_crn = var.existing_at_instance_crn\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
@@ -673,7 +673,7 @@
                     "label": "One Rate Plan",
                     "name": "one-rate-plan",
                     "working_directory" : "examples/one-rate-plan",
-                    "usage_template": "module \"one-rate-plan\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/one-rate-plan?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  resource_group   = var.resource_group\n  access_tags      = var.access_tags\n}\n\n",
+                    "usage_template": "module \"one-rate-plan\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  resource_group   = var.resource_group\n  access_tags      = var.access_tags\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
@@ -814,7 +814,7 @@
                     "label": "Replication",
                     "name": "replication",
                     "working_directory" : "examples/replication",
-                    "usage_template": "module \"replication\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/replication?archive=tgz&flavor=${{flavor}}&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  resource_group   = var.resource_group\n  access_tags      = var.access_tags\n}\n\n",
+                    "usage_template": "module \"replication\" {\n  source           = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=${{name}}&version=${{version}}\"\n  ibmcloud_api_key = var.ibmcloud_api_key\n  region           = \"us-south\"\n  prefix           = \"test-cos\"\n  resource_tags    = var.resource_tags\n  resource_group   = var.resource_group\n  access_tags      = var.access_tags\n}\n\n",
                     "terraform_version": "1.3",
                     "licenses": [
                         {
