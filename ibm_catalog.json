@@ -64,7 +64,7 @@
                             "description": "Prefix name for all related resources",
                             "hidden": false,
                             "key": "prefix",
-                            "required": false,
+                            "required": true,
                             "type": "string"
                         },
                         {
