@@ -379,6 +379,7 @@
       "description": "The resource group ID where resources will be provisioned.",
       "required": true,
       "source": [
+        "ibm_iam_authorization_policy.policy.description",
         "ibm_resource_instance.cos_instance.resource_group_id"
       ],
       "pos": {
@@ -623,7 +624,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 108
+        "line": 109
       }
     },
     "ibm_cos_bucket.cos_bucket1": {
@@ -643,7 +644,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 185
+        "line": 186
       }
     },
     "ibm_iam_authorization_policy.policy": {
@@ -651,6 +652,7 @@
       "type": "ibm_iam_authorization_policy",
       "name": "policy",
       "attributes": {
+        "description": "resource_group_id",
         "target_resource_instance_id": "existing_kms_instance_guid"
       },
       "provider": {
@@ -727,7 +729,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 95
+        "line": 96
       }
     },
     "time_sleep.wait_for_authorization_policy": {
@@ -820,7 +822,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 268
+        "line": 269
       }
     },
     "instance_cbr_rule": {
@@ -898,7 +900,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 303
+        "line": 304
       }
     }
   }
