@@ -379,7 +379,6 @@
       "description": "The resource group ID where resources will be provisioned.",
       "required": true,
       "source": [
-        "ibm_iam_authorization_policy.policy.description",
         "ibm_resource_instance.cos_instance.resource_group_id"
       ],
       "pos": {
@@ -652,7 +651,6 @@
       "type": "ibm_iam_authorization_policy",
       "name": "policy",
       "attributes": {
-        "description": "resource_group_id",
         "target_resource_instance_id": "existing_kms_instance_guid"
       },
       "provider": {
