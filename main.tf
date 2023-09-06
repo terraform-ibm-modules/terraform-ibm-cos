@@ -89,6 +89,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   target_service_name         = local.kms_service
   target_resource_instance_id = var.existing_kms_instance_guid
   roles                       = ["Reader"]
+  description                 = "Allow the COS instance with GUID ${local.cos_instance_guid} reader access to the ${local.kms_service} instance GUID ${var.existing_kms_instance_guid}"
 }
 
 # Create random string which is added to COS bucket name as a suffix
