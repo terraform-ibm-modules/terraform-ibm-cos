@@ -268,7 +268,7 @@ locals {
 
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
-  source           = "terraform-ibm-modules/cbr/ibm//cbr-rule-module"
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
   version          = "1.9.0"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
@@ -303,7 +303,7 @@ module "bucket_cbr_rule" {
 
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
-  source           = "terraform-ibm-modules/cbr/ibm//cbr-rule-module"
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
   version          = "1.9.0"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode

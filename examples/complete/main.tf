@@ -46,17 +46,17 @@ module "observability_instances" {
   }
   region                         = var.region
   resource_group_id              = module.resource_group.resource_group_id
-  sysdig_instance_name           = "${var.prefix}-sysdig"
-  sysdig_plan                    = "graduated-tier"
+  cloud_monitoring_instance_name = "${var.prefix}-sysdig"
+  cloud_monitoring_plan          = "graduated-tier"
   enable_platform_logs           = false
   enable_platform_metrics        = false
-  logdna_provision               = false
+  log_analysis_provision         = false
   activity_tracker_instance_name = "${var.prefix}-at"
   activity_tracker_tags          = var.resource_tags
   activity_tracker_plan          = "7-day"
   activity_tracker_provision     = !local.existing_at
-  logdna_tags                    = var.resource_tags
-  sysdig_tags                    = var.resource_tags
+  log_analysis_tags              = var.resource_tags
+  cloud_monitoring_tags          = var.resource_tags
 }
 
 ##############################################################################
@@ -92,7 +92,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 # Create CBR Zone
 ##############################################################################
 module "cbr_zone" {
-  source           = "terraform-ibm-modules/cbr/ibm//cbr-zone-module"
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.9.0"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone containing VPC"
@@ -120,7 +120,7 @@ module "cos_bucket1" {
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  sysdig_crn                          = module.observability_instances.sysdig_crn
+  sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
   # disable retention for test environments - enable for stage/prod
   retention_enabled    = false
   activity_tracker_crn = local.at_crn
@@ -185,7 +185,7 @@ module "cos_bucket2" {
   region                              = null
   cross_region_location               = var.cross_region_location
   archive_days                        = null
-  sysdig_crn                          = module.observability_instances.sysdig_crn
+  sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
