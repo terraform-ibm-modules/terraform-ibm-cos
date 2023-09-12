@@ -30,6 +30,6 @@ provider "logdna" {
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.observability_instances.logdna_resource_key != null ? module.observability_instances.logdna_resource_key : ""
+  servicekey = module.observability_instances.log_analysis_resource_key != null ? module.observability_instances.log_analysis_resource_key : ""
   url        = local.at_endpoint
 }
