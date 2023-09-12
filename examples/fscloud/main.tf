@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.0.5"
+  version = "1.0.6"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -39,24 +39,24 @@ locals {
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "2.7.0"
+  version = "2.9.0"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
   }
   region                         = var.region
   resource_group_id              = module.resource_group.resource_group_id
-  sysdig_instance_name           = "${var.prefix}-sysdig"
-  sysdig_plan                    = "graduated-tier"
+  cloud_monitoring_instance_name = "${var.prefix}-sysdig"
+  cloud_monitoring_plan          = "graduated-tier"
   enable_platform_logs           = false
   enable_platform_metrics        = false
-  logdna_provision               = false
+  log_analysis_provision         = false
   activity_tracker_instance_name = "${var.prefix}-at"
   activity_tracker_tags          = var.resource_tags
   activity_tracker_plan          = "7-day"
   activity_tracker_provision     = !local.existing_at
-  logdna_tags                    = var.resource_tags
-  sysdig_tags                    = var.resource_tags
+  log_analysis_tags              = var.resource_tags
+  cloud_monitoring_tags          = var.resource_tags
 }
 
 ##############################################################################
@@ -70,8 +70,8 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 # Create CBR Zone
 ##############################################################################
 module "cbr_zone" {
-  source           = "terraform-ibm-modules/cbr/ibm//cbr-zone-module"
-  version          = "1.2.0"
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
+  version          = "1.9.0"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -94,7 +94,7 @@ module "cos_fscloud" {
   secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid
   secondary_region                      = var.secondary_region
   secondary_hpcs_key_crn                = var.secondary_hpcs_key_crn
-  sysdig_crn                            = module.observability_instances.sysdig_crn
+  sysdig_crn                            = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                  = local.at_crn
   access_tags                           = var.access_tags
   bucket_cbr_rules = [
