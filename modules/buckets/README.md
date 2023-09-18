@@ -1,4 +1,3 @@
-<!-- BEGIN MODULE HOOK -->
 # Cloud Object Storage buckets module
 
 You can use this submodule to provision and configure IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) buckets.

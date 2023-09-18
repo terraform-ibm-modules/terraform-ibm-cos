@@ -11,10 +11,10 @@ module "resource_group" {
 }
 
 ##############################################################################
-# Create COS
-##############################################################################
 # Create COS instance with One Rate Plan.
 # Create COS bucket with One Rate Active Bucket Storage Class
+##############################################################################
+
 module "cos_bucket" {
   source                = "../../"
   resource_group_id     = module.resource_group.resource_group_id

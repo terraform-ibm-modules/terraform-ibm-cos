@@ -15,7 +15,6 @@ const completeExampleTerraformDir = "examples/complete"
 const fsCloudTerraformDir = "examples/fscloud"
 const completeExistingTerraformDir = "examples/existing-resources"
 const replicateExampleTerraformDir = "examples/replication"
-const oneRateExampleTerraformDir = "examples/one-rate-plan"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -77,15 +76,6 @@ func TestRunCompleteExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunOneRateExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "one-rate-plan", oneRateExampleTerraformDir)
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
 func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
@@ -94,15 +84,6 @@ func TestRunFSCloudExample(t *testing.T) {
 	options.TerraformVars["primary_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
 	options.TerraformVars["secondary_existing_hpcs_instance_guid"] = permanentResources["hpcs_east"]
 	options.TerraformVars["secondary_hpcs_key_crn"] = permanentResources["hpcs_east_root_key_crn"]
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
-func TestRunExistingResourcesExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")

@@ -129,7 +129,7 @@ variable "add_bucket_name_suffix" {
 
 variable "bucket_storage_class" {
   type        = string
-  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
+  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', 'smart' and `onerate_active`."
   default     = "standard"
 
   validation {
@@ -139,7 +139,7 @@ variable "bucket_storage_class" {
 }
 
 variable "management_endpoint_type_for_bucket" {
-  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)"
+  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private or direct)"
   type        = string
   default     = "public"
   validation {
