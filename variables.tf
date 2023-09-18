@@ -7,12 +7,6 @@ variable "resource_group_id" {
   description = "The resource group ID where resources will be provisioned."
 }
 
-variable "region" {
-  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location."
-  type        = string
-  default     = "us-south"
-}
-
 ##############################################################################
 # COS instance variables
 ##############################################################################
@@ -97,6 +91,12 @@ variable "existing_cos_instance_id" {
 ##############################################################################
 # COS bucket variables
 ##############################################################################
+
+variable "region" {
+  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location."
+  type        = string
+  default     = "us-south"
+}
 
 variable "create_cos_bucket" {
   description = "Set as true to create a new Cloud Object Storage bucket"

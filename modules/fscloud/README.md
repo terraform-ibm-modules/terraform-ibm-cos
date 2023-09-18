@@ -2,15 +2,73 @@
 
 This code is a version of the [parent root module](../../) that includes a default configuration that complies with the relevant controls from the [IBM Cloud Framework for Financial Services](https://cloud.ibm.com/docs/framework-financial-services?topic=framework-financial-services-about). See the [Example for IBM Cloud Framework for Financial Services](/examples/fscloud/) for logic that uses this module. The profile assumes you are deploying into an account that is in compliance with the framework.
 
-The default values in this profile were scanned by [IBM Code Risk Analyzer (CRA)](https://cloud.ibm.com/docs/code-risk-analyzer-cli-plugin?topic=code-risk-analyzer-cli-plugin-cra-cli-plugin#terraform-command) for compliance with the IBM Cloud Framework for Financial Services profile that is specified by the IBM Security and Compliance Center. The scan passed for all applicable goals with the following exceptions:
+The default values in this profile were scanned by [IBM Code Risk Analyzer (CRA)](https://cloud.ibm.com/docs/code-risk-analyzer-cli-plugin?topic=code-risk-analyzer-cli-plugin-cra-cli-plugin#terraform-command) for compliance with the IBM Cloud Framework for Financial Services profile that is specified by the IBM Security and Compliance Center. The scan passed for all applicable rules with the following exceptions:
 
-> 3000107 - Check whether Cloud Object Storage network access is restricted to a specific IP range
+> rule-8cbd597c-7471-42bd-9c88-36b2696456e9 - Check whether Cloud Object Storage network access is restricted to a specific IP range
 
 The IBM Cloud Framework for Financial Services mandates the application of an inbound network-based allowlist in front of the IBM Cloud Object Storage instance. You can comply with this requirement with the `bucket_cbr_rules` and `instance_cbr_rules` variables in the module. Use these variables to create a narrow context-based restriction rule that is scoped to the IBM Cloud Storage instance. CRA does not support checking for context-based restrictions, so you can ignore the failing rule after you set the context-based restrictions.
 
-> 3000116 - Check whether Cloud Object Storage bucket resiliency is set to cross region
+### Usage
 
-This rule is ignored because the module achieves the same resiliency as cross-regional buckets by provisioning two regional buckets with replication in separate regions. CRA does not validate replication rules, which is why it fails.
+```hcl
+provider "ibm" {
+  ibmcloud_api_key = "XXXXXXXXXX"
+  region           = "us-south"
+}
+
+module "cos_fscloud" {
+  source                                = "terraform-ibm-modules/cos/ibm//modules/fscloud"
+  version                               = "X.X.X" # Replace "latest" with a release version to lock into a specific release
+  resource_group_id                     = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  cos_instance_name                     = "my-cos-instance"
+  primary_bucket_name                   = "my-bucket-primary"
+  primary_region                        = "us-south"
+  primary_existing_hpcs_instance_guid   = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
+  primary_hpcs_key_crn                  = "crn:v1:bluemix:public:hs-crypto:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+  secondary_bucket_name                 = "my-bucket-secondary"
+  secondary_existing_hpcs_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
+  secondary_region                      = "us-east"
+  secondary_hpcs_key_crn                = "crn:v1:bluemix:public:hs-crypto:us-east:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+  sysdig_crn                            = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  activity_tracker_crn                  = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  bucket_cbr_rules = [
+    {
+      description      = "sample rule for buckets"
+      enforcement_mode = "enabled"
+      account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+        }]
+      }]
+    }
+  ]
+  instance_cbr_rules = [
+    {
+      description      = "sample rule for the instance"
+      enforcement_mode = "report"
+      account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+        }]
+      }]
+    }
+  ]
+}
+```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements

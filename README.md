@@ -1,4 +1,3 @@
-<!-- BEGIN MODULE HOOK -->
 # Cloud Object Storage module
 
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
@@ -9,17 +8,37 @@
 
 You can use this module to provision and configure a [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
 
+There is also a [buckets](modules/buckets) subodule which supports creating multiple buckets in an existing instance.
+
 You can configure the following aspects of your instances:
 - [Bucket encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tutorial-kp-encrypt-bucket) - based on Key Protect keys
 - [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing
 - [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)
 - Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options
 
-## Usage
+<!-- BEGIN OVERVIEW HOOK -->
+## Overview
+* [terraform-ibm-cos](#terraform-ibm-cos)
+* [Submodules](./modules)
+    * [buckets](./modules/buckets)
+    * [fscloud](./modules/fscloud)
+* [Examples](./examples)
+    * [Basic Example](./examples/basic)
+    * [Cloud Object Storage replication example](./examples/replication)
+    * [Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](./examples/complete)
+    * [Create Cloud Object Storage instance and a bucket](./examples/existing-resources)
+    * [Financial Services Cloud Profile example](./examples/fscloud)
+    * [One Rate Plan Example (COS Bucket with One Rate Plan)](./examples/one-rate-plan)
+* [Contributing](#contributing)
+
+## terraform-ibm-cos
+<!-- END OVERVIEW HOOK -->
+
+### Usage
 
 ```hcl
 provider "ibm" {
-  ibmcloud_api_key = "XXXXXXXXXX" # pragma: allowlist secret
+  ibmcloud_api_key = "XXXXXXXXXX"
   region           = "us-south"
 }
 
@@ -28,7 +47,7 @@ provider "ibm" {
 # - COS buckets with retention, encryption, monitoring and activity tracking
 module "cos_module" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "latest" # Replace "latest" with a release version to lock into a specific release
+  version                    = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id          = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                     = "us-south"
   cos_instance_name          = "my-cos-instance"
@@ -42,7 +61,7 @@ module "cos_module" {
 # Creates additional buckets in existing instance:
 module "additional_cos_bucket" {
   source                   = "terraform-ibm-modules/cos/ibm"
-  version                  = "latest" # Replace "latest" with a release version to lock into a specific release
+  version                  = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id        = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                   = "us-south"
   create_cos_instance      = false
@@ -55,7 +74,7 @@ module "additional_cos_bucket" {
 # Creates additional Cloud Object Storage buckets using the buckets sub module
 module "cos_buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   bucket_configs = [
     {
       bucket_name          = "my-encrypted-bucket"
@@ -94,15 +113,7 @@ module "cos_buckets" {
 }
 ```
 
-## Required IAM access policies
-
-<!-- PERMISSIONS REQUIRED TO RUN MODULE
-If this module requires permissions, uncomment the following block and update
-the sample permissions, following the format.
-Replace the sample Account and Cloud service names and roles with the
-information in the console at
-Manage > Access (IAM) > Access groups > Access policies.
--->
+### Required IAM access policies
 
 You need the following permissions to run this module.
 
@@ -120,18 +131,6 @@ You need the following permissions to run this module.
         - `Editor` platform access
         - `Manager` service access
 
-
-<!-- BEGIN EXAMPLES HOOK -->
-## Examples
-
-- [ Basic Example](examples/basic)
-- [ Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](examples/complete)
-- [ Create Cloud Object Storage instance and a bucket](examples/existing-resources)
-- [ Financial Services Cloud Profile example](examples/fscloud)
-- [ One Rate Plan Example (COS Bucket with One Rate Plan)](examples/one-rate-plan)
-- [ Cloud Object Storage replication example](examples/replication)
-<!-- END EXAMPLES HOOK -->
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
@@ -139,8 +138,8 @@ You need the following permissions to run this module.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.56.1, < 2.0.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
 
 ### Modules
 
@@ -220,13 +219,9 @@ You need the following permissions to run this module.
 | <a name="output_s3_endpoint_public"></a> [s3\_endpoint\_public](#output\_s3\_endpoint\_public) | S3 public endpoint |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-<!-- BEGIN CONTRIBUTING HOOK -->
-
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
 ## Contributing
 
 You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
 To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
-<!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
-<!-- END CONTRIBUTING HOOK -->
