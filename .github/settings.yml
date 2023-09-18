@@ -13,4 +13,4 @@ repository:
 
   description: "Configures a Cloud Object Storage instance and/or bucket with options"
 
-  topics: core-team, terraform, ibm-cloud, terraform-module, cloud-object-storage, cos-bucket
+  topics: core-team, terraform, ibm-cloud, terraform-module, cloud-object-storage, cos-bucket, supported, graduated
