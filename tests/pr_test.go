@@ -15,6 +15,8 @@ const completeExampleTerraformDir = "examples/complete"
 const fsCloudTerraformDir = "examples/fscloud"
 const completeExistingTerraformDir = "examples/existing-resources"
 const replicateExampleTerraformDir = "examples/replication"
+const basicExampleTerraformDir = "examples/basic"
+const oneRateExampleTerraformDir = "examples/one-rate-plan"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
