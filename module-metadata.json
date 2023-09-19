@@ -11,7 +11,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 78
+        "line": 72
       },
       "min_length": 1,
       "max_length": 128,
@@ -97,7 +97,7 @@
     "bucket_storage_class": {
       "name": "bucket_storage_class",
       "type": "string",
-      "description": "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'.",
+      "description": "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', 'smart' and `onerate_active`.",
       "default": "standard",
       "source": [
         "ibm_cos_bucket.cos_bucket.storage_class",
@@ -121,7 +121,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 50
+        "line": 44
       }
     },
     "cos_location": {
@@ -135,7 +135,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 56
+        "line": 50
       },
       "cloud_data_type": "region",
       "immutable": true
@@ -151,7 +151,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 62
+        "line": 56
       }
     },
     "cos_tags": {
@@ -164,7 +164,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 72
+        "line": 66
       },
       "min_length": 1,
       "max_length": 128,
@@ -195,7 +195,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 20
+        "line": 14
       }
     },
     "create_hmac_key": {
@@ -208,7 +208,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 26
+        "line": 20
       }
     },
     "cross_region_location": {
@@ -232,7 +232,7 @@
       "description": "The ID of an existing cloud object storage instance. Required if 'var.create_cos_instance' is false.",
       "pos": {
         "filename": "variables.tf",
-        "line": 91
+        "line": 85
       }
     },
     "existing_kms_instance_guid": {
@@ -270,7 +270,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 38
+        "line": 32
       },
       "immutable": true
     },
@@ -284,7 +284,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 44
+        "line": 38
       },
       "immutable": true
     },
@@ -336,7 +336,7 @@
     "management_endpoint_type_for_bucket": {
       "name": "management_endpoint_type_for_bucket",
       "type": "string",
-      "description": "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)",
+      "description": "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private or direct)",
       "default": "public",
       "source": [
         "ibm_cos_bucket.cos_bucket.endpoint_type",
@@ -369,7 +369,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 10
+        "line": 95
       },
       "immutable": true
     },
@@ -401,7 +401,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 32
+        "line": 26
       }
     },
     "retention_default": {
@@ -481,7 +481,7 @@
       "value": "local.bucket_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 30
       }
     },
     "bucket_id": {
@@ -490,7 +490,7 @@
       "value": "local.bucket_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 25
       }
     },
     "bucket_name": {
@@ -499,7 +499,7 @@
       "value": "local.bucket_name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 34
+        "line": 35
       }
     },
     "bucket_storage_class": {
@@ -508,7 +508,7 @@
       "value": "local.bucket_storage_class",
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
+        "line": 40
       }
     },
     "cos_instance_guid": {
@@ -517,7 +517,7 @@
       "value": "local.cos_instance_guid",
       "pos": {
         "filename": "outputs.tf",
-        "line": 54
+        "line": 55
       }
     },
     "cos_instance_id": {
@@ -526,7 +526,7 @@
       "value": "local.cos_instance_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 49
+        "line": 50
       }
     },
     "kms_key_crn": {
@@ -535,7 +535,7 @@
       "value": "var.kms_key_crn",
       "pos": {
         "filename": "outputs.tf",
-        "line": 44
+        "line": 45
       },
       "type": "string"
     },
@@ -545,7 +545,7 @@
       "value": "var.resource_group_id",
       "pos": {
         "filename": "outputs.tf",
-        "line": 4
+        "line": 5
       },
       "type": "string",
       "cloud_data_type": "resource_group",
@@ -559,7 +559,7 @@
       "value": "local.s3_endpoint_direct",
       "pos": {
         "filename": "outputs.tf",
-        "line": 19
+        "line": 20
       }
     },
     "s3_endpoint_private": {
@@ -568,7 +568,7 @@
       "value": "local.s3_endpoint_private",
       "pos": {
         "filename": "outputs.tf",
-        "line": 9
+        "line": 10
       }
     },
     "s3_endpoint_public": {
@@ -577,7 +577,7 @@
       "value": "local.s3_endpoint_public",
       "pos": {
         "filename": "outputs.tf",
-        "line": 14
+        "line": 15
       }
     }
   },
@@ -594,13 +594,13 @@
     "random": {
       "source": "hashicorp/random",
       "version_constraints": [
-        "\u003e= 3.5.1"
+        "\u003e= 3.5.1, \u003c 4.0.0"
       ]
     },
     "time": {
       "source": "hashicorp/time",
       "version_constraints": [
-        "\u003e= 0.9.1"
+        "\u003e= 0.9.1, \u003c 1.0.0"
       ]
     }
   },

@@ -11,6 +11,4 @@ jobs:
     secrets: inherit
     with:
       craSCCv2: true
-      craTarget: "examples/fscloud"
-      craRuleIgnoreFile: "cra-tf-validate-ignore-rules.json"
-      craEnvironmentVariables: "TF_VAR_existing_at_instance_crn=crn:v1:bluemix:public:logdnaat:eu-de:a/abac0df06b644a9cabc6e44f55b3880e:b1ef3365-dfbf-4d8f-8ac8-75f4f84d6f4a::,TF_VAR_primary_existing_hpcs_instance_guid=${{ vars.HPCS_EAST_GUID }},TF_VAR_secondary_existing_hpcs_instance_guid=${{ vars.HPCS_SOUTH_GUID }},TF_VAR_primary_hpcs_key_crn=${{ vars.HPCS_EAST_KEY_CRN }},TF_VAR_secondary_hpcs_key_crn=${{ vars.HPCS_SOUTH_KEY_CRN }}"
+      craConfigYamlFile: "cra-config.yaml"

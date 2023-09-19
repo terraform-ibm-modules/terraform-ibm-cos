@@ -1,6 +1,6 @@
 # Financial Services Cloud Profile example
 
-This example uses the [Profile for IBM Cloud Framework for Financial Services](../../profiles/fscloud/) to deploy an instance of IBM Cloud Storage.
+This example uses the [Profile for IBM Cloud Framework for Financial Services](../../modules/fscloud/) to deploy an instance of IBM Cloud Storage.
 
 This example uses the IBM Cloud Terraform provider to create the following infrastructure:
 

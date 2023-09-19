@@ -13,6 +13,7 @@ module "resource_group" {
 ##############################################################################
 # VPC
 ##############################################################################
+
 resource "ibm_is_vpc" "example_vpc" {
   name           = "${var.prefix}-vpc"
   resource_group = module.resource_group.resource_group_id
@@ -69,6 +70,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 ##############################################################################
 # Create CBR Zone
 ##############################################################################
+
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.9.0"
@@ -82,7 +84,7 @@ module "cbr_zone" {
 }
 
 module "cos_fscloud" {
-  source                                = "../../profiles/fscloud"
+  source                                = "../../modules/fscloud"
   resource_group_id                     = module.resource_group.resource_group_id
   cos_instance_name                     = "${var.prefix}-cos"
   cos_tags                              = var.resource_tags

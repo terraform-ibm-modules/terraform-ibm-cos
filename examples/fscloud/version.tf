@@ -1,15 +1,16 @@
 terraform {
   required_version = ">= 1.0.0"
+
+  # Ensure that there is always 1 example locked into the lowest provider version of the range defined in the main
+  # module's version.tf (basic example), and 1 example that will always use the latest provider version (this example).
   required_providers {
-    # Use latest version of provider in non-basic examples to verify latest version works with module
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = ">= 1.56.1"
+      version = ">= 1.56.1, < 2.0.0"
     }
-    # The logdna provider is not actually required by the module itself, just this example, so OK to use ">=" here instead of locking into a version
     logdna = {
       source  = "logdna/logdna"
-      version = ">= 1.14.2"
+      version = ">= 1.14.2, < 2.0.0"
     }
   }
 }

@@ -7,12 +7,6 @@ variable "resource_group_id" {
   description = "The resource group ID where resources will be provisioned."
 }
 
-variable "region" {
-  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location."
-  type        = string
-  default     = "us-south"
-}
-
 ##############################################################################
 # COS instance variables
 ##############################################################################
@@ -98,6 +92,12 @@ variable "existing_cos_instance_id" {
 # COS bucket variables
 ##############################################################################
 
+variable "region" {
+  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location."
+  type        = string
+  default     = "us-south"
+}
+
 variable "create_cos_bucket" {
   description = "Set as true to create a new Cloud Object Storage bucket"
   type        = bool
@@ -129,7 +129,7 @@ variable "add_bucket_name_suffix" {
 
 variable "bucket_storage_class" {
   type        = string
-  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
+  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', 'smart' and `onerate_active`."
   default     = "standard"
 
   validation {
@@ -139,7 +139,7 @@ variable "bucket_storage_class" {
 }
 
 variable "management_endpoint_type_for_bucket" {
-  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)"
+  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private or direct)"
   type        = string
   default     = "public"
   validation {
