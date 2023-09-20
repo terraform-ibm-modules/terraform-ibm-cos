@@ -7,16 +7,17 @@
 ##############################################################################
 variable "bucket_configs" {
   type = list(object({
-    access_tags            = optional(list(string), [])
-    bucket_name            = string
-    kms_encryption_enabled = optional(bool, true)
-    kms_guid               = optional(string, null)
-    kms_key_crn            = optional(string, null)
-    cross_region_location  = optional(string, null)
-    storage_class          = optional(string, "smart")
-    region_location        = optional(string, null)
-    resource_group_id      = string
-    resource_instance_id   = optional(string, null)
+    access_tags              = optional(list(string), [])
+    bucket_name              = string
+    kms_encryption_enabled   = optional(bool, true)
+    kms_guid                 = optional(string, null)
+    kms_key_crn              = optional(string, null)
+    management_endpoint_type = optional(string, "public")
+    cross_region_location    = optional(string, null)
+    storage_class            = optional(string, "smart")
+    region_location          = optional(string, null)
+    resource_group_id        = string
+    resource_instance_id     = optional(string, null)
 
     activity_tracking = optional(object({
       read_data_events     = optional(bool, true)
