@@ -748,7 +748,7 @@
     "bucket_cbr_rule": {
       "name": "bucket_cbr_rule",
       "source": "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module",
-      "version": "1.9.0",
+      "version": "1.12.1",
       "attributes": {
         "count": "bucket_cbr_rules",
         "enforcement_mode": "bucket_cbr_rules",
@@ -820,13 +820,13 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 269
+        "line": 277
       }
     },
     "instance_cbr_rule": {
       "name": "instance_cbr_rule",
       "source": "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module",
-      "version": "1.9.0",
+      "version": "1.12.1",
       "attributes": {
         "count": "instance_cbr_rules",
         "enforcement_mode": "instance_cbr_rules",
@@ -898,7 +898,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 304
+        "line": 312
       }
     }
   }
