@@ -115,6 +115,11 @@ module "cos_fscloud" {
             value = module.cbr_zone.zone_id
         }]
       }]
+      operations = [{
+        api_types = [{
+          api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+        }]
+      }]
     }
   ]
   instance_cbr_rules = [
@@ -131,6 +136,11 @@ module "cos_fscloud" {
           {
             name  = "networkZoneId"
             value = module.cbr_zone.zone_id
+        }]
+      }]
+      operations = [{
+        api_types = [{
+          api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
         }]
       }]
     }
