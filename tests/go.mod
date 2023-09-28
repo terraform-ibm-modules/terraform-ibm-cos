@@ -3,6 +3,7 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 go 1.20
 
 require (
+	github.com/IBM/ibm-cos-sdk-go v1.10.0
 	github.com/stretchr/testify v1.8.4
 	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.21.10
 )
@@ -25,7 +26,6 @@ require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
-	github.com/aws/aws-sdk-go v1.44.281 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect

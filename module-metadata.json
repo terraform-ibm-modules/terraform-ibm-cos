@@ -73,12 +73,12 @@
       "description": "(Optional, list) List of CBR rules to create for the bucket",
       "default": [],
       "source": [
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule",
-        "module.bucket_cbr_rule"
+        "module.bucket_cbr_rulebuck",
+        "module.bucket_cbr_rulebuck",
+        "module.bucket_cbr_rulebuck",
+        "module.bucket_cbr_rulebuck",
+        "module.bucket_cbr_rulebuck",
+        "module.bucket_cbr_rulebuck"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -745,8 +745,8 @@
   },
   "data_resources": {},
   "module_calls": {
-    "bucket_cbr_rule": {
-      "name": "bucket_cbr_rule",
+    "bucket_cbr_rulebuck": {
+      "name": "bucket_cbr_rulebuck",
       "source": "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module",
       "version": "1.12.1",
       "attributes": {
@@ -770,7 +770,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": ".terraform/modules/bucket_cbr_rule/modules/cbr-rule-module/main.tf",
+            "filename": ".terraform/modules/bucket_cbr_rulebuck/modules/cbr-rule-module/main.tf",
             "line": 7
           }
         }
@@ -782,7 +782,7 @@
           "description": "CBR rule resource instance crn",
           "value": "ibm_cbr_rule.cbr_rule.crn",
           "pos": {
-            "filename": ".terraform/modules/bucket_cbr_rule/modules/cbr-rule-module/outputs.tf",
+            "filename": ".terraform/modules/bucket_cbr_rulebuck/modules/cbr-rule-module/outputs.tf",
             "line": 15
           },
           "type": "TypeString",
@@ -793,7 +793,7 @@
           "description": "CBR rule resource instance description",
           "value": "ibm_cbr_rule.cbr_rule.description",
           "pos": {
-            "filename": ".terraform/modules/bucket_cbr_rule/modules/cbr-rule-module/outputs.tf",
+            "filename": ".terraform/modules/bucket_cbr_rulebuck/modules/cbr-rule-module/outputs.tf",
             "line": 5
           },
           "type": "TypeString"
@@ -803,7 +803,7 @@
           "description": "CBR rule resource href",
           "value": "ibm_cbr_rule.cbr_rule.href",
           "pos": {
-            "filename": ".terraform/modules/bucket_cbr_rule/modules/cbr-rule-module/outputs.tf",
+            "filename": ".terraform/modules/bucket_cbr_rulebuck/modules/cbr-rule-module/outputs.tf",
             "line": 20
           },
           "type": "TypeString"
@@ -813,7 +813,7 @@
           "description": "CBR rule resource instance id",
           "value": "ibm_cbr_rule.cbr_rule.id",
           "pos": {
-            "filename": ".terraform/modules/bucket_cbr_rule/modules/cbr-rule-module/outputs.tf",
+            "filename": ".terraform/modules/bucket_cbr_rulebuck/modules/cbr-rule-module/outputs.tf",
             "line": 10
           }
         }

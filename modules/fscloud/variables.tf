@@ -172,6 +172,18 @@ variable "bucket_cbr_rules" {
   type = list(object({
     description = string
     account_id  = string
+    resources = optional(list(object({
+      attributes = optional(list(object({
+        name     = string
+        value    = string
+        operator = optional(string)
+      })))
+      tags = optional(list(object({
+        name     = string
+        value    = string
+        operator = optional(string)
+      })))
+    })))
     rule_contexts = list(object({
       attributes = optional(list(object({
         name  = string

@@ -99,10 +99,11 @@ module "cos_fscloud" {
   sysdig_crn                            = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                  = local.at_crn
   access_tags                           = var.access_tags
+  # The buckets will be appended to the resource list
   bucket_cbr_rules = [
     {
-      description      = "sample rule for bucket 1"
-      enforcement_mode = "report"
+      description      = "sample rule for buckets"
+      enforcement_mode = "enabled"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
       rule_contexts = [{
         attributes = [
@@ -125,7 +126,7 @@ module "cos_fscloud" {
   instance_cbr_rules = [
     {
       description      = "sample rule for the instance"
-      enforcement_mode = "report"
+      enforcement_mode = "enabled"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
       rule_contexts = [{
         attributes = [
