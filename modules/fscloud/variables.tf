@@ -168,22 +168,10 @@ variable "secondary_hpcs_key_crn" {
 # Context-based restriction (CBR)
 ##############################################################
 
-variable "bucket_cbr_rules" {
-  type = list(object({
+variable "bucket_cbr_rule" {
+  type = object({
     description = string
     account_id  = string
-    resources = optional(list(object({
-      attributes = optional(list(object({
-        name     = string
-        value    = string
-        operator = optional(string)
-      })))
-      tags = optional(list(object({
-        name     = string
-        value    = string
-        operator = optional(string)
-      })))
-    })))
     rule_contexts = list(object({
       attributes = optional(list(object({
         name  = string
@@ -199,14 +187,14 @@ variable "bucket_cbr_rules" {
         api_type_id = string
       }))
     })))
-  }))
-  description = "(Optional, list) List of CBR rules to create for the bucket"
-  default     = []
+  })
+  description = "(Optional) CBR rule to create for the bucket"
+  default     = null
   # Validation happens in the rule module
 }
 
-variable "instance_cbr_rules" {
-  type = list(object({
+variable "instance_cbr_rule" {
+  type = object({
     description = string
     account_id  = string
     rule_contexts = list(object({
@@ -224,14 +212,14 @@ variable "instance_cbr_rules" {
         api_type_id = string
       }))
     })))
-  }))
-  description = "(Optional, list) List of CBR rules to create for the instance"
-  default     = []
+  })
+  description = "(Optional) CBR rule to create for the instance"
+  default     = null
   # Validation happens in the rule module
 }
 
 variable "access_tags" {
   type        = list(string)
-  description = "Optional list of access tags to be added to the created resources"
+  description = "Optional list of access tags to be added to the created resources and in the CBR rules in the format 'tag_name:tag_value'"
   default     = []
 }

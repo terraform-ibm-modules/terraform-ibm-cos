@@ -99,51 +99,46 @@ module "cos_fscloud" {
   sysdig_crn                            = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                  = local.at_crn
   access_tags                           = var.access_tags
-  # The buckets will be appended to the resource list
-  bucket_cbr_rules = [
-    {
-      description      = "sample rule for buckets"
-      enforcement_mode = "enabled"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
+  bucket_cbr_rule = {
+    description      = "sample rule for buckets"
+    enforcement_mode = "enabled"
+    account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone.zone_id
       }]
-      operations = [{
-        api_types = [{
-          api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
-        }]
+    }]
+    operations = [{
+      api_types = [{
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }]
-    }
-  ]
-  instance_cbr_rules = [
-    {
-      description      = "sample rule for the instance"
-      enforcement_mode = "enabled"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
+    }]
+  }
+  instance_cbr_rule = {
+    description      = "sample rule for the instance"
+    enforcement_mode = "enabled"
+    account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone.zone_id
       }]
-      operations = [{
-        api_types = [{
-          api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
-        }]
+    }]
+    operations = [{
+      api_types = [{
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }]
-    }
-  ]
+    }]
+  }
 }

@@ -163,21 +163,15 @@ resource "ibm_iam_authorization_policy" "policy" {
 }
 
 locals {
-  # Filter out empty tags
-  filtered_bucket_tags = {
-    for bucket in module.buckets.buckets : bucket.bucket_name => [
-      for cbr_rule in var.bucket_cbr_rules : {
-        name  = cbr_rule.tags[*].name
-        value = cbr_rule.tags[*].value
-      } if length([for tag in cbr_rule.tags[*].name : tag]) > 0
-    ]
-  }
 
-  bucket_tags = {
-    for bucket, tags in local.filtered_bucket_tags : bucket => tags
-  }
-
-
+  access_tags = [
+    for tag in var.access_tags :
+    {
+      name     = split(":", tag)[0] # Extract tag_name
+      value    = split(":", tag)[1] # Extract tag_value
+      operator = "stringEquals"
+    }
+  ]
   bucket_rule_resources = {
     for bucket in module.buckets.buckets : bucket.bucket_name => [
       {
@@ -198,55 +192,49 @@ locals {
             operator = "stringEquals"
           }
         ],
-        tags = local.bucket_tags[bucket.bucket_name] == null ? [] : local.bucket_tags[bucket.bucket_name]
+        tags = local.access_tags == null ? [] : local.access_tags
       }
     ]
   }
+
+  # append the bucket name onto the description
   bucket_rule_descriptions = {
-    for bucket in module.buckets.buckets : bucket.bucket_name => [
-      for cbr_rule in var.bucket_cbr_rules : "${cbr_rule.description} for bucket ${bucket.bucket_name}"
-    ]
+    for bucket in module.buckets.buckets : bucket.bucket_name => "${var.bucket_cbr_rule.description} for bucket ${bucket.bucket_name}"
   }
-
-
-  bucket_rules = [
-    for cbr_rule in var.bucket_cbr_rules : {
-      account_id       = cbr_rule.account_id
-      enforcement_mode = cbr_rule.enforcement_mode
-      rule_contexts    = cbr_rule.rule_contexts
-      operations       = cbr_rule.operations == null ? [] : cbr_rule.operations
-    }
-  ]
-
 
 }
 
 # Create CBR Rules Last
-#
 module "bucket_cbr_rules" {
-  for_each = { for bucket in module.buckets.buckets : bucket.bucket_name => bucket }
-
-  depends_on = [ibm_cos_bucket_replication_rule.cos_replication_rule]
-  source     = "../cbr-mutli-rule-module"
-
-  rule_list         = local.bucket_rules
-  rule_descriptions = local.bucket_rule_descriptions[each.key]
-  rule_resources    = local.bucket_rule_resources[each.key]
+  depends_on       = [ibm_cos_bucket_replication_rule.cos_replication_rule]
+  for_each         = { for bucket in module.buckets.buckets : bucket.bucket_name => bucket }
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
+  version          = "1.9.0"
+  rule_description = local.bucket_rule_descriptions[each.key]
+  enforcement_mode = var.bucket_cbr_rule.enforcement_mode
+  rule_contexts    = var.bucket_cbr_rule.rule_contexts
+  resources        = local.bucket_rule_resources[each.key]
+  operations = var.bucket_cbr_rule.operations == null ? [{
+    api_types = [
+      {
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+      }
+    ]
+  }] : var.bucket_cbr_rule.operations
 }
 
 module "instance_cbr_rule" {
   depends_on       = [module.bucket_cbr_rules]
-  count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
   version          = "1.9.0"
-  rule_description = var.instance_cbr_rules[count.index].description
-  enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
-  rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
+  rule_description = var.instance_cbr_rule.description
+  enforcement_mode = var.instance_cbr_rule.enforcement_mode
+  rule_contexts    = var.instance_cbr_rule.rule_contexts
   resources = [{
     attributes = [
       {
         name     = "accountId"
-        value    = var.instance_cbr_rules[count.index].account_id
+        value    = var.instance_cbr_rule.account_id
         operator = "stringEquals"
       },
       {
@@ -260,21 +248,22 @@ module "instance_cbr_rule" {
         operator = "stringEquals"
       }
     ],
-    tags = var.instance_cbr_rules[count.index].tags
+    tags = local.access_tags == null ? [] : local.access_tags
   }]
-  operations = var.instance_cbr_rules[count.index].operations == null ? [] : var.instance_cbr_rules[count.index].operations
+  operations = var.instance_cbr_rule.operations == null ? [{
+    api_types = [
+      {
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+      }
+    ]
+  }] : var.instance_cbr_rule.operations
 }
 
 locals {
-  # Get a complete list of all CBR rule IDs
-  bucket_rule_ids = flatten([
-    for instance in module.bucket_cbr_rules :
-    [
-      for rule in instance.rules :
-      rule.id
-    ]
-  ])
+  bucket_rule_ids = [
+    for bucket_name, bucket_rule in module.bucket_cbr_rules :
+    bucket_rule.rule_id
+  ]
 
-  instance_rule_ids = module.instance_cbr_rule[*].rule_id
-  all_rule_ids      = concat(local.bucket_rule_ids, local.instance_rule_ids)
+  all_rule_ids = concat(local.bucket_rule_ids, [module.instance_cbr_rule.rule_id])
 }
