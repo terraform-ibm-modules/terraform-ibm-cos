@@ -114,7 +114,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	outputs, err := terraform.OutputAllE(t, options.TerraformOptions)
 
 	// Delay before running tests to allow CBRs to be picked up
-	delayDuration := 3 * time.Minute
+	delayDuration := 5 * time.Minute
 	delayMinutes := delayDuration.Minutes()
 	logger.Log(t, fmt.Sprintf("Waiting %.f minutes for CBRs to be picked up...", delayMinutes))
 	time.Sleep(delayDuration)
