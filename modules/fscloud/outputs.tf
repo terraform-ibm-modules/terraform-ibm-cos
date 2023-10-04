@@ -28,7 +28,7 @@ output "cos_instance_guid" {
 
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
-  value       = module.bucket_cbr_rules
+  value       = module.buckets.bucket_cbr_rules
 }
 
 output "instance_cbr_rule" {

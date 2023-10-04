@@ -98,10 +98,10 @@ func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-fscloud", fsCloudTerraformDir)
-	options.TerraformVars["primary_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
-	options.TerraformVars["primary_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
-	options.TerraformVars["secondary_existing_hpcs_instance_guid"] = permanentResources["hpcs_east"]
-	options.TerraformVars["secondary_hpcs_key_crn"] = permanentResources["hpcs_east_root_key_crn"]
+	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
+	options.TerraformVars["bucket_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
+	//options.TerraformVars["secondary_existing_hpcs_instance_guid"] = permanentResources["hpcs_east"]
+	//options.TerraformVars["secondary_hpcs_key_crn"] = permanentResources["hpcs_east_root_key_crn"]
 	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
 	// to disable the rules before destroy. Without it, the destroy will fail on the refresh.
 	options.CBRRuleListOutputVariable = "cbr_rule_ids"

@@ -338,3 +338,14 @@ module "instance_cbr_rule" {
   }]
   operations = var.instance_cbr_rules[count.index].operations == null ? local.default_operations : var.instance_cbr_rules[count.index].operations
 }
+
+locals {
+  bucket_rule_ids = [
+    for bucket_name, bucket_rule in module.bucket_cbr_rule :
+    bucket_rule.rule_id
+  ]
+
+  instance_rule_id = can(module.instance_cbr_rule[0]) ? module.instance_cbr_rule[0].rule_id : null
+
+  all_rule_ids = concat(local.bucket_rule_ids, compact([local.instance_rule_id]))
+}

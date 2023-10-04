@@ -63,51 +63,6 @@ variable "cos_plan" {
   }
 }
 
-##############################################################################
-# COS bucket variables
-##############################################################################
-
-variable "create_cos_bucket" {
-  description = "Set as true to create a new Cloud Object Storage bucket"
-  type        = bool
-  default     = true
-}
-
-variable "primary_region" {
-  description = "region for the primary bucket"
-  type        = string
-  default     = "us-south"
-}
-
-variable "secondary_region" {
-  description = "region for the secondary bucket"
-  type        = string
-  default     = "us-east"
-}
-
-variable "primary_bucket_name" {
-  type        = string
-  description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
-  default     = null
-}
-
-variable "secondary_bucket_name" {
-  type        = string
-  description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
-  default     = null
-}
-
-variable "bucket_storage_class" {
-  type        = string
-  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', and 'smart'."
-  default     = "standard"
-
-  validation {
-    condition     = can(regex("^standard$|^vault$|^cold$|^smart$", var.bucket_storage_class))
-    error_message = "Variable 'bucket_storage_class' must be 'standard', 'vault', 'cold', or 'smart'."
-  }
-}
-
 variable "activity_tracker_crn" {
   type        = string
   description = "Activity tracker crn for COS bucket. Only required if 'create_cos_bucket' is true."
@@ -120,78 +75,80 @@ variable "sysdig_crn" {
   default     = null
 }
 
-variable "archive_days" {
-  description = "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true."
-  type        = number
-  default     = 90
-}
-
-variable "archive_type" {
-  description = "Specifies the storage class or archive type to which you want the object to transition. Only used if 'create_cos_bucket' is true."
-  type        = string
-  default     = "Glacier"
-  validation {
-    condition     = contains(["Glacier", "Accelerated"], var.archive_type)
-    error_message = "The specified archive_type is not a valid selection!"
-  }
-}
-
 ##############################################################################
-# COS bucket encryption variables
+# COS bucket variables
 ##############################################################################
+variable "bucket_configs" {
+  type = list(object({
+    access_tags              = optional(list(string), [])
+    bucket_name              = string
+    kms_encryption_enabled   = optional(bool, true)
+    kms_guid                 = string
+    kms_key_crn              = string
+    management_endpoint_type = string
+    cross_region_location    = optional(string, null)
+    storage_class            = optional(string, "smart")
+    region_location          = optional(string, null)
+    resource_group_id        = string
+    resource_instance_id     = optional(string, null)
 
-variable "primary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key Protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
-  type        = string
-  default     = null
+    activity_tracking = optional(object({
+      read_data_events     = optional(bool, true)
+      write_data_events    = optional(bool, true)
+      activity_tracker_crn = optional(string, null)
+    }))
+    archive_rule = optional(object({
+      enable = optional(bool, false)
+      days   = optional(number, 20)
+      type   = optional(string, "Glacier")
+    }))
+    expire_rule = optional(object({
+      enable = optional(bool, false)
+      days   = optional(number, 365)
+    }))
+    metrics_monitoring = optional(object({
+      usage_metrics_enabled   = optional(bool, true)
+      request_metrics_enabled = optional(bool, true)
+      metrics_monitoring_crn  = optional(string, null)
+    }))
+    object_versioning = optional(object({
+      enable = optional(bool, false)
+    }))
+    retention_rule = optional(object({
+      default   = optional(number, 90)
+      maximum   = optional(number, 350)
+      minimum   = optional(number, 90)
+      permanent = optional(bool, false)
+    }))
+    cbr_rules = optional(list(object({
+      description = string
+      account_id  = string
+      rule_contexts = list(object({
+        attributes = optional(list(object({
+          name  = string
+          value = string
+      }))) }))
+      enforcement_mode = string
+      tags = optional(list(object({
+        name  = string
+        value = string
+      })), [])
+      operations = optional(list(object({
+        api_types = list(object({
+          api_type_id = string
+        }))
+      })))
+    })), [])
+
+  }))
+  description = "Cloud Object Storage bucket configurations"
 }
 
-variable "secondary_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from. Required if var.create_cos_instance is true in order to create an IAM Access Policy to allow Key Protect to access the newly created COS instance. Only required if 'create_cos_bucket' is true."
-  type        = string
-  default     = null
-}
 
-variable "primary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket. Only required if 'create_cos_bucket' is true."
-  type        = string
-  default     = null
-}
-
-variable "secondary_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket. Only required if 'create_cos_bucket' is true."
-  type        = string
-  default     = null
-}
 
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
-
-variable "bucket_cbr_rule" {
-  type = object({
-    description = string
-    account_id  = string
-    rule_contexts = list(object({
-      attributes = optional(list(object({
-        name  = string
-        value = string
-    }))) }))
-    enforcement_mode = string
-    tags = optional(list(object({
-      name  = string
-      value = string
-    })), [])
-    operations = optional(list(object({
-      api_types = list(object({
-        api_type_id = string
-      }))
-    })))
-  })
-  description = "(Optional) CBR rule to create for the bucket"
-  default     = null
-  # Validation happens in the rule module
-}
 
 variable "instance_cbr_rule" {
   type = object({
@@ -220,6 +177,6 @@ variable "instance_cbr_rule" {
 
 variable "access_tags" {
   type        = list(string)
-  description = "Optional list of access tags to be added to the created resources and in the CBR rules in the format 'tag_name:tag_value'"
+  description = "Optional list of access tags to be added to the created resources"
   default     = []
 }
