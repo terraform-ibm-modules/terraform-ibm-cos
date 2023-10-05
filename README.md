@@ -29,9 +29,9 @@ You can configure the following aspects of your instances:
     * [Financial Services Cloud Profile example](./examples/fscloud)
     * [One Rate Plan Example (COS Bucket with One Rate Plan)](./examples/one-rate-plan)
 * [Contributing](#contributing)
+<!-- END OVERVIEW HOOK -->
 
 ## terraform-ibm-cos
-<!-- END OVERVIEW HOOK -->
 
 ### Usage
 
