@@ -29,7 +29,6 @@ import (
 
 const completeExampleTerraformDir = "examples/complete"
 const fsCloudTerraformDir = "examples/fscloud"
-const completeExistingTerraformDir = "examples/existing-resources"
 const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
@@ -70,7 +69,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		},
 	})
 	// below dirs do not implement Activity Tracker functionality
-	if dir == completeExistingTerraformDir || dir == replicateExampleTerraformDir || dir == oneRateExampleTerraformDir {
+	if dir == replicateExampleTerraformDir || dir == oneRateExampleTerraformDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:       t,
 			TerraformDir:  dir,
@@ -194,15 +193,6 @@ func TestRunFSCloudExample(t *testing.T) {
 			}
 		}
 	}
-}
-
-func TestRunExistingResourcesExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "cos-existing", completeExistingTerraformDir)
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
 }
 
 func TestRunReplicateExample(t *testing.T) {
