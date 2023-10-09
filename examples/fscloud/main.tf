@@ -91,29 +91,7 @@ module "cos_fscloud" {
   sysdig_crn           = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn = local.at_crn
   access_tags          = var.access_tags
-  #  bucket_cbr_rule = {
-  #    bucket_name = "${var.prefix}-bucket-primary"
-  #      rule={
-  #      description      = "sample rule for buckets"
-  #      enforcement_mode = "enabled"
-  #      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-  #      rule_contexts = [{
-  #        attributes = [
-  #          {
-  #            "name" : "endpointType",
-  #            "value" : "private"
-  #          },
-  #          {
-  #            name  = "networkZoneId"
-  #            value = module.cbr_zone.zone_id
-  #        }]
-  #      }]
-  #      operations = [{
-  #        api_types = [{
-  #          api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
-  #        }]
-  #      }]
-  #    }}
+
   instance_cbr_rule = {
     description      = "sample rule for the instance"
     enforcement_mode = "enabled"
@@ -140,12 +118,13 @@ module "cos_fscloud" {
     bucket_name              = "${var.prefix}-primary-bucket"
     kms_key_crn              = var.bucket_hpcs_key_crn
     kms_guid                 = var.bucket_existing_hpcs_instance_guid
-    management_endpoint_type = "private"
+    management_endpoint_type = "public"
     resource_group_id        = module.resource_group.resource_group_id
     region_location          = var.region
     activity_tracking = {
       activity_tracker_crn = local.at_crn
     }
+
     cbr_rules = [{
       description      = "sample rule for ${var.prefix}-primary-bucket"
       enforcement_mode = "enabled"
@@ -167,6 +146,5 @@ module "cos_fscloud" {
         }]
       }]
     }]
-
   }, ]
 }

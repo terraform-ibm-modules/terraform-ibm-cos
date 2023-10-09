@@ -1,24 +1,17 @@
 locals {
   # tflint-ignore: terraform_unused_declarations
-  #  validate_different_regions = var.primary_region == var.secondary_region ? tobool("primary and secondary bucket regions must not match") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_at_set = var.create_cos_bucket && var.activity_tracker_crn == null ? tobool("when var.create_cos_bucket is true, var.activity_tracker_crn must be provided") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_sysdig_set = var.create_cos_bucket && var.sysdig_crn == null ? tobool("when var.create_cos_bucket is true, var.sysdig_crn must be provided") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_primary_hpcs_instance_guid = var.create_cos_bucket && var.primary_existing_hpcs_instance_guid == null ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_guid must be provided") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_primary_hpcs_key_crn = var.create_cos_bucket && var.primary_hpcs_key_crn == null ? tobool("when var.create_cos_bucket is true, var.primary_hpcs_key_crn must be provided") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_secondary_hpcs_instance_guid = var.create_cos_bucket && var.secondary_existing_hpcs_instance_guid == null ? tobool("when var.create_cos_bucket is true, var.secondary_existing_hpcs_instance_guid must be provided") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_secondary_hpcs_key_crn = var.create_cos_bucket && var.secondary_hpcs_key_crn == null ? tobool("when var.create_cos_bucket is true, var.secondary_hpcs_key_crn must be provided") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_hpcs_instance_guids_different = var.create_cos_bucket && var.primary_existing_hpcs_instance_guid == var.secondary_existing_hpcs_instance_guid ? tobool("when var.create_cos_bucket is true, var.primary_existing_hpcs_instance_guid and var.secondary_existing_hpcs_instance_guid must be different") : true
-  #  # tflint-ignore: terraform_unused_declarations
-  #  validate_secondary_hpcs_key_crns_different = var.create_cos_bucket && var.primary_hpcs_key_crn == var.secondary_hpcs_key_crn ? tobool("when var.create_cos_bucket is true, var.primary_hpcs_key_crn and var.secondary_hpcs_key_crn must be different") : true
-
+  bucket_validations = [
+    for bucket in var.bucket_configs : {
+      validate_at_set             = can(bucket.activity_tracking.activity_tracker_crn) ? bucket.activity_tracking.activity_tracker_crn == null ? tobool("When activity_tracking is set, activity_tracker_crn must be provided.") : null : null,
+      validate_sysdig_set         = can(bucket.metrics_monitoring.metrics_monitoring_crn) ? bucket.metrics_monitoring.metrics_monitoring_crn == null ? tobool("When metrics_monitoring is set, metrics_monitoring_crn must be provided.") : null : null,
+      validate_hpcs_instance_guid = bucket.kms_guid == null ? tobool("When kms_encryption_enabled is set, kms_guid must be provided.") : null,
+      validate_hpcs_key_crn       = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
+      validate_kms_encryption     = !bucket.kms_encryption_enabled ? tobool("kms_encryption_enabled must be set to true for all buckets.") : null,
+    }
+  ]
 }
+
+
 
 module "cos_instance" {
   source                        = "../../"
@@ -69,78 +62,7 @@ module "buckets" {
   bucket_configs = local.bucket_configs
 }
 
-#### Configure replication rule
-#
-#resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
-#  depends_on = [
-#    ibm_iam_authorization_policy.policy
-#  ]
-#  bucket_crn      = module.buckets.buckets[var.primary_bucket_name].bucket_crn
-#  bucket_location = var.primary_region
-#  replication_rule {
-#    rule_id                         = "replicate-everything"
-#    enable                          = true
-#    priority                        = 50
-#    deletemarker_replication_status = false
-#    destination_bucket_crn          = module.buckets.buckets[var.secondary_bucket_name].bucket_crn
-#  }
-#}
-#
-#### Configure IAM authorization policy
-#
-## Data source to retrieve account ID
-#data "ibm_iam_account_settings" "iam_account_settings" {
-#}
-#
-## TODO: how do we support buckets in different accounts?
-#resource "ibm_iam_authorization_policy" "policy" {
-#  roles = [
-#    "Writer",
-#  ]
-#  subject_attributes {
-#    name  = "accountId"
-#    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-#  }
-#  subject_attributes {
-#    name  = "serviceName"
-#    value = "cloud-object-storage"
-#  }
-#  subject_attributes {
-#    name  = "serviceInstance"
-#    value = module.cos_instance.cos_instance_guid
-#  }
-#  subject_attributes {
-#    name  = "resource"
-#    value = var.primary_bucket_name
-#  }
-#  subject_attributes {
-#    name  = "resourceType"
-#    value = "bucket"
-#  }
-#  resource_attributes {
-#    name  = "accountId"
-#    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-#  }
-#  resource_attributes {
-#    name  = "serviceName"
-#    value = "cloud-object-storage"
-#  }
-#  resource_attributes {
-#    name  = "serviceInstance"
-#    value = module.cos_instance.cos_instance_guid
-#  }
-#  resource_attributes {
-#    name  = "resource"
-#    value = var.secondary_bucket_name
-#  }
-#  resource_attributes {
-#    name  = "resourceType"
-#    value = "bucket"
-#  }
-#}
-#
-#locals {
-#
+
 locals {
   access_tags = [
     for tag in var.access_tags :
@@ -151,56 +73,6 @@ locals {
     }
   ]
 }
-#  bucket_rule_resources = {
-#    for bucket in module.buckets.buckets : bucket.bucket_name => [
-#      {
-#        attributes = [
-#          {
-#            name     = "accountId"
-#            value    = data.ibm_iam_account_settings.iam_account_settings.account_id
-#            operator = "stringEquals"
-#          },
-#          {
-#            name     = "serviceInstance"
-#            value    = coalesce(bucket.bucket_crn, "test")
-#            operator = "stringEquals"
-#          },
-#          {
-#            name     = "serviceName"
-#            value    = "cloud-object-storage"
-#            operator = "stringEquals"
-#          }
-#        ],
-#        tags = local.access_tags == null ? [] : local.access_tags
-#      }
-#    ]
-#  }
-#
-#  # append the bucket name onto the description
-#  bucket_rule_descriptions = {
-#    for bucket in module.buckets.buckets : bucket.bucket_name => "${var.bucket_cbr_rule.description} for bucket ${bucket.bucket_name}"
-#  }
-#
-#}
-#
-## Create CBR Rules Last
-#module "bucket_cbr_rules" {
-#  depends_on       = [ibm_cos_bucket_replication_rule.cos_replication_rule]
-#  for_each         = { for bucket in module.buckets.buckets : bucket.bucket_name => bucket }
-#  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-#  version          = "1.9.0"
-#  rule_description = local.bucket_rule_descriptions[each.key]
-#  enforcement_mode = var.bucket_cbr_rule.enforcement_mode
-#  rule_contexts    = var.bucket_cbr_rule.rule_contexts
-#  resources        = local.bucket_rule_resources[each.key]
-#  operations = var.bucket_cbr_rule.operations == null ? [{
-#    api_types = [
-#      {
-#        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
-#      }
-#    ]
-#  }] : var.bucket_cbr_rule.operations
-#}
 
 module "instance_cbr_rule" {
   depends_on       = [module.buckets]
@@ -239,10 +111,6 @@ module "instance_cbr_rule" {
 }
 
 locals {
-  bucket_rule_ids = flatten([
-    for bucket in module.buckets :
-    bucket.bucket_cbr_rules[*].rule_id
-  ])
-
-  all_rule_ids = concat(local.bucket_rule_ids, [module.instance_cbr_rule.rule_id])
+  instance_rule_id = module.instance_cbr_rule.rule_id
+  all_rule_ids     = concat(module.buckets.cbr_rule_ids, [local.instance_rule_id])
 }

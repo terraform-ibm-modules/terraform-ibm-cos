@@ -340,12 +340,7 @@ module "instance_cbr_rule" {
 }
 
 locals {
-  bucket_rule_ids = [
-    for bucket_name, bucket_rule in module.bucket_cbr_rule :
-    bucket_rule.rule_id
-  ]
-
-  instance_rule_id = can(module.instance_cbr_rule[0]) ? module.instance_cbr_rule[0].rule_id : null
-
-  all_rule_ids = concat(local.bucket_rule_ids, compact([local.instance_rule_id]))
+  bucket_rule_ids   = [for instance in module.bucket_cbr_rule : instance.rule_id]
+  instance_rule_ids = flatten([for instance in module.instance_cbr_rule : instance.rule_id])
+  all_rule_ids      = concat(local.bucket_rule_ids, local.instance_rule_ids)
 }

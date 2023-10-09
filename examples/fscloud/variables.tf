@@ -22,18 +22,6 @@ variable "region" {
   default     = "us-south"
 }
 
-variable "primary_region" {
-  description = "region for the primary bucket"
-  type        = string
-  default     = "us-south"
-}
-
-variable "secondary_region" {
-  description = "region for the secondary bucket"
-  type        = string
-  default     = "us-east"
-}
-
 variable "bucket_existing_hpcs_instance_guid" {
   description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
   type        = string
