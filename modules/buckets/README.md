@@ -84,8 +84,8 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_bucket_cbr_rules"></a> [bucket\_cbr\_rules](#output\_bucket\_cbr\_rules) | List of COS bucket rules |
 | <a name="output_bucket_configs"></a> [bucket\_configs](#output\_bucket\_configs) | List of bucket config definitions |
 | <a name="output_buckets"></a> [buckets](#output\_buckets) | Map of buckets created in the Cloud Object Storage Instance |
 | <a name="output_cbr_rule_ids"></a> [cbr\_rule\_ids](#output\_cbr\_rule\_ids) | List of bucket CBR rule ids |
+| <a name="output_cbr_rules"></a> [cbr\_rules](#output\_cbr\_rules) | List of COS bucket CBR rules |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
