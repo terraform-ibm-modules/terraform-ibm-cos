@@ -74,18 +74,19 @@ locals {
   ]
 }
 
-module "instance_cbr_rule" {
+module "instance_cbr_rules" {
   depends_on       = [module.buckets]
+  count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
   version          = "1.9.0"
-  rule_description = var.instance_cbr_rule.description
-  enforcement_mode = var.instance_cbr_rule.enforcement_mode
-  rule_contexts    = var.instance_cbr_rule.rule_contexts
+  rule_description = var.instance_cbr_rules[count.index].description
+  enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
+  rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
   resources = [{
     attributes = [
       {
         name     = "accountId"
-        value    = var.instance_cbr_rule.account_id
+        value    = var.instance_cbr_rules[count.index].account_id
         operator = "stringEquals"
       },
       {
@@ -101,16 +102,16 @@ module "instance_cbr_rule" {
     ],
     tags = local.access_tags == null ? [] : local.access_tags
   }]
-  operations = var.instance_cbr_rule.operations == null ? [{
+  operations = var.instance_cbr_rules[count.index].operations == null ? [{
     api_types = [
       {
         api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }
     ]
-  }] : var.instance_cbr_rule.operations
+  }] : var.instance_cbr_rules[count.index].operations
 }
 
 locals {
-  instance_rule_id = module.instance_cbr_rule.rule_id
-  all_rule_ids     = concat(module.buckets.cbr_rule_ids, [local.instance_rule_id])
+  instance_rule_ids = module.instance_cbr_rules[*].rule_id
+  all_rule_ids      = concat(module.buckets.cbr_rule_ids, local.instance_rule_ids)
 }

@@ -475,8 +475,8 @@
     }
   },
   "outputs": {
-    "bucket_cbr_rule": {
-      "name": "bucket_cbr_rule",
+    "bucket_cbr_rules": {
+      "name": "bucket_cbr_rules",
       "description": "COS bucket rules",
       "value": "module.bucket_cbr_rule",
       "pos": {
@@ -547,8 +547,8 @@
         "line": 50
       }
     },
-    "instance_cbr_rule": {
-      "name": "instance_cbr_rule",
+    "instance_cbr_rules": {
+      "name": "instance_cbr_rules",
       "description": "COS instance rules",
       "value": "module.instance_cbr_rule",
       "pos": {

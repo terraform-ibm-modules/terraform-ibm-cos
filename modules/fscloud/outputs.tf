@@ -28,12 +28,12 @@ output "cos_instance_guid" {
 
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
-  value       = module.buckets.bucket_cbr_rules
+  value       = module.buckets.cbr_rules
 }
 
-output "instance_cbr_rule" {
+output "instance_cbr_rules" {
   description = "COS instance rules"
-  value       = module.instance_cbr_rule
+  value       = module.instance_cbr_rules[*]
 }
 
 output "cbr_rule_ids" {

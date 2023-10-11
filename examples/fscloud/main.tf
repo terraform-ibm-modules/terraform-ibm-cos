@@ -92,7 +92,7 @@ module "cos_fscloud" {
   activity_tracker_crn = local.at_crn
   access_tags          = var.access_tags
 
-  instance_cbr_rule = {
+  instance_cbr_rules = [{
     description      = "sample rule for the instance"
     enforcement_mode = "enabled"
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -112,7 +112,7 @@ module "cos_fscloud" {
         api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }]
     }]
-  }
+  }]
   bucket_configs = [{
     access_tags              = var.access_tags
     bucket_name              = "${var.prefix}-primary-bucket"

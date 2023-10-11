@@ -16,9 +16,9 @@ output "bucket_cbr_rules" {
   value       = module.cos_fscloud.bucket_cbr_rules
 }
 
-output "instance_cbr_rule" {
+output "instance_cbr_rules" {
   description = "COS instance rule"
-  value       = module.cos_fscloud.instance_cbr_rule
+  value       = module.cos_fscloud.instance_cbr_rules
 }
 
 output "cbr_rule_ids" {

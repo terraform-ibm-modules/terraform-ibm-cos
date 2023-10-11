@@ -142,6 +142,7 @@ variable "bucket_configs" {
 
   }))
   description = "Cloud Object Storage bucket configurations"
+  default     = []
 }
 
 
@@ -150,8 +151,8 @@ variable "bucket_configs" {
 # Context-based restriction (CBR)
 ##############################################################
 
-variable "instance_cbr_rule" {
-  type = object({
+variable "instance_cbr_rules" {
+  type = list(object({
     description = string
     account_id  = string
     rule_contexts = list(object({
@@ -169,9 +170,9 @@ variable "instance_cbr_rule" {
         api_type_id = string
       }))
     })))
-  })
-  description = "(Optional) CBR rule to create for the instance"
-  default     = null
+  }))
+  description = "(Optional, list) List of CBR rule to create for the instance"
+  default     = []
   # Validation happens in the rule module
 }
 

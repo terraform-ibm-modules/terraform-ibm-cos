@@ -117,7 +117,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	logger.Log(t, fmt.Sprintf("Waiting %.f minutes for CBRs to be picked up...", delayMinutes))
 	time.Sleep(delayDuration)
 
-	expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "buckets", "bucket_cbr_rules", "instance_cbr_rule"}
+	expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "buckets", "bucket_cbr_rules", "instance_cbr_rules"}
 	_, tfOutputsErr := testhelper.ValidateTerraformOutputs(outputs, expectedOutputs...)
 	if assert.Nil(t, tfOutputsErr, tfOutputsErr) {
 		// Retrieve the API key from the environment variable
