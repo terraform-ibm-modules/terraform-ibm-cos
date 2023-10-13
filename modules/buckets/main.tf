@@ -52,3 +52,10 @@ module "buckets" {
 
   bucket_cbr_rules = each.value.cbr_rules
 }
+
+locals {
+  bucket_rule_ids = flatten([
+    for bucket_name, bucket_rule in module.buckets :
+    bucket_rule.cbr_rule_ids
+  ])
+}

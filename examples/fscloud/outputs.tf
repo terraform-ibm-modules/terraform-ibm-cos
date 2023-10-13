@@ -1,19 +1,27 @@
-output "primary_bucket_id" {
-  description = "Primary bucket id"
-  value       = module.cos_fscloud.primary_bucket_id
+output "buckets" {
+  description = "COS buckets"
+  value       = module.cos_fscloud.buckets
+}
+output "cos_instance_id" {
+  description = "COS instance id"
+  value       = module.cos_fscloud.cos_instance_id
 }
 
-output "secondary_bucket_id" {
-  description = "Secondary bucket id"
-  value       = module.cos_fscloud.secondary_bucket_id
+output "cos_instance_guid" {
+  description = "COS instance guid"
+  value       = module.cos_fscloud.cos_instance_guid
+}
+output "bucket_cbr_rules" {
+  description = "COS bucket rules"
+  value       = module.cos_fscloud.bucket_cbr_rules
 }
 
-output "primary_bucket_name" {
-  description = "Primary bucket name"
-  value       = module.cos_fscloud.primary_bucket_name
+output "instance_cbr_rules" {
+  description = "COS instance rule"
+  value       = module.cos_fscloud.instance_cbr_rules
 }
 
-output "secondary_bucket_name" {
-  description = "Primary bucket name"
-  value       = module.cos_fscloud.secondary_bucket_name
+output "cbr_rule_ids" {
+  description = "List of all CBR rule ids generated"
+  value       = module.cos_fscloud.cbr_rule_ids
 }

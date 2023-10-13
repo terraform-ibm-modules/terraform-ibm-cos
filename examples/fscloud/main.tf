@@ -74,7 +74,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.12.1"
-  name             = "${var.prefix}-VPC-network-zone"
+  name             = "${var.prefix}-VPC-fscloud-nz"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
   addresses = [{
@@ -84,25 +84,50 @@ module "cbr_zone" {
 }
 
 module "cos_fscloud" {
-  source                                = "../../modules/fscloud"
-  resource_group_id                     = module.resource_group.resource_group_id
-  cos_instance_name                     = "${var.prefix}-cos"
-  cos_tags                              = var.resource_tags
-  primary_bucket_name                   = "${var.prefix}-bucket-primary"
-  primary_region                        = var.primary_region
-  primary_existing_hpcs_instance_guid   = var.primary_existing_hpcs_instance_guid
-  primary_hpcs_key_crn                  = var.primary_hpcs_key_crn
-  secondary_bucket_name                 = "${var.prefix}-bucket-secondary"
-  secondary_existing_hpcs_instance_guid = var.secondary_existing_hpcs_instance_guid
-  secondary_region                      = var.secondary_region
-  secondary_hpcs_key_crn                = var.secondary_hpcs_key_crn
-  sysdig_crn                            = module.observability_instances.cloud_monitoring_crn
-  activity_tracker_crn                  = local.at_crn
-  access_tags                           = var.access_tags
-  bucket_cbr_rules = [
-    {
-      description      = "sample rule for bucket 1"
-      enforcement_mode = "report"
+  source               = "../../modules/fscloud"
+  resource_group_id    = module.resource_group.resource_group_id
+  cos_instance_name    = "${var.prefix}-cos"
+  cos_tags             = var.resource_tags
+  sysdig_crn           = module.observability_instances.cloud_monitoring_crn
+  activity_tracker_crn = local.at_crn
+  access_tags          = var.access_tags
+
+  instance_cbr_rules = [{
+    description      = "sample rule for the instance"
+    enforcement_mode = "enabled"
+    account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone.zone_id
+      }]
+    }]
+    operations = [{
+      api_types = [{
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+      }]
+    }]
+  }]
+  bucket_configs = [{
+    access_tags              = var.access_tags
+    bucket_name              = "${var.prefix}-primary-bucket"
+    kms_key_crn              = var.bucket_hpcs_key_crn
+    kms_guid                 = var.bucket_existing_hpcs_instance_guid
+    management_endpoint_type = "public"
+    resource_group_id        = module.resource_group.resource_group_id
+    region_location          = var.region
+    activity_tracking = {
+      activity_tracker_crn = local.at_crn
+    }
+
+    cbr_rules = [{
+      description      = "sample rule for ${var.prefix}-primary-bucket"
+      enforcement_mode = "enabled"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
       rule_contexts = [{
         attributes = [
@@ -120,29 +145,6 @@ module "cos_fscloud" {
           api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
         }]
       }]
-    }
-  ]
-  instance_cbr_rules = [
-    {
-      description      = "sample rule for the instance"
-      enforcement_mode = "report"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
-      operations = [{
-        api_types = [{
-          api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
-        }]
-      }]
-    }
-  ]
+    }]
+  }, ]
 }

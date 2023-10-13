@@ -56,3 +56,18 @@ output "cos_instance_guid" {
   description = "The GUID of the Cloud Object Storage Instance where the buckets are created"
   value       = local.cos_instance_guid
 }
+
+output "bucket_cbr_rules" {
+  description = "COS bucket rules"
+  value       = module.bucket_cbr_rule
+}
+
+output "instance_cbr_rules" {
+  description = "COS instance rules"
+  value       = module.instance_cbr_rule
+}
+
+output "cbr_rule_ids" {
+  description = "List of all rule ids"
+  value       = local.all_rule_ids
+}
