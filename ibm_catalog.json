@@ -19,6 +19,52 @@
             "long_description": "You can use this module to provision and configure a Cloud Object Storage instance and bucket.\nYou can configure the following aspects of your instances:\n- Bucket encryption - based on Key Protect keys\n- Activity tracking and auditing\n- Monitoring\n- Data retention, lifecycle and archiving options",
             "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
             "offering_icon_url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iODlweCIgaGVpZ2h0PSI4OXB4IiB2aWV3Qm94PSIwIDAgODkgODkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+R3JvdXAgMjwvdGl0bGU+CiAgICA8ZGVmcz4KICAgICAgICA8bGluZWFyR3JhZGllbnQgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSIgaWQ9ImxpbmVhckdyYWRpZW50LTEiPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjQUY4MTAwIiBzdG9wLW9wYWNpdHk9IjAuNjM0NzgwOTkiIG9mZnNldD0iMCUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0Q3QjcwMCIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgICA8cmFkaWFsR3JhZGllbnQgY3g9IjUwJSIgY3k9IjUwJSIgZng9IjUwJSIgZnk9IjUwJSIgcj0iNDguMTIxMjg0NyUiIGlkPSJyYWRpYWxHcmFkaWVudC0yIj4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0QzNTIyNCIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjQjgzNDFCIiBzdG9wLW9wYWNpdHk9IjAuNjA0OTI1ODM2IiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgICAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ikdyb3VwLTIiPgogICAgICAgICAgICA8ZyBpZD0iR29sZGVuZXllX0lLUzIiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgICAgICA8ZWxsaXBzZSBpZD0iT3ZhbCIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudC0xKSIgY3g9IjQ0LjM2MzYzNjQiIGN5PSI0NC4yMDI4OTg2IiByeD0iNDQuMzYzNjM2NCIgcnk9IjQ0LjIwMjg5ODYiPjwvZWxsaXBzZT4KICAgICAgICAgICAgICAgIDxjaXJjbGUgaWQ9Ik92YWwiIGZpbGw9InVybCgjcmFkaWFsR3JhZGllbnQtMikiIGN4PSI0NC45MDkwOTA5IiBjeT0iNDMuODg0MDU4IiByPSIzMyI+PC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJPdmFsIiBmaWxsPSJ1cmwoI3JhZGlhbEdyYWRpZW50LTIpIiBjeD0iNDQuOTA5MDkwOSIgY3k9IjQzLjg4NDA1OCIgcj0iMzMiPjwvY2lyY2xlPgogICAgICAgICAgICAgICAgPGNpcmNsZSBpZD0iT3ZhbCIgZmlsbD0iI0ZGRkZGRiIgY3g9IjQ0LjUiIGN5PSI0My41IiByPSIyNS41Ij48L2NpcmNsZT4KICAgICAgICAgICAgICAgIDxnIGlkPSJ1dGlsaXRpZXMtLy1hcHAtaWNvbnMtLy1rdWJlcm5ldGVzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMC4wMDAwMDAsIDI3LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgICAgIDxnIGlkPSJLdWJlcm5ldGVzLVNlcnZpY2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuNjQ1ODMzLCAwLjQ1ODMzMykiPgogICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMCw5LjM1NzYzODg5IEMwLDkuNzg5ODczNjIgMC4yMzkyNDYwMTMsMTAuMjIyMjY5MyAwLjcxNzI1MjQyNSwxMC41NTAyMjcgTDExLjk2Mjc4NjMsMTguMjY0OTU3MSBDMTIuOTE5MTIyOCwxOC45MjEwMzM1IDE0LjQ4NDI1OCwxOC45MjExOTQ0IDE1LjQ0MDc1NjQsMTguMjY0OTU3MSBMMjYuNjg3MDk5NiwxMC41NTEzNTM0IEMyNy4xNjU0Mjk3LDEwLjIyMzM5NTcgMjcuNDA0NTEzOSw5Ljc5MDgzOTE1IDI3LjQwNDUxMzksOS4zNTg0NDM1IEwyNy40MDQ1MTM5LDIyLjY4NDgyMjggQzI3LjQwNDUxMzksMjMuMTE3MjE4NCAyNy4xNjU0Mjk3LDIzLjU0OTYxNDEgMjYuNjg3MDk5NiwyMy44Nzc3MzI3IEwxNS40NDA3NTY0LDMxLjU5MTMzNjQgQzE0LjQ4NDI1OCwzMi4yNDc0MTI4IDEyLjkxOTEyMjgsMzIuMjQ3MjUxOCAxMS45NjI3ODYzLDMxLjU5MTMzNjQgTDAuNzE3MjUyNDI1LDIzLjg3NjQ0NTMgQzAuMjM5MDg0MTQyLDIzLjU0ODQ4NzYgMCwyMy4xMTYwOTIgMCwyMi42ODM1MzU0IEwwLDkuMzU3NjM4ODkgWiIgaWQ9IlBhdGgiIGZpbGw9IiMwMDAwMDAiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTAsOS40NzE3NjI0NyBDMCw5LjkwNzA4MjggMC4yMzkyNDQ2LDEwLjM0MjU2NTIgMC43MTcyNDgxODgsMTAuNjcyODY0MSBMOC42OTI0NDU4OCwxNi4xODI1OTk3IEwxMS45NjM4NDg3LDEzLjkyMjg1NjEgQzEyLjkyMDM0MTUsMTMuMjYyMDk2MyAxNC40ODU0Njc0LDEzLjI2MjI1ODMgMTUuNDQxNzk4MywxMy45MjI4NTYxIEwxOC43MTIyMjk5LDE2LjE4MjkyMzkgTDI2LjY4NzEwMzgsMTAuNjc0MTYwNyBDMjcuMTY1NDMxMiwxMC4zNDM2OTk3IDI3LjQwNDUxMzksOS45MDgyMTcyOSAyNy40MDQ1MTM5LDkuNDcyNzM0ODkgTDI3LjQwNDUxMzksOS40NjY1NzYyMiBDMjcuNDA0NTEzOSw5LjAzMDkzMTc1IDI3LjE2NTQzMTIsOC41OTU0NDkzNSAyNi42ODcyNjU3LDguMjY1MTUwNDYgTDE1LjQ0MjQ0NTgsMC40OTUzNDcwNTEgQzE0LjQ4NTQ2NzQsLTAuMTY1MDg4NjcgMTIuOTIwNTAzNCwtMC4xNjUwODg2NyAxMS45NjQwMTA2LDAuNDk1MTg0OTgxIEwwLjcxNzczMzgsOC4yNjM4NTM5IEMwLjIzOTQwNjQ3LDguNTk0MTUyNzkgMCw5LjAyOTc5NzI2IDAsOS40NjUxMTc1OSBMMCwyMi43MjU2OTQ0IEwwLDkuNDcxNzYyNDcgWiIgaWQ9IlBhdGgiIGZpbGw9IiMwRjZGRkYiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZSIgZmlsbD0iI0ZGRkZGRiIgeD0iMjkiIHk9IjI3IiB3aWR0aD0iMzEiIGhlaWdodD0iMzMiPjwvcmVjdD4KICAgICAgICAgICAgPGcgaWQ9Ik9yZ2FuaXphdGlvbi0vLURhdGEtLy1vYmplY3Qtc3RvcmFnZS0vLTE2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMC4wMDAwMDAsIDI4LjAwMDAwMCkiIGZpbGw9IiMwMDQzQ0UiPgogICAgICAgICAgICAgICAgPHBhdGggZD0iTTI0LjUsMTcuNSBMMjIuNzUsMTcuNSBMMjIuNzUsMTkuMjUgTDI0LjUsMTkuMjUgTDI0LjUsMjQuNSBMMy41LDI0LjUgTDMuNSwxOS4yNSBMMTIuMjUsMTkuMjUgTDEyLjI1LDE3LjUgTDMuNSwxNy41IEMyLjUzMzk2MTQ0LDE3LjUwMTEwOSAxLjc1MTEwOTAzLDE4LjI4Mzk2MTQgMS43NSwxOS4yNSBMMS43NSwyNC41IEMxLjc1MTEwOTAzLDI1LjQ2NjAzODYgMi41MzM5NjE0NCwyNi4yNDg4OTEgMy41LDI2LjI1IEwyNC41LDI2LjI1IEMyNS40NjYwMzg2LDI2LjI0ODg5MSAyNi4yNDg4OTEsMjUuNDY2MDM4NiAyNi4yNSwyNC41IEwyNi4yNSwxOS4yNSBDMjYuMjQ4ODkxLDE4LjI4Mzk2MTQgMjUuNDY2MDM4NiwxNy41MDExMDkgMjQuNSwxNy41IFogTTYuMTI1LDIyLjc1IEM2LjYwODI0OTE2LDIyLjc1IDcsMjIuMzU4MjQ5MiA3LDIxLjg3NSBDNywyMS4zOTE3NTA4IDYuNjA4MjQ5MTYsMjEgNi4xMjUsMjEgQzUuNjQxNzUwODQsMjEgNS4yNSwyMS4zOTE3NTA4IDUuMjUsMjEuODc1IEM1LjI1LDIyLjM1ODI0OTIgNS42NDE3NTA4NCwyMi43NSA2LjEyNSwyMi43NSBaIE0yNi4yNSw3IEwxOS4yNSw3IEwxOS4yNSwxMi4yNSBMMTQsMTIuMjUgTDE0LDE5LjI1IEwyMSwxOS4yNSBMMjEsMTQgTDI2LjI1LDE0IEwyNi4yNSw3IFogTTE5LjI1LDE3LjUgTDE1Ljc1LDE3LjUgTDE1Ljc1LDE0IEwxOS4yNSwxNCBMMTkuMjUsMTcuNSBaIE0yNC41LDEyLjI1IEwyMSwxMi4yNSBMMjEsOC43NSBMMjQuNSw4Ljc1IEwyNC41LDEyLjI1IFogTTE1Ljc1LDguNzUgTDguNzUsOC43NSBMOC43NSwxLjc1IEwxNS43NSwxLjc1IEwxNS43NSw4Ljc1IFogTTEwLjUsNyBMMTQsNyBMMTQsMy41IEwxMC41LDMuNSBMMTAuNSw3IFoiIGlkPSJGaWxsIj48L3BhdGg+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==",
+            "features": [
+                {
+                    "title": "Create COS instance",
+                    "description": "Supports optionally creating a Cloud Object Storage instance"
+                },
+                {
+                    "title": "Create COS buckets",
+                    "description": "Supports optionally creating both cross regional and regional Cloud Object Storage buckets"
+                },
+                {
+                    "title": "Create HMAC key",
+                    "description": "Supports optionally creating a HMAC key for the Cloud Object Storage instance"
+                },
+                {
+                    "title": "Attach access tags",
+                    "description": "Supports optionally attaching access tags to the Cloud Object Storage instance"
+                },
+                {
+                    "title": "Bucket retention",
+                    "description": "Supports configuring bucket retention"
+                },
+                {
+                    "title": "Object versioning",
+                    "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket"
+                },
+                {
+                    "title": "Archiving",
+                    "description": "Supports enabling bucket archiving"
+                },
+                {
+                    "title": "Activity Tracking",
+                    "description": "Supports Activity Tracker integration"
+                },
+                {
+                    "title": "Monitoring",
+                    "description": "Supports IBM Cloud Monitoring integration"
+                },
+                {
+                    "title": "KMS encryption",
+                    "description": "Supports KMS encryption (BYOK and KYOK), including optionally creating the service to servcie auth policy with KMS."
+                },
+                {
+                    "title": "CBR",
+                    "description": "Supports creating context based restriction rules for both instance and buckets"
+                }
+            ],
             "flavors": [
                 {
                     "label": "Basic",
