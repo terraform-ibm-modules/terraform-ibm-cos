@@ -69,27 +69,87 @@
                 {
                     "label": "Basic",
                     "name": "basic",
-                    "working_directory": "examples/basic"
+                    "working_directory": "examples/basic",
+                    "architecture": {
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "",
+                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": ""
+                            }
+                        ]
+                    }
                 },
                 {
                     "label": "Complete (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)",
                     "name": "complete",
-                    "working_directory": "examples/complete"
+                    "working_directory": "examples/complete",
+                    "architecture": {
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "",
+                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": ""
+                            }
+                        ]
+                    }
                 },
                 {
                     "label": "Financial Services Cloud Profile",
                     "name": "fscloud",
-                    "working_directory": "examples/fscloud"
+                    "working_directory": "examples/fscloud",
+                    "architecture": {
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "",
+                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": ""
+                            }
+                        ]
+                    }
                 },
                 {
                     "label": "COS Bucket with One Rate Plan",
                     "name": "one-rate-plan",
-                    "working_directory": "examples/one-rate-plan"
+                    "working_directory": "examples/one-rate-plan",
+                    "architecture": {
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "",
+                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": ""
+                            }
+                        ]
+                    }
                 },
                 {
                     "label": "COS Bucket Replication",
                     "name": "replication",
-                    "working_directory": "examples/replication"
+                    "working_directory": "examples/replication",
+                    "architecture": {
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "",
+                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": ""
+                            }
+                        ]
+                    }
                 }
             ]
         }
