@@ -69,27 +69,27 @@
                 {
                     "label": "Basic",
                     "name": "basic",
-                    "working_directory" : "examples/basic"
+                    "working_directory": "examples/basic",
                 },
                 {
                     "label": "Complete (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)",
                     "name": "complete",
-                    "working_directory" : "examples/complete"
+                    "working_directory": "examples/complete"
                 },
                 {
                     "label": "Financial Services Cloud Profile",
                     "name": "fscloud",
-                    "working_directory" : "examples/fscloud"
+                    "working_directory": "examples/fscloud"
                 },
                 {
                     "label": "COS Bucket with One Rate Plan",
                     "name": "one-rate-plan",
-                    "working_directory" : "examples/one-rate-plan"
+                    "working_directory": "examples/one-rate-plan"
                 },
                 {
                     "label": "COS Bucket Replication",
                     "name": "replication",
-                    "working_directory" : "examples/replication"
+                    "working_directory": "examples/replication"
                 }
             ]
         }
