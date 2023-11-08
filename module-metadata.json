@@ -475,6 +475,15 @@
     }
   },
   "outputs": {
+    "bucket_cbr_rules": {
+      "name": "bucket_cbr_rules",
+      "description": "COS bucket rules",
+      "value": "module.bucket_cbr_rule",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 60
+      }
+    },
     "bucket_crn": {
       "name": "bucket_crn",
       "description": "Bucket CRN",
@@ -511,6 +520,15 @@
         "line": 40
       }
     },
+    "cbr_rule_ids": {
+      "name": "cbr_rule_ids",
+      "description": "List of all rule ids",
+      "value": "local.all_rule_ids",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 70
+      }
+    },
     "cos_instance_guid": {
       "name": "cos_instance_guid",
       "description": "The GUID of the Cloud Object Storage Instance where the buckets are created",
@@ -527,6 +545,15 @@
       "pos": {
         "filename": "outputs.tf",
         "line": 50
+      }
+    },
+    "instance_cbr_rules": {
+      "name": "instance_cbr_rules",
+      "description": "COS instance rules",
+      "value": "module.instance_cbr_rule",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 65
       }
     },
     "kms_key_crn": {
@@ -582,7 +609,7 @@
     }
   },
   "required_core": [
-    "\u003e= 1.0.0"
+    "\u003e= 1.0.0, \u003c1.6.0"
   ],
   "required_providers": {
     "ibm": {
