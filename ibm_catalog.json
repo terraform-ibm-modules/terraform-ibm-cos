@@ -69,7 +69,7 @@
                 {
                     "label": "Basic",
                     "name": "basic",
-                    "working_directory": "examples/basic",
+                    "working_directory": "examples/basic"
                 },
                 {
                     "label": "Complete (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)",
