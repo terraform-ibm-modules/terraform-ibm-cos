@@ -84,7 +84,7 @@
                     }
                 },
                 {
-                    "label": "Complete (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)",
+                    "label": "Complete (multiple Object Storage buckets with retention, encryption, tracking, and monitoring)",
                     "name": "complete",
                     "working_directory": "examples/complete",
                     "architecture": {
