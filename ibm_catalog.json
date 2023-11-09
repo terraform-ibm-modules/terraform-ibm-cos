@@ -13,7 +13,8 @@
             "keywords": [
                 "terraform",
                 "cos",
-                "bucket"
+                "bucket",
+                "storage"
             ],
             "short_description": "Configures an IBM Cloud Object Storage instance and bucket",
             "long_description": "Use this module to provision and configure an IBM Cloud Object Storage instance and bucket.\nYou can configure the following aspects of your instances:\n- Bucket encryption - based on Key Protect keys\n- Activity tracking and auditing\n- Monitoring\n- Data retention, lifecycle and archiving options",
