@@ -118,7 +118,7 @@
                     }
                 },
                 {
-                    "label": "COS Bucket with One Rate Plan",
+                    "label": "Object Storage bucket with a One Rate plan",
                     "name": "one-rate-plan",
                     "working_directory": "examples/one-rate-plan",
                     "architecture": {
