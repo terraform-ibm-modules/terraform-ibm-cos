@@ -21,48 +21,48 @@
             "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/docs/cos_icon.svg",
             "features": [
                 {
-                    "title": "Create COS instance",
-                    "description": "Supports optionally creating a Cloud Object Storage instance"
+                    "title": "Create Object Storage instance",
+                    "description": "Create an IBM Cloud Object Storage instance."
                 },
                 {
-                    "title": "Create COS buckets",
-                    "description": "Supports optionally creating both cross regional and regional Cloud Object Storage buckets"
+                    "title": "Create Object Storage buckets",
+                    "description": "Create both cross-regional and regional Object Storage buckets."
                 },
                 {
                     "title": "Create HMAC key",
-                    "description": "Supports optionally creating a HMAC key for the Cloud Object Storage instance"
+                    "description": "Create an HMAC key for the Object Storage instance."
                 },
                 {
                     "title": "Attach access tags",
-                    "description": "Supports optionally attaching access tags to the Cloud Object Storage instance"
+                    "description": "Attach access tags to the Object Storage instance."
                 },
                 {
                     "title": "Bucket retention",
-                    "description": "Supports configuring bucket retention"
+                    "description": "Configure bucket retention."
                 },
                 {
                     "title": "Object versioning",
-                    "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket"
+                    "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket."
                 },
                 {
                     "title": "Archiving",
-                    "description": "Supports enabling bucket archiving"
+                    "description": "Add archive policies on the bucket."
                 },
                 {
                     "title": "Activity Tracking",
-                    "description": "Supports Activity Tracker integration"
+                    "description": "Integrate Activity Tracker events."
                 },
                 {
                     "title": "Monitoring",
-                    "description": "Supports IBM Cloud Monitoring integration"
+                    "description": "Provision IBM Cloud Monitoring on Object Storage data."
                 },
                 {
                     "title": "KMS encryption",
-                    "description": "Supports KMS encryption (BYOK and KYOK), including optionally creating the service to servcie auth policy with KMS."
+                    "description": "Supports key management encryption (BYOK and KYOK), including service-to-service authorization policies with KMS."
                 },
                 {
                     "title": "CBR",
-                    "description": "Supports creating context based restriction rules for both instance and buckets"
+                    "description": "Create context-based restriction (CBR) rules for both instance and buckets."
                 }
             ],
             "flavors": [
