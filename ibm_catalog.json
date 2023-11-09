@@ -101,7 +101,7 @@
                     }
                 },
                 {
-                    "label": "Financial Services Cloud",
+                    "label": "IBM Cloud Framework for Financial Services compliant",
                     "name": "fscloud",
                     "working_directory": "examples/fscloud",
                     "architecture": {
