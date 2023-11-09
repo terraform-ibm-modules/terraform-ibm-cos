@@ -16,7 +16,7 @@
                 "bucket"
             ],
             "short_description": "Configures an IBM Cloud Object Storage instance and bucket",
-            "long_description": "You can use this module to provision and configure a Cloud Object Storage instance and bucket.\nYou can configure the following aspects of your instances:\n- Bucket encryption - based on Key Protect keys\n- Activity tracking and auditing\n- Monitoring\n- Data retention, lifecycle and archiving options",
+            "long_description": "Use this module to provision and configure an IBM Cloud Object Storage instance and bucket.\nYou can configure the following aspects of your instances:\n- Bucket encryption - based on Key Protect keys\n- Activity tracking and auditing\n- Monitoring\n- Data retention, lifecycle and archiving options",
             "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
             "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/docs/cos_icon.svg",
             "features": [
