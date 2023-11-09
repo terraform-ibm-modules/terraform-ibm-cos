@@ -18,7 +18,7 @@
             "short_description": "Configures a Cloud Object Storage instance and/or bucket with options.",
             "long_description": "You can use this module to provision and configure a Cloud Object Storage instance and bucket.\nYou can configure the following aspects of your instances:\n- Bucket encryption - based on Key Protect keys\n- Activity tracking and auditing\n- Monitoring\n- Data retention, lifecycle and archiving options",
             "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
-            "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/GoldeneyeDeployableArchitecture.svg",
+            "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/docs/cos_icon.svg",
             "features": [
                 {
                     "title": "Create COS instance",
@@ -101,7 +101,7 @@
                     }
                 },
                 {
-                    "label": "Financial Services Cloud Profile",
+                    "label": "Financial Services Cloud",
                     "name": "fscloud",
                     "working_directory": "examples/fscloud",
                     "architecture": {
