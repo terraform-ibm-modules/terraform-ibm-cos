@@ -135,7 +135,7 @@
                     }
                 },
                 {
-                    "label": "COS Bucket Replication",
+                    "label": "Object Storage bucket with replication",
                     "name": "replication",
                     "working_directory": "examples/replication",
                     "architecture": {
