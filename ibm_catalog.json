@@ -26,8 +26,8 @@
                     "description": "Create an IBM Cloud Object Storage instance."
                 },
                 {
-                    "title": "Create Object Storage buckets",
-                    "description": "Create both cross-regional and regional Object Storage buckets."
+                    "title": "Create Object Storage bucket",
+                    "description": "Create either a cross-regional or regional Object Storage bucket."
                 },
                 {
                     "title": "Create HMAC key",
