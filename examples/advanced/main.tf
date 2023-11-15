@@ -11,6 +11,18 @@ module "resource_group" {
 }
 
 ##############################################################################
+# Create serviceID to use for resource key hmac
+#
+# NOTE: The module itself supports creating one, but this examples hows how
+# you can use an existing one
+##############################################################################
+
+resource "ibm_iam_service_id" "resource_key_existing_serviceid" {
+  name        = "${var.prefix}-reskey-serviceid"
+  description = "ServiceID for ${var.prefix} env to use for resource key credentials"
+}
+
+##############################################################################
 # VPC
 ##############################################################################
 
@@ -105,11 +117,13 @@ module "cbr_zone" {
   }]
 }
 
-# Create COS instance and Key Protect instance.
-# Create COS bucket-1 with:
+##############################################################################
+# Create COS instance and COS bucket-1 with:
 # - Encryption
 # - Monitoring
 # - Activity Tracking
+##############################################################################
+
 module "cos_bucket1" {
   source                              = "../../"
   resource_group_id                   = module.resource_group.resource_group_id
@@ -123,8 +137,9 @@ module "cos_bucket1" {
   existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
-  # disable retention for test environments - enable for stage/prod
-  retention_enabled    = false
+  # If no value is passed for this variable, the module will create a new service ID for the resource key
+  resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
+  retention_enabled    = false # disable retention for test environments - enable for stage/prod
   activity_tracker_crn = local.at_crn
   bucket_cbr_rules = [
     {
@@ -171,15 +186,17 @@ module "cos_bucket1" {
   ]
 }
 
-# We will reuse the COS instance, Key Protect instance and Key Protect Key Ring / Key that were created in cos_bucket1 module.
-# Create COS bucket-2 with:
+##############################################################################
+# Create COS bucket-2 (in the COS instance created above) with:
 # - Cross Region Location
 # - Encryption
 # - Monitoring
 # - Activity Tracking
+##############################################################################
+
 module "cos_bucket2" {
   source                              = "../../"
-  depends_on                          = [module.cos_bucket1] # Required since bucket1 creates the IAM authorization policy
+  depends_on                          = [module.cos_bucket1] # Required since cos_bucket1 creates the IAM authorization policy
   bucket_name                         = "${var.prefix}-bucket-2"
   add_bucket_name_suffix              = true
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
@@ -191,9 +208,8 @@ module "cos_bucket2" {
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
-  skip_iam_authorization_policy       = true # Required since bucket1 creates the IAM authorization policy
-  # disable retention for test environments - enable for stage/prod
-  retention_enabled = false
+  skip_iam_authorization_policy       = true # Required since cos_bucket1 creates the IAM authorization policy
+  retention_enabled = false # disable retention for test environments - enable for stage/prod
   kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_cbr_rules = [
     {

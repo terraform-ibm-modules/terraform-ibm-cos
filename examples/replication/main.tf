@@ -10,7 +10,10 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
+##############################################################################
 # Create COS source bucket
+##############################################################################
+
 module "cos_source_bucket" {
   source                    = "../../"
   bucket_name               = "${var.prefix}-bucket-source"
@@ -26,7 +29,10 @@ module "cos_source_bucket" {
   expire_days               = null
 }
 
+##############################################################################
 # Create COS target bucket
+##############################################################################
+
 module "cos_target_bucket" {
   source                    = "../../"
   bucket_name               = "${var.prefix}-bucket-target"
@@ -42,7 +48,9 @@ module "cos_target_bucket" {
   expire_days               = null
 }
 
-### Configure replication rule
+##############################################################################
+# Configure replication rule
+##############################################################################
 
 resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
   depends_on = [
@@ -51,20 +59,23 @@ resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
   bucket_crn      = module.cos_source_bucket.bucket_crn
   bucket_location = var.region
   replication_rule {
-    rule_id = "replicate-everything"
-    enable  = true
-    # prefix = "prefix"
+    rule_id                         = "replicate-everything"
+    enable                          = true
     priority                        = 50
     deletemarker_replication_status = false
     destination_bucket_crn          = module.cos_target_bucket.bucket_crn
   }
 }
 
-### Configure IAM authorization policy
-
-# Data source to retrieve account ID
+##############################################################################
+# Retrieve account ID
+##############################################################################
 data "ibm_iam_account_settings" "iam_account_settings" {
 }
+
+##############################################################################
+# Configure IAM authorization policy
+##############################################################################
 
 resource "ibm_iam_authorization_policy" "policy" {
   roles = [

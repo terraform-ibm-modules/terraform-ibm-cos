@@ -1,7 +1,8 @@
-# Basic Example
+# Basic example
 
-This example creates the following infrastructure:
-- A new resource group, if one is not passed in.
-- A new service ID which will be used for resource key generation.
-- A new standard Cloud Object Storage instance and a regional public bucket in the given resource group and region.
-- A second bucket in the newly provisioned COS instance using the [buckets](../../modules/buckets) submodule
+A simple example showing how to provision a basic Object Storage instance and buckets.
+
+Resources provisioned by this example:
+- A new resource group, if existing one is not passed in.
+- A standard Cloud Object Storage instance and a regional public bucket in the given resource group and region.
+- A second bucket in the newly provisioned COS instance using the [buckets](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/buckets) submodule.

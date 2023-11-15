@@ -8,7 +8,7 @@ offerings:
     examples:
       - name: basic
         mark_ready: true
-      - name: complete
+      - name: advanced
         mark_ready: true
       - name: fscloud
         mark_ready: true

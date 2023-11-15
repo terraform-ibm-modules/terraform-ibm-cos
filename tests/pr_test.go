@@ -28,7 +28,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const completeExampleTerraformDir = "examples/complete"
+const advancedExampleTerraformDir = "examples/advanced"
 const fsCloudTerraformDir = "examples/fscloud"
 const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
@@ -85,10 +85,10 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 	return options
 }
 
-func TestRunCompleteExample(t *testing.T) {
+func TestRunAdvancedExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cos-complete", completeExampleTerraformDir)
+	options := setupOptions(t, "cos-advanced", advancedExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -208,7 +208,7 @@ func TestRunReplicateExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cos-upgrade", completeExampleTerraformDir)
+	options := setupOptions(t, "cos-upgrade", advancedExampleTerraformDir)
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {

@@ -17,7 +17,7 @@
                 "storage"
             ],
             "short_description": "Configures an IBM Cloud Object Storage instance and bucket",
-            "long_description": "Use this module to provision and configure an IBM Cloud Object Storage instance and bucket.\nYou can configure the following aspects of your instances:\n- Bucket encryption - based on Key Protect keys\n- Activity tracking and auditing\n- Monitoring\n- Data retention, lifecycle and archiving options",
+            "long_description": "Use this module to provision and configure an IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.\nYou can configure the following aspects of your instances:\n- [KMS encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)\n- [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing\n- [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)\n- Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options\n### Usage\n```\nmodule \"cos\" {\n  # Replace \"X.X.X\" with a release version to lock into a specific release\n  source                 = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/\nsource?archive=tgz&kind=terraform&name=terraform-ibm-cos&version=X.X.X\"\n  resource_group_id      = \"199f65xxxxxxXXXXXXxxxxxxed93c497\"\nregion                 = \"us-south\" # set this to null and use 'cross_region_location' to create cross-regional bucket\n  cos_instance_name      = \"my-cos-instance\"\n  bucket_name            = \"my-bucket\"\n  retention_enabled      = false # disable retention for test environments - enable for stage/prod\n  kms_encryption_enabled = false # by default, all objects are encrypted by using randomly generated keys and an all-or-nothing-transform (AONT)\n}\n```",
             "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
             "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
             "features": [
@@ -76,7 +76,7 @@
                             {
                                 "diagram": {
                                     "caption": " ",
-                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": " "
@@ -85,15 +85,15 @@
                     }
                 },
                 {
-                    "label": "Complete (multiple Object Storage buckets with retention, encryption, tracking, and monitoring)",
-                    "name": "complete",
-                    "working_directory": "examples/complete",
+                    "label": "Advanced",
+                    "name": "advanced",
+                    "working_directory": "examples/advanced",
                     "architecture": {
                         "diagrams": [
                             {
                                 "diagram": {
                                     "caption": " ",
-                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": " "
@@ -102,7 +102,7 @@
                     }
                 },
                 {
-                    "label": "IBM Cloud Framework for Financial Services compliant",
+                    "label": "Financial Services compliant",
                     "name": "fscloud",
                     "working_directory": "examples/fscloud",
                     "architecture": {
@@ -110,7 +110,7 @@
                             {
                                 "diagram": {
                                     "caption": " ",
-                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": " "
@@ -119,7 +119,7 @@
                     }
                 },
                 {
-                    "label": "Object Storage bucket with a One Rate plan",
+                    "label": "One Rate plan",
                     "name": "one-rate-plan",
                     "working_directory": "examples/one-rate-plan",
                     "architecture": {
@@ -127,7 +127,7 @@
                             {
                                 "diagram": {
                                     "caption": " ",
-                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": " "
@@ -136,7 +136,7 @@
                     }
                 },
                 {
-                    "label": "Object Storage bucket with replication",
+                    "label": "Bucket replication",
                     "name": "replication",
                     "working_directory": "examples/replication",
                     "architecture": {
@@ -144,7 +144,7 @@
                             {
                                 "diagram": {
                                     "caption": " ",
-                                    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/No_image.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": " "

@@ -1,32 +1,22 @@
-# Financial Services Cloud Profile example
+# Financial Services compliant example
 
-This example uses the [Profile for IBM Cloud Framework for Financial Services](../../modules/fscloud/) to deploy an instance of IBM Cloud Storage.
+This example uses the [Profile for IBM Cloud Framework for Financial Services](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/fscloud) to provision a Cloud Object Storage instance and a KYOK HPCS encrypted bucket with activity tracking, monitoring and CBR rules enabled.
 
-This example uses the IBM Cloud Terraform provider to create the following infrastructure:
 
-- A resource group, if one is not passed in.
-- A Sysdig instance and Activity Tracker instance (unless an Activity Tracker instance CRN is passed in) in a resource group and region.
-- A IBM Cloud Object Storage instance in a resource group and region.
-- An IAM access policy to allow Hyper Protect Crypto Services to access the Cloud Object Storage instance.
-- Two buckets, primary and secondary, in separate regions, with replication enabled.
-    - Primary Cloud Object Storage bucket configuration:
-        - Retention
-        - Encryption (KYOK Hyper Protect Crypto Service)
-        - Monitoring
-        - Activity tracking
-    - Secondary Cloud Object Storage bucket configuration:
-        - Retention
-        - Encryption (KYOK Hyper Protect Crypto Service)
-        - Monitoring
-        - Activity tracking
-- A sample virtual private cloude (VPC).
-- A context-based restriction (CBR) rule to prevent access from the VPC except to the database buckets.
+Resources provisioned by this example:
+- A new resource group, if existing one is not passed in.
+- A Sysdig and Activity Tracker instance (if existing one is not passed in) in the given resource group and region.
+- A Cloud Object Storage instance in the given resource group and region.
+- An IAM auth policy to allow the COS instance read access to the given HPCS instance.
+- A regional bucket with KYOK HPCS encryption, monitoring and activity tracking enabled
+- A basic VPC and subnet.
+- A Context Based Restriction (CBR) network zone containing the VPC.
+- Context Based Restriction (CBR) rules to only allow the COS instance and bucket to be accessible from within VPC over the private endpoint.
 
-:exclamation: **Important:** In this example, only the IBM Cloud Object Storage instance complies with the IBM Cloud Framework for Financial Services. Other parts of the infrastructure do not necessarily comply.
+:exclamation: **Important:** In this example, only the IBM Cloud Object Storage instance and buckets complies with the IBM Cloud Framework for Financial Services. Other parts of the infrastructure do not necessarily comply.
 
 ## Before you begin
 
-Before you run the example, make sure that you set up the following prerequisites.
+Before you run the example, make sure that you set up the following prerequisites:
 
-- You need Hyper Protect Crypto Service instances available in the two regions that you want to deploy your primary and secondary buckets.
-- You need a root key that is available to use for bucket encryption in each region.
+- A Hyper Protect Crypto Service instance and root key.

@@ -11,6 +11,6 @@ repository:
   # The name of the repository. Changing this will rename the repository
   name: terraform-ibm-cos
 
-  description: "Configures a Cloud Object Storage instance and/or bucket with options"
+  description: "Configures an IBM Cloud Object Storage instance and bucket"
 
-  topics: core-team, terraform, ibm-cloud, terraform-module, cloud-object-storage, cos-bucket, supported, graduated
+  topics: core-team, terraform, ibm-cloud, terraform-module, cloud-object-storage, cos, cos-bucket, bucket, storage, supported, graduated
