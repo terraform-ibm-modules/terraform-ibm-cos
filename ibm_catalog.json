@@ -22,15 +22,15 @@
             "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
             "features": [
                 {
-                    "title": "Create Object Storage instance",
+                    "title": "Create an Object Storage instance",
                     "description": "Create an IBM Cloud Object Storage instance."
                 },
                 {
-                    "title": "Create Object Storage bucket",
+                    "title": "Create an Object Storage bucket",
                     "description": "Create either a cross-regional or regional Object Storage bucket."
                 },
                 {
-                    "title": "Create HMAC key",
+                    "title": "Create an HMAC key",
                     "description": "Create an HMAC key for the Object Storage instance."
                 },
                 {
@@ -38,31 +38,26 @@
                     "description": "Attach access tags to the Object Storage instance."
                 },
                 {
-                    "title": "Bucket retention",
-                    "description": "Configure bucket retention."
+                    "title": "Configure bucket retention",
+                    "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
                 },
                 {
-                    "title": "Object versioning",
+                    "title": "Enable object versioning",
                     "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket."
                 },
                 {
-                    "title": "Archiving",
+                    "title": "Add archive policies",
                     "description": "Add archive policies on the bucket."
                 },
                 {
-                    "title": "Activity Tracking",
-                    "description": "Integrate Activity Tracker events."
+                    "title": "Monitor Activity Tracker events",
+                    "description": "Integrate Activity Tracker events and provision IBM Cloud Monitoring to monitor how users interact with IBM Cloud Object Storage."
                 },
                 {
-                    "title": "Monitoring",
-                    "description": "Provision IBM Cloud Monitoring on Object Storage data."
-                },
-                {
-                    "title": "KMS encryption",
+                    "title": "Encrypt data with key management services",
                     "description": "Supports key management encryption (BYOK and KYOK), including service-to-service authorization policies with KMS."
-                },
                 {
-                    "title": "CBR",
+                    "title": "Secure data with CBR",
                     "description": "Create context-based restriction (CBR) rules for both instance and buckets."
                 }
             ],
