@@ -8,7 +8,7 @@
 
 Use this module to provision and configure an IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
 
-There is also a [buckets](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/buckets) submodule which supports creating multiple buckets in an existing instance.
+In addition, a [buckets](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/buckets) submodule supports creating multiple buckets in an existing instance.
 
 You can configure the following aspects of your instances:
 - [KMS encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)
