@@ -7,7 +7,7 @@ The following resources are provisioned by this example:
 - A new resource group, if an existing one is not passed in.
 - One target and one source IBM Cloud Object Storage instance in the given resource group and region.
 - One target and one source Object Storage bucket.
-- An IAM authorization policy to let the source instance write to the target bucket.
+- An IAM authorization policy for the source instance to write to the target bucket.
 - A replication rule to copy everything from the source bucket to the target bucket.
 
 - A Sysdig and Activity Tracker instance (if existing one is not passed in) in the given resource group and region.
