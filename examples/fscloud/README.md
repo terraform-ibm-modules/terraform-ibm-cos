@@ -6,7 +6,8 @@ This example uses the [Profile for IBM Cloud Framework for Financial Services](h
 The following resources are provisioned by this example:
 
 - A new resource group, if an existing one is not passed in.
-- Sysdig and Activity Tracker instances, if existing ones are not passed in, in the given resource group and region.
+- An IBM Cloud Monitoring instance in the given resource group and region.
+- An IBM Cloud Activity Tracker instance, if existing ones is not passed in, in the given resource group and region.
 - An IBM Cloud Object Storage instance in the given resource group and region.
 - An IAM authorization policy to allow the Object Storage instance read access to the Key Protect instance.
 - A regional bucket with KYOK Hyper Protect Crypto Services (HPCS) encryption, monitoring, and activity tracking enabled.
