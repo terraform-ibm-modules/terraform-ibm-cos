@@ -1,11 +1,12 @@
 # Bucket replication example
 
-An example showing how to configure replication between two buckets.
+An example that shows how to configure replication between two buckets.
 
-Resources provisioned by this example:
-- A new resource group, if existing one is not passed in.
-- One target and one source Cloud Object Storage instance in the given resource group and region.
-- One target and one source COS bucket.
+The following resources are provisioned by this example:
+
+- A new resource group, if an existing one is not passed in.
+- One target and one source IBM Cloud Object Storage instance in the given resource group and region.
+- One target and one source Object Storage bucket.
 - An IAM authorization policy to let the source instance write to the target bucket.
 - A replication rule to copy everything from the source bucket to the target bucket.
 
