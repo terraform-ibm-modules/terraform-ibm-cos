@@ -50,15 +50,16 @@
                     "description": "Add archive policies on the bucket."
                 },
                 {
-                    "title": "Monitor Activity Tracker events",
-                    "description": "Integrate Activity Tracker events and provision IBM Cloud Monitoring to monitor how users interact with IBM Cloud Object Storage."
+                    "title": "Monitor activity",
+                    "description": "Integrate Activity Tracker events and IBM Cloud Monitoring to monitor how users interact with IBM Cloud Object Storage."
                 },
                 {
                     "title": "Encrypt data with key management services",
                     "description": "Supports key management encryption (BYOK and KYOK), including service-to-service authorization policies with KMS."
+                },
                 {
-                    "title": "Secure data with CBR",
-                    "description": "Create context-based restriction (CBR) rules for both instance and buckets."
+                    "title": "Secure access with CBR",
+                    "description": "Create context-based restriction (CBR) rules for both instances and buckets."
                 }
             ],
             "flavors": [
