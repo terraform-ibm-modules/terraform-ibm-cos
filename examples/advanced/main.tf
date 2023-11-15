@@ -139,8 +139,8 @@ module "cos_bucket1" {
   sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
   # If no value is passed for this variable, the module will create a new service ID for the resource key
   resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
-  retention_enabled    = false # disable retention for test environments - enable for stage/prod
-  activity_tracker_crn = local.at_crn
+  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  activity_tracker_crn                = local.at_crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 1"
@@ -208,9 +208,9 @@ module "cos_bucket2" {
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
-  skip_iam_authorization_policy       = true # Required since cos_bucket1 creates the IAM authorization policy
-  retention_enabled = false # disable retention for test environments - enable for stage/prod
-  kms_key_crn       = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
+  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
