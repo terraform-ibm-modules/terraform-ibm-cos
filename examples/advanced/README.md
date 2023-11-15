@@ -1,6 +1,6 @@
 # Advanced example
 
-An advanced example which demonstrates creating BYOK KMS encrypted buckets with activity tracking, monitoring and CBR rules enabled.
+This example creates buckets that are encrypted with your own keys (BYOK). The buckets include activity tracking, monitoring, and context-based restriction (CBR) rules.
 
 Resources provisioned by this example:
 - A new resource group, if existing one is not passed in.
