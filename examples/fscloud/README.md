@@ -1,6 +1,6 @@
 # Financial Services compliant example
 
-This example uses the [Profile for IBM Cloud Framework for Financial Services](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/fscloud) to provision a Cloud Object Storage instance and a KYOK HPCS encrypted bucket with activity tracking, monitoring and CBR rules enabled.
+This example uses the [Profile for IBM Cloud Framework for Financial Services](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/fscloud) to provision an IBM Cloud Object Storage instance and a Hyper Protect Crypto Services (HPCS) bucket encrypted with KYOK. The resources include activity tracking, monitoring, and context-based restriction (CBR) rules.
 
 
 Resources provisioned by this example:
