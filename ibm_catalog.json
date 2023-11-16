@@ -75,11 +75,11 @@
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": " ",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
+                                    "caption": "Basic example",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": " "
+                                "description": "A simple example that shows how to provision a basic Object Storage instance and buckets."
                             }
                         ]
                     }
@@ -92,11 +92,11 @@
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": " ",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
+                                    "caption": "Advanced example",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": " "
+                                "description": "This example creates buckets that are encrypted with your own keys (BYOK). The buckets include activity tracking, monitoring, and context-based restriction (CBR) rules."
                             }
                         ]
                     }
@@ -109,11 +109,11 @@
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": " ",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
+                                    "caption": "Financial Services compliant example",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": " "
+                                "description": "This example uses the Profile for IBM Cloud Framework for Financial Services to provision an IBM Cloud Object Storage instance and a Hyper Protect Crypto Services (HPCS) bucket encrypted with KYOK. The resources include activity tracking, monitoring, and context-based restriction (CBR) rules."
                             }
                         ]
                     }
@@ -126,11 +126,11 @@
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": " ",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
+                                    "caption": "One Rate plan example",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": " "
+                                "description": "A simple example that shows how to provision an IBM Cloud Object Storage One Rate plan instance and an Object Storage bucket with One Rate Active storage."
                             }
                         ]
                     }
@@ -143,11 +143,11 @@
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": " ",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleDiagram_v2.svg",
+                                    "caption": "Bucket replication example",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": " "
+                                "description": "An example that shows how to configure replication between two buckets."
                             }
                         ]
                     }
