@@ -50,8 +50,12 @@
                     "description": "Add archive policies on the bucket."
                 },
                 {
-                    "title": "Monitor activity",
-                    "description": "Integrate Activity Tracker events and IBM Cloud Monitoring to monitor how users interact with IBM Cloud Object Storage."
+                    "title": "Record Activity Tracker events",
+                    "description": "Integrate Activity Tracker to track events."
+                },
+                {
+                  "title": "Monitor data",
+                  "description": "Provision IBM Cloud Monitoring on Object Storage data."
                 },
                 {
                     "title": "Encrypt data with key management services",
