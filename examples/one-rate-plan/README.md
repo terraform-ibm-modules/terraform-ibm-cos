@@ -1,6 +1,11 @@
-# One Rate Plan Example (COS Bucket with One Rate Plan)
+# One Rate plan example
 
-This example creates the following infrastructure:
-- A new resource group, if one is not passed in.
-- A new Cloud Object Storage instance in the given resource group, region, and `cos-one-rate-plan` plan.
-- A COS bucket with `onerate_active` plan.
+A simple example that shows how to provision an IBM Cloud Object Storage One Rate plan instance and an Object Storage bucket with One Rate Active storage.
+
+:exclamation: **Important:** The Active storage class is available only with One Rate plans. You can't use it with Standard or Lite plans.
+
+The following resources are provisioned by this example:
+
+- A new resource group, if an existing one is not passed in.
+- A One Rate plan Object Storage instance in the given resource group and region.
+- A One Rate Active storage plan regional bucket.

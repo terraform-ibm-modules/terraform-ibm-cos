@@ -2,6 +2,7 @@ output "buckets" {
   description = "COS buckets"
   value       = module.cos_fscloud.buckets
 }
+
 output "cos_instance_id" {
   description = "COS instance id"
   value       = module.cos_fscloud.cos_instance_id
@@ -11,6 +12,7 @@ output "cos_instance_guid" {
   description = "COS instance guid"
   value       = module.cos_fscloud.cos_instance_guid
 }
+
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
   value       = module.cos_fscloud.bucket_cbr_rules

@@ -6,12 +6,12 @@
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-cos?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
-You can use this module to provision and configure a [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
+Use this module to provision and configure an IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
 
-There is also a [buckets](modules/buckets) subodule which supports creating multiple buckets in an existing instance.
+In addition, a [buckets](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/buckets) submodule supports creating multiple buckets in an existing instance.
 
 You can configure the following aspects of your instances:
-- [Bucket encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tutorial-kp-encrypt-bucket) - based on Key Protect keys
+- [Key management service (KMS) encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)
 - [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing
 - [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)
 - Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options
@@ -23,11 +23,11 @@ You can configure the following aspects of your instances:
     * [buckets](./modules/buckets)
     * [fscloud](./modules/fscloud)
 * [Examples](./examples)
-    * [Basic Example](./examples/basic)
-    * [Cloud Object Storage replication example](./examples/replication)
-    * [Complete Example (multiple COS Buckets with retention, encryption, tracking and monitoring enabled)](./examples/complete)
-    * [Financial Services Cloud Profile example](./examples/fscloud)
-    * [One Rate Plan Example (COS Bucket with One Rate Plan)](./examples/one-rate-plan)
+    * [Advanced example](./examples/advanced)
+    * [Basic example](./examples/basic)
+    * [Bucket replication example](./examples/replication)
+    * [Financial Services compliant example](./examples/fscloud)
+    * [One Rate plan example](./examples/one-rate-plan)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 

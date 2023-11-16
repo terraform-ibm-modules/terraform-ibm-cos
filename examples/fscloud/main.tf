@@ -83,6 +83,13 @@ module "cbr_zone" {
   }]
 }
 
+##############################################################################
+# Create COS instance and bucket with:
+# - Encryption
+# - Monitoring
+# - Activity Tracking
+##############################################################################
+
 module "cos_fscloud" {
   source               = "../../modules/fscloud"
   resource_group_id    = module.resource_group.resource_group_id
@@ -92,6 +99,7 @@ module "cos_fscloud" {
   activity_tracker_crn = local.at_crn
   access_tags          = var.access_tags
 
+  # CBR rule only allowing the COS instance to be accessbile over the private endpoint from within the VPC
   instance_cbr_rules = [{
     description      = "sample rule for the instance"
     enforcement_mode = "enabled"
@@ -113,9 +121,11 @@ module "cos_fscloud" {
       }]
     }]
   }]
+
+  # Create one regional bucket, encrypted with the HPCS root key
   bucket_configs = [{
     access_tags              = var.access_tags
-    bucket_name              = "${var.prefix}-primary-bucket"
+    bucket_name              = "${var.prefix}-bucket"
     kms_key_crn              = var.bucket_hpcs_key_crn
     kms_guid                 = var.bucket_existing_hpcs_instance_guid
     management_endpoint_type = "public"
@@ -125,8 +135,9 @@ module "cos_fscloud" {
       activity_tracker_crn = local.at_crn
     }
 
+    # CBR rule only allowing the COS bucket to be accessbile over the private endpoint from within the VPC
     cbr_rules = [{
-      description      = "sample rule for ${var.prefix}-primary-bucket"
+      description      = "sample rule for ${var.prefix}-bucket"
       enforcement_mode = "enabled"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
       rule_contexts = [{
