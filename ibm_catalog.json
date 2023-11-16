@@ -55,7 +55,7 @@
                 },
                 {
                   "title": "Monitor data",
-                  "description": "Provision IBM Cloud Monitoring on Object Storage data."
+                  "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
                 },
                 {
                     "title": "Encrypt data with key management services",
