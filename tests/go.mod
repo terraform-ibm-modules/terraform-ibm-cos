@@ -8,7 +8,7 @@ require (
 	github.com/IBM/ibm-cos-sdk-go v1.10.0
 	github.com/gruntwork-io/terratest v0.46.7
 	github.com/stretchr/testify v1.8.4
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.25.0
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.25.1
 )
 
 require (
@@ -18,8 +18,8 @@ require (
 	cloud.google.com/go/iam v1.1.1 // indirect
 	cloud.google.com/go/storage v1.30.1 // indirect
 	dario.cat/mergo v1.0.0 // indirect
-	github.com/IBM-Cloud/bluemix-go v0.0.0-20231026045515-5c31bb9104f7 // indirect
-	github.com/IBM-Cloud/power-go-client v1.5.3 // indirect
+	github.com/IBM-Cloud/bluemix-go v0.0.0-20231123082353-50e8cc9c6959 // indirect
+	github.com/IBM-Cloud/power-go-client v1.5.4 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.15.0 // indirect
 	github.com/IBM/platform-services-go-sdk v0.54.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
