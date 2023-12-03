@@ -328,8 +328,9 @@ github.com/go-openapi/spec v0.20.9/go.mod h1:2OpW+JddWPrpXSCIX8eOx7lZ5iyuWj3RYR6
 github.com/go-openapi/strfmt v0.21.0/go.mod h1:ZRQ409bWMj+SOgXofQAGTIo2Ebu72Gs+WaRADcS5iNg=
 github.com/go-openapi/strfmt v0.21.1/go.mod h1:I/XVKeLc5+MM5oPNN7P6urMOpuLXEcNrCX/rPGuWb0k=
 github.com/go-openapi/strfmt v0.21.3/go.mod h1:k+RzNO0Da+k3FrrynSNN8F7n/peCmQQqbbXjtDfvmGg=
-github.com/go-openapi/strfmt v0.21.7 h1:rspiXgNWgeUzhjo1YU01do6qsahtJNByjLVbPLNHb8k=
 github.com/go-openapi/strfmt v0.21.7/go.mod h1:adeGTkxE44sPyLk0JV235VQAO/ZXUr8KAzYjclFs3ew=
+github.com/go-openapi/strfmt v0.21.8 h1:VYBUoKYRLAlgKDrIxR/I0lKrztDQ0tuTDrbhLVP8Erg=
+github.com/go-openapi/strfmt v0.21.8/go.mod h1:adeGTkxE44sPyLk0JV235VQAO/ZXUr8KAzYjclFs3ew=
 github.com/go-openapi/swag v0.19.5/go.mod h1:POnQmlKehdgb5mhVOsnJFsivZCEZ/vjK9gh66Z9tfKk=
 github.com/go-openapi/swag v0.19.15/go.mod h1:QYRuS/SOXUCsnplDa677K7+DxSOj6IPNl/eQntq43wQ=
 github.com/go-openapi/swag v0.21.1/go.mod h1:QYRuS/SOXUCsnplDa677K7+DxSOj6IPNl/eQntq43wQ=
@@ -663,8 +664,8 @@ github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.25.3 h1:711od5I7KerIPSw+wlheZgkZkcgT0eiiC0/FuR8EZ0A=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.25.3/go.mod h1:NTXN3todXfY8n8n4noaLnXDYJk+Tu+NL/jz7ZNb4WvQ=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.25.4 h1:V9Gp3llYyin535XWcFD98JQvUMbntw4D0quQwybKSaY=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.25.4/go.mod h1:sQmTDTAJEUfcF94qEiA4TYY56ejwVDeb4QVsa7cdo7s=
 github.com/tidwall/pretty v1.0.0 h1:HsD+QiTn7sK6flMKIvNmpqz1qrpP3Ps6jOKIKMooyg4=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tmccombs/hcl2json v0.5.0 h1:cT2sXStOzKL06c8ZTf9vh+0N8GKGzV7+9RUaY5/iUP8=
