@@ -10,61 +10,52 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
+locals {
+  source_bucket_config = {
+    bucket_name          = "${var.prefix}-bucket-source"
+    region_location      = "us-south"
+    resource_group_id    = module.resource_group.resource_group_id
+    resource_instance_id = module.cos.cos_instance_id
+  }
+  source_replication_rules = [
+    {
+      rule_id                         = "replicate-everything"
+      enable                          = true
+      priority                        = 50
+      deletemarker_replication_status = false
+    }
+  ]
+  target_bucket_config = {
+    bucket_name          = "${var.prefix}-bucket-target"
+    region_location      = "us-east"
+    resource_group_id    = module.resource_group.resource_group_id
+    resource_instance_id = module.cos.cos_instance_id
+  }
+}
+
+##############################################################################
+# Create COS source bucket
+##############################################################################
+
+module "cos" {
+  source                 = "../../"
+  resource_group_id      = module.resource_group.resource_group_id
+  region                 = var.region
+  cos_instance_name      = "${var.prefix}-cos"
+  cos_tags               = var.resource_tags
+  retention_enabled      = false # disable retention for test environments - enable for stage/prod
+  kms_encryption_enabled = false
+}
+
 ##############################################################################
 # Create COS source bucket
 ##############################################################################
 
 module "cos_source_bucket" {
-  source                    = "../../"
-  bucket_name               = "${var.prefix}-bucket-source"
-  resource_group_id         = module.resource_group.resource_group_id
-  region                    = var.region
-  cos_instance_name         = "${var.prefix}-source-cos"
-  cos_tags                  = var.resource_tags
-  access_tags               = var.access_tags
-  object_versioning_enabled = true
-  kms_encryption_enabled    = false
-  retention_enabled         = false
-  archive_days              = null
-  expire_days               = null
-}
-
-##############################################################################
-# Create COS target bucket
-##############################################################################
-
-module "cos_target_bucket" {
-  source                    = "../../"
-  bucket_name               = "${var.prefix}-bucket-target"
-  resource_group_id         = module.resource_group.resource_group_id
-  region                    = var.region
-  cos_instance_name         = "${var.prefix}-target-cos"
-  cos_tags                  = var.resource_tags
-  access_tags               = var.access_tags
-  object_versioning_enabled = true
-  kms_encryption_enabled    = false
-  retention_enabled         = false
-  archive_days              = null
-  expire_days               = null
-}
-
-##############################################################################
-# Configure replication rule
-##############################################################################
-
-resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
-  depends_on = [
-    ibm_iam_authorization_policy.policy
-  ]
-  bucket_crn      = module.cos_source_bucket.bucket_crn
-  bucket_location = var.region
-  replication_rule {
-    rule_id                         = "replicate-everything"
-    enable                          = true
-    priority                        = 50
-    deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_target_bucket.bucket_crn
-  }
+  source                   = "../../modules/replication"
+  source_bucket_config     = local.source_bucket_config
+  source_replication_rules = local.source_replication_rules
+  target_bucket_config     = local.target_bucket_config
 }
 
 ##############################################################################

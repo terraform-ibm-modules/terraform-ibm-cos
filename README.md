@@ -23,6 +23,7 @@ You can configure the following aspects of your instances:
 * [Submodules](./modules)
     * [buckets](./modules/buckets)
     * [fscloud](./modules/fscloud)
+    * [replication](./modules/replication)
 * [Examples](./examples)
     * [Advanced example](./examples/advanced)
     * [Basic example](./examples/basic)
