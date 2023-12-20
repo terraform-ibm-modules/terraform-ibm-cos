@@ -156,7 +156,7 @@ module "cos_fscloud" {
     bucket_name              = "${var.prefix}-bucket"
     kms_key_crn              = var.bucket_hpcs_key_crn
     kms_guid                 = var.bucket_existing_hpcs_instance_guid
-    management_endpoint_type = "public"
+    management_endpoint_type = "private"
     resource_group_id        = module.resource_group.resource_group_id
     region_location          = var.region
     activity_tracking = {
