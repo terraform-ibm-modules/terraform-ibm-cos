@@ -136,7 +136,7 @@ module "cos_fscloud" {
       attributes = [
         {
           "name" : "endpointType",
-          "value" : "public"
+          "value" : "private"
         },
         {
           name  = "networkZoneId"
