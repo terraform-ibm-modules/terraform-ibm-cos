@@ -177,6 +177,16 @@ module "cos_fscloud" {
           {
             name  = "networkZoneId"
             value = module.cbr_zone.zone_id
+          }
+        ] }, {
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone_schematics.zone_id
         }]
       }]
       operations = [{
