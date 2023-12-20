@@ -83,6 +83,23 @@ module "cbr_zone" {
   }]
 }
 
+# Allow schematics, from outside VPC, to manage resources
+module "cbr_zone_schematics" {
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
+  version          = "1.17.1"
+  name             = "${var.prefix}-schematics-fscloud-nz"
+  zone_description = "CBR Network zone containing Schematics"
+  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  addresses = [{
+    type = "serviceRef", # to bind a schematics to the zone
+    ref = {
+      # Allow all schematics instances from all geographies
+      account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
+      service_name = "schematics"
+    }
+  }]
+}
+
 ##############################################################################
 # Create COS instance and bucket with:
 # - Encryption
@@ -100,6 +117,7 @@ module "cos_fscloud" {
   access_tags          = var.access_tags
 
   # CBR rule only allowing the COS instance to be accessbile over the private endpoint from within the VPC
+  # or from schematics
   instance_cbr_rules = [{
     description      = "sample rule for the instance"
     enforcement_mode = "enabled"
@@ -113,6 +131,16 @@ module "cos_fscloud" {
         {
           name  = "networkZoneId"
           value = module.cbr_zone.zone_id
+      }]
+      }, {
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "public"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone_schematics.zone_id
       }]
     }]
     operations = [{
