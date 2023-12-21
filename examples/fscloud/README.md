@@ -13,7 +13,8 @@ The following resources are provisioned by this example:
 - A regional bucket with KYOK Hyper Protect Crypto Services (HPCS) encryption, monitoring, and activity tracking enabled.
 - A basic VPC and subnet.
 - A Context-based restriction (CBR) network zone containing the VPC.
-- CBR rules that allow only the VPC to access the Object Storage instance and buckets over the private endpoint.
+- A Context-based restriction network zone containing the schematics service.
+- CBR rules that allow only the VPC and schematics to access the Object Storage instance and buckets over the private endpoint.
 
 **Important:** In this example, only the IBM Cloud Object Storage instance and buckets complies with the IBM Cloud Framework for Financial Services. Other parts of the infrastructure do not necessarily comply.
 
