@@ -40,3 +40,14 @@ output "cbr_rule_ids" {
   description = "List of all rule ids"
   value       = local.all_rule_ids
 }
+
+output "resource_key_id" {
+  description = "COS resource key ID"
+  value       = data.ibm_resource_key.cos_resource_key.credentials["cos_hmac_keys.access_key_id"]
+}
+
+output "resource_key" {
+  description = "COS resource key value"
+  value       = data.ibm_resource_key.cos_resource_key.credentials["cos_hmac_keys.secret_access_key"]
+  sensitive   = true
+}

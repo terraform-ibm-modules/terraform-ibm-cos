@@ -88,7 +88,9 @@ module "cos_fscloud" {
 
 ### Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [ibm_resource_key.cos_resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_key) | data source |
 
 ### Inputs
 
@@ -120,5 +122,7 @@ No resources.
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | COS instance id |
 | <a name="output_instance_cbr_rules"></a> [instance\_cbr\_rules](#output\_instance\_cbr\_rules) | COS instance rules |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |
+| <a name="output_resource_key"></a> [resource\_key](#output\_resource\_key) | COS resource key value |
+| <a name="output_resource_key_id"></a> [resource\_key\_id](#output\_resource\_key\_id) | COS resource key ID |
 | <a name="output_s3_endpoint_private"></a> [s3\_endpoint\_private](#output\_s3\_endpoint\_private) | S3 private endpoint |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

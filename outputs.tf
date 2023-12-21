@@ -71,3 +71,8 @@ output "cbr_rule_ids" {
   description = "List of all rule ids"
   value       = local.all_rule_ids
 }
+
+output "resource_key_name" {
+  description = "COS resource key name"
+  value       = var.create_hmac_key && var.create_cos_instance ? ibm_resource_key.resource_key[0].credentials["cos_hmac_keys.access_key_name"] : null
+}

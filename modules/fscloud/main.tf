@@ -31,6 +31,11 @@ module "cos_instance" {
   access_tags                   = var.access_tags
 }
 
+data "ibm_resource_key" "cos_resource_key" {
+  name                 = module.cos_instance.resource_key_name
+  resource_instance_id = module.cos_instance.cos_instance_id
+}
+
 locals {
   #  Add the cos instance id to the bucket configs
   bucket_configs = [
