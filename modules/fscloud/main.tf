@@ -4,7 +4,7 @@ locals {
     for bucket in var.bucket_configs : {
       validate_at_set             = can(bucket.activity_tracking.activity_tracker_crn) ? bucket.activity_tracking.activity_tracker_crn == null ? tobool("When activity_tracking is set, activity_tracker_crn must be provided.") : null : null,
       validate_sysdig_set         = can(bucket.metrics_monitoring.metrics_monitoring_crn) ? bucket.metrics_monitoring.metrics_monitoring_crn == null ? tobool("When metrics_monitoring is set, metrics_monitoring_crn must be provided.") : null : null,
-      validate_hpcs_instance_guid = bucket.kms_guid == null ? tobool("When kms_encryption_enabled is set, kms_guid must be provided.") : null,
+      validate_hpcs_instance_guid = bucket.skip_iam_authorization_policy == false && bucket.kms_guid == null ? tobool("'kms_guid' must be provided if 'skip_iam_authorization_policy' is set to false") : null,
       validate_hpcs_key_crn       = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
       validate_kms_encryption     = !bucket.kms_encryption_enabled ? tobool("kms_encryption_enabled must be set to true for all buckets.") : null,
     }
