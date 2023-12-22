@@ -179,6 +179,6 @@ variable "instance_cbr_rules" {
 
 variable "access_tags" {
   type        = list(string)
-  description = "Optional list of access tags to be added to the created resources"
+  description = "A list of access tags to apply to the cos instance created by the module, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial for more details"
   default     = []
 }
