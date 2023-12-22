@@ -11,8 +11,8 @@ module "resource_group" {
 }
 
 locals {
-  source_bucket_config = {
-    bucket_name          = "${var.prefix}-bucket-source"
+  origin_bucket_config = {
+    bucket_name          = "${var.prefix}-bucket-origin"
     region_location      = "us-south"
     resource_group_id    = module.resource_group.resource_group_id
     resource_instance_id = module.cos.cos_instance_id
@@ -26,7 +26,7 @@ locals {
     }
   ]
   target_bucket_config = {
-    bucket_name          = "${var.prefix}-bucket-target"
+    bucket_name          = "${var.prefix}-bucket-destination"
     region_location      = "us-east"
     resource_group_id    = module.resource_group.resource_group_id
     resource_instance_id = module.cos.cos_instance_id
@@ -43,6 +43,7 @@ module "cos" {
   region                 = var.region
   cos_instance_name      = "${var.prefix}-cos"
   cos_tags               = var.resource_tags
+  create_cos_bucket      = false
   retention_enabled      = false # disable retention for test environments - enable for stage/prod
   kms_encryption_enabled = false
 }
@@ -53,63 +54,7 @@ module "cos" {
 
 module "replica_set" {
   source                    = "../../modules/replication"
-  origin_bucket_config      = local.source_bucket_config
+  origin_bucket_config      = local.origin_bucket_config
   replication_rules         = local.source_replication_rules
   destination_bucket_config = local.target_bucket_config
 }
-
-##############################################################################
-# Retrieve account ID
-##############################################################################
-#data "ibm_iam_account_settings" "iam_account_settings" {
-#}
-
-##############################################################################
-# Configure IAM authorization policy
-##############################################################################
-
-#resource "ibm_iam_authorization_policy" "policy" {
-#  roles = [
-#    "Writer",
-#  ]
-#  subject_attributes {
-#    name  = "accountId"
-#    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-#  }
-#  subject_attributes {
-#    name  = "serviceName"
-#    value = "cloud-object-storage"
-#  }
-#  subject_attributes {
-#    name  = "serviceInstance"
-#    value = module.cos_source_bucket.cos_instance_guid
-#  }
-#  subject_attributes {
-#    name  = "resource"
-#    value = module.cos_source_bucket.bucket_name
-#  }
-#  subject_attributes {
-#    name  = "resourceType"
-#    value = "bucket"
-#  }
-#  resource_attributes {
-#    name  = "accountId"
-#    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-#  }
-#  resource_attributes {
-#    name  = "serviceName"
-#    value = "cloud-object-storage"
-#  }
-#  resource_attributes {
-#    name  = "serviceInstance"
-#    value = module.cos_target_bucket.cos_instance_guid
-#  }
-#  resource_attributes {
-#    name  = "resource"
-#    value = module.cos_target_bucket.bucket_name
-#  }
-#  resource_attributes {
-#    name  = "resourceType"
-#    value = "bucket"
-#  }
-#}

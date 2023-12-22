@@ -157,3 +157,9 @@ variable "reverse_replication_rules" {
   description = "List of rules for replication from target back to source, default none"
   default     = []
 }
+
+variable "skip_iam_authorization_policy" {
+  type        = bool
+  description = "Skip creation of authorization policy"
+  default     = false
+}

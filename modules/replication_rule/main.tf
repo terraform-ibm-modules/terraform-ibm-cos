@@ -18,6 +18,12 @@ resource "ibm_cos_bucket_replication_rule" "replication_rule" {
   }
 }
 
+
+# The IAM policy will only work when there is one rule, otherwise this module will be called
+# repeatedly... so maybe it should be created in the replication (sub)module rather than
+# the replication rule (sub)module.
+
+
 ##############################################################################
 # Retrieve account ID
 ##############################################################################

@@ -76,7 +76,6 @@ module "cos_fscloud" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0, <1.6.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.56.1 |
 
 ### Modules
 
@@ -89,11 +88,7 @@ module "cos_fscloud" {
 
 ### Resources
 
-| Name | Type |
-|------|------|
-| [ibm_cos_bucket_replication_rule.cos_replication_rule](https://registry.terraform.io/providers/ibm-cloud/ibm/1.56.1/docs/resources/cos_bucket_replication_rule) | resource |
-| [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/1.56.1/docs/resources/iam_authorization_policy) | resource |
-| [ibm_iam_account_settings.iam_account_settings](https://registry.terraform.io/providers/ibm-cloud/ibm/1.56.1/docs/data-sources/iam_account_settings) | data source |
+No resources.
 
 ### Inputs
 
@@ -103,6 +98,7 @@ module "cos_fscloud" {
 | <a name="input_origin_bucket_config"></a> [origin\_bucket\_config](#input\_origin\_bucket\_config) | Cloud Object Storage replication source bucket configuration | <pre>object({<br>    access_tags              = optional(list(string), [])<br>    bucket_name              = string<br>    kms_encryption_enabled   = optional(bool, true)<br>    kms_guid                 = optional(string, null)<br>    kms_key_crn              = optional(string, null)<br>    management_endpoint_type = optional(string, "public")<br>    cross_region_location    = optional(string, null)<br>    storage_class            = optional(string, "smart")<br>    region_location          = optional(string, null)<br>    resource_group_id        = string<br>    resource_instance_id     = string<br><br>    activity_tracking = optional(object({<br>      read_data_events     = optional(bool, true)<br>      write_data_events    = optional(bool, true)<br>      activity_tracker_crn = optional(string, null)<br>    }))<br>    archive_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 20)<br>      type   = optional(string, "Glacier")<br>    }))<br>    expire_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 365)<br>    }))<br>    metrics_monitoring = optional(object({<br>      usage_metrics_enabled   = optional(bool, true)<br>      request_metrics_enabled = optional(bool, true)<br>      metrics_monitoring_crn  = optional(string, null)<br>    }))<br>    object_versioning = optional(object({<br>      enable = optional(bool, false)<br>    }))<br>    retention_rule = optional(object({<br>      default   = optional(number, 90)<br>      maximum   = optional(number, 350)<br>      minimum   = optional(number, 90)<br>      permanent = optional(bool, false)<br>    }))<br>    cbr_rules = optional(list(object({<br>      description = string<br>      account_id  = string<br>      rule_contexts = list(object({<br>        attributes = optional(list(object({<br>          name  = string<br>          value = string<br>      }))) }))<br>      enforcement_mode = string<br>      tags = optional(list(object({<br>        name  = string<br>        value = string<br>      })), [])<br>      operations = optional(list(object({<br>        api_types = list(object({<br>          api_type_id = string<br>        }))<br>      })))<br>    })), [])<br><br>  })</pre> | n/a | yes |
 | <a name="input_replication_rules"></a> [replication\_rules](#input\_replication\_rules) | List of rules for replication from source to target, default all excluding delete requests | <pre>list(object({<br>    # rule_id- (Optional, String) The rule id.<br>    # enable- (Required, Bool) Specifies whether the rule is enabled. Specify true for Enabling it or false for Disabling it.<br>    # prefix- (Optional, String) An object key name prefix that identifies the subset of objects to which the rule applies.<br>    # priority- (Optional, Int) A priority is associated with each rule. The rule will be applied in a higher priority if there are multiple rules configured. The higher the number, the higher the priority<br>    # deletemarker_replication_status- (Optional, Bool) Specifies whether Object storage replicates delete markers.Specify true for Enabling it or false for Disabling it.<br>    rule_id                         = optional(string)<br>    enable                          = optional(bool)<br>    prefix                          = optional(string)<br>    priority                        = optional(number)<br>    deletemarker_replication_status = optional(bool)<br>  }))</pre> | n/a | yes |
 | <a name="input_reverse_replication_rules"></a> [reverse\_replication\_rules](#input\_reverse\_replication\_rules) | List of rules for replication from target back to source, default none | <pre>list(object({<br>    rule_id                         = optional(string)<br>    enable                          = optional(bool)<br>    prefix                          = optional(string)<br>    priority                        = optional(number)<br>    deletemarker_replication_status = optional(bool)<br>  }))</pre> | `[]` | no |
+| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Skip creation of authorization policy | `bool` | `false` | no |
 
 ### Outputs
 
