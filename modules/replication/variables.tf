@@ -1,4 +1,4 @@
-variable "source_bucket_config" {
+variable "origin_bucket_config" {
   type = object({
     access_tags              = optional(list(string), [])
     bucket_name              = string
@@ -64,23 +64,23 @@ variable "source_bucket_config" {
   description = "Cloud Object Storage replication source bucket configuration"
 }
 
-variable "source_replication_rules" {
+variable "replication_rules" {
   type = list(object({
-# rule_id- (Optional, String) The rule id.
-# enable- (Required, Bool) Specifies whether the rule is enabled. Specify true for Enabling it or false for Disabling it.
-# prefix- (Optional, String) An object key name prefix that identifies the subset of objects to which the rule applies.
-# priority- (Optional, Int) A priority is associated with each rule. The rule will be applied in a higher priority if there are multiple rules configured. The higher the number, the higher the priority
-# deletemarker_replication_status- (Optional, Bool) Specifies whether Object storage replicates delete markers.Specify true for Enabling it or false for Disabling it.
-    rule_id = optional(string)
-    enable = optional(bool)
-    prefix = optional(string)
-    priority = optional(number)
+    # rule_id- (Optional, String) The rule id.
+    # enable- (Required, Bool) Specifies whether the rule is enabled. Specify true for Enabling it or false for Disabling it.
+    # prefix- (Optional, String) An object key name prefix that identifies the subset of objects to which the rule applies.
+    # priority- (Optional, Int) A priority is associated with each rule. The rule will be applied in a higher priority if there are multiple rules configured. The higher the number, the higher the priority
+    # deletemarker_replication_status- (Optional, Bool) Specifies whether Object storage replicates delete markers.Specify true for Enabling it or false for Disabling it.
+    rule_id                         = optional(string)
+    enable                          = optional(bool)
+    prefix                          = optional(string)
+    priority                        = optional(number)
     deletemarker_replication_status = optional(bool)
   }))
   description = "List of rules for replication from source to target, default all excluding delete requests"
 }
 
-variable "target_bucket_config" {
+variable "destination_bucket_config" {
   type = object({
     access_tags              = optional(list(string), [])
     bucket_name              = string
@@ -146,12 +146,12 @@ variable "target_bucket_config" {
   description = "Cloud Object Storage replication target bucket configuration"
 }
 
-variable "target_replication_rules" {
+variable "reverse_replication_rules" {
   type = list(object({
-    rule_id = optional(string)
-    enable = optional(bool)
-    prefix = optional(string)
-    priority = optional(number)
+    rule_id                         = optional(string)
+    enable                          = optional(bool)
+    prefix                          = optional(string)
+    priority                        = optional(number)
     deletemarker_replication_status = optional(bool)
   }))
   description = "List of rules for replication from target back to source, default none"

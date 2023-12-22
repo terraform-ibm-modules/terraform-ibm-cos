@@ -24,6 +24,7 @@ You can configure the following aspects of your instances:
     * [buckets](./modules/buckets)
     * [fscloud](./modules/fscloud)
     * [replication](./modules/replication)
+    * [replication_rule](./modules/replication_rule)
 * [Examples](./examples)
     * [Advanced example](./examples/advanced)
     * [Basic example](./examples/basic)

@@ -51,65 +51,65 @@ module "cos" {
 # Create COS source bucket
 ##############################################################################
 
-module "cos_source_bucket" {
-  source                   = "../../modules/replication"
-  source_bucket_config     = local.source_bucket_config
-  source_replication_rules = local.source_replication_rules
-  target_bucket_config     = local.target_bucket_config
+module "replica_set" {
+  source                    = "../../modules/replication"
+  origin_bucket_config      = local.source_bucket_config
+  replication_rules         = local.source_replication_rules
+  destination_bucket_config = local.target_bucket_config
 }
 
 ##############################################################################
 # Retrieve account ID
 ##############################################################################
-data "ibm_iam_account_settings" "iam_account_settings" {
-}
+#data "ibm_iam_account_settings" "iam_account_settings" {
+#}
 
 ##############################################################################
 # Configure IAM authorization policy
 ##############################################################################
 
-resource "ibm_iam_authorization_policy" "policy" {
-  roles = [
-    "Writer",
-  ]
-  subject_attributes {
-    name  = "accountId"
-    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-  }
-  subject_attributes {
-    name  = "serviceName"
-    value = "cloud-object-storage"
-  }
-  subject_attributes {
-    name  = "serviceInstance"
-    value = module.cos_source_bucket.cos_instance_guid
-  }
-  subject_attributes {
-    name  = "resource"
-    value = module.cos_source_bucket.bucket_name
-  }
-  subject_attributes {
-    name  = "resourceType"
-    value = "bucket"
-  }
-  resource_attributes {
-    name  = "accountId"
-    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-  }
-  resource_attributes {
-    name  = "serviceName"
-    value = "cloud-object-storage"
-  }
-  resource_attributes {
-    name  = "serviceInstance"
-    value = module.cos_target_bucket.cos_instance_guid
-  }
-  resource_attributes {
-    name  = "resource"
-    value = module.cos_target_bucket.bucket_name
-  }
-  resource_attributes {
-    name  = "resourceType"
-    value = "bucket"
-  }
-}
+#resource "ibm_iam_authorization_policy" "policy" {
+#  roles = [
+#    "Writer",
+#  ]
+#  subject_attributes {
+#    name  = "accountId"
+#    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+#  }
+#  subject_attributes {
+#    name  = "serviceName"
+#    value = "cloud-object-storage"
+#  }
+#  subject_attributes {
+#    name  = "serviceInstance"
+#    value = module.cos_source_bucket.cos_instance_guid
+#  }
+#  subject_attributes {
+#    name  = "resource"
+#    value = module.cos_source_bucket.bucket_name
+#  }
+#  subject_attributes {
+#    name  = "resourceType"
+#    value = "bucket"
+#  }
+#  resource_attributes {
+#    name  = "accountId"
+#    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+#  }
+#  resource_attributes {
+#    name  = "serviceName"
+#    value = "cloud-object-storage"
+#  }
+#  resource_attributes {
+#    name  = "serviceInstance"
+#    value = module.cos_target_bucket.cos_instance_guid
+#  }
+#  resource_attributes {
+#    name  = "resource"
+#    value = module.cos_target_bucket.bucket_name
+#  }
+#  resource_attributes {
+#    name  = "resourceType"
+#    value = "bucket"
+#  }
+#}
