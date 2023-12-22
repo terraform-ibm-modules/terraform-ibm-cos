@@ -17,12 +17,13 @@ module "buckets" {
     for index, bucket in var.bucket_configs :
     bucket.bucket_name => bucket
   }
-  source                   = "../../"
-  bucket_name              = each.value.bucket_name
-  create_cos_instance      = false
-  existing_cos_instance_id = each.value.resource_instance_id
-  resource_group_id        = each.value.resource_group_id
-  region                   = each.value.region_location
+  source                        = "../../"
+  bucket_name                   = each.value.bucket_name
+  create_cos_instance           = false
+  skip_iam_authorization_policy = each.value.skip_iam_authorization_policy
+  existing_cos_instance_id      = each.value.resource_instance_id
+  resource_group_id             = each.value.resource_group_id
+  region                        = each.value.region_location
 
   cross_region_location               = each.value.cross_region_location
   bucket_storage_class                = each.value.storage_class

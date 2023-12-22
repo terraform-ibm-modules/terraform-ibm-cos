@@ -36,24 +36,25 @@ locals {
   bucket_configs = [
     for config in var.bucket_configs :
     {
-      access_tags              = config.access_tags
-      bucket_name              = config.bucket_name
-      kms_encryption_enabled   = config.kms_encryption_enabled
-      kms_guid                 = config.kms_guid
-      kms_key_crn              = config.kms_key_crn
-      management_endpoint_type = config.management_endpoint_type
-      cross_region_location    = config.cross_region_location
-      storage_class            = config.storage_class
-      region_location          = config.region_location
-      resource_group_id        = config.resource_group_id
-      resource_instance_id     = module.cos_instance.cos_instance_id
-      activity_tracking        = config.activity_tracking
-      archive_rule             = config.archive_rule
-      expire_rule              = config.expire_rule
-      metrics_monitoring       = config.metrics_monitoring
-      object_versioning        = config.object_versioning
-      retention_rule           = config.retention_rule
-      cbr_rules                = config.cbr_rules
+      access_tags                   = config.access_tags
+      bucket_name                   = config.bucket_name
+      kms_encryption_enabled        = config.kms_encryption_enabled
+      kms_guid                      = config.kms_guid
+      kms_key_crn                   = config.kms_key_crn
+      skip_iam_authorization_policy = config.skip_iam_authorization_policy
+      management_endpoint_type      = config.management_endpoint_type
+      cross_region_location         = config.cross_region_location
+      storage_class                 = config.storage_class
+      region_location               = config.region_location
+      resource_group_id             = config.resource_group_id
+      resource_instance_id          = module.cos_instance.cos_instance_id
+      activity_tracking             = config.activity_tracking
+      archive_rule                  = config.archive_rule
+      expire_rule                   = config.expire_rule
+      metrics_monitoring            = config.metrics_monitoring
+      object_versioning             = config.object_versioning
+      retention_rule                = config.retention_rule
+      cbr_rules                     = config.cbr_rules
     }
   ]
 }
@@ -78,7 +79,7 @@ module "instance_cbr_rules" {
   depends_on       = [module.buckets]
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.17.0"
+  version          = "1.17.1"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts

@@ -6,11 +6,6 @@ output "resource_group_id" {
   value       = var.resource_group_id
 }
 
-output "s3_endpoint_private" {
-  description = "S3 private endpoint"
-  value       = module.cos_instance.s3_endpoint_private
-}
-
 output "buckets" {
   description = "List of buckets created"
   value       = module.buckets.buckets
