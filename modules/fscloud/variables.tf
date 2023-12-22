@@ -80,17 +80,18 @@ variable "sysdig_crn" {
 ##############################################################################
 variable "bucket_configs" {
   type = list(object({
-    access_tags              = optional(list(string), [])
-    bucket_name              = string
-    kms_encryption_enabled   = optional(bool, true)
-    kms_guid                 = string
-    kms_key_crn              = string
-    management_endpoint_type = string
-    cross_region_location    = optional(string, null)
-    storage_class            = optional(string, "smart")
-    region_location          = optional(string, null)
-    resource_group_id        = string
-    resource_instance_id     = optional(string, null)
+    access_tags                   = optional(list(string), [])
+    bucket_name                   = string
+    kms_encryption_enabled        = optional(bool, true)
+    kms_guid                      = optional(string, null)
+    kms_key_crn                   = string
+    skip_iam_authorization_policy = optional(bool, false)
+    management_endpoint_type      = string
+    cross_region_location         = optional(string, null)
+    storage_class                 = optional(string, "smart")
+    region_location               = optional(string, null)
+    resource_group_id             = string
+    resource_instance_id          = optional(string, null)
 
     activity_tracking = optional(object({
       read_data_events     = optional(bool, true)
