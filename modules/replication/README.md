@@ -12,6 +12,7 @@ The IBM Cloud Framework for Financial Services mandates the application of an in
 
 ```hcl
 provider "ibm" {
+  # pragma: allowlist secret
   ibmcloud_api_key = "XXXXXXXXXX"
   region           = "us-south"
 }
