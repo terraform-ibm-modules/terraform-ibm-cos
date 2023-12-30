@@ -160,6 +160,9 @@ module "cos_fscloud" {
     activity_tracking = {
       activity_tracker_crn = local.at_crn
     }
+    metrics_monitoring = {
+      metrics_monitoring_crn = module.observability_instances.cloud_monitoring_crn
+    }
 
     # CBR rule only allowing the COS bucket to be accessbile over the private endpoint from within the VPC
     cbr_rules = [{
