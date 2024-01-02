@@ -63,18 +63,6 @@ variable "cos_plan" {
   }
 }
 
-variable "activity_tracker_crn" {
-  type        = string
-  description = "Activity tracker crn for COS bucket. Only required if 'create_cos_bucket' is true."
-  default     = null
-}
-
-variable "sysdig_crn" {
-  type        = string
-  description = "Sysdig Monitoring crn for COS bucket. Only required if 'create_cos_bucket' is true."
-  default     = null
-}
-
 ##############################################################################
 # COS bucket variables
 ##############################################################################

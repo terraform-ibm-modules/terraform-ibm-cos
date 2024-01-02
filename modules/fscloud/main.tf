@@ -26,8 +26,6 @@ module "cos_instance" {
   hmac_key_role                 = var.hmac_key_role
   cos_plan                      = var.cos_plan
   cos_tags                      = var.cos_tags
-  sysdig_crn                    = var.sysdig_crn
-  activity_tracker_crn          = var.activity_tracker_crn
   access_tags                   = var.access_tags
 }
 

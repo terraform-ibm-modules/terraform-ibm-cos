@@ -108,13 +108,11 @@ module "cbr_zone_schematics" {
 ##############################################################################
 
 module "cos_fscloud" {
-  source               = "../../modules/fscloud"
-  resource_group_id    = module.resource_group.resource_group_id
-  cos_instance_name    = "${var.prefix}-cos"
-  cos_tags             = var.resource_tags
-  sysdig_crn           = module.observability_instances.cloud_monitoring_crn
-  activity_tracker_crn = local.at_crn
-  access_tags          = var.access_tags
+  source            = "../../modules/fscloud"
+  resource_group_id = module.resource_group.resource_group_id
+  cos_instance_name = "${var.prefix}-cos"
+  cos_tags          = var.resource_tags
+  access_tags       = var.access_tags
 
   # CBR rule only allowing the COS instance to be accessbile over the private endpoint from within the VPC
   # or from schematics
@@ -161,6 +159,9 @@ module "cos_fscloud" {
     region_location          = var.region
     activity_tracking = {
       activity_tracker_crn = local.at_crn
+    }
+    metrics_monitoring = {
+      metrics_monitoring_crn = module.observability_instances.cloud_monitoring_crn
     }
 
     # CBR rule only allowing the COS bucket to be accessbile over the private endpoint from within the VPC
