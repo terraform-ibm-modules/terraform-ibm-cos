@@ -81,11 +81,11 @@ variable "bucket_configs" {
     resource_group_id             = string
     resource_instance_id          = optional(string, null)
 
-    activity_tracking = object({
+    activity_tracking = optional(object({
       read_data_events     = optional(bool, true)
       write_data_events    = optional(bool, true)
-      activity_tracker_crn = string # Usually optional, required for FS Cloud
-    })
+      activity_tracker_crn = optional(string, null)
+    }))
     archive_rule = optional(object({
       enable = optional(bool, false)
       days   = optional(number, 20)
@@ -95,11 +95,11 @@ variable "bucket_configs" {
       enable = optional(bool, false)
       days   = optional(number, 365)
     }))
-    metrics_monitoring = object({
+    metrics_monitoring = optional(object({
       usage_metrics_enabled   = optional(bool, true)
       request_metrics_enabled = optional(bool, true)
-      metrics_monitoring_crn  = string # Usually optional, required for FS Cloud
-    })
+      metrics_monitoring_crn  = optional(string, null)
+    }))
     object_versioning = optional(object({
       enable = optional(bool, false)
     }))
