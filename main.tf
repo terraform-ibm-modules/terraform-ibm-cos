@@ -59,14 +59,14 @@ resource "ibm_resource_tag" "cos_access_tag" {
 }
 
 resource "ibm_resource_key" "resource_key" {
-  count                = var.create_hmac_key && var.create_cos_instance ? 1 : 0
-  name                 = var.hmac_key_name
+  count                = var.create_resource_key && var.create_cos_instance ? 1 : 0
+  name                 = var.resource_key_name
   resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
   parameters = {
     "serviceid_crn" = var.resource_key_existing_serviceid_crn
-    "HMAC"          = var.create_hmac_key
+    "HMAC"          = var.generate_hmac_credentials
   }
-  role = var.hmac_key_role
+  role = var.resource_key_role
 }
 
 locals {
