@@ -17,14 +17,14 @@ variable "create_cos_instance" {
   default     = true
 }
 
-variable "generate_hmac_credentials" {
-  description = "Set as true to generate a new HMAC key for the Cloud Object Storage instance."
+variable "create_resource_key" {
+  description = "Set as true to create a new resource key for the Cloud Object Storage instance."
   type        = bool
   default     = false
 }
 
-variable "create_resource_key" {
-  description = "Set as true to create a new resource key for the Cloud Object Storage instance."
+variable "generate_hmac_credentials" {
+  description = "Set as true to generate an HMAC key in the resource key. Only used when create_resource_key is `true`."
   type        = bool
   default     = false
 }
@@ -36,7 +36,7 @@ variable "resource_key_name" {
 }
 
 variable "resource_key_role" {
-  description = "The role you want to be associated with your new hmac key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'."
+  description = "The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'."
   type        = string
   default     = "Manager"
 }

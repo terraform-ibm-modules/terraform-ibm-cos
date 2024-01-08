@@ -18,7 +18,7 @@ variable "create_cos_instance" {
 }
 
 variable "create_resource_key" {
-  description = "Set as true to create a new HMAC key for the Cloud Object Storage instance."
+  description = "Set as true to create a new resource key for the Cloud Object Storage instance."
   type        = bool
   default     = true
 }
