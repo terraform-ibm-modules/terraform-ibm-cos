@@ -4,7 +4,8 @@
 
 variable "resource_group_id" {
   type        = string
-  description = "The resource group ID where resources will be provisioned."
+  description = "The resource group ID where resources will be provisioned. If not provided creates resources in default resource group."
+  default     = ""
 }
 
 ##############################################################################
