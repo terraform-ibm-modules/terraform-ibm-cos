@@ -22,7 +22,6 @@ module "buckets" {
   create_cos_instance           = false
   skip_iam_authorization_policy = each.value.skip_iam_authorization_policy
   existing_cos_instance_id      = each.value.resource_instance_id
-  resource_group_id             = each.value.resource_group_id
   region                        = each.value.region_location
 
   cross_region_location               = each.value.cross_region_location

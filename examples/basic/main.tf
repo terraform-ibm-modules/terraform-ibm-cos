@@ -36,7 +36,6 @@ module "buckets" {
       bucket_name            = "${var.prefix}-bucket-module"
       kms_encryption_enabled = false
       region_location        = var.region
-      resource_group_id      = module.resource_group.resource_group_id
       resource_instance_id   = module.cos.cos_instance_id
     }
   ]
