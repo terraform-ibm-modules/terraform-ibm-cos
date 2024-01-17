@@ -22,7 +22,6 @@ provider "ibm" {
 module "buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
   version = "latest" # Replace "latest" with a release version to lock into a specific release
-  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   bucket_configs = [
     {
       bucket_name            = "my-encrypted-bucket"

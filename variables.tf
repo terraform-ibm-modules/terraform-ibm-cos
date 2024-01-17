@@ -4,7 +4,7 @@
 
 variable "resource_group_id" {
   type        = string
-  description = "The resource group ID where resources will be provisioned. It is required for creating the Cloud Object Storage instance."
+  description = "The resource group ID where The COS instance will be provisioned. It is required if setting input variable create_cos_instance to true."
   default     = null
 }
 
