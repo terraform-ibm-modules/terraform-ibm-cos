@@ -62,7 +62,6 @@ module "cos_module" {
 module "additional_cos_bucket" {
   source                   = "terraform-ibm-modules/cos/ibm"
   version                  = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
-  resource_group_id        = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                   = "us-south"
   create_cos_instance      = false
   sysdig_crn               = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
