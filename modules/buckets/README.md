@@ -26,6 +26,7 @@ module "buckets" {
     {
       bucket_name            = "my-encrypted-bucket"
       kms_key_crn            = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+      kms_guid               = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
       kms_encryption_enabled = true # Must be set, as well as passing key crn, to avoid terraform count issues during plan and apply
       region_location        = "us-south"
       resource_instance_id   = "crn:v1:bluemix:public:cloud-object-storage:global:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx::"
