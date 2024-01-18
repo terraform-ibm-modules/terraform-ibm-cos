@@ -30,7 +30,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_kp_guid_input = var.kms_encryption_enabled && var.create_cos_bucket && var.skip_iam_authorization_policy == false && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when creating a bucket when var.kms_encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null) || (var.cross_region_location != null && var.region != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region, but not both") : true
+  validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null && var.single_site_location == null) || (var.cross_region_location != null && var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.region != null) || (var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.single_site_location != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region or var.single_site_location, only one of the regions can be set.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.expire_days cannot be set.") : true
 }
@@ -127,9 +127,12 @@ resource "ibm_cos_bucket" "cos_bucket" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
+  single_site_location  = var.single_site_location
   endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
   key_protect           = var.kms_key_crn
+  hard_quota            = var.hard_quota
+  force_delete          = var.force_delete
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -204,8 +207,11 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
+  single_site_location  = var.single_site_location
   endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
+  hard_quota            = var.hard_quota
+  force_delete          = var.force_delete
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {

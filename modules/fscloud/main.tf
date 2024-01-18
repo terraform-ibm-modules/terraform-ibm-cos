@@ -52,6 +52,9 @@ locals {
       object_versioning             = config.object_versioning
       retention_rule                = config.retention_rule
       cbr_rules                     = config.cbr_rules
+      single_site_location          = config.single_site_location
+      force_delete                  = config.force_delete
+      hard_quota                    = config.hard_quota
     }
   ]
 }

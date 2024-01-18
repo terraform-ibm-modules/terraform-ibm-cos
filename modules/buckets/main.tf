@@ -25,11 +25,14 @@ module "buckets" {
   region                        = each.value.region_location
 
   cross_region_location               = each.value.cross_region_location
+  single_site_location                = each.value.single_site_location
   bucket_storage_class                = each.value.storage_class
   existing_kms_instance_guid          = each.value.kms_guid
   kms_key_crn                         = each.value.kms_key_crn
   kms_encryption_enabled              = each.value.kms_encryption_enabled
   management_endpoint_type_for_bucket = each.value.management_endpoint_type
+  force_delete                        = each.value.force_delete
+  hard_quota                          = each.value.hard_quota
 
   access_tags = can(each.value.access_tags) ? each.value.access_tags : []
 
