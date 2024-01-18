@@ -256,7 +256,7 @@ variable "single_site_location" {
 
 variable "hard_quota" {
   type        = number
-  description = "Deletes all the objects in the COS Bucket before bucket is deleted."
+  description = "Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled."
   default     = null
 }
 
