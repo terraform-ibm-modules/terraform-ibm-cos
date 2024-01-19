@@ -45,7 +45,6 @@ locals {
       cross_region_location         = config.cross_region_location
       storage_class                 = config.storage_class
       region_location               = config.region_location
-      resource_group_id             = config.resource_group_id
       resource_instance_id          = module.cos_instance.cos_instance_id
       activity_tracking             = config.activity_tracking
       archive_rule                  = config.archive_rule

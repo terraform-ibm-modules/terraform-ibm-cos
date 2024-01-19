@@ -17,7 +17,6 @@ variable "bucket_configs" {
     cross_region_location         = optional(string, null)
     storage_class                 = optional(string, "smart")
     region_location               = optional(string, null)
-    resource_group_id             = string
     resource_instance_id          = string
 
     activity_tracking = optional(object({

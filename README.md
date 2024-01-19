@@ -62,7 +62,6 @@ module "cos_module" {
 module "additional_cos_bucket" {
   source                   = "terraform-ibm-modules/cos/ibm"
   version                  = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
-  resource_group_id        = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                   = "us-south"
   create_cos_instance      = false
   sysdig_crn               = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
@@ -80,14 +79,12 @@ module "cos_buckets" {
       bucket_name          = "my-encrypted-bucket"
       kms_key_crn          = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
       region_location      = "us-south"
-      resource_group_id    = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
       resource_instance_id = module.cos_module.cos_instance_id
     },
     {
       bucket_name            = "my-versioned-bucket"
       kms_encryption_enabled = false
       region_location        = "us-south"
-      resource_group_id      = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
       resource_instance_id   = module.cos_module.cos_instance_id
       object_versioning = {
         enable = true
@@ -97,7 +94,6 @@ module "cos_buckets" {
       bucket_name            = "my-archive-bucket"
       kms_encryption_enabled = false
       region_location        = "us-south"
-      resource_group_id      = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
       resource_instance_id   = module.cos_module.cos_instance_id
       archive_rule = {
         days   = 90
@@ -193,7 +189,7 @@ You need the following permissions to run this module.
 | <a name="input_management_endpoint_type_for_bucket"></a> [management\_endpoint\_type\_for\_bucket](#input\_management\_endpoint\_type\_for\_bucket) | The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private or direct) | `string` | `"public"` | no |
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. Only used if 'create\_cos\_bucket' is true. | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If you pass a value for this, do not pass one for var.cross\_region\_location. | `string` | `"us-south"` | no |
-| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
+| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where The COS instance will be provisioned. It is required if setting input variable create\_cos\_instance to true. | `string` | `null` | no |
 | <a name="input_resource_key_existing_serviceid_crn"></a> [resource\_key\_existing\_serviceid\_crn](#input\_resource\_key\_existing\_serviceid\_crn) | CRN of existing serviceID to bind with resource key to be created. If null a new ServiceID is created for the resource key. | `string` | `null` | no |
 | <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name of the resource key to be created. | `string` | `"hmac-cos-key"` | no |
 | <a name="input_resource_key_role"></a> [resource\_key\_role](#input\_resource\_key\_role) | The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'. | `string` | `"Manager"` | no |
