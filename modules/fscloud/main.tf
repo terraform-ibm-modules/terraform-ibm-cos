@@ -6,6 +6,7 @@ locals {
       validate_sysdig_set         = can(bucket.metrics_monitoring.metrics_monitoring_crn) ? bucket.metrics_monitoring.metrics_monitoring_crn == null ? tobool("When metrics_monitoring is set, metrics_monitoring_crn must be provided.") : null : null,
       validate_hpcs_instance_guid = bucket.skip_iam_authorization_policy == false && bucket.kms_guid == null ? tobool("'kms_guid' must be provided if 'skip_iam_authorization_policy' is set to false") : null,
       validate_hpcs_key_crn       = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
+      validate_kms_encryption     = !bucket.kms_encryption_enabled ? tobool("kms_encryption_enabled must be set to true for all buckets.") : null,
     }
   ]
 }
@@ -35,7 +36,7 @@ locals {
     {
       access_tags                   = config.access_tags
       bucket_name                   = config.bucket_name
-      kms_encryption_enabled        = true
+      kms_encryption_enabled        = config.kms_encryption_enabled
       kms_guid                      = config.kms_guid
       kms_key_crn                   = config.kms_key_crn
       skip_iam_authorization_policy = config.skip_iam_authorization_policy
