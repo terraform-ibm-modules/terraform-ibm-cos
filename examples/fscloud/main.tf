@@ -40,7 +40,7 @@ locals {
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "2.10.3"
+  version = "2.11.0"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
@@ -73,7 +73,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.17.1"
+  version          = "1.18.0"
   name             = "${var.prefix}-VPC-fscloud-nz"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -86,7 +86,7 @@ module "cbr_zone" {
 # Allow schematics, from outside VPC, to manage resources
 module "cbr_zone_schematics" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.17.1"
+  version          = "1.18.0"
   name             = "${var.prefix}-schematics-fscloud-nz"
   zone_description = "CBR Network zone containing Schematics"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -155,7 +155,6 @@ module "cos_fscloud" {
     kms_key_crn              = var.bucket_hpcs_key_crn
     kms_guid                 = var.bucket_existing_hpcs_instance_guid
     management_endpoint_type = var.management_endpoint_type_for_bucket
-    resource_group_id        = module.resource_group.resource_group_id
     region_location          = var.region
     activity_tracking = {
       activity_tracker_crn = local.at_crn

@@ -44,7 +44,6 @@ locals {
       cross_region_location         = config.cross_region_location
       storage_class                 = config.storage_class
       region_location               = config.region_location
-      resource_group_id             = config.resource_group_id
       resource_instance_id          = module.cos_instance.cos_instance_id
       activity_tracking             = config.activity_tracking
       archive_rule                  = config.archive_rule
@@ -77,7 +76,7 @@ module "instance_cbr_rules" {
   depends_on       = [module.buckets]
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.17.1"
+  version          = "1.18.0"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
