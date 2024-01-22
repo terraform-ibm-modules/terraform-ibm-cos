@@ -132,7 +132,7 @@ You need the following permissions to run this module.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0, <1.6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0, <1.6.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.56.1, < 2.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
@@ -191,7 +191,7 @@ You need the following permissions to run this module.
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If you pass a value for this, do not pass one for var.cross\_region\_location. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where The COS instance will be provisioned. It is required if setting input variable create\_cos\_instance to true. | `string` | `null` | no |
 | <a name="input_resource_key_existing_serviceid_crn"></a> [resource\_key\_existing\_serviceid\_crn](#input\_resource\_key\_existing\_serviceid\_crn) | CRN of existing serviceID to bind with resource key to be created. If null a new ServiceID is created for the resource key. | `string` | `null` | no |
-| <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name of the resource key to be created. | `string` | `"hmac-cos-key"` | no |
+| <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name of the resource key to be created. | `string` | `"cos-resource-key"` | no |
 | <a name="input_resource_key_role"></a> [resource\_key\_role](#input\_resource\_key\_role) | The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'. | `string` | `"Manager"` | no |
 | <a name="input_retention_default"></a> [retention\_default](#input\_retention\_default) | Specifies default duration of time an object that can be kept unmodified for COS bucket. Only used if 'create\_cos\_bucket' is true. | `number` | `90` | no |
 | <a name="input_retention_enabled"></a> [retention\_enabled](#input\_retention\_enabled) | Retention enabled for COS bucket. Only used if 'create\_cos\_bucket' is true. | `bool` | `false` | no |

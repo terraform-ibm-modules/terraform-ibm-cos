@@ -75,7 +75,7 @@ module "cos_fscloud" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, <1.6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0, <1.6.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.56.1, <2.0.0 |
 
 ### Modules
@@ -105,7 +105,7 @@ No resources.
 | <a name="input_generate_hmac_credentials"></a> [generate\_hmac\_credentials](#input\_generate\_hmac\_credentials) | Set as true to generate an HMAC key in the resource key. Only used when create\_resource\_key is `true`. | `bool` | `false` | no |
 | <a name="input_instance_cbr_rules"></a> [instance\_cbr\_rules](#input\_instance\_cbr\_rules) | (Optional, list) List of CBR rule to create for the instance | <pre>list(object({<br>    description = string<br>    account_id  = string<br>    rule_contexts = list(object({<br>      attributes = optional(list(object({<br>        name  = string<br>        value = string<br>    }))) }))<br>    enforcement_mode = string<br>    tags = optional(list(object({<br>      name  = string<br>      value = string<br>    })), [])<br>    operations = optional(list(object({<br>      api_types = list(object({<br>        api_type_id = string<br>      }))<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
-| <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name of the resource key to be created. | `string` | `"hmac-cos-key"` | no |
+| <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name of the resource key to be created. | `string` | `"cos-resource-key"` | no |
 | <a name="input_resource_key_role"></a> [resource\_key\_role](#input\_resource\_key\_role) | The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'. | `string` | `"Manager"` | no |
 
 ### Outputs

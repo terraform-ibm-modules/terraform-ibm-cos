@@ -39,7 +39,7 @@ variable "resource_key_existing_serviceid_crn" {
 variable "resource_key_name" {
   description = "The name of the resource key to be created."
   type        = string
-  default     = "hmac-cos-key"
+  default     = "cos-resource-key"
 }
 
 variable "resource_key_role" {
