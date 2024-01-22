@@ -16,3 +16,7 @@ The following resources are provisioned by this example:
 - A basic VPC and subnet.
 - A Context-based restriction (CBR) network zone containing the VPC.
 - CBR rules that allow only the VPC to access the Object Storage instance and buckets over the private endpoint.
+
+## Note:
+
+To run this example, you have to set the values for the environment variables being used in variables.tf or can pass them at the time of running the example.

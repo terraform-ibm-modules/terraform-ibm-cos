@@ -9,3 +9,7 @@ The following resources are provisioned by this example:
 - A new resource group, if an existing one is not passed in.
 - A One Rate plan Object Storage instance in the given resource group and region.
 - A One Rate Active storage plan regional bucket.
+
+## Note:
+
+To run this example, you have to set the values for the environment variables being used in variables.tf or can pass them at the time of running the example.

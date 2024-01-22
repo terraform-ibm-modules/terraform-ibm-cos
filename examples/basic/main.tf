@@ -1,5 +1,5 @@
 ##############################################################################
-# Resource group
+# Use Existing Resource group or Create new one if not exist
 ##############################################################################
 
 module "resource_group" {
