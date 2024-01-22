@@ -31,8 +31,8 @@
                     "description": "Create either a cross-regional or regional Object Storage bucket."
                 },
                 {
-                    "title": "Create an HMAC key",
-                    "description": "Create an HMAC key for the Object Storage instance."
+                    "title": "Create an IBM resource key",
+                    "description": "Create a resource key for the Object Storage instance."
                 },
                 {
                     "title": "Attach access tags",
