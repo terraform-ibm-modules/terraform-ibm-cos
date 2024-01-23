@@ -140,7 +140,7 @@ variable "bucket_configs" {
 
   validation {
     condition     = length([for bucket_config in var.bucket_configs : true if contains([true], bucket_config.kms_encryption_enabled)]) == length(var.bucket_configs)
-    error_message = "fscloud mandates kms encryption."
+    error_message = "The FSCloud submodule mandates that kms_encryption_enabled is set to true for all buckets in bucket_configs input variable value."
   }
 }
 
