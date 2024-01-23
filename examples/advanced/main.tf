@@ -13,7 +13,7 @@ module "resource_group" {
 ##############################################################################
 # Create serviceID to use for resource key hmac
 #
-# NOTE: The module itself supports creating one, but this examples hows how
+# NOTE: The module itself supports creating one, but this example shows how
 # you can use an existing one
 ##############################################################################
 
