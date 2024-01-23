@@ -75,7 +75,7 @@ module "cos_fscloud" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, <1.6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0, <1.6.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.56.1, <2.0.0 |
 
 ### Modules
@@ -100,12 +100,13 @@ No resources.
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan to be used for creating cloud object storage instance. Only used if 'create\_cos\_instance' it true. | `string` | `"standard"` | no |
 | <a name="input_cos_tags"></a> [cos\_tags](#input\_cos\_tags) | Optional list of tags to be added to cloud object storage instance. Only used if 'create\_cos\_instance' it true. | `list(string)` | `[]` | no |
 | <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Set as true to create a new Cloud Object Storage instance. | `bool` | `true` | no |
-| <a name="input_create_hmac_key"></a> [create\_hmac\_key](#input\_create\_hmac\_key) | Set as true to create a new HMAC key for the Cloud Object Storage instance. | `bool` | `false` | no |
+| <a name="input_create_resource_key"></a> [create\_resource\_key](#input\_create\_resource\_key) | Set as true to create a new resource key for the Cloud Object Storage instance. | `bool` | `false` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | The ID of an existing cloud object storage instance. Required if 'var.create\_cos\_instance' is false. | `string` | `null` | no |
-| <a name="input_hmac_key_name"></a> [hmac\_key\_name](#input\_hmac\_key\_name) | The name of the hmac key to be created. | `string` | `"hmac-cos-key"` | no |
-| <a name="input_hmac_key_role"></a> [hmac\_key\_role](#input\_hmac\_key\_role) | The role you want to be associated with your new hmac key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'. | `string` | `"Manager"` | no |
+| <a name="input_generate_hmac_credentials"></a> [generate\_hmac\_credentials](#input\_generate\_hmac\_credentials) | Set as true to generate an HMAC key in the resource key. Only used when create\_resource\_key is `true`. | `bool` | `false` | no |
 | <a name="input_instance_cbr_rules"></a> [instance\_cbr\_rules](#input\_instance\_cbr\_rules) | (Optional, list) List of CBR rule to create for the instance | <pre>list(object({<br>    description = string<br>    account_id  = string<br>    rule_contexts = list(object({<br>      attributes = optional(list(object({<br>        name  = string<br>        value = string<br>    }))) }))<br>    enforcement_mode = string<br>    tags = optional(list(object({<br>      name  = string<br>      value = string<br>    })), [])<br>    operations = optional(list(object({<br>      api_types = list(object({<br>        api_type_id = string<br>      }))<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
+| <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name of the resource key to be created. | `string` | `"cos-resource-key"` | no |
+| <a name="input_resource_key_role"></a> [resource\_key\_role](#input\_resource\_key\_role) | The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'. | `string` | `"Manager"` | no |
 
 ### Outputs
 
