@@ -37,8 +37,8 @@ locals {
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
 resource "time_sleep" "wait_for_authorization_policy" {
-  depends_on = [ibm_iam_authorization_policy.policy]
-
+  depends_on      = [ibm_iam_authorization_policy.policy]
+  count           = local.create_access_policy_kms ? 1 : 0
   create_duration = "30s"
 }
 
@@ -122,7 +122,7 @@ resource "random_string" "bucket_name_suffix" {
 # - Versioning
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  depends_on            = [ibm_iam_authorization_policy.policy]
+  depends_on            = [time_sleep.wait_for_authorization_policy]
   bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
@@ -200,7 +200,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
 resource "ibm_cos_bucket" "cos_bucket1" {
   count                 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
   bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
-  depends_on            = [ibm_iam_authorization_policy.policy]
+  depends_on            = [time_sleep.wait_for_authorization_policy]
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
