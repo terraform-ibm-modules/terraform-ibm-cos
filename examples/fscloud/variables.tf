@@ -51,7 +51,7 @@ variable "access_tags" {
 variable "management_endpoint_type_for_bucket" {
   description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private or direct)"
   type        = string
-  #default     = "private"
+  default     = "private"
   validation {
     condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
     error_message = "The specified management_endpoint_type_for_bucket is not a valid selection!"
