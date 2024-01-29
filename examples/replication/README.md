@@ -11,7 +11,3 @@ The following resources are provisioned by this example:
 - One target and one source Object Storage bucket.
 - An IAM authorization policy for the source instance to write to the target bucket.
 - A replication rule to copy everything from the source bucket to the target bucket.
-
-## Note:
-
-To run this example, you have to set the values for the environment variables being used in variables.tf or can pass them at the time of running the example.

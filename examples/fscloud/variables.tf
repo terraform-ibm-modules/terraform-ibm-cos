@@ -12,6 +12,7 @@ variable "prefix" {
 variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
+  default     = []
 }
 
 variable "region" {
@@ -32,12 +33,19 @@ variable "bucket_hpcs_key_crn" {
 variable "resource_group" {
   type        = string
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
+  default     = null
 }
 
 variable "existing_at_instance_crn" {
   type        = string
   description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
   #default     = null
+}
+
+variable "access_tags" {
+  type        = list(string)
+  description = "Optional list of access tags to be added to the created resources"
+  default     = []
 }
 
 variable "management_endpoint_type_for_bucket" {

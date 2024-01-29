@@ -1,12 +1,3 @@
-#############################################################################
-#local variables being used as hard coded values only for this example.
-#############################################################################
-
-locals {
-  access_tags = []
-}
-
-
 ##############################################################################
 # Resource Group
 ##############################################################################
@@ -30,7 +21,7 @@ module "cos_source_bucket" {
   region                    = var.region
   cos_instance_name         = "${var.prefix}-source-cos"
   cos_tags                  = var.resource_tags
-  access_tags               = local.access_tags
+  access_tags               = var.access_tags
   object_versioning_enabled = true
   kms_encryption_enabled    = false
   retention_enabled         = false
@@ -49,7 +40,7 @@ module "cos_target_bucket" {
   region                    = var.region
   cos_instance_name         = "${var.prefix}-target-cos"
   cos_tags                  = var.resource_tags
-  access_tags               = local.access_tags
+  access_tags               = var.access_tags
   object_versioning_enabled = true
   kms_encryption_enabled    = false
   retention_enabled         = false

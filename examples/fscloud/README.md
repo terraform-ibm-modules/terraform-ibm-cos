@@ -23,7 +23,3 @@ The following resources are provisioned by this example:
 Before you run the example, make sure that you set up the following prerequisites:
 
 - A Hyper Protect Crypto Service instance and root key.
-
-## Note:
-
-To run this example, you have to set the values for the environment variables being used in variables.tf or can pass them at the time of running the example.

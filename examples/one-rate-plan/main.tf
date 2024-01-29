@@ -1,11 +1,3 @@
-#############################################################################
-#local variables being used as hard coded values only for this example.
-#############################################################################
-
-locals {
-  access_tags = []
-}
-
 ##############################################################################
 # Resource Group
 ##############################################################################
@@ -35,5 +27,5 @@ module "cos_bucket" {
   kms_encryption_enabled = false
   cos_plan               = "cos-one-rate-plan"
   bucket_storage_class   = "onerate_active"
-  access_tags            = local.access_tags
+  access_tags            = var.access_tags
 }

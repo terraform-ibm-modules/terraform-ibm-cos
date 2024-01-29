@@ -13,6 +13,7 @@ variable "prefix" {
 variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
+  default     = []
 }
 
 # region needs to provide cross region support.
@@ -24,4 +25,11 @@ variable "region" {
 variable "resource_group" {
   type        = string
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
+  default     = null
+}
+
+variable "access_tags" {
+  type        = list(string)
+  description = "Optional list of access tags to be added to the created resources"
+  default     = []
 }

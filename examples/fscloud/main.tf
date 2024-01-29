@@ -1,12 +1,3 @@
-#############################################################################
-#local variables being used as hard coded values only for this example.
-#############################################################################
-
-locals {
-  access_tags = []
-}
-
-
 ##############################################################################
 # Resource Group
 ##############################################################################
@@ -121,7 +112,7 @@ module "cos_fscloud" {
   resource_group_id = module.resource_group.resource_group_id
   cos_instance_name = "${var.prefix}-cos"
   cos_tags          = var.resource_tags
-  access_tags       = local.access_tags
+  access_tags       = var.access_tags
 
   # CBR rule only allowing the COS instance to be accessbile over the private endpoint from within the VPC
   # or from schematics
@@ -159,7 +150,7 @@ module "cos_fscloud" {
 
   # Create one regional bucket, encrypted with the HPCS root key
   bucket_configs = [{
-    access_tags              = local.access_tags
+    access_tags              = var.access_tags
     bucket_name              = "${var.prefix}-bucket"
     kms_key_crn              = var.bucket_hpcs_key_crn
     kms_guid                 = var.bucket_existing_hpcs_instance_guid

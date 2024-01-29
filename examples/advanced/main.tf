@@ -1,11 +1,3 @@
-#############################################################################
-#local variables being used as hard coded values only for this example.
-#############################################################################
-
-locals {
-  access_tags = []
-}
-
 ##############################################################################
 # Resource Group
 ##############################################################################
@@ -140,7 +132,7 @@ module "cos_bucket1" {
   cos_instance_name                   = "${var.prefix}-cos"
   cos_tags                            = var.resource_tags
   bucket_name                         = "${var.prefix}-bucket-1"
-  access_tags                         = local.access_tags
+  access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
