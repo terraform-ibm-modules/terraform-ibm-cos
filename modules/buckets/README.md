@@ -84,6 +84,7 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_bucket_configs"></a> [bucket\_configs](#output\_bucket\_configs) | List of bucket config definitions |
+| <a name="output_bucket_resource_keys"></a> [bucket\_resource\_keys](#output\_bucket\_resource\_keys) | Map of bucket resource keys |
 | <a name="output_buckets"></a> [buckets](#output\_buckets) | Map of buckets created in the Cloud Object Storage Instance |
 | <a name="output_cbr_rule_ids"></a> [cbr\_rule\_ids](#output\_cbr\_rule\_ids) | List of bucket CBR rule ids |
 | <a name="output_cbr_rules"></a> [cbr\_rules](#output\_cbr\_rules) | List of COS bucket CBR rules |

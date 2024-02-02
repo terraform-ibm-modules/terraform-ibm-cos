@@ -42,6 +42,12 @@ output "bucket_storage_class" {
   value       = local.bucket_storage_class
 }
 
+output "bucket_resource_key" {
+  description = "Bucket resource key"
+  value       = ibm_resource_key.resource_key
+  sensitive   = true
+}
+
 output "kms_key_crn" {
   description = "The CRN of the KMS key used to encrypt the COS bucket"
   value       = var.kms_key_crn
