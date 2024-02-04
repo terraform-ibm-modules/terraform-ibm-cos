@@ -6,7 +6,6 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  default     = "test-cos"
   description = "Prefix name for all related resources"
 }
 
@@ -26,7 +25,6 @@ variable "access_tags" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "us-south"
 
   validation {
     condition     = can(regex("us-south|eu-de|jp-tok", var.region))
@@ -37,7 +35,6 @@ variable "region" {
 variable "cross_region_location" {
   description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'."
   type        = string
-  default     = "us"
 
   validation {
     condition     = can(regex("us|eu|ap", var.cross_region_location))

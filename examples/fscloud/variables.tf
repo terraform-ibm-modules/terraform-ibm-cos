@@ -6,7 +6,6 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  default     = "test-cos-fscloud"
   description = "Prefix name for all related resources"
 }
 
@@ -19,14 +18,12 @@ variable "resource_tags" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "us-south"
 }
 
 variable "bucket_existing_hpcs_instance_guid" {
   description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
   type        = string
 }
-
 
 variable "bucket_hpcs_key_crn" {
   description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket"
