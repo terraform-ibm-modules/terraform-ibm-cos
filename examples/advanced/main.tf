@@ -83,14 +83,21 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/key-protect-all-inclusive/ibm"
-  version                   = "4.4.2"
+  version                   = "4.6.0"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
   region                    = var.region
-  key_map = {
-    (local.key_ring_name) = [local.key_name]
-  }
+  keys = [
+    {
+      key_ring_name = (local.key_ring_name)
+      keys = [
+        {
+          key_name = (local.key_name)
+        }
+      ]
+    }
+  ]
   resource_tags = var.resource_tags
 }
 
@@ -134,7 +141,7 @@ module "cos_bucket1" {
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
-  existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
+  existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
   # If no value is passed for this variable, the module will create a new service ID for the resource key
