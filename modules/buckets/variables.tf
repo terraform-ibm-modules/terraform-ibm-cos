@@ -18,6 +18,9 @@ variable "bucket_configs" {
     storage_class                 = optional(string, "smart")
     region_location               = optional(string, null)
     resource_instance_id          = string
+    force_delete                  = optional(bool, true)
+    single_site_location          = optional(string, null)
+    hard_quota                    = optional(number, null)
 
     activity_tracking = optional(object({
       read_data_events     = optional(bool, true)

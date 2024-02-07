@@ -100,7 +100,7 @@ variable "existing_cos_instance_id" {
 ##############################################################################
 
 variable "region" {
-  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location."
+  description = "The region to provision the bucket. If you pass a value for this, do not pass one for var.cross_region_location or var.single_site_location."
   type        = string
   default     = "us-south"
 }
@@ -112,7 +112,7 @@ variable "create_cos_bucket" {
 }
 
 variable "cross_region_location" {
-  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'. If you pass a value for this, ensure to set the value of var.region to null."
+  description = "Specify the cross-regional bucket location. Supported values are 'us', 'eu', and 'ap'. If you pass a value for this, ensure to set the value of var.region and var.single_site_location to null."
   type        = string
   default     = null
 
@@ -234,6 +234,29 @@ variable "activity_tracker_crn" {
 variable "sysdig_crn" {
   type        = string
   description = "Sysdig Monitoring crn for COS bucket (Optional)"
+  default     = null
+}
+
+variable "force_delete" {
+  type        = bool
+  description = "Deletes all the objects in the COS Bucket before bucket is deleted."
+  default     = true
+}
+
+variable "single_site_location" {
+  type        = string
+  description = "Specify the single site bucket location. If you pass a value for this, ensure to set the value of var.region and var.cross_region_location to null."
+  default     = null
+
+  validation {
+    condition     = var.single_site_location == null || can(regex("ams03|mil01|mon01|par01|sjc04|sng01|che01", var.single_site_location))
+    error_message = "Variable 'cross_region_location' must be 'ams03', 'mil01', 'mon01', 'par01', 'sjc04', 'sng01', 'che01' or 'null'."
+  }
+}
+
+variable "hard_quota" {
+  type        = number
+  description = "Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled."
   default     = null
 }
 
