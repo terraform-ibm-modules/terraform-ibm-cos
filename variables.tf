@@ -249,8 +249,8 @@ variable "single_site_location" {
   default     = null
 
   validation {
-    condition     = var.single_site_location == null || can(regex("ams03|che01|hkg02|mel01|mex01|mil01|mon01|osl01|par01|sjc04|sao01|seo01|sng01|tor01", var.single_site_location))
-    error_message = "Variable 'cross_region_location' must be 'ams03', 'che01', 'hkg02', 'mel01', 'mex01', 'mil01', 'mon01', 'osl01', 'par01', 'sjc04', 'sao01', 'seo01', 'sng01', 'tor01', or 'null'."
+    condition     = var.single_site_location == null || can(regex("ams03|mil01|mon01|par01|sjc04|sng01|che01", var.single_site_location))
+    error_message = "Variable 'cross_region_location' must be 'ams03', 'mil01', 'mon01', 'par01', 'sjc04', 'sng01', 'che01' or 'null'."
   }
 }
 

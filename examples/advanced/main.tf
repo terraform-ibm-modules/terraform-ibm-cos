@@ -236,3 +236,49 @@ module "cos_bucket2" {
     }
   ]
 }
+
+##############################################################################
+# Create COS bucket-3 (in the COS instance created above) with:
+# - Single Site Location
+# - Hard Quota
+# - Encryption
+# - Monitoring
+# - Activity Tracking
+##############################################################################
+
+module "cos_bucket3" {
+  source                              = "../../"
+  depends_on                          = [module.cos_bucket1] # Required since cos_bucket1 creates the IAM authorization policy
+  bucket_name                         = "${var.prefix}-bucket-3"
+  add_bucket_name_suffix              = true
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  region                              = null
+  single_site_location                = var.single_site_location
+  hard_quota                          = var.hard_quota
+  archive_days                        = null
+  sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
+  activity_tracker_crn                = local.at_crn
+  create_cos_instance                 = false
+  existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
+  skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
+  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  bucket_cbr_rules = [
+    {
+      description      = "sample rule for bucket 3"
+      enforcement_mode = "report"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
+    }
+  ]
+}

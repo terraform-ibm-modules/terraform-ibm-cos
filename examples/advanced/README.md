@@ -13,6 +13,7 @@ The following resources are provisioned by this example:
 - An IAM authorization policy to allow the Object Storage instance read access to the Key Protect instance.
 - A regional bucket with BYOK KMS encryption, monitoring, and activity tracking.
 - A cross-regional bucket with KMS encryption, monitoring, and activity tracking.
+- A single-site-location bucket with hard quota, KMS encryption, monitoring, and activity tracking.
 - A basic VPC and subnet.
 - A Context-based restriction (CBR) network zone containing the VPC.
 - CBR rules that allow only the VPC to access the Object Storage instance and buckets over the private endpoint.
