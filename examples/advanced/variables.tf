@@ -59,7 +59,7 @@ variable "single_site_location" {
 variable "hard_quota" {
   type        = number
   description = "Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled."
-  default     = null
+  default     = 1000000
 }
 
 variable "management_endpoint_type_for_bucket" {
