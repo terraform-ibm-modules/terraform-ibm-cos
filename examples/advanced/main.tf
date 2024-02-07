@@ -260,9 +260,9 @@ module "cos_bucket3" {
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
+  kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
-  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 3"
