@@ -2,10 +2,11 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   bucket_validations = [
     for bucket in var.bucket_configs : {
-      validate_at_set             = can(bucket.activity_tracking.activity_tracker_crn) ? bucket.activity_tracking.activity_tracker_crn == null ? tobool("When activity_tracking is set, activity_tracker_crn must be provided.") : null : null,
-      validate_sysdig_set         = can(bucket.metrics_monitoring.metrics_monitoring_crn) ? bucket.metrics_monitoring.metrics_monitoring_crn == null ? tobool("When metrics_monitoring is set, metrics_monitoring_crn must be provided.") : null : null,
-      validate_hpcs_instance_guid = bucket.skip_iam_authorization_policy == false && bucket.kms_guid == null ? tobool("'kms_guid' must be provided if 'skip_iam_authorization_policy' is set to false") : null,
-      validate_hpcs_key_crn       = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
+      validate_at_set               = can(bucket.activity_tracking.activity_tracker_crn) ? bucket.activity_tracking.activity_tracker_crn == null ? tobool("When activity_tracking is set, activity_tracker_crn must be provided.") : null : null,
+      validate_sysdig_set           = can(bucket.metrics_monitoring.metrics_monitoring_crn) ? bucket.metrics_monitoring.metrics_monitoring_crn == null ? tobool("When metrics_monitoring is set, metrics_monitoring_crn must be provided.") : null : null,
+      validate_hpcs_instance_guid   = bucket.skip_iam_authorization_policy == false && bucket.kms_guid == null ? tobool("'kms_guid' must be provided if 'skip_iam_authorization_policy' is set to false") : null,
+      validate_hpcs_key_crn         = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
+      validate_single_site_location = bucket.single_site_location ? tobool("KMS encryption can not be added to single site location, therefore it is not supported in fscloud module.") : null,
     }
   ]
 }

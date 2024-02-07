@@ -33,6 +33,8 @@ locals {
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null && var.single_site_location == null) || (var.cross_region_location != null && var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.region != null) || (var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.single_site_location != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region or var.single_site_location, only one of the regions can be set.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.expire_days cannot be set.") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_single_site_location_inputs = var.single_site_location && var.kms_encryption_enabled ? tobool("If var.single_site_location is set, then var.kms_encryption_enabled cannot be set as the key protect does not support single site location.") : true
 }
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
