@@ -254,7 +254,7 @@ module "cos_bucket3" {
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   region                              = null
   single_site_location                = var.single_site_location
-  hard_quota                          = var.hard_quota
+  hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
   archive_days                        = null
   sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                = local.at_crn

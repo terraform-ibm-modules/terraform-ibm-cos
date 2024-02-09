@@ -1,12 +1,10 @@
 package test
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
-)
-
-import (
-	"testing"
 )
 
 func TestRunBasicExample(t *testing.T) {
