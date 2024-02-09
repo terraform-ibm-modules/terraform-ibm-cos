@@ -6,7 +6,6 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  default     = "test-cos"
   description = "Prefix name for all related resources"
 }
 
@@ -26,7 +25,7 @@ variable "access_tags" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "us-south"
+
 
   validation {
     condition     = can(regex("us-south|eu-de|jp-tok", var.region))
@@ -54,12 +53,6 @@ variable "single_site_location" {
     condition     = var.single_site_location == null || can(regex("ams03|mil01|mon01|par01|sjc04|sng01|che01", var.single_site_location))
     error_message = "Variable 'cross_region_location' must be 'ams03', 'mil01', 'mon01', 'par01', 'sjc04', 'sng01', 'che01' or 'null'."
   }
-}
-
-variable "hard_quota" {
-  type        = number
-  description = "Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled."
-  default     = 1000000
 }
 
 variable "management_endpoint_type_for_bucket" {
