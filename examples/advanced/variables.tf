@@ -6,7 +6,6 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  default     = "test-cos"
   description = "Prefix name for all related resources"
 }
 
@@ -26,7 +25,7 @@ variable "access_tags" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "us-south"
+
 
   validation {
     condition     = can(regex("us-south|eu-de|jp-tok", var.region))
@@ -42,6 +41,17 @@ variable "cross_region_location" {
   validation {
     condition     = can(regex("us|eu|ap", var.cross_region_location))
     error_message = "Variable 'cross_region_location' must be 'us' or 'eu', or 'ap'."
+  }
+}
+
+variable "single_site_location" {
+  type        = string
+  description = "Specify the single site bucket location. If you pass a value for this, ensure to set the value of var.region and var.cross_region_location to null."
+  default     = "ams03"
+
+  validation {
+    condition     = var.single_site_location == null || can(regex("ams03|mil01|mon01|par01|sjc04|sng01|che01", var.single_site_location))
+    error_message = "Variable 'cross_region_location' must be 'ams03', 'mil01', 'mon01', 'par01', 'sjc04', 'sng01', 'che01' or 'null'."
   }
 }
 

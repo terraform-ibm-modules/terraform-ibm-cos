@@ -83,14 +83,21 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/key-protect-all-inclusive/ibm"
-  version                   = "4.4.2"
+  version                   = "4.6.0"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
   region                    = var.region
-  key_map = {
-    (local.key_ring_name) = [local.key_name]
-  }
+  keys = [
+    {
+      key_ring_name = (local.key_ring_name)
+      keys = [
+        {
+          key_name = (local.key_name)
+        }
+      ]
+    }
+  ]
   resource_tags = var.resource_tags
 }
 
@@ -134,7 +141,7 @@ module "cos_bucket1" {
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
-  existing_kms_instance_guid          = module.key_protect_all_inclusive.key_protect_guid
+  existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
   # If no value is passed for this variable, the module will create a new service ID for the resource key
@@ -213,6 +220,52 @@ module "cos_bucket2" {
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
+      enforcement_mode = "report"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
+    }
+  ]
+}
+
+##############################################################################
+# Create COS bucket-3 (in the COS instance created above) with:
+# - Single Site Location
+# - Hard Quota
+# - Encryption
+# - Monitoring
+# - Activity Tracking
+##############################################################################
+
+module "cos_bucket3" {
+  source                              = "../../"
+  depends_on                          = [module.cos_bucket1] # Required since cos_bucket1 creates the IAM authorization policy
+  bucket_name                         = "${var.prefix}-bucket-3"
+  add_bucket_name_suffix              = true
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  region                              = null
+  single_site_location                = var.single_site_location
+  hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
+  archive_days                        = null
+  sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
+  activity_tracker_crn                = local.at_crn
+  create_cos_instance                 = false
+  existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
+  kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
+  skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
+  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  bucket_cbr_rules = [
+    {
+      description      = "sample rule for bucket 3"
       enforcement_mode = "report"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
       rule_contexts = [{
