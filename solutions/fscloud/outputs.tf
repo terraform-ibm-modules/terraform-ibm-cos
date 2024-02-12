@@ -30,4 +30,3 @@ output "instance_cbr_rules" {
   description = "COS instance rules"
   value       = module.instance_cbr_rules[*]
 }
-

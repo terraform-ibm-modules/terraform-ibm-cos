@@ -6,16 +6,16 @@ module "resource_group" {
 }
 
 module "cloudant" {
-  source                        = "../../modules/fscloud"
-  resource_group_id             = var.resource_group_id
-  create_cos_instance           = var.create_cos_instance
-  existing_cos_instance_id      = var.existing_cos_instance_id
-  cos_instance_name             = var.cos_instance_name
-  create_resource_key           = var.create_resource_key
-  resource_key_name             = var.resource_key_name
-  resource_key_role             = var.resource_key_role
-  generate_hmac_credentials     = var.generate_hmac_credentials
-  cos_plan                      = var.cos_plan
-  cos_tags                      = var.cos_tags
-  access_tags                   = var.access_tags
+  source                    = "../../modules/fscloud"
+  resource_group_id         = var.resource_group_id
+  create_cos_instance       = var.create_cos_instance
+  existing_cos_instance_id  = var.existing_cos_instance_id
+  cos_instance_name         = var.cos_instance_name
+  create_resource_key       = var.create_resource_key
+  resource_key_name         = var.resource_key_name
+  resource_key_role         = var.resource_key_role
+  generate_hmac_credentials = var.generate_hmac_credentials
+  cos_plan                  = var.cos_plan
+  cos_tags                  = var.cos_tags
+  access_tags               = var.access_tags
 }

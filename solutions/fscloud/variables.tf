@@ -1,3 +1,15 @@
+variable "ibmcloud_api_key" {
+  type        = string
+  description = "The IBM Cloud API Token"
+  sensitive   = true
+}
+
+variable "region" {
+  description = "Region where resources will be created"
+  type        = string
+  default     = "us-south"
+}
+
 variable "resource_group_id" {
   type        = string
   description = "The resource group ID where resources will be provisioned."

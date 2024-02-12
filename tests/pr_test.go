@@ -33,6 +33,7 @@ const fsCloudTerraformDir = "examples/fscloud"
 const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
+const solutionsFsCloud = "solutions/fscloud"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -257,4 +258,25 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 		WithCredentials(creds).
 		WithS3ForcePathStyle(true)
 	return s3.New(sess, conf)
+}
+
+func TestRunSolutionsFSCloud(t *testing.T) {
+
+	t.Parallel()
+
+	options := setupOptions(t, "cos-da-fscloud", solutionsFsCloud)
+	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
+	options.TerraformVars["bucket_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
+	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
+
+	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
+	// to disable the rules before destroy. Without it, the destroy will fail on the refresh.
+	options.CBRRuleListOutputVariable = "cbr_rule_ids"
+	options.TestSetup()
+	defer func() {
+		options.TestTearDown()
+	}()
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }
