@@ -265,17 +265,11 @@ func TestRunSolutionsFSCloud(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-da-fscloud", solutionsFsCloud)
-	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
-	options.TerraformVars["bucket_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
-	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
+	options.TerraformVars["var.cos_instance_name"] = "fscloud-da"
+	options.TerraformVars["ibmcloud_api_key"] = options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"]
+	options.TerraformVars["region"] = "us-south"
+	options.TerraformVars["resource_group_name"] = "cos-da-rg"
 
-	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
-	// to disable the rules before destroy. Without it, the destroy will fail on the refresh.
-	options.CBRRuleListOutputVariable = "cbr_rule_ids"
-	options.TestSetup()
-	defer func() {
-		options.TestTearDown()
-	}()
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
