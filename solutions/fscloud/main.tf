@@ -5,9 +5,9 @@ module "resource_group" {
   existing_resource_group_name = var.existing_resource_group == true ? var.resource_group_name : null
 }
 
-module "cloudant" {
+module "cos_fscloud_da" {
   source                    = "../../modules/fscloud"
-  resource_group_id         = var.resource_group_id
+  resource_group_id         = module.resource_group.resource_group_id
   create_cos_instance       = var.create_cos_instance
   existing_cos_instance_id  = var.existing_cos_instance_id
   cos_instance_name         = var.cos_instance_name
