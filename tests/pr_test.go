@@ -33,7 +33,7 @@ const fsCloudTerraformDir = "examples/fscloud"
 const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
-const solutionsFsCloud = "solutions/fscloud"
+const solutionsFsCloud = "solutions/secure"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -270,7 +270,7 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 	return s3.New(sess, conf)
 }
 
-func TestRunSolutionsFSCloud(t *testing.T) {
+func TestRunSecureSolution(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "cos-da-fscloud", solutionsFsCloud)
