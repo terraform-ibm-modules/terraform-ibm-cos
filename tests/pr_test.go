@@ -83,6 +83,16 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			},
 		})
 	}
+	if dir == solutionsFsCloud {
+		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+			Testing:      t,
+			TerraformDir: dir,
+			Prefix:       prefix,
+			TerraformVars: map[string]interface{}{
+				"cos_tags": permanentResources["accessTags"],
+			},
+		})
+	}
 	return options
 }
 
@@ -261,14 +271,16 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 }
 
 func TestRunSolutionsFSCloud(t *testing.T) {
-
 	t.Parallel()
 
 	options := setupOptions(t, "cos-da-fscloud", solutionsFsCloud)
-	options.TerraformVars["var.cos_instance_name"] = "fscloud-da"
-	options.TerraformVars["ibmcloud_api_key"] = options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"]
-	options.TerraformVars["region"] = "us-south"
-	options.TerraformVars["resource_group_name"] = "cos-da-rg"
+	options.TerraformVars = map[string]interface{}{
+		"ibmcloud_api_key":        options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
+		"existing_resource_group": true,
+		"resource_group_name":     resourceGroup,
+		"cos_instance_name":       "fscloud-da",
+		"region":                  region,
+	}
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
