@@ -8,4 +8,4 @@ This architecture creates an Cloud Object Storage(COS) on IBM Cloud®. The solut
     - Monitoring and Activity Tracking to capture information regarding the events in the COS.
 - Context Based Restriction rules for the instance and buckets
 
-![da-fscloud](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/reference-architecture/da-fscloud.svg)
+![da-fscloud](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/reference-architecture/secure-fscloud-cos-da.svg)
