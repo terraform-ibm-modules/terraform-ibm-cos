@@ -1,4 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>terraform-ibm-modules/common-dev-assets:commonRenovateConfig"]
+  "extends": ["github>terraform-ibm-modules/common-dev-assets:commonRenovateConfig"],
+  "packageRules": [
+    {
+      "description": "Allow the locked in provider version to be updated to the latest for DAs",
+      "enabled": true,
+      "matchFileNames": ["solutions/secure/**"],
+      "matchManagers": ["terraform"],
+      "matchDepTypes": ["required_provider"],
+      "rangeStrategy": "bump",
+      "semanticCommitType": "fix",
+      "group": true,
+      "groupName": "required_provider",
+      "commitMessageExtra": "to latest for the DA solution"
+    }
+  ]
 }
