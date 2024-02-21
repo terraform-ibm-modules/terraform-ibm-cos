@@ -5,10 +5,10 @@ go 1.21
 toolchain go1.21.3
 
 require (
-	github.com/IBM/ibm-cos-sdk-go v1.10.1
+	github.com/IBM/ibm-cos-sdk-go v1.10.2
 	github.com/gruntwork-io/terratest v0.46.11
 	github.com/stretchr/testify v1.8.4
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.28.2
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.28.5
 )
 
 require (
@@ -18,10 +18,10 @@ require (
 	cloud.google.com/go/iam v1.1.1 // indirect
 	cloud.google.com/go/storage v1.30.1 // indirect
 	dario.cat/mergo v1.0.0 // indirect
-	github.com/IBM-Cloud/bluemix-go v0.0.0-20240110132033-6ead1f81a985 // indirect
-	github.com/IBM-Cloud/power-go-client v1.5.8 // indirect
+	github.com/IBM-Cloud/bluemix-go v0.0.0-20240212062122-3386b538a495 // indirect
+	github.com/IBM-Cloud/power-go-client v1.5.9 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.15.1 // indirect
-	github.com/IBM/platform-services-go-sdk v0.56.4 // indirect
+	github.com/IBM/platform-services-go-sdk v0.59.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
@@ -99,14 +99,14 @@ require (
 	go.opentelemetry.io/otel v1.16.0 // indirect
 	go.opentelemetry.io/otel/metric v1.16.0 // indirect
 	go.opentelemetry.io/otel/trace v1.16.0 // indirect
-	golang.org/x/crypto v0.18.0 // indirect
-	golang.org/x/mod v0.12.0 // indirect
+	golang.org/x/crypto v0.19.0 // indirect
+	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
-	golang.org/x/sync v0.4.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sync v0.5.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	golang.org/x/tools v0.13.0 // indirect
+	golang.org/x/tools v0.16.1 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/api v0.127.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect

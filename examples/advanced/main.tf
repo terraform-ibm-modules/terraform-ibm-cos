@@ -114,7 +114,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.18.0"
+  version          = "1.18.1"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -254,7 +254,7 @@ module "cos_bucket3" {
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   region                              = null
   single_site_location                = var.single_site_location
-  hard_quota                          = var.hard_quota
+  hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
   archive_days                        = null
   sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                = local.at_crn
