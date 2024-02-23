@@ -273,10 +273,10 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 func TestRunSecureSolution(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cos-da-fscloud", solutionSecure)
+	options := setupOptions(t, "cos-da", solutionSecure)
 	options.TerraformVars = map[string]interface{}{
 		"existing_resource_group": true,
-		"cos_instance_name":       "fscloud-da",
+		"cos_instance_name":       "cos-da",
 		"resource_group_name":     resourceGroup,
 		"region":                  region,
 	}
