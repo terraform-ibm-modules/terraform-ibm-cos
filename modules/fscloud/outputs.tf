@@ -21,6 +21,11 @@ output "cos_instance_guid" {
   value       = module.cos_instance.cos_instance_guid
 }
 
+output "cos_instance_name" {
+  description = "COS instance name"
+  value       = module.cos_instance.cos_instance_name
+}
+
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
   value       = module.buckets.cbr_rules

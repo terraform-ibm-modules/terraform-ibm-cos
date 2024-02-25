@@ -278,6 +278,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 locals {
   bucket_crn           = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].crn : ibm_cos_bucket.cos_bucket1[0].crn) : null
   bucket_id            = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].id : ibm_cos_bucket.cos_bucket1[0].id) : null
+  bucket_region        = var.create_cos_bucket ? var.region : null
   bucket_name          = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].bucket_name : ibm_cos_bucket.cos_bucket1[0].bucket_name) : null
   bucket_storage_class = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].storage_class : ibm_cos_bucket.cos_bucket1[0].storage_class) : null
   s3_endpoint_public   = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[0].s3_endpoint_public) : null

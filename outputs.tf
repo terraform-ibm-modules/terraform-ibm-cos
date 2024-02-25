@@ -42,6 +42,11 @@ output "bucket_storage_class" {
   value       = local.bucket_storage_class
 }
 
+output "bucket_region" {
+  description = "Bucket region"
+  value       = local.bucket_region
+}
+
 output "kms_key_crn" {
   description = "The CRN of the KMS key used to encrypt the COS bucket"
   value       = var.kms_key_crn
