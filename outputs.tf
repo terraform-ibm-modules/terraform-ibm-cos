@@ -67,6 +67,11 @@ output "cos_instance_name" {
   value       = local.cos_instance_name
 }
 
+output "cos_instance_crn" {
+  description = "The CRN of the Cloud Object Storage Instance where the buckets are created"
+  value       = local.cos_instance_crn
+}
+
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
   value       = module.bucket_cbr_rule
