@@ -42,19 +42,34 @@ output "bucket_storage_class" {
   value       = local.bucket_storage_class
 }
 
+output "bucket_region" {
+  description = "Bucket region if you create a regional bucket"
+  value       = local.bucket_region
+}
+
 output "kms_key_crn" {
   description = "The CRN of the KMS key used to encrypt the COS bucket"
   value       = var.kms_key_crn
 }
 
 output "cos_instance_id" {
-  description = "The ID of the Cloud Object Storage Instance where the buckets are created"
+  description = "The ID of the Cloud Object Storage instance"
   value       = local.cos_instance_id
 }
 
 output "cos_instance_guid" {
-  description = "The GUID of the Cloud Object Storage Instance where the buckets are created"
+  description = "The GUID of the Cloud Object Storage instance"
   value       = local.cos_instance_guid
+}
+
+output "cos_instance_name" {
+  description = "The name of the Cloud Object Storage instance"
+  value       = local.cos_instance_name
+}
+
+output "cos_instance_crn" {
+  description = "The CRN of the Cloud Object Storage instance"
+  value       = local.cos_instance_crn
 }
 
 output "bucket_cbr_rules" {
