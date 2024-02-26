@@ -89,7 +89,7 @@ locals {
   cos_instance_id          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
   cos_instance_guid        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
   cos_instance_name        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
-  cos_instance_crn         = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].target_crn : null
+  cos_instance_crn         = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
   create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
   kms_service = local.create_access_policy_kms ? (
     can(regex(".*kms.*", var.kms_key_crn)) ? "kms" : (
