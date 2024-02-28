@@ -24,6 +24,7 @@ module "cos_instance" {
   create_resource_key           = var.create_resource_key
   resource_key_name             = var.resource_key_name
   resource_key_role             = var.resource_key_role
+  resource_keys                 = var.resource_keys
   generate_hmac_credentials     = var.generate_hmac_credentials
   cos_plan                      = var.cos_plan
   cos_tags                      = var.cos_tags

@@ -65,10 +65,14 @@ variable "resource_keys" {
   validation {
     # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
     # Writer, Reader, Manager, Administrator, Operator, Viewer, and Editor
+    # Service roles (for Cloud Object Storage) https://cloud.ibm.com/iam/roles
+    # Reader, Writer, Manager, Content Reader, Object Reader, Object Writer
+    # Platform roles (for Cloud Object Storage)
+    # Key Manager
     condition = alltrue([
-      for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Administrator", "Operator", "Viewer", "Editor"], key.role)
+      for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Administrator", "Operator", "Viewer", "Editor", "Content Reader", "Object Reader", "Object Writer", "Key Manager"], key.role)
     ])
-    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Administrator', 'Operator', 'Viewer', or 'Editor'"
+    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Administrator', 'Operator', 'Viewer', 'Editor', 'Content Reader', 'Onject Reader', 'Object Writer', 'Key Manager', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
   }
 }
 

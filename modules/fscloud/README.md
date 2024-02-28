@@ -107,6 +107,7 @@ No resources.
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name of the resource key to be created. | `string` | `"cos-resource-key"` | no |
 | <a name="input_resource_key_role"></a> [resource\_key\_role](#input\_resource\_key\_role) | The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'. | `string` | `"Manager"` | no |
+| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated | <pre>list(object({<br>    name                      = string<br>    generate_hmac_credentials = optional(bool, false)<br>    role                      = optional(string, "Reader")<br>    service_id_crn            = string<br>  }))</pre> | `[]` | no |
 
 ### Outputs
 
