@@ -72,10 +72,11 @@ resource "terraform_data" "resource_key_existing_serviceid_crn" {
   input = var.resource_key_existing_serviceid_crn
 }
 
+# Legacy resource key, deprecated and retained to avoid breaking change
 resource "ibm_resource_key" "resource_key" {
-  count                = var.create_resource_key ? 1 : 0
+  count                = var.create_resource_key && var.create_cos_instance ? 1 : 0
   name                 = var.resource_key_name
-  resource_instance_id = local.cos_instance_id
+  resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
   parameters = {
     "serviceid_crn" = var.resource_key_existing_serviceid_crn
     "HMAC"          = var.generate_hmac_credentials

@@ -121,4 +121,5 @@ No resources.
 | <a name="output_cos_instance_name"></a> [cos\_instance\_name](#output\_cos\_instance\_name) | COS instance name |
 | <a name="output_instance_cbr_rules"></a> [instance\_cbr\_rules](#output\_instance\_cbr\_rules) | COS instance rules |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource Group ID |
+| <a name="output_resource_keys"></a> [resource\_keys](#output\_resource\_keys) | List of resource keys |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

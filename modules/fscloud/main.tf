@@ -32,7 +32,6 @@ module "cos_instance" {
 
 locals {
   # Add the cos instance id to the bucket configs
-  # Generate resource keys as per instance settings
   bucket_configs = [
     for config in var.bucket_configs :
     {

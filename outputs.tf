@@ -86,3 +86,9 @@ output "cbr_rule_ids" {
   description = "List of all rule ids"
   value       = local.all_rule_ids
 }
+
+output "resource_keys" {
+  description = "List of resource keys"
+  value       = ibm_resource_key.resource_keys
+  sensitive   = true
+}

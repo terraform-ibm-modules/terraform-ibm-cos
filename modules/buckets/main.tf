@@ -1,16 +1,8 @@
 ##############################################################################
 # terraform-ibm-cos
 #
-# Create COS buckets
-##############################################################################
-
-locals {
-  # input variable validation
-  # tflint-ignore: terraform_unused_declarations
-  # validate_key_inputs = var.create_cos_bucket && var.encryption_enabled && var.kms_key_crn == null ? tobool("A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.encryption_enabled are true") : true
-}
-
 # Create COS buckets from bucket_configs
+##############################################################################
 
 module "buckets" {
   for_each = {

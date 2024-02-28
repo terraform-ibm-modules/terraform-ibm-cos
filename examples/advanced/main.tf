@@ -18,7 +18,12 @@ module "resource_group" {
 ##############################################################################
 
 resource "ibm_iam_service_id" "resource_key_existing_serviceid" {
-  count       = 4
+  name        = "${var.prefix}-reskey-serviceid"
+  description = "ServiceID for ${var.prefix} env to use for resource key credentials"
+}
+
+resource "ibm_iam_service_id" "resource_keys_existing_serviceids" {
+  count       = 3
   name        = "${var.prefix}-reskey-serviceid-${count.index}"
   description = "ServiceID for ${var.prefix} env to use for resource key credentials"
 }
@@ -145,24 +150,24 @@ module "cos_bucket1" {
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
-  # The module will create a new service ID for the resource key
-  resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid[0].crn
+  # If no value is passed for this variable, the module will create a new service ID for the resource key
+  resource_key_existing_serviceid_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   activity_tracker_crn                = local.at_crn
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
       role           = "Writer"
-      service_id_crn = ibm_iam_service_id.resource_key_existing_serviceid[1].crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[0].crn
     },
     {
       name           = "${var.prefix}-reader-key"
-      service_id_crn = ibm_iam_service_id.resource_key_existing_serviceid[2].crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[1].crn
     },
     {
       name           = "${var.prefix}-manager-key"
       role           = "Manager"
-      service_id_crn = ibm_iam_service_id.resource_key_existing_serviceid[3].crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[2].crn
     }
   ]
   bucket_cbr_rules = [

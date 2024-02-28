@@ -14,13 +14,13 @@ output "buckets" {
     "bucket_crn"           = bucket.bucket_crn
     "bucket_name"          = bucket.bucket_name
     "bucket_storage_class" = bucket.bucket_storage_class
-    # skip bucket_resource_key because it is sensitive
-    "kms_key_crn"        = bucket.kms_key_crn
-    "cos_instance_id"    = bucket.cos_instance_id
-    "cos_instance_guid"  = bucket.cos_instance_guid
-    "bucket_cbr_rules"   = bucket.bucket_cbr_rules
-    "instance_cbr_rules" = bucket.instance_cbr_rules
-    "cbr_rule_ids"       = bucket.cbr_rule_ids
+    "kms_key_crn"          = bucket.kms_key_crn
+    "cos_instance_id"      = bucket.cos_instance_id
+    "cos_instance_guid"    = bucket.cos_instance_guid
+    "bucket_cbr_rules"     = bucket.bucket_cbr_rules
+    "instance_cbr_rules"   = bucket.instance_cbr_rules
+    "cbr_rule_ids"         = bucket.cbr_rule_ids
+    # skip resource_keys because it is sensitive
   } }]...)
 }
 
