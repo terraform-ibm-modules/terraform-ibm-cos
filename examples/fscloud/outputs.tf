@@ -13,6 +13,11 @@ output "cos_instance_guid" {
   value       = module.cos_fscloud.cos_instance_guid
 }
 
+output "cos_instance_crn" {
+  description = "COS instance crn"
+  value       = module.cos_fscloud.cos_instance_crn
+}
+
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
   value       = module.cos_fscloud.bucket_cbr_rules
