@@ -85,6 +85,17 @@ resource "ibm_resource_key" "resource_key" {
   lifecycle { replace_triggered_by = [terraform_data.generate_hmac_credentials, terraform_data.resource_key_existing_serviceid_crn] }
 }
 
+resource "ibm_resource_key" "resource_keys" {
+  for_each             = { for key in var.resource_keys : key.name => key }
+  name                 = each.key
+  resource_instance_id = local.cos_instance_id
+  role                 = each.value.role
+  parameters = {
+    "serviceid_crn" = each.value.service_id_crn
+    "HMAC"          = each.value.generate_hmac_credentials
+  }
+}
+
 locals {
   cos_instance_id          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
   cos_instance_guid        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)

@@ -38,8 +38,6 @@ locals {
     {
       access_tags                   = config.access_tags
       bucket_name                   = config.bucket_name
-      create_resource_key           = config.create_resource_key
-      generate_hmac_credentials     = config.generate_hmac_credentials
       kms_encryption_enabled        = config.kms_encryption_enabled
       kms_guid                      = config.kms_guid
       kms_key_crn                   = config.kms_key_crn

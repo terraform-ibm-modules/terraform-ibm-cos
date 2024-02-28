@@ -76,8 +76,6 @@ variable "bucket_configs" {
   type = list(object({
     access_tags                   = optional(list(string), [])
     bucket_name                   = string
-    create_resource_key           = optional(bool, true)
-    generate_hmac_credentials     = optional(bool, false)
     kms_encryption_enabled        = optional(bool, true)
     kms_guid                      = optional(string, null)
     kms_key_crn                   = string

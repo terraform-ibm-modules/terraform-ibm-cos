@@ -11,12 +11,6 @@ output "buckets" {
   value       = module.buckets.buckets
 }
 
-output "bucket_resource_keys" {
-  description = "List of buckets created"
-  value       = module.buckets.bucket_resource_keys
-  sensitive   = true
-}
-
 output "cos_instance_id" {
   description = "COS instance id"
   value       = module.cos_instance.cos_instance_id

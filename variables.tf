@@ -48,6 +48,25 @@ variable "resource_key_role" {
   default     = "Manager"
 }
 
+variable "resource_keys" {
+  description = "The definition of any resource keys to be generated"
+  type = list(object({
+    name                      = string
+    generate_hmac_credentials = optional(bool, false)
+    role                      = optional(string, "Reader")
+    service_id_crn            = string
+  }))
+  default = []
+  validation {
+    # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
+    # Writer, Reader, Manager, Administrator, Operator, Viewer, and Editor
+    condition = alltrue([
+      for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Administrator", "Operator", "Viewer", "Editor"], key.role)
+    ])
+    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Administrator', 'Operator', 'Viewer', or 'Editor'"
+  }
+}
+
 variable "cos_instance_name" {
   description = "The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create_cos_instance' is true."
   type        = string

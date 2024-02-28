@@ -24,16 +24,6 @@ output "buckets" {
   } }]...)
 }
 
-output "bucket_resource_keys" {
-  description = "Map of bucket resource keys"
-  value = merge([for name, bucket in module.buckets : { (name) = {
-    # skip resource_group_id, s3_endpoint_private, s3_endpoint_public, s3_endpoint_direct, bucket_id, bucket_crn, bucket_name, bucket_storage_class
-    "bucket_resource_key" = bucket.bucket_resource_key
-    # skip kms_key_crn, cos_instance_id, cos_instance_guid, bucket_cbr_rules, instance_cbr_rules, cbr_rule_ids
-  } }]...)
-  sensitive = true
-}
-
 output "bucket_configs" {
   description = "List of bucket config definitions"
   value       = var.bucket_configs
