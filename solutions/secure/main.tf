@@ -5,7 +5,7 @@ module "resource_group" {
   existing_resource_group_name = var.existing_resource_group == true ? var.resource_group_name : null
 }
 
-module "cos_da" {
+module "cos" {
   source                    = "../../modules/fscloud"
   resource_group_id         = module.resource_group.resource_group_id
   create_cos_instance       = var.create_cos_instance
