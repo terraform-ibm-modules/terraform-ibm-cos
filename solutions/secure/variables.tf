@@ -102,7 +102,7 @@ variable "instance_cbr_rules" {
   }))
   description = "(Optional, list) List of CBR rule to create for the instance"
   default     = []
-  # Validation happens in the rule module
+  # Validation happens in the CBR Rule module
 }
 
 variable "bucket_configs" {
@@ -173,5 +173,5 @@ variable "bucket_configs" {
   }))
   description = "Cloud Object Storage bucket configurations"
   default     = []
-  # Validation happens in the fscloud module
+  # Validation happens in the fscloud submodule
 }
