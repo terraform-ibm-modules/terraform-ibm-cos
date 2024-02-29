@@ -19,12 +19,12 @@ offerings:
         mark_ready: false
   - name: deploy-arch-ibm-cos
     kind: solution
-    catalog_id: # should be same as catalog_id?
-    offering_id: # need to get offering_id using second step in onboarding docs
+    catalog_id: 7df1e4ca-d54c-4fd0-82ce-3d13247308cd
+    offering_id: 68921490-2778-4930-ac6d-bae7be6cd958
     variations:
       - name: secure
         mark_ready: true
         install_type: fullstack
         scc:
-          instance_id: # need to get instance id
-          region: us-south # confirm the region to use
+          instance_id: 1c7d5f78-9262-44c3-b779-b28fe4d88c37
+          region: us-south
