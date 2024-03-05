@@ -18,55 +18,68 @@ provider "ibm" {
 
 module "cos_fscloud" {
   source                                = "terraform-ibm-modules/cos/ibm//modules/fscloud"
-  version                               = "X.X.X" # Replace "latest" with a release version to lock into a specific release
+  version                               = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id                     = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   cos_instance_name                     = "my-cos-instance"
-  primary_bucket_name                   = "my-bucket-primary"
-  primary_region                        = "us-south"
-  primary_existing_hpcs_instance_guid   = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
-  primary_hpcs_key_crn                  = "crn:v1:bluemix:public:hs-crypto:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
-  secondary_bucket_name                 = "my-bucket-secondary"
-  secondary_existing_hpcs_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
-  secondary_region                      = "us-east"
-  secondary_hpcs_key_crn                = "crn:v1:bluemix:public:hs-crypto:us-east:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
-  sysdig_crn                            = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  activity_tracker_crn                  = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  bucket_cbr_rules = [
+  bucket_configs = [
     {
-      description      = "sample rule for buckets"
-      enforcement_mode = "enabled"
-      account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      bucket_name              = "services-bucket"
+      kms_guid                 = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      kms_key_crn              = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+      management_endpoint_type = "private"
+      activity_tracking = {
+        activity_tracker_crn = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+      }
+      metrics_monitoring = {
+        metrics_monitoring_crn = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+      }
+      region_location      = "us-south"
+      cbr_rules = [{
+        description      = "sample rule for buckets"
+        enforcement_mode = "enabled"
+        account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+        rule_contexts = [{
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+            }
+          ]
+        }]
+        operations = [{
+          api_types = [{
+            api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+          }]
         }]
       }]
     }
   ]
-  instance_cbr_rules = [
-    {
-      description      = "sample rule for the instance"
-      enforcement_mode = "report"
-      account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-        }]
+  instance_cbr_rules = [{
+    description      = "sample rule for the instance"
+    enforcement_mode = "enabled"
+    account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+        }
+      ]
+    }]
+    operations = [{
+      api_types = [{
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }]
-    }
-  ]
+    }]
+  }]
 }
 ```
 
