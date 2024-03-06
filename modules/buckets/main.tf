@@ -20,6 +20,7 @@ module "buckets" {
   source                        = "../../"
   bucket_name                   = each.value.bucket_name
   create_cos_instance           = false
+  add_bucket_name_suffix        = each.value.add_bucket_name_suffix
   skip_iam_authorization_policy = each.value.skip_iam_authorization_policy
   existing_cos_instance_id      = each.value.resource_instance_id
   region                        = each.value.region_location
