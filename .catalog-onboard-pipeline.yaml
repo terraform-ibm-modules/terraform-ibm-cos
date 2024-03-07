@@ -6,14 +6,13 @@ offerings:
     catalog_id: 7df1e4ca-d54c-4fd0-82ce-3d13247308cd
     offering_id: 18cdd8f4-40c5-4fbf-9d62-1dd86a2deab3
     examples:
-      # TODO: Once support is added to the pipeline to handle code freeze windows, update mark_ready to true
       - name: basic
-        mark_ready: false
+        mark_ready: true
       - name: advanced
-        mark_ready: false
+        mark_ready: true
       - name: fscloud
-        mark_ready: false
+        mark_ready: true
       - name: one-rate-plan
-        mark_ready: false
+        mark_ready: true
       - name: replication
-        mark_ready: false
+        mark_ready: true
