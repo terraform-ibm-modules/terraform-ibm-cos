@@ -8,7 +8,7 @@ require (
 	github.com/IBM/ibm-cos-sdk-go v1.10.2
 	github.com/gruntwork-io/terratest v0.46.11
 	github.com/stretchr/testify v1.9.0
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.29.5
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.29.6
 )
 
 require (
@@ -22,7 +22,7 @@ require (
 	github.com/IBM-Cloud/power-go-client v1.5.9 // indirect
 	github.com/IBM/cloud-databases-go-sdk v0.5.0 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.15.3 // indirect
-	github.com/IBM/platform-services-go-sdk v0.59.3 // indirect
+	github.com/IBM/platform-services-go-sdk v0.60.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
@@ -44,13 +44,13 @@ require (
 	github.com/go-logr/logr v1.3.0 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/analysis v0.21.5 // indirect
-	github.com/go-openapi/errors v0.21.0 // indirect
+	github.com/go-openapi/errors v0.21.1 // indirect
 	github.com/go-openapi/jsonpointer v0.20.1 // indirect
 	github.com/go-openapi/jsonreference v0.20.3 // indirect
 	github.com/go-openapi/loads v0.21.3 // indirect
 	github.com/go-openapi/runtime v0.26.0 // indirect
 	github.com/go-openapi/spec v0.20.12 // indirect
-	github.com/go-openapi/strfmt v0.22.1 // indirect
+	github.com/go-openapi/strfmt v0.22.2 // indirect
 	github.com/go-openapi/swag v0.22.5 // indirect
 	github.com/go-openapi/validate v0.22.4 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -100,12 +100,12 @@ require (
 	go.opentelemetry.io/otel v1.16.0 // indirect
 	go.opentelemetry.io/otel/metric v1.16.0 // indirect
 	go.opentelemetry.io/otel/trace v1.16.0 // indirect
-	golang.org/x/crypto v0.20.0 // indirect
+	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/net v0.21.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
-	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/tools v0.16.1 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
