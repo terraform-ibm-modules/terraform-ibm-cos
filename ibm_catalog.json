@@ -157,13 +157,14 @@
         },
         {
             "name": "deploy-arch-ibm-cos",
-            "label": "Cloud Object Storage",
+            "label": "Cloud-Object-Storage",
             "product_kind": "solution",
             "tags": [
                 "dev_ops",
                 "target_terraform",
                 "terraform",
-                "solution"
+                "solution",
+                "storage"
             ],
             "keywords": [
                 "terraform",
@@ -172,31 +173,31 @@
                 "storage",
                 "solution"
             ],
-            "short_description": "Creates and configures an IBM Cloud Object Storage instance and bucket",
-            "long_description": "This architecture supports creating an IBM Cloud Object Storage instance and bucket. You can also configure the following aspects of your instances: CBR rules, KMS encryption, Activity tracking and Monitoring",
+            "short_description": "Creates and configures an IBM Cloud-Object-Storage instance and bucket",
+            "long_description": "This architecture supports creating an IBM Cloud-Object-Storage instance and bucket. You can also configure the following aspects of your instances: CBR rules, KMS encryption, Activity tracking and Monitoring",
             "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
             "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
             "provider_name": "IBM",
             "features": [
                 {
-                    "title": "Create an IBM Cloud Object Storage instance",
-                    "description": "Create an IBM Cloud Object Storage instance."
+                    "title": "Create an IBM Cloud-Object-Storage instance",
+                    "description": "Create an IBM Cloud-Object-Storage instance."
                 },
                 {
-                    "title": "Create an IBM Cloud Object Storage bucket",
+                    "title": "Create an IBM Cloud-Object-Storage bucket",
                     "description": "Create either a cross-regional or regional Object Storage bucket."
                 },
                 {
                     "title": "Create an IBM resource key",
-                    "description": "Create a resource key for the IBM Cloud Object Storage instance."
+                    "description": "Create a resource key for the IBM Cloud-Object-Storage instance."
                 },
                 {
                     "title": "Attach access tags",
-                    "description": "Attach access tags to the IBM Cloud  Object Storage instance."
+                    "description": "Attach access tags to the IBM Cloud-Object-Storage instance."
                 },
                 {
                     "title": "Configure bucket retention",
-                    "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
+                    "description": "Configure retention policies at the IBM Cloud-Object-Storage bucket level."
                 },
                 {
                     "title": "Enable object versioning",
@@ -212,7 +213,7 @@
                 },
                 {
                   "title": "Monitor data",
-                  "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
+                  "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
                 },
                 {
                     "title": "Encrypt data with key management services",
@@ -225,9 +226,9 @@
             ],
             "flavors": [
                 {
-                    "label": "Secure",
-                    "name": "secure",
-                    "working_directory": "solutions/secure",
+                    "label": "Fscloud Deployable architecture",
+                    "name": "fscloud",
+                    "working_directory": "solutions/fscloud",
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
@@ -239,18 +240,18 @@
                     "architecture": {
                         "features": [
                             {
-                              "title": "IBM Cloud Object Storage Instance and bucket",
+                              "title": "IBM Cloud-Object-Storage Instance and bucket",
                               "description": "Yes"
                             }
                           ],
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": "IBM Cloud Object Storage Solution",
+                                    "caption": "IBM Cloud-Object-Storage Solution",
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architecture/secure-cloud-object-storage.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance and bucket."
+                                "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance and bucket."
                             }
                         ]
                     }

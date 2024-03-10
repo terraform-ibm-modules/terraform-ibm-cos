@@ -5,14 +5,14 @@
     {
       "description": "Allow the locked in provider version to be updated to the latest for DAs",
       "enabled": true,
-      "matchFileNames": ["solutions/secure/**"],
+      "matchFileNames": ["solutions/**"],
       "matchManagers": ["terraform"],
       "matchDepTypes": ["required_provider"],
       "rangeStrategy": "bump",
       "semanticCommitType": "fix",
       "group": true,
       "groupName": "required_provider",
-      "commitMessageExtra": "to latest for the DA solution"
+      "commitMessageExtra": "to latest for the deployable architecture solution"
     }
   ]
 }
