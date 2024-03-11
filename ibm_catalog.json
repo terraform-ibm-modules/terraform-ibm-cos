@@ -226,7 +226,7 @@
             ],
             "flavors": [
                 {
-                    "label": "Fscloud Deployable architecture",
+                    "label": "FSCloud",
                     "name": "fscloud",
                     "working_directory": "solutions/fscloud",
                     "compliance": {
