@@ -260,6 +260,12 @@ variable "hard_quota" {
   default     = null
 }
 
+variable "allowed_ip" {
+  type        = list(string)
+  description = "(Optional, Array of string) A list of IPv4 or IPv6 addresses in CIDR notation that you want to allow access to your IBM Cloud Object Storage bucket."
+  default     = null
+}
+
 ##############################################################################
 # COS bucket encryption variables
 ##############################################################################

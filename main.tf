@@ -137,6 +137,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   key_protect           = var.kms_key_crn
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
+  allowed_ip            = var.allowed_ip
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -195,6 +196,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
       enable = var.object_versioning_enabled
     }
   }
+
 }
 
 # Create COS bucket with:
@@ -216,6 +218,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   storage_class         = var.bucket_storage_class
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
+  allowed_ip            = var.allowed_ip
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
