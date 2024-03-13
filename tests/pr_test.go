@@ -33,7 +33,7 @@ const fsCloudTerraformDir = "examples/fscloud"
 const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
-const solutionFscloudDir = "solutions/fscloud"
+const solutionInstanceDir = "solutions/instance"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -83,7 +83,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			},
 		})
 	}
-	if dir == solutionFscloudDir {
+	if dir == solutionInstanceDir {
 		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 			Testing:      t,
 			TerraformDir: dir,
@@ -270,10 +270,10 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 	return s3.New(sess, conf)
 }
 
-func TestRunFsCloudSolution(t *testing.T) {
+func TestRunInstanceSolution(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cos-da", solutionFscloudDir)
+	options := setupOptions(t, "cos-da", solutionInstanceDir)
 	options.TerraformVars = map[string]interface{}{
 		"existing_resource_group": true,
 		"cos_instance_name":       "cos-da",

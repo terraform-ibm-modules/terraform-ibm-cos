@@ -19,5 +19,4 @@ module "cos" {
   cos_tags                  = var.cos_tags
   access_tags               = var.access_tags
   instance_cbr_rules        = var.instance_cbr_rules
-  bucket_configs            = var.bucket_configs
 }

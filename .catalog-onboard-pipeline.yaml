@@ -21,7 +21,7 @@ offerings:
     catalog_id: 7df1e4ca-d54c-4fd0-82ce-3d13247308cd
     offering_id: 68921490-2778-4930-ac6d-bae7be6cd958
     variations:
-      - name: fscloud
+      - name: instance
         mark_ready: true
         install_type: fullstack
         scc:
