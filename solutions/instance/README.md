@@ -3,10 +3,8 @@
 This architecture creates an Cloud-Object-Storage and bucket on IBM Cloud® and supports provisioning the following resources:
 
 - A resource group, if one is not passed in.
-- A Cloud-Object-Storage for IBM Cloud, set up with
-    - KMS encryption to encrypt data
-    - Monitoring and Activity Tracking for existing observability instances to capture information regarding the events in the COS.
-- Context Based Restriction rules for the instance and buckets
+- A Cloud-Object-Storage for IBM Cloud
+- Context Based Restriction rules for the instance
 
 NB: This solution is not intended to be called by one or more other modules since it contains a provider configurations, meaning it is not compatible with the `for_each`, `count`, and `depends_on` arguments. For more information see [Providers Within Modules](https://developer.hashicorp.com/terraform/language/modules/develop/providers)
 
