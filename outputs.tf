@@ -35,6 +35,7 @@ output "bucket_crn" {
 output "bucket_name" {
   description = "Bucket name"
   value       = local.bucket_name
+  depends_on  = [local.bucket_id]
 }
 
 output "bucket_storage_class" {
