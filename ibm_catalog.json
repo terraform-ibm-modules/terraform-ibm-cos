@@ -248,7 +248,7 @@
                             {
                                 "diagram": {
                                     "caption": "IBM Cloud-Object-Storage Solution",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cos-instance.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance."
