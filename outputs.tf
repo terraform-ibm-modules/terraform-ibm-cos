@@ -36,7 +36,7 @@ output "bucket_name" {
   description = "Bucket name"
   value       = local.bucket_name
   # Don't output the bucket name until it exists (see https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/558)
-  depends_on  = [local.bucket_crn]
+  depends_on = [local.bucket_crn]
 }
 
 output "bucket_storage_class" {
