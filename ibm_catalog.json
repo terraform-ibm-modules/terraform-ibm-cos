@@ -55,8 +55,8 @@
                     "description": "Integrate Activity Tracker to track events."
                 },
                 {
-                  "title": "Monitor data",
-                  "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
+                    "title": "Monitor data",
+                    "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
                 },
                 {
                     "title": "Encrypt data with key management services",
@@ -212,8 +212,8 @@
                     "description": "Integrate Activity Tracker to track events."
                 },
                 {
-                  "title": "Monitor data",
-                  "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
+                    "title": "Monitor data",
+                    "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
                 },
                 {
                     "title": "Encrypt data with key management services",
@@ -232,18 +232,19 @@
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
-                          {
-                            "profile_name": "IBM Cloud Framework for Financial Services",
-                            "profile_version": "1.5.0"
-                          }
-                        ]},
+                            {
+                                "profile_name": "IBM Cloud Framework for Financial Services",
+                                "profile_version": "1.5.0"
+                            }
+                        ]
+                    },
                     "architecture": {
                         "features": [
                             {
-                              "title": "IBM Cloud-Object-Storage Instance",
-                              "description": "Yes"
+                                "title": "IBM Cloud-Object-Storage Instance",
+                                "description": "Yes"
                             }
-                          ],
+                        ],
                         "diagrams": [
                             {
                                 "diagram": {
@@ -252,6 +253,70 @@
                                     "type": "image/svg+xml"
                                 },
                                 "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance."
+                            }
+                        ]
+                    }
+                },
+                {
+                    "label": "Instance",
+                    "name": "instance",
+                    "working_directory": "solutions/cross-region",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud Framework for Financial Services",
+                                "profile_version": "1.5.0"
+                            }
+                        ]
+                    },
+                    "architecture": {
+                        "features": [
+                            {
+                                "title": "IBM Cloud-Object-Storage Instance and Cross Region Bucket",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "IBM Cloud-Object-Storage Solution",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-region.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance and a cross region bucket."
+                            }
+                        ]
+                    }
+                },
+                {
+                    "label": "Instance",
+                    "name": "instance",
+                    "working_directory": "solutions/regional",
+                    "compliance": {
+                        "authority": "scc-v3",
+                        "profiles": [
+                            {
+                                "profile_name": "IBM Cloud Framework for Financial Services",
+                                "profile_version": "1.5.0"
+                            }
+                        ]
+                    },
+                    "architecture": {
+                        "features": [
+                            {
+                                "title": "IBM Cloud-Object-Storage Instance and Regional Bucket",
+                                "description": "Yes"
+                            }
+                        ],
+                        "diagrams": [
+                            {
+                                "diagram": {
+                                    "caption": "IBM Cloud-Object-Storage Solution",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional.svg",
+                                    "type": "image/svg+xml"
+                                },
+                                "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance and a regional bucket."
                             }
                         ]
                     }

@@ -20,10 +20,10 @@ import (
 	"github.com/IBM/ibm-cos-sdk-go/aws/session"
 	"github.com/IBM/ibm-cos-sdk-go/service/s3"
 	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/stretchr/testify/require"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
@@ -34,6 +34,8 @@ const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
 const solutionInstanceDir = "solutions/instance"
+const solutionRegionalDir = "solutions/regional"
+const solutionCrossRegionDir = "solutions/cross-region"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -80,16 +82,6 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			Region:        region,
 			TerraformVars: map[string]interface{}{
 				"access_tags": permanentResources["accessTags"],
-			},
-		})
-	}
-	if dir == solutionInstanceDir {
-		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-			Testing:      t,
-			TerraformDir: dir,
-			Prefix:       prefix,
-			TerraformVars: map[string]interface{}{
-				"cos_tags": permanentResources["accessTags"],
 			},
 		})
 	}
@@ -281,6 +273,45 @@ func TestRunInstanceSolution(t *testing.T) {
 		"region":                  region,
 	}
 
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunRegionalSolution(t *testing.T) {
+	t.Parallel()
+	prefix := fmt.Sprintf("regional-da-%s", strings.ToLower(random.UniqueId()))
+	options := setupOptions(t, prefix, solutionRegionalDir)
+	options.TerraformVars = map[string]interface{}{
+		"existing_resource_group":             true,
+		"cos_instance_name":                   prefix,
+		"resource_group_name":                 resourceGroup,
+		"region":                              region,
+		"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
+		"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+		"management_endpoint_type_for_bucket": "public",
+	}
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunCrossRegionSolution(t *testing.T) {
+	t.Skip() // Need to Remove this once HPCS failover is fixed.
+	t.Parallel()
+	prefix := fmt.Sprintf("cross-region-da-%s", strings.ToLower(random.UniqueId()))
+	options := setupOptions(t, prefix, solutionCrossRegionDir)
+	options.TerraformVars = map[string]interface{}{
+		"existing_resource_group":             true,
+		"cos_instance_name":                   prefix,
+		"resource_group_name":                 resourceGroup,
+		"region":                              region,
+		"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
+		"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+		"management_endpoint_type_for_bucket": "public",
+	}
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
