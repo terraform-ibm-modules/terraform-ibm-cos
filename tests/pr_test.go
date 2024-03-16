@@ -287,7 +287,6 @@ func TestRunRegionalSolution(t *testing.T) {
 		"cos_instance_name":                   prefix,
 		"resource_group_name":                 resourceGroup,
 		"region":                              region,
-		"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
 		"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid":          permanentResources["hpcs_south"],
 		"management_endpoint_type_for_bucket": "public",
@@ -298,7 +297,6 @@ func TestRunRegionalSolution(t *testing.T) {
 }
 
 func TestRunCrossRegionSolution(t *testing.T) {
-	t.Skip() // Need to Remove this once HPCS failover is fixed.
 	t.Parallel()
 	prefix := fmt.Sprintf("cross-region-da-%s", strings.ToLower(random.UniqueId()))
 	options := setupOptions(t, prefix, solutionCrossRegionDir)
@@ -306,8 +304,7 @@ func TestRunCrossRegionSolution(t *testing.T) {
 		"existing_resource_group":             true,
 		"cos_instance_name":                   prefix,
 		"resource_group_name":                 resourceGroup,
-		"region":                              region,
-		"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
+		"cross_region_location":               "us",
 		"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid":          permanentResources["hpcs_south"],
 		"management_endpoint_type_for_bucket": "public",
