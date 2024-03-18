@@ -34,8 +34,8 @@ const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
 const solutionInstanceDir = "solutions/instance"
-const solutionRegionalDir = "solutions/regional"
-const solutionCrossRegionDir = "solutions/cross-region"
+const solutionRegionalDir = "solutions/secure-regional-bucket"
+const solutionCrossRegionDir = "solutions/secure-cross-regional-bucket"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"

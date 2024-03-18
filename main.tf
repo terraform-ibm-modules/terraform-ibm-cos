@@ -14,7 +14,7 @@ locals {
 
   # input variable validation
   # tflint-ignore: terraform_unused_declarations
-  validate_encryption_inputs = !var.create_cos_instance && !var.create_cos_bucket ? tobool("var.create_cos_instance and var.create_cos_bucket cannot be both set to false") : true
+  # validate_encryption_inputs = !var.create_cos_instance && !var.create_cos_bucket ? tobool("var.create_cos_instance and var.create_cos_bucket cannot be both set to false") : true
   # tflint-ignore: terraform_unused_declarations
   validate_key_inputs = var.create_cos_bucket && var.kms_encryption_enabled && var.kms_key_crn == null ? tobool("A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.kms_encryption_enabled are true") : true
   # tflint-ignore: terraform_unused_declarations

@@ -260,7 +260,7 @@
                 {
                     "label": "Instance",
                     "name": "instance",
-                    "working_directory": "solutions/cross-region",
+                    "working_directory": "solutions/secure-cross-regional-bucket",
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
@@ -281,7 +281,7 @@
                             {
                                 "diagram": {
                                     "caption": "IBM Cloud-Object-Storage Solution",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-region.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-cross-regional-bucket.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance and a cross region bucket."
@@ -292,7 +292,7 @@
                 {
                     "label": "Instance",
                     "name": "instance",
-                    "working_directory": "solutions/regional",
+                    "working_directory": "solutions/secure-regional-bucket",
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
@@ -313,7 +313,7 @@
                             {
                                 "diagram": {
                                     "caption": "IBM Cloud-Object-Storage Solution",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional.svg",
+                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-regional-bucket.svg",
                                     "type": "image/svg+xml"
                                 },
                                 "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance and a regional bucket."
