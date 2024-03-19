@@ -13,22 +13,22 @@ output "buckets" {
 
 output "cos_instance_id" {
   description = "COS instance id"
-  value       = module.cos_instance.cos_instance_id
+  value       = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_id : var.existing_cos_instance_id
 }
 
 output "cos_instance_guid" {
   description = "COS instance guid"
-  value       = module.cos_instance.cos_instance_guid
+  value       = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_guid : data.ibm_resource_instance.existing_cos_instance_details[0].guid
 }
 
 output "cos_instance_name" {
   description = "COS instance name"
-  value       = module.cos_instance.cos_instance_name
+  value       = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_name : data.ibm_resource_instance.existing_cos_instance_details[0].name
 }
 
 output "cos_instance_crn" {
   description = "COS instance crn"
-  value       = module.cos_instance.cos_instance_crn
+  value       = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_crn : data.ibm_resource_instance.existing_cos_instance_details[0].crn
 }
 
 output "bucket_cbr_rules" {
