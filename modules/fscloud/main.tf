@@ -9,12 +9,10 @@ locals {
       validate_single_site_location = bucket.single_site_location != null ? tobool("KMS encryption can not be added to single site location, therefore it is not supported in fscloud module.") : null,
     }
   ]
-  existing_cos_instance_guid = var.existing_cos_instance_id != null ? element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3) : null
-}
-
-data "ibm_resource_instance" "existing_cos_instance_details" {
-  count      = var.existing_cos_instance_id != null ? 1 : 0
-  identifier = local.existing_cos_instance_guid
+  cos_instance_guid = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
+  cos_instance_id   = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_id : var.existing_cos_instance_id
+  cos_instance_name = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_name : "null"
+  cos_instance_crn  = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_crn : var.existing_cos_instance_id
 }
 
 module "cos_instance" {
@@ -50,7 +48,7 @@ locals {
       cross_region_location         = config.cross_region_location
       storage_class                 = config.storage_class
       region_location               = config.region_location
-      resource_instance_id          = module.cos_instance[0].cos_instance_id
+      resource_instance_id          = local.cos_instance_id
       activity_tracking             = config.activity_tracking
       archive_rule                  = config.archive_rule
       expire_rule                   = config.expire_rule
@@ -99,7 +97,7 @@ module "instance_cbr_rules" {
       },
       {
         name     = "serviceInstance"
-        value    = module.cos_instance[0].cos_instance_guid
+        value    = local.cos_instance_guid
         operator = "stringEquals"
       },
       {

@@ -101,9 +101,7 @@ module "cos_fscloud" {
 
 ### Resources
 
-| Name | Type |
-|------|------|
-| [ibm_resource_instance.existing_cos_instance_details](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
+No resources.
 
 ### Inputs
 
