@@ -4,12 +4,6 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-variable "region" {
-  description = "The IBM Cloud region where the instance of IBM Cloud-Object-Storage is provisioned."
-  type        = string
-  default     = "us-south"
-}
-
 variable "create_cos_instance" {
   description = "Set as true to create a new IBM Cloud-Object-Storage instance."
   type        = bool

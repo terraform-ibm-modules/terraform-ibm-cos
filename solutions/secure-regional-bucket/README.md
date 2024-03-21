@@ -1,9 +1,7 @@
 # Cloud-Object-Storage for IBM Cloud - Financial Services Cloud solution
 
-This architecture creates an Cloud-Object-Storage and bucket on IBM Cloud® and supports provisioning the following resources:
+This architecture creates an Cloud-Object-Storage bucket on IBM Cloud® and supports provisioning the following resources:
 
-- A resource group, if one is not passed in.
-- A Cloud-Object-Storage for IBM Cloud
 - A Regional COS Bucket
 - Context Based Restriction rules for the instance and buckets
 

@@ -20,7 +20,6 @@ import (
 	"github.com/IBM/ibm-cos-sdk-go/aws/session"
 	"github.com/IBM/ibm-cos-sdk-go/service/s3"
 	"github.com/gruntwork-io/terratest/modules/logger"
-	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -262,54 +261,169 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 	return s3.New(sess, conf)
 }
 
-func TestRunInstanceSolution(t *testing.T) {
+// func TestRunInstanceSolution(t *testing.T) {
+// 	t.Parallel()
+
+// 	options := setupOptions(t, "cos-da", solutionInstanceDir)
+// 	options.TerraformVars = map[string]interface{}{
+// 		"existing_resource_group": true,
+// 		"cos_instance_name":       "cos-da",
+// 		"resource_group_name":     resourceGroup,
+// 		"region":                  region,
+// 	}
+
+// 	output, err := options.RunTestConsistency()
+// 	assert.Nil(t, err, "This should not have errored")
+// 	assert.NotNil(t, output, "Expected some output")
+// }
+
+// func TestRunRegionalSolution(t *testing.T) {
+// 	t.Parallel()
+// 	// ------------------------------------------------------------------------------------
+// 	// Deploy COS Instance first since it is needed for the Regional bucket input
+// 	// ------------------------------------------------------------------------------------
+
+// 	prefix := fmt.Sprintf("cos-%s", strings.ToLower(random.UniqueId()))
+// 	realTerraformDir := "./resources"
+// 	tempTerraformDir, _ := files.CopyTerraformFolderToTemp(realTerraformDir, fmt.Sprintf(prefix+"-%s", strings.ToLower(random.UniqueId())))
+// 	tags := common.GetTagsFromTravis()
+
+// 	// Verify ibmcloud_api_key variable is set
+// 	checkVariable := "TF_VAR_ibmcloud_api_key"
+// 	val, present := os.LookupEnv(checkVariable)
+// 	require.True(t, present, checkVariable+" environment variable not set")
+// 	require.NotEqual(t, "", val, checkVariable+" environment variable is empty")
+
+// 	logger.Log(t, "Tempdir: ", tempTerraformDir)
+// 	existingTerraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
+// 		TerraformDir: tempTerraformDir,
+// 		Vars: map[string]interface{}{
+// 			"prefix":              prefix,
+// 			"resource_group_name": resourceGroup,
+// 			"resource_tags":       tags,
+// 		},
+// 		// Set Upgrade to true to ensure latest version of providers and modules are used by terratest.
+// 		// This is the same as setting the -upgrade=true flag with terraform.
+// 		Upgrade: true,
+// 	})
+
+// 	terraform.WorkspaceSelectOrNew(t, existingTerraformOptions, prefix)
+// 	_, existErr := terraform.InitAndApplyE(t, existingTerraformOptions)
+// 	if existErr != nil {
+// 		assert.True(t, existErr == nil, "Init and Apply of temp existing resource failed")
+// 	} else {
+
+// 		// ------------------------------------------------------------------------------------
+// 		// Deploy Secure Regional Bucket
+// 		// ------------------------------------------------------------------------------------
+
+// 		options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+// 			Testing:      t,
+// 			TerraformDir: solutionRegionalDir,
+// 			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
+// 			ImplicitRequired: false,
+// 			TerraformVars: map[string]interface{}{
+// 				"region":                              region,
+// 				"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
+// 				"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+// 				"management_endpoint_type_for_bucket": "public",
+// 				"existing_cos_instance_id":            terraform.Output(t, existingTerraformOptions, "cos_instance_crn"),
+// 			},
+// 		})
+
+// 		output, err := options.RunTestConsistency()
+// 		assert.Nil(t, err, "This should not have errored")
+// 		assert.NotNil(t, output, "Expected some output")
+// 	}
+
+// 	// Check if "DO_NOT_DESTROY_ON_FAILURE" is set
+// 	envVal, _ := os.LookupEnv("DO_NOT_DESTROY_ON_FAILURE")
+// 	// Destroy the temporary existing resources if required
+// 	if t.Failed() && strings.ToLower(envVal) == "true" {
+// 		fmt.Println("Terratest failed. Debug the test and delete resources manually.")
+// 	} else {
+// 		logger.Log(t, "START: Destroy (existing resources)")
+// 		terraform.Destroy(t, existingTerraformOptions)
+// 		terraform.WorkspaceDelete(t, existingTerraformOptions, prefix)
+// 		logger.Log(t, "END: Destroy (existing resources)")
+// 	}
+// }
+
+// func TestRunCrossRegionSolution(t *testing.T) {
+// 	t.Parallel()
+// 	prefix := fmt.Sprintf("cross-region-da-%s", strings.ToLower(random.UniqueId()))
+// 	options := setupOptions(t, prefix, solutionCrossRegionDir)
+// 	options.TerraformVars = map[string]interface{}{
+// 		"existing_resource_group":             true,
+// 		"cos_instance_name":                   prefix,
+// 		"resource_group_name":                 resourceGroup,
+// 		"cross_region_location":               "us",
+// 		"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
+// 		"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+// 		"management_endpoint_type_for_bucket": "public",
+// 	}
+// 	output, err := options.RunTestConsistency()
+// 	assert.Nil(t, err, "This should not have errored")
+// 	assert.NotNil(t, output, "Expected some output")
+// }
+
+// -------------------------------------------------
+// THis Test combines instance, cross-region bucket and regional bucket solutions in a single test. First instance is created and the tearDown is skipped.
+// Then we use the crn of the instance created to run consistency check on the cross-region and regional bucket solutions and once passed the instance, terDown is set to true for the instance.
+// --------------------------------------------------
+
+func TestRunSolutions(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cos-da", solutionInstanceDir)
-	options.TerraformVars = map[string]interface{}{
+	instanceOptions := setupOptions(t, "cos-da", solutionInstanceDir)
+	instanceOptions.TerraformVars = map[string]interface{}{
 		"existing_resource_group": true,
 		"cos_instance_name":       "cos-da",
 		"resource_group_name":     resourceGroup,
-		"region":                  region,
 	}
+	instanceOptions.SkipTestTearDown = true
+	output, err := instanceOptions.RunTestConsistency()
 
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
+	if assert.Nil(t, err, "This should not have errored") &&
+		assert.NotNil(t, output, "Expected some output") &&
+		assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
 
-func TestRunRegionalSolution(t *testing.T) {
-	t.Parallel()
-	prefix := fmt.Sprintf("regional-da-%s", strings.ToLower(random.UniqueId()))
-	options := setupOptions(t, prefix, solutionRegionalDir)
-	options.TerraformVars = map[string]interface{}{
-		"existing_resource_group":             true,
-		"cos_instance_name":                   prefix,
-		"resource_group_name":                 resourceGroup,
-		"region":                              region,
-		"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
-		"existing_kms_instance_guid":          permanentResources["hpcs_south"],
-		"management_endpoint_type_for_bucket": "public",
+		regionalOptions := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+			Testing:      t,
+			TerraformDir: solutionRegionalDir,
+			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
+			ImplicitRequired: false,
+			TerraformVars: map[string]interface{}{
+				"region":                              region,
+				"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
+				"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+				"management_endpoint_type_for_bucket": "public",
+				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+			},
+		})
+
+		regionalOutput, err := regionalOptions.RunTestConsistency()
+		assert.Nil(t, err, "This should not have errored")
+		assert.NotNil(t, regionalOutput, "Expected some output")
+
+		crossRegionalOptions := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+			Testing:      t,
+			TerraformDir: solutionCrossRegionDir,
+			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
+			ImplicitRequired: false,
+			TerraformVars: map[string]interface{}{
+				"cross_region_location":               "us",
+				"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
+				"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+				"management_endpoint_type_for_bucket": "public",
+				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+			},
+		})
+
+		crossRegionalOutput, err := crossRegionalOptions.RunTestConsistency()
+		assert.Nil(t, err, "This should not have errored")
+		assert.NotNil(t, crossRegionalOutput, "Expected some output")
+
 	}
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
-func TestRunCrossRegionSolution(t *testing.T) {
-	t.Parallel()
-	prefix := fmt.Sprintf("cross-region-da-%s", strings.ToLower(random.UniqueId()))
-	options := setupOptions(t, prefix, solutionCrossRegionDir)
-	options.TerraformVars = map[string]interface{}{
-		"existing_resource_group":             true,
-		"cos_instance_name":                   prefix,
-		"resource_group_name":                 resourceGroup,
-		"cross_region_location":               "us",
-		"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
-		"existing_kms_instance_guid":          permanentResources["hpcs_south"],
-		"management_endpoint_type_for_bucket": "public",
-	}
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
+	instanceOptions.TestTearDown()
 }

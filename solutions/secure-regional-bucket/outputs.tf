@@ -1,11 +1,6 @@
 ##############################################################################
 # Outputs
 ##############################################################################
-output "resource_group_id" {
-  description = "Resource Group ID"
-  value       = module.resource_group.resource_group_id
-}
-
 output "buckets" {
   description = "List of buckets created"
   value       = module.cos.buckets
