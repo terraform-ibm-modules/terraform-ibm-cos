@@ -52,7 +52,7 @@ locals {
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "2.11.1"
+  version = "2.12.0"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
@@ -83,7 +83,7 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "4.8.4"
+  version                   = "4.8.5"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
