@@ -9,11 +9,14 @@ locals {
       validate_single_site_location = bucket.single_site_location != null ? tobool("KMS encryption can not be added to single site location, therefore it is not supported in fscloud module.") : null,
     }
   ]
+  cos_instance_guid = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
+  cos_instance_id   = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_id : var.existing_cos_instance_id
+  cos_instance_name = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_name : null
+  cos_instance_crn  = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_crn : var.existing_cos_instance_id
 }
 
-
-
 module "cos_instance" {
+  count                         = var.create_cos_instance ? 1 : 0
   source                        = "../../"
   resource_group_id             = var.resource_group_id
   create_cos_instance           = var.create_cos_instance
@@ -45,7 +48,7 @@ locals {
       cross_region_location         = config.cross_region_location
       storage_class                 = config.storage_class
       region_location               = config.region_location
-      resource_instance_id          = module.cos_instance.cos_instance_id
+      resource_instance_id          = local.cos_instance_id
       activity_tracking             = config.activity_tracking
       archive_rule                  = config.archive_rule
       expire_rule                   = config.expire_rule
@@ -94,7 +97,7 @@ module "instance_cbr_rules" {
       },
       {
         name     = "serviceInstance"
-        value    = module.cos_instance.cos_instance_guid
+        value    = local.cos_instance_guid
         operator = "stringEquals"
       },
       {
