@@ -6,9 +6,9 @@ toolchain go1.21.3
 
 require (
 	github.com/IBM/ibm-cos-sdk-go v1.10.2
-	github.com/gruntwork-io/terratest v0.46.11
+	github.com/gruntwork-io/terratest v0.46.13
 	github.com/stretchr/testify v1.9.0
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.29.8
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.30.1
 )
 
 require (
@@ -20,9 +20,9 @@ require (
 	dario.cat/mergo v1.0.0 // indirect
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20240212062122-3386b538a495 // indirect
 	github.com/IBM-Cloud/power-go-client v1.6.0 // indirect
-	github.com/IBM/cloud-databases-go-sdk v0.5.0 // indirect
-	github.com/IBM/go-sdk-core/v5 v5.16.1 // indirect
-	github.com/IBM/platform-services-go-sdk v0.61.2 // indirect
+	github.com/IBM/cloud-databases-go-sdk v0.6.0 // indirect
+	github.com/IBM/go-sdk-core/v5 v5.16.3 // indirect
+	github.com/IBM/platform-services-go-sdk v0.61.3 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
@@ -115,7 +115,7 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20230711160842-782d3b101e98 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230711160842-782d3b101e98 // indirect
 	google.golang.org/grpc v1.58.3 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
