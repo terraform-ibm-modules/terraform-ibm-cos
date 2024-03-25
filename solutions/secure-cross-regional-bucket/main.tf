@@ -3,13 +3,16 @@
 ##############################################################################
 
 locals {
+  # tflint-ignore: terraform_unused_declarations
+  validate_inputs = var.existing_kms_key_crn == null && var.existing_kms_guid == null ? tobool("A value must be passed for 'existing_kms_guid' if not supplying any value for 'existing_kms_key_crn'.") : true
+
   bucket_config = [{
     access_tags                   = var.bucket_access_tags
     bucket_name                   = var.bucket_name
-    kms_encryption_enabled        = var.kms_encryption_enabled
+    kms_encryption_enabled        = true
     add_bucket_name_suffix        = var.add_bucket_name_suffix
-    kms_guid                      = var.existing_kms_instance_guid
-    kms_key_crn                   = var.kms_key_crn
+    kms_guid                      = var.existing_kms_guid
+    kms_key_crn                   = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.key_ring_name, var.key_name)].crn
     skip_iam_authorization_policy = var.skip_iam_authorization_policy
     management_endpoint_type      = var.management_endpoint_type_for_bucket
     cross_region_location         = var.cross_region_location
@@ -26,10 +29,10 @@ locals {
       enable = true
       days   = var.expire_days
     } : null
-    metrics_monitoring = var.sysdig_crn != null ? {
+    metrics_monitoring = var.monitoring_crn != null ? {
       usage_metrics_enabled   = true
       request_metrics_enabled = true
-      metrics_monitoring_crn  = var.sysdig_crn
+      metrics_monitoring_crn  = var.monitoring_crn
     } : null
     object_versioning = {
       enable = var.object_versioning_enabled
@@ -41,11 +44,52 @@ locals {
       permanent = var.retention_permanent
     } : null
     cbr_rules = var.bucket_cbr_rules
-
   }]
 }
 
+#######################################################################################################################
+# KMS Key
+#######################################################################################################################
+
+# KMS root key for COS cross region bucket
+module "kms" {
+  providers = {
+    ibm = ibm.kms
+  }
+  count                       = var.existing_kms_key_crn != null ? 0 : 1 # no need to create any KMS resources if passing an existing key, or bucket
+  source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
+  version                     = "4.8.5"
+  create_key_protect_instance = false
+  region                      = var.kms_region
+  existing_kms_instance_guid  = var.existing_kms_guid
+  key_ring_endpoint_type      = var.kms_endpoint_type
+  key_endpoint_type           = var.kms_endpoint_type
+  keys = [
+    {
+      key_ring_name         = var.key_ring_name
+      existing_key_ring     = false
+      force_delete_key_ring = true
+      keys = [
+        {
+          key_name                 = var.key_name
+          standard_key             = false
+          rotation_interval_month  = 3
+          dual_auth_delete_enabled = false
+          force_delete             = true
+        }
+      ]
+    }
+  ]
+}
+
+#######################################################################################################################
+# COS Bucket
+#######################################################################################################################
+
 module "cos" {
+  providers = {
+    ibm = ibm.cos
+  }
   source                   = "../../modules/fscloud"
   resource_group_id        = null
   create_cos_instance      = false

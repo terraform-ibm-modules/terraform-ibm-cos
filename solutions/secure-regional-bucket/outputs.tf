@@ -6,24 +6,9 @@ output "buckets" {
   value       = module.cos.buckets
 }
 
-output "cos_instance_id" {
-  description = "COS instance id"
-  value       = module.cos.cos_instance_id
-}
-
-output "cos_instance_guid" {
-  description = "COS instance guid"
-  value       = module.cos.cos_instance_guid
-}
-
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
   value       = module.cos.bucket_cbr_rules
-}
-
-output "instance_cbr_rules" {
-  description = "COS instance rules"
-  value       = module.cos.instance_cbr_rules
 }
 
 output "cbr_rule_ids" {

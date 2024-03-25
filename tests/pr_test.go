@@ -20,6 +20,7 @@ import (
 	"github.com/IBM/ibm-cos-sdk-go/aws/session"
 	"github.com/IBM/ibm-cos-sdk-go/service/s3"
 	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -265,11 +266,12 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 func TestRunSolutions(t *testing.T) {
 	t.Parallel()
 
-	instanceOptions := setupOptions(t, "cos-da", solutionInstanceDir)
+	prefix := fmt.Sprintf("cos-sol-%s", strings.ToLower(random.UniqueId()))
+
+	instanceOptions := setupOptions(t, prefix, solutionInstanceDir)
 	instanceOptions.TerraformVars = map[string]interface{}{
-		"existing_resource_group": true,
-		"cos_instance_name":       "cos-da",
-		"resource_group_name":     resourceGroup,
+		"cos_instance_name":   prefix,
+		"resource_group_name": fmt.Sprintf("%s-resource-group", prefix),
 	}
 	instanceOptions.SkipTestTearDown = true
 	output, err := instanceOptions.RunTestConsistency()
@@ -284,9 +286,9 @@ func TestRunSolutions(t *testing.T) {
 			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
 			ImplicitRequired: false,
 			TerraformVars: map[string]interface{}{
+				"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
 				"region":                              region,
-				"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
-				"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+				"existing_kms_guid":                   permanentResources["hpcs_south"],
 				"management_endpoint_type_for_bucket": "public",
 				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},
@@ -302,9 +304,10 @@ func TestRunSolutions(t *testing.T) {
 			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
 			ImplicitRequired: false,
 			TerraformVars: map[string]interface{}{
+				"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
 				"cross_region_location":               "us",
-				"kms_key_crn":                         permanentResources["hpcs_south_root_key_crn"],
-				"existing_kms_instance_guid":          permanentResources["hpcs_south"],
+				"existing_kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+				"existing_kms_guid":                   permanentResources["hpcs_south"],
 				"management_endpoint_type_for_bucket": "public",
 				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},

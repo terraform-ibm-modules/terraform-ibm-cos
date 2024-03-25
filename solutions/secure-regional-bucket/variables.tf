@@ -4,6 +4,54 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
+########################################################################################################################
+# KMS variables
+########################################################################################################################
+
+variable "kms_region" {
+  type        = string
+  default     = "us-south"
+  description = "The region in which KMS instance exists."
+}
+
+variable "existing_kms_guid" {
+  type        = string
+  default     = null
+  description = "The GUID of of the KMS instance used for the SCC COS bucket root Key. Only required if not supplying an existing KMS root key and if 'skip_cos_kms_auth_policy' is true."
+}
+
+variable "existing_kms_key_crn" {
+  type        = string
+  default     = null
+  description = "The CRN of an existing KMS key to be used to encrypt the SCC COS bucket. If not supplied, a new key ring and key will be created in the provided KMS instance."
+}
+
+variable "kms_endpoint_type" {
+  type        = string
+  description = "The type of endpoint to be used for commincating with the KMS instance. Allowed values are: 'public' or 'private' (default)"
+  default     = "private"
+  validation {
+    condition     = can(regex("public|private", var.kms_endpoint_type))
+    error_message = "The kms_endpoint_type value must be 'public' or 'private'."
+  }
+}
+
+variable "key_ring_name" {
+  type        = string
+  default     = "cross-region-key-ring"
+  description = "The name to give the Key Ring which will be created for the SCC COS bucket Key. Not used if supplying an existing Key."
+}
+
+variable "key_name" {
+  type        = string
+  default     = "cross-region-key"
+  description = "The name to give the Key which will be created for the SCC COS bucket. Not used if supplying an existing Key."
+}
+
+########################################################################################################################
+# COS variables
+########################################################################################################################
+
 variable "region" {
   description = "The region to provision the IBM Cloud Object Storage regional bucket is provisioned."
   type        = string
@@ -13,7 +61,7 @@ variable "region" {
 variable "add_bucket_name_suffix" {
   type        = bool
   description = "Add random generated suffix (4 characters long) to the newly provisioned COS bucket name (Optional)."
-  default     = true
+  default     = false
 }
 
 variable "existing_cos_instance_id" {
@@ -29,25 +77,7 @@ variable "bucket_access_tags" {
 
 variable "bucket_name" {
   type        = string
-  description = "The name to give the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true."
-  default     = "regional-bucket"
-}
-
-variable "kms_encryption_enabled" {
-  description = "Set as true to use KMS key encryption to encrypt data in COS bucket (only applicable when var.create_cos_bucket is true)."
-  type        = bool
-  default     = true
-}
-
-variable "existing_kms_instance_guid" {
-  description = "The GUID of the Key Protect or Hyper Protect instance in which the key specified in var.kms_key_crn is coming from. Required if var.skip_iam_authorization_policy is false in order to create an IAM Access Policy to allow Key Protect or Hyper Protect to access the newly created COS instance."
-  type        = string
-  default     = null
-}
-
-variable "kms_key_crn" {
-  description = "CRN of the KMS key to use to encrypt the data in the COS bucket. Required if var.encryption_enabled and var.create_cos_bucket are true."
-  type        = string
+  description = "The name to give the newly provisioned COS bucket. "
 }
 
 variable "skip_iam_authorization_policy" {
@@ -64,7 +94,7 @@ variable "management_endpoint_type_for_bucket" {
 
 variable "bucket_storage_class" {
   type        = string
-  description = "the storage class of the newly provisioned COS bucket. Only required if 'create_cos_bucket' is true. Supported values are 'standard', 'vault', 'cold', 'smart' and `onerate_active`."
+  description = "the storage class of the newly provisioned COS bucket.  Supported values are 'standard', 'vault', 'cold', 'smart' and `onerate_active`."
   default     = "smart"
 }
 
@@ -87,61 +117,61 @@ variable "activity_tracker_crn" {
 }
 
 variable "archive_days" {
-  description = "Specifies the number of days when the archive rule action takes effect. Only used if 'create_cos_bucket' is true. This must be set to null when when using var.cross_region_location as archive data is not supported with this feature."
+  description = "Specifies the number of days when the archive rule action takes effect. This must be set to null when when using var.cross_region_location as archive data is not supported with this feature."
   type        = number
   default     = null
 }
 
 variable "archive_type" {
-  description = "Specifies the storage class or archive type to which you want the object to transition. Only used if 'create_cos_bucket' is true."
+  description = "Specifies the storage class or archive type to which you want the object to transition. "
   type        = string
   default     = "Glacier"
 }
 
 variable "expire_days" {
-  description = "Specifies the number of days when the expire rule action takes effect. Only used if 'create_cos_bucket' is true."
+  description = "Specifies the number of days when the expire rule action takes effect. "
   type        = number
   default     = null
 }
 
-variable "sysdig_crn" {
+variable "monitoring_crn" {
   type        = string
-  description = "Sysdig Monitoring crn for COS bucket (Optional)"
+  description = "IBM Cloud Monitoring crn for COS bucket (Optional)"
   default     = null
 }
 
 variable "object_versioning_enabled" {
-  description = "Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. Only used if 'create_cos_bucket' is true."
+  description = "Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. "
   type        = bool
   default     = false
 }
 
 variable "retention_enabled" {
-  description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
+  description = "Retention enabled for COS bucket. "
   type        = bool
   default     = false
 }
 
 variable "retention_default" {
-  description = "Specifies default duration of time an object that can be kept unmodified for COS bucket. Only used if 'create_cos_bucket' is true."
+  description = "Specifies default duration of time an object that can be kept unmodified for COS bucket. "
   type        = number
   default     = 90
 }
 
 variable "retention_maximum" {
-  description = "Specifies maximum duration of time an object that can be kept unmodified for COS bucket. Only used if 'create_cos_bucket' is true."
+  description = "Specifies maximum duration of time an object that can be kept unmodified for COS bucket. "
   type        = number
   default     = 350
 }
 
 variable "retention_minimum" {
-  description = "Specifies minimum duration of time an object must be kept unmodified for COS bucket. Only used if 'create_cos_bucket' is true."
+  description = "Specifies minimum duration of time an object must be kept unmodified for COS bucket. "
   type        = number
   default     = 90
 }
 
 variable "retention_permanent" {
-  description = "Specifies a permanent retention status either enable or disable for COS bucket. Only used if 'create_cos_bucket' is true."
+  description = "Specifies a permanent retention status either enable or disable for COS bucket. "
   type        = bool
   default     = false
 }

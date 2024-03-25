@@ -4,12 +4,6 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-variable "create_cos_instance" {
-  description = "Set as true to create a new IBM Cloud Object Storage instance."
-  type        = bool
-  default     = true
-}
-
 variable "existing_resource_group" {
   type        = bool
   description = "Whether to use an existing resource group."
@@ -48,18 +42,13 @@ variable "resource_key_role" {
 variable "cos_instance_name" {
   description = "The name of the IBM Cloud Object Storage instance. Only required if 'create_cos_instance' is true."
   type        = string
+  default     = "cos-instance"
 }
 
 variable "cos_tags" {
   description = "Optional list of tags to be added to Cloud Object Storage instance. Only used if 'create_cos_instance' it true."
   type        = list(string)
   default     = []
-}
-
-variable "existing_cos_instance_id" {
-  description = "The ID of an existing Cloud Object Storage instance. Required if 'var.create_cos_instance' is false."
-  type        = string
-  default     = null
 }
 
 variable "cos_plan" {

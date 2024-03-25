@@ -8,8 +8,7 @@ module "resource_group" {
 module "cos" {
   source                    = "../../modules/fscloud"
   resource_group_id         = module.resource_group.resource_group_id
-  create_cos_instance       = var.create_cos_instance
-  existing_cos_instance_id  = var.existing_cos_instance_id
+  create_cos_instance       = true
   cos_instance_name         = var.cos_instance_name
   create_resource_key       = var.create_resource_key
   resource_key_name         = var.resource_key_name

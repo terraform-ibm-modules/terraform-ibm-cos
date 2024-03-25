@@ -213,8 +213,8 @@
                     "architecture": {
                         "features": [
                             {
-                                "title": "IBM Cloud Object Storage Instance",
-                                "description": "Create an IBM Cloud Object Storage instance."
+                                "title": "Create IBM Cloud Object Storage Instance",
+                                "description": "Create and configure an IBM Cloud Object Storage instance."
                             },
                             {
                                 "title": "Create an IBM resource key",
@@ -237,6 +237,17 @@
                     "label": "Secure Cross Regional Bucket",
                     "name": "secure-cross-regional-bucket",
                     "working_directory": "solutions/secure-cross-regional-bucket",
+                    "install_type": "extension",
+                    "dependencies": [
+                        {
+                            "flavors": [
+                                "instance"
+                            ],
+                            "id": "68921490-2778-4930-ac6d-bae7be6cd958",
+                            "name": "deploy-arch-ibm-cos",
+                            "version": ">= v1.0.0"
+                        }
+                    ],
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
@@ -249,8 +260,8 @@
                     "architecture": {
                         "features": [
                             {
-                                "title": "Secure cross region Bucket",
-                                "description": "Create a Secure cross region Bucket."
+                                "title": "Create a secure cross region Bucket",
+                                "description": "Create a secure cross region Bucket."
                             },
                             {
                                 "title": "Configure bucket retention",
@@ -266,7 +277,7 @@
                             },
                             {
                                 "title": "Monitor data",
-                                "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
+                                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
                             },
                             {
                                 "title": "Encrypt data with key management services",
@@ -280,7 +291,7 @@
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-cross-regional-bucket.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance and a cross region bucket."
+                                "description": "This architecture supports creating and configuring a secure cross region bucket."
                             }
                         ]
                     }
@@ -289,6 +300,17 @@
                     "label": "Secure Regional Bucket",
                     "name": "secure-regional-bucket",
                     "working_directory": "solutions/secure-regional-bucket",
+                    "install_type": "extension",
+                    "dependencies": [
+                        {
+                            "flavors": [
+                                "instance"
+                            ],
+                            "id": "68921490-2778-4930-ac6d-bae7be6cd958",
+                            "name": "deploy-arch-ibm-cos",
+                            "version": ">= v1.0.0"
+                        }
+                    ],
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
@@ -301,7 +323,7 @@
                     "architecture": {
                         "features": [
                             {
-                                "title": "Secure Regional Bucket",
+                                "title": "Create secure Regional Bucket",
                                 "description": "Create a Secure Regional Bucket."
                             },
                             {
@@ -322,7 +344,7 @@
                             },
                             {
                                 "title": "Monitor data",
-                                "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
+                                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
                             },
                             {
                                 "title": "Encrypt data with key management services",
@@ -336,7 +358,7 @@
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-regional-bucket.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance and a regional bucket."
+                                "description": "This architecture supports creating and configuring a regional bucket."
                             }
                         ]
                     }
