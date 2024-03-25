@@ -5,7 +5,7 @@ variable "ibmcloud_api_key" {
 }
 
 variable "create_cos_instance" {
-  description = "Set as true to create a new IBM Cloud-Object-Storage instance."
+  description = "Set as true to create a new IBM Cloud Object Storage instance."
   type        = bool
   default     = true
 }
@@ -18,11 +18,11 @@ variable "existing_resource_group" {
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of a new or an existing resource group in which Cloud-Object-Storage instance will be provisioned."
+  description = "The name of a new or an existing resource group in which Cloud Object Storage instance will be provisioned."
 }
 
 variable "create_resource_key" {
-  description = "Set as true to create a new resource key for the Cloud-Object-Storage instance."
+  description = "Set as true to create a new resource key for the Cloud Object Storage instance."
   type        = bool
   default     = false
 }
@@ -46,24 +46,24 @@ variable "resource_key_role" {
 }
 
 variable "cos_instance_name" {
-  description = "The name of the IBM Cloud-Object-Storage instance. Only required if 'create_cos_instance' is true."
+  description = "The name of the IBM Cloud Object Storage instance. Only required if 'create_cos_instance' is true."
   type        = string
 }
 
 variable "cos_tags" {
-  description = "Optional list of tags to be added to Cloud-Object-Storage instance. Only used if 'create_cos_instance' it true."
+  description = "Optional list of tags to be added to Cloud Object Storage instance. Only used if 'create_cos_instance' it true."
   type        = list(string)
   default     = []
 }
 
 variable "existing_cos_instance_id" {
-  description = "The ID of an existing Cloud-Object-Storage instance. Required if 'var.create_cos_instance' is false."
+  description = "The ID of an existing Cloud Object Storage instance. Required if 'var.create_cos_instance' is false."
   type        = string
   default     = null
 }
 
 variable "cos_plan" {
-  description = "Plan to be used for creating Cloud-Object-Storage instance. Only used if 'create_cos_instance' it true."
+  description = "Plan to be used for creating Cloud Object Storage instance. Only used if 'create_cos_instance' it true."
   type        = string
   default     = "standard"
   # Validation happens in the fscloud module
@@ -71,7 +71,7 @@ variable "cos_plan" {
 
 variable "access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the Cloud-Object-Storage instance."
+  description = "A list of access tags to apply to the Cloud Object Storage instance."
   default     = []
 }
 

@@ -157,7 +157,7 @@
         },
         {
             "name": "deploy-arch-ibm-cos",
-            "label": "Cloud-Object-Storage",
+            "label": "Cloud Object Storage",
             "product_kind": "solution",
             "tags": [
                 "dev_ops",
@@ -173,55 +173,27 @@
                 "storage",
                 "solution"
             ],
-            "short_description": "Creates and configures an IBM Cloud-Object-Storage instance and bucket",
-            "long_description": "This architecture supports creating an IBM Cloud-Object-Storage instance and bucket. You can also configure the following aspects of your instances: CBR rules, KMS encryption, Activity tracking and Monitoring",
+            "short_description": "Creates and configures an IBM Cloud Object Storage instance and bucket",
+            "long_description": "This architecture supports creating an IBM Cloud Object Storage instance and bucket. You can also configure the following aspects of your instances: CBR rules, KMS encryption, Activity tracking and Monitoring",
             "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
             "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
             "provider_name": "IBM",
             "features": [
                 {
-                    "title": "Create an IBM Cloud-Object-Storage instance",
-                    "description": "Create an IBM Cloud-Object-Storage instance."
+                    "title": "Create an IBM Cloud Object Storage instance",
+                    "description": "Create an IBM Cloud Object Storage instance."
                 },
                 {
-                    "title": "Create an IBM Cloud-Object-Storage bucket",
+                    "title": "Create an IBM Cloud Object Storage bucket",
                     "description": "Create either a cross-regional or regional Object Storage bucket."
-                },
-                {
-                    "title": "Create an IBM resource key",
-                    "description": "Create a resource key for the IBM Cloud-Object-Storage instance."
-                },
-                {
-                    "title": "Attach access tags",
-                    "description": "Attach access tags to the IBM Cloud-Object-Storage instance."
-                },
-                {
-                    "title": "Configure bucket retention",
-                    "description": "Configure retention policies at the IBM Cloud-Object-Storage bucket level."
-                },
-                {
-                    "title": "Enable object versioning",
-                    "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket."
-                },
-                {
-                    "title": "Add archive policies",
-                    "description": "Add archive policies on the bucket."
-                },
-                {
-                    "title": "Record Activity Tracker events",
-                    "description": "Integrate Activity Tracker to track events."
-                },
-                {
-                    "title": "Monitor data",
-                    "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
-                },
-                {
-                    "title": "Encrypt data with key management services",
-                    "description": "Supports key management encryption (BYOK and KYOK), including service-to-service authorization policies with KMS."
                 },
                 {
                     "title": "Secure access with CBR",
                     "description": "Create context-based restriction (CBR) rules for both instances and buckets."
+                },
+                {
+                    "title": "Attach access tags",
+                    "description": "Attach access tags to the IBM Cloud Object Storage instance."
                 }
             ],
             "flavors": [
@@ -241,25 +213,29 @@
                     "architecture": {
                         "features": [
                             {
-                                "title": "IBM Cloud-Object-Storage Instance",
-                                "description": "Yes"
+                                "title": "IBM Cloud Object Storage Instance",
+                                "description": "Create an IBM Cloud Object Storage instance."
+                            },
+                            {
+                                "title": "Create an IBM resource key",
+                                "description": "Create a resource key for the IBM Cloud Object Storage instance."
                             }
                         ],
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": "IBM Cloud-Object-Storage Solution",
+                                    "caption": "IBM Cloud Object Storage Solution",
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance."
+                                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance."
                             }
                         ]
                     }
                 },
                 {
-                    "label": "Instance",
-                    "name": "instance",
+                    "label": "Secure Cross Regional Bucket",
+                    "name": "secure-cross-regional-bucket",
                     "working_directory": "solutions/secure-cross-regional-bucket",
                     "compliance": {
                         "authority": "scc-v3",
@@ -273,25 +249,45 @@
                     "architecture": {
                         "features": [
                             {
-                                "title": "IBM Cloud-Object-Storage Instance and Cross Region Bucket",
-                                "description": "Yes"
+                                "title": "Secure cross region Bucket",
+                                "description": "Create a Secure cross region Bucket."
+                            },
+                            {
+                                "title": "Configure bucket retention",
+                                "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
+                            },
+                            {
+                                "title": "Enable object versioning",
+                                "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket."
+                            },
+                            {
+                                "title": "Record Activity Tracker events",
+                                "description": "Integrate Activity Tracker to track events."
+                            },
+                            {
+                                "title": "Monitor data",
+                                "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
+                            },
+                            {
+                                "title": "Encrypt data with key management services",
+                                "description": "Supports key management encryption (BYOK and KYOK), including service-to-service authorization policies with KMS."
                             }
                         ],
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": "IBM Cloud-Object-Storage Solution",
+                                    "caption": "IBM Cloud Object Storage Solution",
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-cross-regional-bucket.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance and a cross region bucket."
+                                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance and a cross region bucket."
                             }
                         ]
                     }
                 },
                 {
-                    "label": "Instance",
-                    "name": "instance",
+                    "label": "Secure Regional Bucket",
+                    "name": "secure-regional-bucket",
                     "working_directory": "solutions/secure-regional-bucket",
                     "compliance": {
                         "authority": "scc-v3",
@@ -305,18 +301,42 @@
                     "architecture": {
                         "features": [
                             {
-                                "title": "IBM Cloud-Object-Storage Instance and Regional Bucket",
-                                "description": "Yes"
+                                "title": "Secure Regional Bucket",
+                                "description": "Create a Secure Regional Bucket."
+                            },
+                            {
+                                "title": "Configure bucket retention",
+                                "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
+                            },
+                            {
+                                "title": "Enable object versioning",
+                                "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket."
+                            },
+                            {
+                                "title": "Add archive policies",
+                                "description": "Add archive policies on the bucket."
+                            },
+                            {
+                                "title": "Record Activity Tracker events",
+                                "description": "Integrate Activity Tracker to track events."
+                            },
+                            {
+                                "title": "Monitor data",
+                                "description": "Integrate with the IBM Cloud-Monitoring service to monitor your Object Storage data."
+                            },
+                            {
+                                "title": "Encrypt data with key management services",
+                                "description": "Supports key management encryption (BYOK and KYOK), including service-to-service authorization policies with KMS."
                             }
                         ],
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": "IBM Cloud-Object-Storage Solution",
+                                    "caption": "IBM Cloud Object Storage Solution",
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-regional-bucket.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "This architecture supports creating and configuring an IBM Cloud-Object-Storage instance and a regional bucket."
+                                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance and a regional bucket."
                             }
                         ]
                     }

@@ -5,13 +5,13 @@ variable "ibmcloud_api_key" {
 }
 
 variable "existing_cos_instance_id" {
-  description = "The ID of an existing Cloud-Object-Storage instance. Required if `var.create_cos_instance` is false."
+  description = "The ID of an existing Cloud Object Storage instance. Required if `var.create_cos_instance` is false."
   type        = string
 }
 
 variable "bucket_access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the Cloud-Object-Storage instance bucket."
+  description = "A list of access tags to apply to the Cloud Object Storage instance bucket."
   default     = []
 }
 
