@@ -289,6 +289,7 @@ func TestRunSolutions(t *testing.T) {
 				"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
 				"region":                              region,
 				"existing_kms_guid":                   permanentResources["hpcs_south"],
+				"kms_endpoint_type":                   "public",
 				"management_endpoint_type_for_bucket": "public",
 				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},
