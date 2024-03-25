@@ -18,55 +18,68 @@ provider "ibm" {
 
 module "cos_fscloud" {
   source                                = "terraform-ibm-modules/cos/ibm//modules/fscloud"
-  version                               = "X.X.X" # Replace "latest" with a release version to lock into a specific release
+  version                               = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id                     = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   cos_instance_name                     = "my-cos-instance"
-  primary_bucket_name                   = "my-bucket-primary"
-  primary_region                        = "us-south"
-  primary_existing_hpcs_instance_guid   = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
-  primary_hpcs_key_crn                  = "crn:v1:bluemix:public:hs-crypto:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
-  secondary_bucket_name                 = "my-bucket-secondary"
-  secondary_existing_hpcs_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
-  secondary_region                      = "us-east"
-  secondary_hpcs_key_crn                = "crn:v1:bluemix:public:hs-crypto:us-east:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
-  sysdig_crn                            = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  activity_tracker_crn                  = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
-  bucket_cbr_rules = [
+  bucket_configs = [
     {
-      description      = "sample rule for buckets"
-      enforcement_mode = "enabled"
-      account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      bucket_name              = "services-bucket"
+      kms_guid                 = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+      kms_key_crn              = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
+      management_endpoint_type = "private"
+      activity_tracking = {
+        activity_tracker_crn = "crn:v1:bluemix:public:logdnaat:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+      }
+      metrics_monitoring = {
+        metrics_monitoring_crn = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+      }
+      region_location      = "us-south"
+      cbr_rules = [{
+        description      = "sample rule for buckets"
+        enforcement_mode = "enabled"
+        account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+        rule_contexts = [{
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+            }
+          ]
+        }]
+        operations = [{
+          api_types = [{
+            api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+          }]
         }]
       }]
     }
   ]
-  instance_cbr_rules = [
-    {
-      description      = "sample rule for the instance"
-      enforcement_mode = "report"
-      account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-        }]
+  instance_cbr_rules = [{
+    description      = "sample rule for the instance"
+    enforcement_mode = "enabled"
+    account_id       = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+        }
+      ]
+    }]
+    operations = [{
+      api_types = [{
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }]
-    }
-  ]
+    }]
+  }]
 }
 ```
 
@@ -84,7 +97,7 @@ module "cos_fscloud" {
 |------|--------|---------|
 | <a name="module_buckets"></a> [buckets](#module\_buckets) | ../../modules/buckets | n/a |
 | <a name="module_cos_instance"></a> [cos\_instance](#module\_cos\_instance) | ../../ | n/a |
-| <a name="module_instance_cbr_rules"></a> [instance\_cbr\_rules](#module\_instance\_cbr\_rules) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.19.0 |
+| <a name="module_instance_cbr_rules"></a> [instance\_cbr\_rules](#module\_instance\_cbr\_rules) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.19.1 |
 
 ### Resources
 
@@ -95,7 +108,7 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the cos instance created by the module, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial for more details | `list(string)` | `[]` | no |
-| <a name="input_bucket_configs"></a> [bucket\_configs](#input\_bucket\_configs) | Cloud Object Storage bucket configurations | <pre>list(object({<br>    access_tags                   = optional(list(string), [])<br>    bucket_name                   = string<br>    kms_encryption_enabled        = optional(bool, true)<br>    kms_guid                      = optional(string, null)<br>    kms_key_crn                   = string<br>    skip_iam_authorization_policy = optional(bool, false)<br>    management_endpoint_type      = string<br>    cross_region_location         = optional(string, null)<br>    storage_class                 = optional(string, "smart")<br>    region_location               = optional(string, null)<br>    resource_instance_id          = optional(string, null)<br>    force_delete                  = optional(bool, true)<br>    single_site_location          = optional(string, null)<br>    hard_quota                    = optional(number, null)<br><br>    activity_tracking = optional(object({<br>      read_data_events     = optional(bool, true)<br>      write_data_events    = optional(bool, true)<br>      activity_tracker_crn = optional(string, null)<br>    }))<br>    archive_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 20)<br>      type   = optional(string, "Glacier")<br>    }))<br>    expire_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 365)<br>    }))<br>    metrics_monitoring = optional(object({<br>      usage_metrics_enabled   = optional(bool, true)<br>      request_metrics_enabled = optional(bool, true)<br>      metrics_monitoring_crn  = optional(string, null)<br>    }))<br>    object_versioning = optional(object({<br>      enable = optional(bool, false)<br>    }))<br>    retention_rule = optional(object({<br>      default   = optional(number, 90)<br>      maximum   = optional(number, 350)<br>      minimum   = optional(number, 90)<br>      permanent = optional(bool, false)<br>    }))<br>    cbr_rules = optional(list(object({<br>      description = string<br>      account_id  = string<br>      rule_contexts = list(object({<br>        attributes = optional(list(object({<br>          name  = string<br>          value = string<br>      }))) }))<br>      enforcement_mode = string<br>      tags = optional(list(object({<br>        name  = string<br>        value = string<br>      })), [])<br>      operations = optional(list(object({<br>        api_types = list(object({<br>          api_type_id = string<br>        }))<br>      })))<br>    })), [])<br><br>  }))</pre> | `[]` | no |
+| <a name="input_bucket_configs"></a> [bucket\_configs](#input\_bucket\_configs) | Cloud Object Storage bucket configurations | <pre>list(object({<br>    access_tags                   = optional(list(string), [])<br>    add_bucket_name_suffix        = optional(bool, false)<br>    bucket_name                   = string<br>    kms_encryption_enabled        = optional(bool, true)<br>    kms_guid                      = optional(string, null)<br>    kms_key_crn                   = string<br>    skip_iam_authorization_policy = optional(bool, false)<br>    management_endpoint_type      = string<br>    cross_region_location         = optional(string, null)<br>    storage_class                 = optional(string, "smart")<br>    region_location               = optional(string, null)<br>    resource_instance_id          = optional(string, null)<br>    force_delete                  = optional(bool, true)<br>    single_site_location          = optional(string, null)<br>    hard_quota                    = optional(number, null)<br><br>    activity_tracking = optional(object({<br>      read_data_events     = optional(bool, true)<br>      write_data_events    = optional(bool, true)<br>      activity_tracker_crn = optional(string, null)<br>    }))<br>    archive_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 20)<br>      type   = optional(string, "Glacier")<br>    }))<br>    expire_rule = optional(object({<br>      enable = optional(bool, false)<br>      days   = optional(number, 365)<br>    }))<br>    metrics_monitoring = optional(object({<br>      usage_metrics_enabled   = optional(bool, true)<br>      request_metrics_enabled = optional(bool, true)<br>      metrics_monitoring_crn  = optional(string, null)<br>    }))<br>    object_versioning = optional(object({<br>      enable = optional(bool, false)<br>    }))<br>    retention_rule = optional(object({<br>      default   = optional(number, 90)<br>      maximum   = optional(number, 350)<br>      minimum   = optional(number, 90)<br>      permanent = optional(bool, false)<br>    }))<br>    cbr_rules = optional(list(object({<br>      description = string<br>      account_id  = string<br>      rule_contexts = list(object({<br>        attributes = optional(list(object({<br>          name  = string<br>          value = string<br>      }))) }))<br>      enforcement_mode = string<br>      tags = optional(list(object({<br>        name  = string<br>        value = string<br>      })), [])<br>      operations = optional(list(object({<br>        api_types = list(object({<br>          api_type_id = string<br>        }))<br>      })))<br>    })), [])<br><br>  }))</pre> | `[]` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create\_cos\_instance' is true. | `string` | `null` | no |
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan to be used for creating cloud object storage instance. Only used if 'create\_cos\_instance' it true. | `string` | `"standard"` | no |
 | <a name="input_cos_tags"></a> [cos\_tags](#input\_cos\_tags) | Optional list of tags to be added to cloud object storage instance. Only used if 'create\_cos\_instance' it true. | `list(string)` | `[]` | no |
