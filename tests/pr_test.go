@@ -286,7 +286,7 @@ func TestRunSolutions(t *testing.T) {
 			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
 			ImplicitRequired: false,
 			TerraformVars: map[string]interface{}{
-				"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
+				"bucket_name":                         fmt.Sprintf("%s-regional-bucket", prefix),
 				"region":                              region,
 				"existing_kms_guid":                   permanentResources["hpcs_south"],
 				"kms_endpoint_type":                   "public",
@@ -305,7 +305,7 @@ func TestRunSolutions(t *testing.T) {
 			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
 			ImplicitRequired: false,
 			TerraformVars: map[string]interface{}{
-				"bucket_name":                         fmt.Sprintf("%s-bucket", prefix),
+				"bucket_name":                         fmt.Sprintf("%s-cross-region-bucket", prefix),
 				"cross_region_location":               "us",
 				"existing_kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 				"existing_kms_guid":                   permanentResources["hpcs_south"],
