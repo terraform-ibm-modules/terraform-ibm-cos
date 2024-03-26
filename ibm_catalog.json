@@ -200,6 +200,7 @@
                 {
                     "label": "Instance",
                     "name": "instance",
+                    "install_type": "fullstack",
                     "working_directory": "solutions/instance",
                     "compliance": {
                         "authority": "scc-v3",

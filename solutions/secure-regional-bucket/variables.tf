@@ -17,18 +17,24 @@ variable "kms_region" {
 variable "existing_kms_guid" {
   type        = string
   default     = null
-  description = "The GUID of of the KMS instance used for the SCC COS bucket root Key. Only required if not supplying an existing KMS root key and if 'skip_cos_kms_auth_policy' is true."
+  description = "The GUID of the KMS instance used for the COS bucket root Key. Only required if not supplying an existing KMS root key and if 'skip_iam_authorization_policy' is true."
+}
+
+variable "skip_iam_authorization_policy" {
+  type        = bool
+  description = "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created"
+  default     = false
 }
 
 variable "existing_kms_key_crn" {
   type        = string
   default     = null
-  description = "The CRN of an existing KMS key to be used to encrypt the SCC COS bucket. If not supplied, a new key ring and key will be created in the provided KMS instance."
+  description = "The CRN of an existing KMS key to be used to encrypt the COS bucket. If not supplied, a new key ring and key will be created in the provided KMS instance."
 }
 
 variable "kms_endpoint_type" {
   type        = string
-  description = "The type of endpoint to be used for commincating with the KMS instance. Allowed values are: 'public' or 'private' (default)"
+  description = "The type of endpoint to be used for communicating with the KMS instance. Allowed values are: 'public' or 'private' (default)"
   default     = "private"
   validation {
     condition     = can(regex("public|private", var.kms_endpoint_type))
@@ -39,13 +45,13 @@ variable "kms_endpoint_type" {
 variable "key_ring_name" {
   type        = string
   default     = "cross-region-key-ring"
-  description = "The name to give the Key Ring which will be created for the SCC COS bucket Key. Not used if supplying an existing Key."
+  description = "The name to give the Key Ring which will be created for the COS bucket Key. Not used if supplying an existing Key."
 }
 
 variable "key_name" {
   type        = string
   default     = "cross-region-key"
-  description = "The name to give the Key which will be created for the SCC COS bucket. Not used if supplying an existing Key."
+  description = "The name to give the Key which will be created for the COS bucket. Not used if supplying an existing Key."
 }
 
 ########################################################################################################################
@@ -65,7 +71,7 @@ variable "add_bucket_name_suffix" {
 }
 
 variable "existing_cos_instance_id" {
-  description = "The ID of an existing Cloud Object Storage instance. Required if 'var.create_cos_instance' is false."
+  description = "The ID of an existing Cloud Object Storage instance."
   type        = string
 }
 
@@ -78,12 +84,6 @@ variable "bucket_access_tags" {
 variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned COS bucket. "
-}
-
-variable "skip_iam_authorization_policy" {
-  type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits the COS instance created to read the encryption key from the KMS instance in `existing_kms_instance_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created"
-  default     = false
 }
 
 variable "management_endpoint_type_for_bucket" {

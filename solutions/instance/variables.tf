@@ -40,19 +40,19 @@ variable "resource_key_role" {
 }
 
 variable "cos_instance_name" {
-  description = "The name of the IBM Cloud Object Storage instance. Only required if 'create_cos_instance' is true."
+  description = "The name of the IBM Cloud Object Storage instance."
   type        = string
   default     = "cos-instance"
 }
 
 variable "cos_tags" {
-  description = "Optional list of tags to be added to Cloud Object Storage instance. Only used if 'create_cos_instance' it true."
+  description = "Optional list of tags to be added to Cloud Object Storage instance."
   type        = list(string)
   default     = []
 }
 
 variable "cos_plan" {
-  description = "Plan to be used for creating Cloud Object Storage instance. Only used if 'create_cos_instance' it true."
+  description = "Plan to be used for creating Cloud Object Storage instance."
   type        = string
   default     = "standard"
   # Validation happens in the fscloud module
