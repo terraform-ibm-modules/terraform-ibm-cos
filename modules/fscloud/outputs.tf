@@ -33,7 +33,7 @@ output "cos_instance_crn" {
 
 output "resource_keys" {
   description = "List of resource keys"
-  value       = module.cos_instance.resource_keys
+  value       = module.cos_instance[0].resource_keys
   sensitive   = true
 }
 

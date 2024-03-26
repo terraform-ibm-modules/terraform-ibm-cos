@@ -18,61 +18,23 @@ variable "create_cos_instance" {
   default     = true
 }
 
-# Legacy variable, deprecated and only used for backward compatability, use resource_keys instead
-variable "create_resource_key" {
-  description = "Set as true to create a new resource key for the Cloud Object Storage instance."
-  type        = bool
-  default     = true
-}
-
-# Legacy variable, deprecated and only used for backward compatability, use resource_keys instead
-variable "generate_hmac_credentials" {
-  description = "Set as true to generate an HMAC key in the resource key. Only used when create_resource_key is `true`."
-  type        = bool
-  default     = false
-}
-
-# Legacy variable, deprecated and only used for backward compatability, use resource_keys instead
-variable "resource_key_existing_serviceid_crn" {
-  description = "CRN of existing serviceID to bind with resource key to be created. If null a new ServiceID is created for the resource key."
-  type        = string
-  default     = null
-}
-
-# Legacy variable, deprecated and only used for backward compatability, use resource_keys instead
-variable "resource_key_name" {
-  description = "The name of the resource key to be created."
-  type        = string
-  default     = "cos-resource-key"
-}
-
-# Legacy variable, deprecated and only used for backward compatability, use resource_keys instead
-variable "resource_key_role" {
-  description = "The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'."
-  type        = string
-  default     = "Manager"
-}
-
 variable "resource_keys" {
   description = "The definition of any resource keys to be generated"
   type = list(object({
     name                      = string
     generate_hmac_credentials = optional(bool, false)
     role                      = optional(string, "Reader")
-    service_id_crn            = string
+    service_id_crn            = optional(string, null)
   }))
   default = []
   validation {
     # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
-    # Writer, Reader, Manager, Administrator, Operator, Viewer, and Editor
     # Service roles (for Cloud Object Storage) https://cloud.ibm.com/iam/roles
     # Reader, Writer, Manager, Content Reader, Object Reader, Object Writer
-    # Platform roles (for Cloud Object Storage)
-    # Key Manager
     condition = alltrue([
-      for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Administrator", "Operator", "Viewer", "Editor", "Content Reader", "Object Reader", "Object Writer", "Key Manager"], key.role)
+      for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Content Reader", "Object Reader", "Object Writer"], key.role)
     ])
-    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Administrator', 'Operator', 'Viewer', 'Editor', 'Content Reader', 'Onject Reader', 'Object Writer', 'Key Manager', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
+    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Content Reader', 'Onject Reader', 'Object Writer', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
   }
 }
 
