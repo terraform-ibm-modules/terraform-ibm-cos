@@ -174,7 +174,7 @@
                 "solution"
             ],
             "short_description": "Creates and configures an IBM Cloud Object Storage instance and bucket",
-            "long_description": "This architecture supports creating an IBM Cloud Object Storage instance and bucket. You can also configure the following aspects of your instances: CBR rules, KMS encryption, Activity tracking and Monitoring",
+            "long_description": "This architecture supports creating an IBM Cloud Object Storage instance, cross regional bucket and regional bucket.",
             "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
             "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
             "provider_name": "IBM",
@@ -186,10 +186,6 @@
                 {
                     "title": "Create an IBM Cloud Object Storage bucket",
                     "description": "Create either a cross-regional or regional Object Storage bucket."
-                },
-                {
-                    "title": "Secure access with CBR",
-                    "description": "Create context-based restriction (CBR) rules for both instances and buckets."
                 },
                 {
                     "title": "Attach access tags",
