@@ -50,4 +50,3 @@ variable "access_tags" {
   description = "A list of access tags to apply to the Cloud Object Storage instance."
   default     = []
 }
-
