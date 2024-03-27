@@ -15,28 +15,15 @@ variable "resource_group_name" {
   description = "The name of a new or an existing resource group in which Cloud Object Storage instance will be provisioned."
 }
 
-variable "create_resource_key" {
-  description = "Set as true to create a new resource key for the Cloud Object Storage instance."
-  type        = bool
-  default     = false
-}
-
-variable "generate_hmac_credentials" {
-  description = "Set as true to generate an HMAC key in the resource key. Only used when create_resource_key is `true`."
-  type        = bool
-  default     = false
-}
-
-variable "resource_key_name" {
-  description = "The name of the resource key to be created."
-  type        = string
-  default     = "cos-resource-key"
-}
-
-variable "resource_key_role" {
-  description = "The role you want to be associated with your new resource key. Valid roles are 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer'."
-  type        = string
-  default     = "Manager"
+variable "resource_keys" {
+  description = "The definition of any resource keys to be generated."
+  type = list(object({
+    name                      = string
+    generate_hmac_credentials = optional(bool, false)
+    role                      = optional(string, "Reader")
+    service_id_crn            = optional(string, null)
+  }))
+  default = []
 }
 
 variable "cos_instance_name" {
@@ -64,27 +51,3 @@ variable "access_tags" {
   default     = []
 }
 
-variable "instance_cbr_rules" {
-  type = list(object({
-    description = string
-    account_id  = string
-    rule_contexts = list(object({
-      attributes = optional(list(object({
-        name  = string
-        value = string
-    }))) }))
-    enforcement_mode = string
-    tags = optional(list(object({
-      name  = string
-      value = string
-    })), [])
-    operations = optional(list(object({
-      api_types = list(object({
-        api_type_id = string
-      }))
-    })))
-  }))
-  description = "(Optional, list) List of CBR rule to create for the instance"
-  default     = []
-  # Validation happens in the CBR Rule module
-}

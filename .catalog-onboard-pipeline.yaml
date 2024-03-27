@@ -32,8 +32,14 @@ offerings:
         install_type: extension
         pre_validation: "tests/scripts/pre-validation-deploy-cos-cross-region.sh"
         post_validation: "tests/scripts/post-validation-destroy-cos-instance.sh"
+        scc:
+          instance_id: 1c7d5f78-9262-44c3-b779-b28fe4d88c37
+          region: us-south
       - name: secure-regional-bucket
         mark_ready: true
         install_type: extension
         pre_validation: "tests/scripts/pre-validation-deploy-cos-regional.sh"
         post_validation: "tests/scripts/post-validation-destroy-cos-instance.sh"
+        scc:
+          instance_id: 1c7d5f78-9262-44c3-b779-b28fe4d88c37
+          region: us-south

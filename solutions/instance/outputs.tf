@@ -16,12 +16,8 @@ output "cos_instance_guid" {
   value       = module.cos.cos_instance_guid
 }
 
-output "instance_cbr_rules" {
-  description = "COS instance rules"
-  value       = module.cos.instance_cbr_rules
-}
-
-output "cbr_rule_ids" {
-  description = "List of all rule ids"
-  value       = module.cos.cbr_rule_ids
+output "resource_keys" {
+  description = "List of resource keys"
+  value       = module.cos.resource_keys
+  sensitive   = true
 }

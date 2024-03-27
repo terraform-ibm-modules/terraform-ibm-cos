@@ -48,8 +48,6 @@ locals {
       minimum   = var.retention_minimum
       permanent = var.retention_permanent
     } : null
-    cbr_rules = var.bucket_cbr_rules
-
   }]
 }
 
