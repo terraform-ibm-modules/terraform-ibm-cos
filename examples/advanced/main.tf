@@ -16,7 +16,7 @@ module "resource_group" {
 # NOTE: The module itself supports creating internally, but this example shows
 # how to use an existing ones
 ##############################################################################
-resource "ibm_iam_service_id" "resource_keys_existing_serviceid" {
+resource "ibm_iam_service_id" "resource_key_existing_serviceid" {
   name        = "${var.prefix}-reskey-serviceid"
   description = "ServiceID for ${var.prefix} env to use for resource key credentials"
 }
@@ -149,7 +149,7 @@ module "cos_bucket1" {
     {
       name           = "${var.prefix}-writer-key"
       role           = "Writer"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceid.crn
+      service_id_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
     },
     {
       name = "${var.prefix}-reader-key"
