@@ -24,17 +24,14 @@ module "cos_instance" {
   create_cos_bucket             = false
   skip_iam_authorization_policy = true
   cos_instance_name             = var.cos_instance_name
-  create_resource_key           = var.create_resource_key
-  resource_key_name             = var.resource_key_name
-  resource_key_role             = var.resource_key_role
-  generate_hmac_credentials     = var.generate_hmac_credentials
+  resource_keys                 = var.resource_keys
   cos_plan                      = var.cos_plan
   cos_tags                      = var.cos_tags
   access_tags                   = var.access_tags
 }
 
 locals {
-  #  Add the cos instance id to the bucket configs
+  # Add the cos instance id to the bucket configs
   bucket_configs = [
     for config in var.bucket_configs :
     {
