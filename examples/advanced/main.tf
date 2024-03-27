@@ -16,8 +16,9 @@ module "resource_group" {
 # NOTE: The module itself supports creating internally, but this example shows
 # how to use an existing ones
 ##############################################################################
-resource "ibm_iam_service_id" "resource_keys_existing_serviceid" {
-  name        = "${var.prefix}-reskey-serviceid"
+resource "ibm_iam_service_id" "resource_keys_existing_serviceids" {
+  count       = 5
+  name        = "${var.prefix}-reskey-serviceid-${count.index}"
   description = "ServiceID for ${var.prefix} env to use for resource key credentials"
 }
 
@@ -149,7 +150,7 @@ module "cos_bucket1" {
     {
       name           = "${var.prefix}-writer-key"
       role           = "Writer"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceid.crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[0].crn
     },
     {
       name = "${var.prefix}-reader-key"
@@ -157,22 +158,22 @@ module "cos_bucket1" {
     {
       name           = "${var.prefix}-manager-key"
       role           = "Manager"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceid.crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[1].crn
     },
     {
       name           = "${var.prefix}-content-reader-key"
       role           = "Content Reader"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceid.crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[2].crn
     },
     {
       name           = "${var.prefix}-object-reader-key"
       role           = "Object Reader"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceid.crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[3].crn
     },
     {
       name           = "${var.prefix}-object-writer-key"
       role           = "Object Writer"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceid.crn
+      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[4].crn
     }
   ]
   bucket_cbr_rules = [
