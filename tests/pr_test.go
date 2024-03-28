@@ -20,10 +20,10 @@ import (
 	"github.com/IBM/ibm-cos-sdk-go/aws/session"
 	"github.com/IBM/ibm-cos-sdk-go/service/s3"
 	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/stretchr/testify/require"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
@@ -33,6 +33,9 @@ const fsCloudTerraformDir = "examples/fscloud"
 const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
+const solutionInstanceDir = "solutions/instance"
+const solutionRegionalDir = "solutions/secure-regional-bucket"
+const solutionCrossRegionDir = "solutions/secure-cross-regional-bucket"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -257,4 +260,64 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 		WithCredentials(creds).
 		WithS3ForcePathStyle(true)
 	return s3.New(sess, conf)
+}
+
+// A single function to test all DA solutions.
+func TestRunSolutions(t *testing.T) {
+	t.Parallel()
+
+	prefix := fmt.Sprintf("cos-sol-%s", strings.ToLower(random.UniqueId()))
+
+	instanceOptions := setupOptions(t, prefix, solutionInstanceDir)
+	instanceOptions.TerraformVars = map[string]interface{}{
+		"cos_instance_name":   prefix,
+		"resource_group_name": fmt.Sprintf("%s-resource-group", prefix),
+	}
+	instanceOptions.SkipTestTearDown = true
+	output, err := instanceOptions.RunTestConsistency()
+
+	if assert.Nil(t, err, "This should not have errored") &&
+		assert.NotNil(t, output, "Expected some output") &&
+		assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
+
+		regionalOptions := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+			Testing:      t,
+			TerraformDir: solutionRegionalDir,
+			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
+			ImplicitRequired: false,
+			TerraformVars: map[string]interface{}{
+				"bucket_name":                         fmt.Sprintf("%s-regional-bucket", prefix),
+				"region":                              region,
+				"existing_kms_guid":                   permanentResources["hpcs_south"],
+				"kms_endpoint_type":                   "public",
+				"management_endpoint_type_for_bucket": "public",
+				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+			},
+		})
+
+		regionalOutput, err := regionalOptions.RunTestConsistency()
+		assert.Nil(t, err, "This should not have errored")
+		assert.NotNil(t, regionalOutput, "Expected some output")
+
+		crossRegionalOptions := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+			Testing:      t,
+			TerraformDir: solutionCrossRegionDir,
+			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
+			ImplicitRequired: false,
+			TerraformVars: map[string]interface{}{
+				"bucket_name":                         fmt.Sprintf("%s-cross-region-bucket", prefix),
+				"cross_region_location":               "us",
+				"existing_kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+				"existing_kms_guid":                   permanentResources["hpcs_south"],
+				"management_endpoint_type_for_bucket": "public",
+				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+			},
+		})
+
+		crossRegionalOutput, err := crossRegionalOptions.RunTestConsistency()
+		assert.Nil(t, err, "This should not have errored")
+		assert.NotNil(t, crossRegionalOutput, "Expected some output")
+
+	}
+	instanceOptions.TestTearDown()
 }
