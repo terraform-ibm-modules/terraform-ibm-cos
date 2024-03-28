@@ -13,6 +13,7 @@ locals {
   cos_instance_id   = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_id : var.existing_cos_instance_id
   cos_instance_name = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_name : null
   cos_instance_crn  = var.existing_cos_instance_id == null ? module.cos_instance[0].cos_instance_crn : var.existing_cos_instance_id
+  resource_keys     = var.existing_cos_instance_id == null ? module.cos_instance[0].resource_keys : null
 }
 
 module "cos_instance" {
