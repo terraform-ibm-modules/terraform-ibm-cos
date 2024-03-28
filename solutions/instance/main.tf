@@ -6,8 +6,7 @@ module "resource_group" {
 }
 
 module "cos" {
-  # source              = "../../modules/fscloud"
-  source              = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos.git//modules/fscloud?ref=resource-key-output"
+  source              = "../../modules/fscloud"
   resource_group_id   = module.resource_group.resource_group_id
   create_cos_instance = true
   cos_instance_name   = var.cos_instance_name
