@@ -10,7 +10,8 @@ set -e
 DA_DIR="solutions/secure-regional-bucket"
 TERRAFORM_SOURCE_DIR="solutions/instance"
 JSON_FILE="${DA_DIR}/catalogValidationValues.json"
-TF_VARS_FILE="terraform.tfvars"
+PREFIX="cos-$(openssl rand -hex 2)"
+TF_VARS_FILE="terraform-regional.tfvars"
 
 (
   cwd=$(pwd)
@@ -18,6 +19,11 @@ TF_VARS_FILE="terraform.tfvars"
   echo "Provisioning prerequisite COS Instance .."
   terraform init || exit 1
   # $VALIDATION_APIKEY is available in the catalog runtime
+  {
+    echo "ibmcloud_api_key=\"${VALIDATION_APIKEY}\""
+    echo "cos_instance_name=\"${PREFIX}\""
+    echo "resource_group_name=\"${PREFIX}\""
+  } >>${TF_VARS_FILE}
   terraform apply -input=false -auto-approve -var-file=${TF_VARS_FILE} || exit 1
 
   cos_instance_id_var_name="existing_cos_instance_id"
