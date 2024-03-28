@@ -11,7 +11,7 @@ DA_DIR="solutions/secure-cross-regional-bucket"
 TERRAFORM_SOURCE_DIR="solutions/instance"
 JSON_FILE="${DA_DIR}/catalogValidationValues.json"
 PREFIX="cos-$(openssl rand -hex 2)"
-TF_VARS_FILE="terraform.tfvars"
+TF_VARS_FILE="terraform-cross-regional.tfvars"
 
 (
   cwd=$(pwd)
