@@ -31,6 +31,12 @@ output "cos_instance_crn" {
   value       = local.cos_instance_crn
 }
 
+output "resource_keys" {
+  description = "List of resource keys"
+  value       = module.cos_instance[0].resource_keys
+  sensitive   = true
+}
+
 output "bucket_cbr_rules" {
   description = "COS bucket rules"
   value       = module.buckets.cbr_rules

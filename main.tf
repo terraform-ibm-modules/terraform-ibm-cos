@@ -66,27 +66,15 @@ resource "ibm_resource_tag" "cos_access_tag" {
   tag_type    = "access"
 }
 
-# To force IBM resource key replacement when input changes
-resource "terraform_data" "generate_hmac_credentials" {
-  input = var.generate_hmac_credentials
-}
-
-# To force IBM resource key replacement when input changes
-resource "terraform_data" "resource_key_existing_serviceid_crn" {
-  input = var.resource_key_existing_serviceid_crn
-}
-
-resource "ibm_resource_key" "resource_key" {
-  count                = var.create_resource_key && var.create_cos_instance ? 1 : 0
-  name                 = var.resource_key_name
-  resource_instance_id = ibm_resource_instance.cos_instance[count.index].id
+resource "ibm_resource_key" "resource_keys" {
+  for_each             = { for key in var.resource_keys : key.name => key }
+  name                 = each.key
+  resource_instance_id = local.cos_instance_id
+  role                 = each.value.role
   parameters = {
-    "serviceid_crn" = var.resource_key_existing_serviceid_crn
-    "HMAC"          = var.generate_hmac_credentials
+    "serviceid_crn" = each.value.service_id_crn
+    "HMAC"          = each.value.generate_hmac_credentials
   }
-  role = var.resource_key_role
-  # parameters block is outside lifecycle, this force replacement if values change
-  lifecycle { replace_triggered_by = [terraform_data.generate_hmac_credentials, terraform_data.resource_key_existing_serviceid_crn] }
 }
 
 locals {
