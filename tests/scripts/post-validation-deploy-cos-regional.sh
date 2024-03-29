@@ -8,7 +8,7 @@
 set -e
 
 TERRAFORM_SOURCE_DIR="solutions/instance"
-TF_VARS_FILE="terraform.tfvars"
+TF_VARS_FILE="terraform-regional.tfvars"
 
 (
   cd ${TERRAFORM_SOURCE_DIR}
