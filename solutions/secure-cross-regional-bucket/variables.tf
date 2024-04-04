@@ -1,6 +1,6 @@
 variable "ibmcloud_api_key" {
   type        = string
-  description = "The IBM Cloud API Token"
+  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
   sensitive   = true
 }
 
@@ -17,7 +17,7 @@ variable "kms_region" {
 variable "existing_kms_guid" {
   type        = string
   default     = null
-  description = "The GUID of the KMS instance used for the COS bucket root Key. Only required if not supplying an existing KMS root key and if 'skip_iam_authorization_policy' is true."
+  description = "The GUID of the KMS instance used for the COS bucket root Key. Only required if not supplying an existing KMS root key and if `skip_iam_authorization_policy` is true."
 }
 
 variable "skip_iam_authorization_policy" {
@@ -34,11 +34,11 @@ variable "existing_kms_key_crn" {
 
 variable "kms_endpoint_type" {
   type        = string
-  description = "The type of endpoint to be used for communicating with the KMS instance. Allowed values are: 'public' or 'private' (default)"
+  description = "The type of endpoint to be used for communicating with the KMS instance. Allowed values are: `public` or `private` (default)"
   default     = "private"
   validation {
     condition     = can(regex("public|private", var.kms_endpoint_type))
-    error_message = "The kms_endpoint_type value must be 'public' or 'private'."
+    error_message = "The kms_endpoint_type value must be `public` or `private`."
   }
 }
 
