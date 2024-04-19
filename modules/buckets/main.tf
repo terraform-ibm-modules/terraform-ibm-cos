@@ -26,6 +26,9 @@ module "buckets" {
   management_endpoint_type_for_bucket = each.value.management_endpoint_type
   force_delete                        = each.value.force_delete
   hard_quota                          = each.value.hard_quota
+  object_locking_enabled              = each.value.object_locking_enabled
+  object_lock_duration_days           = each.value.object_lock_duration_days
+  object_lock_duration_years          = each.value.object_lock_duration_years
 
   access_tags = can(each.value.access_tags) ? each.value.access_tags : []
 

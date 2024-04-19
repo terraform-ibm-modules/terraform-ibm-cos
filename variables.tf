@@ -187,6 +187,24 @@ variable "retention_permanent" {
   default     = false
 }
 
+variable "object_locking_enabled" {
+  description = "Specifies if an object lock configuration should be created. Requires 'object_versoning_enabled' to be true. Only used if 'create_cos_bucket' is true."
+  type        = bool
+  default     = false
+}
+
+variable "object_lock_duration_days" {
+  description = "Specifies the default number of days for the retention lock duration. Only used if 'create_cos_bucket' is true."
+  type        = number
+  default     = 0
+}
+
+variable "object_lock_duration_years" {
+  description = "Specifies the default number of years for the retention lock duration. Only used if 'create_cos_bucket' is true."
+  type        = number
+  default     = 0
+}
+
 variable "object_versioning_enabled" {
   description = "Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. Only used if 'create_cos_bucket' is true."
   type        = bool

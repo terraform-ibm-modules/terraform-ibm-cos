@@ -5,12 +5,14 @@
 ##############################################################################
 
 locals {
-  at_enabled                = var.activity_tracker_crn == null ? [] : [1]
-  metrics_enabled           = var.sysdig_crn == null ? [] : [1]
-  archive_enabled           = var.archive_days == null ? [] : [1]
-  expire_enabled            = var.expire_days == null ? [] : [1]
-  retention_enabled         = var.retention_enabled ? [1] : []
-  object_versioning_enabled = var.object_versioning_enabled ? [1] : []
+  at_enabled                 = var.activity_tracker_crn == null ? [] : [1]
+  metrics_enabled            = var.sysdig_crn == null ? [] : [1]
+  archive_enabled            = var.archive_days == null ? [] : [1]
+  expire_enabled             = var.expire_days == null ? [] : [1]
+  retention_enabled          = var.retention_enabled ? [1] : []
+  object_versioning_enabled  = var.object_versioning_enabled || var.object_locking_enabled ? [1] : []
+  object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
+  object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
 
   # input variable validation
   # tflint-ignore: terraform_unused_declarations
@@ -39,6 +41,12 @@ locals {
   validate_cross_region_retention = var.cross_region_location != "us" && var.retention_enabled ? tobool("Retention is currently only supported in the `US` location for cross region buckets.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_kms = var.cross_region_location != "us" && var.cross_region_location != null ? can(regex(".*hs-crypto.*", var.kms_key_crn)) ? tobool("Support for using HPCS instance for KMS encryption in cross-regional bucket is only available in US region.") : true : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_locking = var.object_locking_enabled && !var.object_versioning_enabled ? tobool("Object locking requires object versioning to be enabled.") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_lock_duration_both = var.object_locking_enabled && var.object_lock_duration_days != 0 && var.object_lock_duration_years != 0 ? tobool("Object lock duration days and years can not both be set.") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_lock_duration_none = var.object_locking_enabled && var.object_lock_duration_days == 0 && var.object_lock_duration_years == 0 ? tobool("Object lock duration days or years must be set.") : true
 }
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
@@ -129,6 +137,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   key_protect           = var.kms_key_crn
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
+  object_lock           = var.object_locking_enabled
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -208,6 +217,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   storage_class         = var.bucket_storage_class
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
+  object_lock           = var.object_locking_enabled
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -260,11 +270,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   }
   ## This for_each block is NOT a loop to attach to multiple versioning blocks.
   ## This block is only used to conditionally attach a single versioning block.
-  dynamic "object_versioning" {
-    for_each = local.object_versioning_enabled
-    content {
-      enable = var.object_versioning_enabled
-    }
+  object_versioning {
+    enable = var.object_versioning_enabled
   }
 }
 
@@ -277,6 +284,44 @@ locals {
   s3_endpoint_public   = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].s3_endpoint_public : ibm_cos_bucket.cos_bucket1[0].s3_endpoint_public) : null
   s3_endpoint_private  = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].s3_endpoint_private : ibm_cos_bucket.cos_bucket1[0].s3_endpoint_private) : null
   s3_endpoint_direct   = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].s3_endpoint_direct : ibm_cos_bucket.cos_bucket1[0].s3_endpoint_direct) : null
+}
+
+##############################################################################
+# Bucket retention lock
+##############################################################################
+
+resource "ibm_cos_bucket_object_lock_configuration" "lock_configuration" {
+  count           = var.object_locking_enabled ? 1 : 0
+  bucket_crn      = local.bucket_crn
+  bucket_location = local.bucket_region
+  endpoint_type   = var.management_endpoint_type_for_bucket
+
+  # This is not a loop. Include either the `days` or `years`.
+  dynamic "object_lock_configuration" {
+    for_each = local.object_lock_duration_days
+    content {
+      object_lock_enabled = "Enabled" # only accepts "Enabled"
+      object_lock_rule {
+        default_retention {
+          mode = "COMPLIANCE" # only accepts "COMPLIANCE"
+          days = var.object_lock_duration_days
+        }
+      }
+    }
+  }
+  # This is not a loop. Include either the `days` or `years`.
+  dynamic "object_lock_configuration" {
+    for_each = local.object_lock_duration_years
+    content {
+      object_lock_enabled = "Enabled" # only accepts "Enabled"
+      object_lock_rule {
+        default_retention {
+          mode  = "COMPLIANCE" # only accepts "COMPLIANCE"
+          years = var.object_lock_duration_years
+        }
+      }
+    }
+  }
 }
 
 ##############################################################################
