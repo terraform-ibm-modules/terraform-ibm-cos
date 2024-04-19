@@ -33,52 +33,10 @@ module "buckets" {
   source = "../../modules/buckets"
   bucket_configs = [
     {
-      bucket_name            = "${var.prefix}-bucket-module-ff"
+      bucket_name            = "${var.prefix}-bucket-module"
       kms_encryption_enabled = false
       region_location        = var.region
       resource_instance_id   = module.cos.cos_instance_id
-      object_versioning = {
-        enable = false
-      }
-      object_lock_duration_days  = 1
-      object_lock_duration_years = 0
-      object_locking_enabled     = false
-    },
-    {
-      bucket_name            = "${var.prefix}-bucket-module-tf"
-      kms_encryption_enabled = false
-      region_location        = var.region
-      resource_instance_id   = module.cos.cos_instance_id
-      object_versioning = {
-        enable = true
-      }
-      object_lock_duration_days  = 1
-      object_lock_duration_years = 0
-      object_locking_enabled     = false
-    },
-    {
-      bucket_name            = "${var.prefix}-bucket-module-tt"
-      kms_encryption_enabled = false
-      region_location        = var.region
-      resource_instance_id   = module.cos.cos_instance_id
-      object_versioning = {
-        enable = true
-      }
-      object_lock_duration_days  = 1
-      object_lock_duration_years = 0
-      object_locking_enabled     = true
-    },
-    {
-      bucket_name            = "${var.prefix}-bucket-module-ft"
-      kms_encryption_enabled = false
-      region_location        = var.region
-      resource_instance_id   = module.cos.cos_instance_id
-      object_versioning = {
-        enable = false
-      }
-      object_lock_duration_days  = 1
-      object_lock_duration_years = 0
-      object_locking_enabled     = false
     }
   ]
 }
