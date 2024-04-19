@@ -270,8 +270,11 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   }
   ## This for_each block is NOT a loop to attach to multiple versioning blocks.
   ## This block is only used to conditionally attach a single versioning block.
-  object_versioning {
-    enable = var.object_versioning_enabled
+  dynamic "object_versioning" {
+    for_each = local.object_versioning_enabled
+    content {
+      enable = var.object_versioning_enabled
+    }
   }
 }
 
