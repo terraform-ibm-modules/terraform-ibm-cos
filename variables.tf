@@ -194,13 +194,13 @@ variable "object_locking_enabled" {
 }
 
 variable "object_lock_duration_days" {
-  description = "Specifies the default number of days for the retention lock duration. Only used if 'create_cos_bucket' is true."
+  description = "Specifies the default number of days for the retention lock duration. When setting 'object_lock_duration_days' do not set 'object_lock_duration_years'. Only used if 'create_cos_bucket' is true."
   type        = number
   default     = 0
 }
 
 variable "object_lock_duration_years" {
-  description = "Specifies the default number of years for the retention lock duration. Only used if 'create_cos_bucket' is true."
+  description = "Specifies the default number of years for the retention lock duration. When setting 'object_lock_duration_years' do not set 'object_lock_duration_days'. Only used if 'create_cos_bucket' is true."
   type        = number
   default     = 0
 }
