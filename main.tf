@@ -10,7 +10,6 @@ locals {
   archive_enabled            = var.archive_days == null ? [] : [1]
   expire_enabled             = var.expire_days == null ? [] : [1]
   retention_enabled          = var.retention_enabled ? [1] : []
-  object_versioning_enabled  = var.object_versioning_enabled || var.object_locking_enabled ? [1] : []
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
 
@@ -188,13 +187,8 @@ resource "ibm_cos_bucket" "cos_bucket" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  ## This for_each block is NOT a loop to attach to multiple versioning blocks.
-  ## This block is only used to conditionally attach a single versioning block.
-  dynamic "object_versioning" {
-    for_each = local.object_versioning_enabled
-    content {
-      enable = var.object_versioning_enabled
-    }
+  object_versioning {
+    enable = var.object_versioning_enabled
   }
 }
 
@@ -268,13 +262,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  ## This for_each block is NOT a loop to attach to multiple versioning blocks.
-  ## This block is only used to conditionally attach a single versioning block.
-  dynamic "object_versioning" {
-    for_each = local.object_versioning_enabled
-    content {
-      enable = var.object_versioning_enabled
-    }
+  object_versioning {
+    enable = var.object_versioning_enabled
   }
 }
 
