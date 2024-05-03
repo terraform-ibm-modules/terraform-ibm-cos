@@ -12,6 +12,7 @@ locals {
   retention_enabled          = var.retention_enabled ? [1] : []
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
+  object_versioning_enabled  = var.object_versioning_enabled ? [1] : []
 
   # input variable validation
   # tflint-ignore: terraform_unused_declarations
@@ -136,7 +137,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   key_protect           = var.kms_key_crn
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
-  object_lock           = var.object_locking_enabled
+  object_lock           = var.object_locking_enabled ? true : null
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -187,8 +188,11 @@ resource "ibm_cos_bucket" "cos_bucket" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  object_versioning {
-    enable = var.object_versioning_enabled
+  dynamic "object_versioning" {
+    for_each = local.object_versioning_enabled
+    content {
+      enable = var.object_versioning_enabled
+    }
   }
 }
 
@@ -211,7 +215,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   storage_class         = var.bucket_storage_class
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
-  object_lock           = var.object_locking_enabled
+  object_lock           = var.object_locking_enabled ? true : null
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -262,8 +266,11 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  object_versioning {
-    enable = var.object_versioning_enabled
+  dynamic "object_versioning" {
+    for_each = local.object_versioning_enabled
+    content {
+      enable = var.object_versioning_enabled
+    }
   }
 }
 

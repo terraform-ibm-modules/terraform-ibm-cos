@@ -164,7 +164,7 @@ variable "retention_permanent" {
 }
 
 variable "object_locking_enabled" {
-  description = "Specifies if an object lock configuration should be created. Requires 'object_versoning_enabled' to be true. Only used if 'create_cos_bucket' is true."
+  description = "Specifies if an object lock configuration should be created. Requires 'object_versioning_enabled' to be true. Only used if 'create_cos_bucket' is true."
   type        = bool
   default     = false
 }
