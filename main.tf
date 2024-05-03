@@ -37,8 +37,10 @@ locals {
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.expire_days cannot be set.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_single_site_location_inputs = var.single_site_location != null && var.kms_encryption_enabled == true ? tobool("If var.single_site_location is set, then var.kms_encryption_enabled cannot be set as the key protect does not support single site location.") : true
+  # retention/immuatbile object storage https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
+  # only in cross region 'us' and all mzr
   # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_retention = var.cross_region_location != "us" && var.retention_enabled ? tobool("Retention is currently only supported in the `US` location for cross region buckets.") : true
+  validate_cross_region_retention = var.cross_region_location != null && (var.cross_region_location != "us" && var.retention_enabled) ? tobool("Retention is currently only supported in the `US` location for cross region buckets.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_kms = var.cross_region_location != "us" && var.cross_region_location != null ? can(regex(".*hs-crypto.*", var.kms_key_crn)) ? tobool("Support for using HPCS instance for KMS encryption in cross-regional bucket is only available in US region.") : true : true
   # tflint-ignore: terraform_unused_declarations

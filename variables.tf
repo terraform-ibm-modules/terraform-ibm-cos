@@ -145,6 +145,8 @@ variable "management_endpoint_type_for_bucket" {
   }
 }
 
+# Where is retention (immuatble object storage) supported
+# https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
 variable "retention_enabled" {
   description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
   type        = bool
