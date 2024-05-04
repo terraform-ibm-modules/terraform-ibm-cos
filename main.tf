@@ -75,7 +75,7 @@ resource "ibm_resource_tag" "cos_access_tag" {
 
 resource "ibm_resource_key" "resource_keys" {
   for_each             = { for key in var.resource_keys : key.name => key }
-  name                 = each.key
+  name                 = each.value.key_name == null ? each.key : each.value.key_name
   resource_instance_id = local.cos_instance_id
   role                 = each.value.role
   parameters = {
