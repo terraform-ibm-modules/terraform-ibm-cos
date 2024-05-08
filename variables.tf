@@ -18,9 +18,9 @@ variable "create_cos_instance" {
   default     = true
 }
 
-# 'name' is the terraform static reference to variablthe objecy in the list
+# 'name' is the terraform static reference to the object in the list
 # 'key_name' is the IBM Cloud resource key name
-# name MUST not be dynamic, so that it in known at plan time
+# name MUST not be dynamic, so that it is known at plan time
 # if key_name is not specified, name will be used for the key_name
 # key_name can be a dynamic reference created during apply
 variable "resource_keys" {
