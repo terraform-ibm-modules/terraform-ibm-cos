@@ -148,6 +148,7 @@ module "cos_bucket1" {
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
+      key_name       = ibm_iam_service_id.resource_key_existing_serviceid.iam_id
       role           = "Writer"
       service_id_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
     },

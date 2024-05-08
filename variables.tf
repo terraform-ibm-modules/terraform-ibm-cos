@@ -18,10 +18,16 @@ variable "create_cos_instance" {
   default     = true
 }
 
+# 'name' is the terraform static reference to the object in the list
+# 'key_name' is the IBM Cloud resource key name
+# name MUST not be dynamic, so that it is known at plan time
+# if key_name is not specified, name will be used for the key_name
+# key_name can be a dynamic reference created during apply
 variable "resource_keys" {
   description = "The definition of any resource keys to be generated"
   type = list(object({
     name                      = string
+    key_name                  = optional(string, null)
     generate_hmac_credentials = optional(bool, false)
     role                      = optional(string, "Reader")
     service_id_crn            = optional(string, null)
