@@ -18,10 +18,16 @@ variable "create_cos_instance" {
   default     = true
 }
 
+# 'name' is the terraform static reference to the object in the list
+# 'key_name' is the IBM Cloud resource key name
+# name MUST not be dynamic, so that it is known at plan time
+# if key_name is not specified, name will be used for the key_name
+# key_name can be a dynamic reference created during apply
 variable "resource_keys" {
   description = "The definition of any resource keys to be generated"
   type = list(object({
     name                      = string
+    key_name                  = optional(string, null)
     generate_hmac_credentials = optional(bool, false)
     role                      = optional(string, "Reader")
     service_id_crn            = optional(string, null)
@@ -145,6 +151,8 @@ variable "management_endpoint_type_for_bucket" {
   }
 }
 
+# Where is retention (immuatble object storage) supported
+# https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
 variable "retention_enabled" {
   description = "Retention enabled for COS bucket. Only used if 'create_cos_bucket' is true."
   type        = bool
@@ -188,7 +196,7 @@ variable "retention_permanent" {
 }
 
 variable "object_locking_enabled" {
-  description = "Specifies if an object lock configuration should be created. Requires 'object_versoning_enabled' to be true. Only used if 'create_cos_bucket' is true."
+  description = "Specifies if an object lock configuration should be created. Requires 'object_versioning_enabled' to be true. Only used if 'create_cos_bucket' is true."
   type        = bool
   default     = false
 }

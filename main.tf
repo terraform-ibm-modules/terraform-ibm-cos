@@ -12,6 +12,7 @@ locals {
   retention_enabled          = var.retention_enabled ? [1] : []
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
+  object_versioning_enabled  = var.object_versioning_enabled ? [1] : []
 
   # input variable validation
   # tflint-ignore: terraform_unused_declarations
@@ -36,8 +37,10 @@ locals {
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.expire_days cannot be set.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_single_site_location_inputs = var.single_site_location != null && var.kms_encryption_enabled == true ? tobool("If var.single_site_location is set, then var.kms_encryption_enabled cannot be set as the key protect does not support single site location.") : true
+  # retention/immuatbile object storage https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
+  # only in cross region 'us' and all mzr
   # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_retention = var.cross_region_location != "us" && var.retention_enabled ? tobool("Retention is currently only supported in the `US` location for cross region buckets.") : true
+  validate_cross_region_retention = var.cross_region_location != null && (var.cross_region_location != "us" && var.retention_enabled) ? tobool("Retention is currently only supported in the `US` location for cross region buckets.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_kms = var.cross_region_location != "us" && var.cross_region_location != null ? can(regex(".*hs-crypto.*", var.kms_key_crn)) ? tobool("Support for using HPCS instance for KMS encryption in cross-regional bucket is only available in US region.") : true : true
   # tflint-ignore: terraform_unused_declarations
@@ -75,7 +78,7 @@ resource "ibm_resource_tag" "cos_access_tag" {
 
 resource "ibm_resource_key" "resource_keys" {
   for_each             = { for key in var.resource_keys : key.name => key }
-  name                 = each.key
+  name                 = each.value.key_name == null ? each.key : each.value.key_name
   resource_instance_id = local.cos_instance_id
   role                 = each.value.role
   parameters = {
@@ -136,7 +139,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   key_protect           = var.kms_key_crn
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
-  object_lock           = var.object_locking_enabled
+  object_lock           = var.object_locking_enabled ? true : null
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -187,8 +190,11 @@ resource "ibm_cos_bucket" "cos_bucket" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  object_versioning {
-    enable = var.object_versioning_enabled
+  dynamic "object_versioning" {
+    for_each = local.object_versioning_enabled
+    content {
+      enable = var.object_versioning_enabled
+    }
   }
 }
 
@@ -211,7 +217,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   storage_class         = var.bucket_storage_class
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
-  object_lock           = var.object_locking_enabled
+  object_lock           = var.object_locking_enabled ? true : null
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -262,8 +268,11 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       metrics_monitoring_crn  = var.sysdig_crn
     }
   }
-  object_versioning {
-    enable = var.object_versioning_enabled
+  dynamic "object_versioning" {
+    for_each = local.object_versioning_enabled
+    content {
+      enable = var.object_versioning_enabled
+    }
   }
 }
 
