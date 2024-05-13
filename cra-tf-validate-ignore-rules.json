@@ -1,16 +1,3 @@
 {
-    "scc_rules": [
-        {
-            "scc_rule_id": "rule-8cbd597c-7471-42bd-9c88-36b2696456e9",
-            "description": "Check whether Cloud Object Storage network access is restricted to a specific IP range",
-            "ignore_reason": "This module supports restricting network access using Context Based Restrictions (CBRs), however SCC does not yet support scanning for this particular CBR rule, hence the rule currently fails. SCC support tracked in https://github.ibm.com/project-fortress/pm/issues/11800",
-            "is_valid": true
-        },
-        {
-            "scc_rule_id": "rule-216e2449-27d7-4afc-929a-b66e196a9cf9",
-            "description": "Check whether Flow Logs for VPC are enabled",
-            "ignore_reason": "This rule is not relevant to the module itself, just the VPC resource that is used in the example that is scanned",
-            "is_valid": false
-        }
-    ]
+    "scc_rules": []
 }
