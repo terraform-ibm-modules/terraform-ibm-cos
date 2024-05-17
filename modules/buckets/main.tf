@@ -4,6 +4,34 @@
 # Create COS buckets from bucket_configs
 ##############################################################################
 
+locals {
+  access_policy = [
+    for bucket_config in var.bucket_configs : {
+      "cos_guid" : element(split(":", bucket_config.resource_instance_id), length(split(":", bucket_config.resource_instance_id)) - 3),
+      "kms_guid" : bucket_config.kms_guid,
+      "type" : can(regex(".*kms.*", bucket_config.kms_key_crn)) ? "kms" : "hs-crypto"
+    } if bucket_config.kms_encryption_enabled && !bucket_config.skip_iam_authorization_policy
+  ]
+}
+
+# Create IAM Authorization Policy to allow COS to access KMS for the encryption key
+resource "ibm_iam_authorization_policy" "policy" {
+  count                       = length(local.access_policy)
+  source_service_name         = "cloud-object-storage"
+  source_resource_instance_id = local.access_policy[count.index]["cos_guid"]
+  target_service_name         = local.access_policy[count.index]["type"]
+  target_resource_instance_id = local.access_policy[count.index]["kms_guid"]
+  roles                       = ["Reader"]
+  description                 = "Allow the COS instance with GUID ${local.access_policy[count.index]["cos_guid"]} reader access to the ${local.access_policy[count.index]["type"]} instance GUID ${local.access_policy[count.index]["kms_guid"]}"
+}
+
+# workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+resource "time_sleep" "wait_for_authorization_policy" {
+  depends_on      = [ibm_iam_authorization_policy.policy]
+  count           = length(local.access_policy) > 0 ? 1 : 0
+  create_duration = "30s"
+}
+
 module "buckets" {
   for_each = {
     for index, bucket in var.bucket_configs :
@@ -13,7 +41,7 @@ module "buckets" {
   bucket_name                   = each.value.bucket_name
   create_cos_instance           = false
   add_bucket_name_suffix        = each.value.add_bucket_name_suffix
-  skip_iam_authorization_policy = each.value.skip_iam_authorization_policy
+  skip_iam_authorization_policy = true
   existing_cos_instance_id      = each.value.resource_instance_id
   region                        = each.value.region_location
 
