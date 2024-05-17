@@ -12,13 +12,6 @@ locals {
       "type" : can(regex(".*kms.*", bucket_config.kms_key_crn)) ? "kms" : "hs-crypto"
     } if bucket_config.kms_encryption_enabled && !bucket_config.skip_iam_authorization_policy
   ]
-  # tflint-ignore: terraform_unused_declarations
-  has_dupicate_access_policy = [
-    for policy in local.access_policy :
-    length([for p in local.access_policy : policy if p["cos_guid"] == policy["cos_guid"] && p["kms_guid"] == policy["kms_guid"] && p["type"] == policy["type"]]) > 1
-    ? tobool("Duplicate authorization policy deteteced from COS instance with GUID ${policy["cos_guid"]} to the ${policy["type"]} instance GUID ${policy["kms_guid"]}")
-    : false
-  ]
 }
 
 # Create IAM Authorization Policy to allow COS to access KMS for the encryption key
