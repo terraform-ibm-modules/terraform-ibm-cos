@@ -37,6 +37,7 @@ module "buckets" {
     for index, bucket in var.bucket_configs :
     bucket.bucket_name => bucket
   }
+  depends_on                    = [time_sleep.wait_for_authorization_policy]
   source                        = "../../"
   bucket_name                   = each.value.bucket_name
   create_cos_instance           = false
