@@ -7,7 +7,7 @@ terraform {
     # tflint-ignore: terraform_unused_required_providers
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = ">= 1.62.0, <2.0.0"
+      version = ">= 1.66.0, <2.0.0"
     }
   }
 }
