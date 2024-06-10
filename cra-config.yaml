@@ -3,7 +3,7 @@ version: "v1"
 CRA_TARGETS:
   - CRA_TARGET: "examples/fscloud" # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
-    PROFILE_ID: "bfacb71d-4b84-41ac-9825-e8a3a3eb7405" # SCC profile ID (currently set to IBM Cloud Framework for Financial Services 1.6.0 profile).
+    PROFILE_ID: "123456789"                                    # SCC profile ID (currently set to IBM Cloud Framework for Financial Services 3.1.0 profile).
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
       TF_VAR_existing_at_instance_crn: "crn:v1:bluemix:public:logdnaat:eu-de:a/abac0df06b644a9cabc6e44f55b3880e:b1ef3365-dfbf-4d8f-8ac8-75f4f84d6f4a::"
       TF_VAR_bucket_existing_hpcs_instance_guid: "e6dce284-e80f-46e1-a3c1-830f7adff7a9"
