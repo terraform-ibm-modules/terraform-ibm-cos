@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.4.0, <1.7.0"
+  required_version = ">= 1.4.0"
 
   # Use a flexible range in modules that future proofs the module's usage with upcoming minor and patch versions
   required_providers {
