@@ -288,7 +288,7 @@ func TestRunSolutions(t *testing.T) {
 			TerraformVars: map[string]interface{}{
 				"bucket_name":                         fmt.Sprintf("%s-regional-bucket", prefix),
 				"region":                              region,
-				"existing_kms_guid":                   permanentResources["hpcs_south"],
+				"existing_kms_instance_crn":           permanentResources["hpcs_south_crn"],
 				"kms_endpoint_type":                   "public",
 				"management_endpoint_type_for_bucket": "public",
 				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
@@ -308,7 +308,7 @@ func TestRunSolutions(t *testing.T) {
 				"bucket_name":                         fmt.Sprintf("%s-cross-region-bucket", prefix),
 				"cross_region_location":               "us",
 				"existing_kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
-				"existing_kms_guid":                   permanentResources["hpcs_south"],
+				"existing_kms_instance_crn":           permanentResources["hpcs_south_crn"],
 				"management_endpoint_type_for_bucket": "public",
 				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},
