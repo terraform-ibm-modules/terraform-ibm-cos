@@ -1,6 +1,6 @@
 {
   "ibmcloud_api_key": $VALIDATION_APIKEY,
   "bucket_name": $PREFIX,
-  "existing_kms_guid": $HPCS_US_SOUTH_GUID,
+  "existing_kms_instance_crn": $HPCS_US_SOUTH_CRN,
   "cross_region_location": "us"
 }

@@ -4,14 +4,17 @@
 
 locals {
   # tflint-ignore: terraform_unused_declarations
-  validate_inputs = var.existing_kms_key_crn == null && var.existing_kms_guid == null ? tobool("A value must be passed for 'existing_kms_guid' if not supplying any value for 'existing_kms_key_crn'.") : true
+  validate_inputs = var.existing_kms_key_crn == null && var.existing_kms_instance_crn == null ? tobool("A value must be passed for 'existing_kms_instance_crn' if not supplying any value for 'existing_kms_key_crn'.") : true
+
+  existing_kms_instance_guid   = var.existing_kms_instance_crn != null ? element(split(":", var.existing_kms_instance_crn), length(split(":", var.existing_kms_instance_crn)) - 3) : null
+  existing_kms_instance_region = var.existing_kms_instance_crn != null ? element(split(":", var.existing_kms_instance_crn), length(split(":", var.existing_kms_instance_crn)) - 5) : null
 
   bucket_config = [{
     access_tags                   = var.bucket_access_tags
     bucket_name                   = var.bucket_name
     kms_encryption_enabled        = true
     add_bucket_name_suffix        = var.add_bucket_name_suffix
-    kms_guid                      = var.existing_kms_guid
+    kms_guid                      = local.existing_kms_instance_guid
     kms_key_crn                   = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.key_ring_name, var.key_name)].crn
     skip_iam_authorization_policy = var.skip_iam_authorization_policy
     management_endpoint_type      = var.management_endpoint_type_for_bucket
@@ -62,8 +65,8 @@ module "kms" {
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
   version                     = "4.13.2"
   create_key_protect_instance = false
-  region                      = var.kms_region
-  existing_kms_instance_guid  = var.existing_kms_guid
+  region                      = local.existing_kms_instance_region
+  existing_kms_instance_guid  = local.existing_kms_instance_guid
   key_ring_endpoint_type      = var.kms_endpoint_type
   key_endpoint_type           = var.kms_endpoint_type
   keys = [
