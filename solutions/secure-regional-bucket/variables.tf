@@ -1,6 +1,6 @@
 variable "ibmcloud_api_key" {
   type        = string
-  description = "The IBM Cloud platform API key to deploy IAM-enabled resources."
+  description = "The IBM Cloud API key to deploy IAM-enabled resources."
   sensitive   = true
 }
 
@@ -16,7 +16,7 @@ variable "existing_kms_instance_crn" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits the Object Storage instance created to read the encryption key from the KMS instance in `existing_kms_guid`. WARNING: An authorization policy must exist before an encrypted bucket can be created"
+  description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the KMS instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the KMS instance in `existing_kms_guid`."
   default     = false
 }
 
@@ -39,13 +39,13 @@ variable "kms_endpoint_type" {
 variable "key_ring_name" {
   type        = string
   default     = "cross-region-key-ring"
-  description = "The name to give the Key Ring which will be created for the Object Storage bucket Key. Not used if supplying an existing Key."
+  description = "The name for the new key ring for the Object Storage bucket key. Does not apply if a key is specified in `existing_kms_key_crn`."
 }
 
 variable "key_name" {
   type        = string
   default     = "cross-region-key"
-  description = "The name to give the Key which will be created for the Object Storage bucket. Not used if supplying an existing Key."
+  description = "The name for the new key for the Object Storage bucket. Does not apply if a key is specified in `existing_kms_key_crn`."
 }
 
 ########################################################################################################################
@@ -53,7 +53,7 @@ variable "key_name" {
 ########################################################################################################################
 
 variable "region" {
-  description = "The region to provision the IBM Cloud Object Storage regional bucket is provisioned."
+  description = "The region to provision the Object Storage regional bucket."
   type        = string
   default     = "us-south"
 }
@@ -71,24 +71,24 @@ variable "existing_cos_instance_id" {
 
 variable "bucket_access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the Cloud Object Storage instance bucket."
+  description = "A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial)."
   default     = []
 }
 
 variable "bucket_name" {
   type        = string
-  description = "The name to give the newly provisioned Object Storage bucket. "
+  description = "The name to give the newly provisioned Object Storage bucket."
 }
 
 variable "management_endpoint_type_for_bucket" {
-  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private or direct)"
+  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
   type        = string
   default     = "private"
 }
 
 variable "bucket_storage_class" {
   type        = string
-  description = "The storage class of the newly provisioned Object Storage bucket.  Supported values are `standard`, `vault`, `cold`, `smart` and `onerate_active`."
+  description = "The storage class of the newly provisioned Object Storage bucket. Possible values: `standard`, `vault`, `cold`, `smart` `onerate_active`."
   default     = "smart"
 }
 
@@ -106,84 +106,84 @@ variable "hard_quota" {
 
 variable "activity_tracker_crn" {
   type        = string
-  description = "Activity tracker crn for Object Storage bucket (Optional)"
+  description = "The CRN of the Activity Tracker instance for the Object Storage bucket."
   default     = null
 }
 
 variable "archive_days" {
-  description = "Specifies the number of days when the archive rule action takes effect. This must be set to null when when using var.cross_region_location as archive data is not supported with this feature."
+  description = "The number of days before the `archive_type` rule action takes effect."
   type        = number
   default     = null
 }
 
 variable "archive_type" {
-  description = "Specifies the storage class or archive type to which you want the object to transition. "
+  description = "The storage class or archive type you want the object to transition to."
   type        = string
   default     = "Glacier"
 }
 
 variable "expire_days" {
-  description = "Specifies the number of days when the expire rule action takes effect. "
+  description = "The number of days before the expire rule action takes effect."
   type        = number
   default     = null
 }
 
 variable "monitoring_crn" {
   type        = string
-  description = "IBM Cloud Monitoring crn for Object Storage bucket (Optional)"
+  description = "The CRN of the IBM Cloud Monitoring instance for Object Storage bucket."
   default     = null
 }
 
 variable "object_versioning_enabled" {
-  description = "Enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. "
+  description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `retention_enabled` is true."
   type        = bool
   default     = false
 }
 
 variable "retention_enabled" {
-  description = "Retention enabled for Object Storage bucket. "
+  description = "Whether retention is enabled for the Object Storage bucket."
   type        = bool
   default     = false
 }
 
 variable "retention_default" {
-  description = "Specifies default duration of time an object that can be kept unmodified for Object Storage bucket. "
+  description = "The number of days that an object can remain unmodified in an Object Storage bucket."
   type        = number
   default     = 90
 }
 
 variable "retention_maximum" {
-  description = "Specifies maximum duration of time an object that can be kept unmodified for Object Storage bucket. "
+  description = "The maximum number of days that an object can be kept unmodified in the bucket."
   type        = number
   default     = 350
 }
 
 variable "retention_minimum" {
-  description = "Specifies minimum duration of time an object must be kept unmodified for Object Storage bucket. "
+  description = "The minimum number of days that an object must be kept unmodified in the bucket."
   type        = number
   default     = 90
 }
 
 variable "retention_permanent" {
-  description = "Specifies a permanent retention status either enable or disable for Object Storage bucket. "
+  description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable)."
   type        = bool
   default     = false
 }
 
 variable "object_locking_enabled" {
-  description = "Specifies if an object lock configuration should be created. Requires 'object_versioning_enabled' to be true. Only used if 'create_cos_bucket' is true."
+  description = "Whether to create an object lock configuration. Applies only if `object_versioning_enabled` and `create_cos_bucket` are true."
   type        = bool
   default     = false
 }
 
 variable "object_lock_duration_days" {
-  description = "Specifies the default number of days for the retention lock duration. When setting 'object_lock_duration_days' do not set 'object_lock_duration_years'. Only used if 'create_cos_bucket' is true."
+  description = "The number of days for the object lock duration. If you specify a number of days, do not specify a value for `object_lock_duration_years`."
   type        = number
   default     = 0
 }
 
 variable "object_lock_duration_years" {
-  description = "Specifies the default number of years for the retention lock duration. When setting 'object_lock_duration_years' do not set 'object_lock_duration_days'. Only used if 'create_cos_bucket' is true."
+  description = "The number of years for the object lock duration. If you specify a number of years, do not specify a value for `object_lock_duration_days`."
   type        = number
   default     = 0
 }
