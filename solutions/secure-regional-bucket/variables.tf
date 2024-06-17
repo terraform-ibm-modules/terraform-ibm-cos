@@ -1,6 +1,6 @@
 variable "ibmcloud_api_key" {
   type        = string
-  description = "The IBM Cloud API key to deploy IAM-enabled resources."
+  description = "The IBM Cloud API key to deploy resources."
   sensitive   = true
 }
 
@@ -71,7 +71,7 @@ variable "existing_cos_instance_id" {
 
 variable "bucket_access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial)."
+  description = "A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-object-tagging)."
   default     = []
 }
 

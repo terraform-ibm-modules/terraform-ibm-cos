@@ -24,7 +24,7 @@ variable "create_cos_instance" {
 # if key_name is not specified, name will be used for the key_name
 # key_name can be a dynamic reference created during apply
 variable "resource_keys" {
-  description = "The JSON definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key)."
+  description = "The definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key)."
   type = list(object({
     name                      = string
     key_name                  = optional(string, null)
@@ -57,7 +57,7 @@ variable "cos_location" {
 }
 
 variable "cos_plan" {
-  description = "Plan to be used for creating cloud object storage instance. Applies only if `create_cos_instance` is true."
+  description = "The plan to use when Object Storage instances are created. Possible values: `standard`, `lite`, `cos-one-rate-plan`. Applies only if `create_cos_instance` is true."
   type        = string
   default     = "standard"
   validation {
@@ -67,7 +67,7 @@ variable "cos_plan" {
 }
 
 variable "cos_tags" {
-  description = "A list of tags to apply to data in the Object Storage instance."
+  description = "A list of tags to apply to the Object Storage instance."
   type        = list(string)
   default     = []
 }

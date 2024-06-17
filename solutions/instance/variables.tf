@@ -1,6 +1,6 @@
 variable "ibmcloud_api_key" {
   type        = string
-  description = "The IBM Cloud platform API key to deploy IAM-enabled resources."
+  description = "The IBM Cloud platform API key to deploy resources."
   sensitive   = true
 }
 
@@ -16,7 +16,7 @@ variable "resource_group_name" {
 }
 
 variable "resource_keys" {
-  description = "The JSON definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key)."
+  description = "The definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key)."
   type = list(object({
     name                      = string
     generate_hmac_credentials = optional(bool, false)
