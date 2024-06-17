@@ -39,7 +39,7 @@ variable "cos_tags" {
 }
 
 variable "cos_plan" {
-  description = "The plan to use when Object Storage instances are created."
+  description = "The plan to use when Object Storage instances are created. Possible values: `standard`."
   type        = string
   default     = "standard"
   # Validation happens in the fscloud module
