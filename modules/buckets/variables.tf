@@ -75,14 +75,14 @@ variable "bucket_configs" {
     })), [])
 
   }))
-  description = "Cloud Object Storage bucket configurations"
+  description = "The Object Storage bucket configurations."
 
   validation {
     condition = alltrue([for bucket_config_1 in var.bucket_configs : length([
       for bucket_config_2 in var.bucket_configs : bucket_config_2
       if bucket_config_2.kms_encryption_enabled && !bucket_config_2.skip_iam_authorization_policy && bucket_config_2.resource_instance_id == bucket_config_1.resource_instance_id && bucket_config_2.kms_guid == bucket_config_1.kms_guid
     ]) == 1 if bucket_config_1.kms_encryption_enabled && !bucket_config_1.skip_iam_authorization_policy])
-    error_message = "Duplicate authentication policy found in bucket configuration"
+    error_message = "Duplicate authentication policy found in the bucket configuration."
   }
 
 }

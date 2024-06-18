@@ -12,13 +12,13 @@ variable "resource_group_id" {
 ##############################################################################
 
 variable "create_cos_instance" {
-  description = "Set as true to create a new Cloud Object Storage instance."
+  description = "Specify `true` to create an Object Storage instance."
   type        = bool
   default     = true
 }
 
 variable "resource_keys" {
-  description = "The definition of any resource keys to be generated"
+  description = "The definition of any resource keys to generate."
   type = list(object({
     name                      = string
     generate_hmac_credentials = optional(bool, false)
@@ -29,25 +29,25 @@ variable "resource_keys" {
 }
 
 variable "cos_instance_name" {
-  description = "The name to give the cloud object storage instance that will be provisioned by this module. Only required if 'create_cos_instance' is true."
+  description = "The name to give the Object Storage instance provisioned by this module. Applies only if `create_cos_instance` is true."
   type        = string
   default     = null
 }
 
 variable "cos_tags" {
-  description = "Optional list of tags to be added to cloud object storage instance. Only used if 'create_cos_instance' it true."
+  description = "The list of tags to add to the Object Storage instance. Applies only if `create_cos_instance` is true."
   type        = list(string)
   default     = []
 }
 
 variable "existing_cos_instance_id" {
-  description = "The ID of an existing cloud object storage instance. Required if 'var.create_cos_instance' is false."
+  description = "The ID of an existing Object Storage instance. Required only if `var.create_cos_instance` is false."
   type        = string
   default     = null
 }
 
 variable "cos_plan" {
-  description = "Plan to be used for creating cloud object storage instance. Only used if 'create_cos_instance' it true."
+  description = "The plan to use when Object Storage instances are created. Possible values: `standard`. Applies only if `create_cos_instance` is true."
   type        = string
   default     = "standard"
   validation {
@@ -129,7 +129,7 @@ variable "bucket_configs" {
     })), [])
 
   }))
-  description = "Cloud Object Storage bucket configurations"
+  description = "Object Storage bucket configurations"
   default     = []
 
   validation {
@@ -164,13 +164,13 @@ variable "instance_cbr_rules" {
       }))
     })))
   }))
-  description = "(Optional, list) List of CBR rule to create for the instance"
+  description = "The list of context-based restriction rules to create for the instance."
   default     = []
   # Validation happens in the rule module
 }
 
 variable "access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the cos instance created by the module, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial for more details"
+  description = "A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial)."
   default     = []
 }
