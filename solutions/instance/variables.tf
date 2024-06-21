@@ -4,6 +4,12 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
+variable "prefix" {
+  type        = string
+  description = "(Optional) Prefix to append to all resources created by this solution."
+  default     = null
+}
+
 variable "existing_resource_group" {
   type        = bool
   description = "Whether to use an existing resource group."
@@ -12,7 +18,7 @@ variable "existing_resource_group" {
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of a new or existing resource group to provision resources in."
+  description = "The name of a new or existing resource group to provision resources in. If a value is passed for `prefix`, and creating a new resource group, the group will be named with the prefix value in the format of `<prefix>-value`."
 }
 
 variable "resource_keys" {
@@ -27,7 +33,7 @@ variable "resource_keys" {
 }
 
 variable "cos_instance_name" {
-  description = "The name for the IBM Cloud Object Storage instance provisioned by this solution."
+  description = "The name for the IBM Cloud Object Storage instance provisioned by this solution. If a value is passed for `prefix`, the instance will be named with the prefix value in the format of `<prefix>-value`."
   type        = string
   default     = "cos-instance"
 }
