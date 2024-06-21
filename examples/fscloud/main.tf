@@ -40,7 +40,7 @@ locals {
 # Create Sysdig and Activity Tracker instance
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "2.13.1"
+  version = "2.13.2"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
