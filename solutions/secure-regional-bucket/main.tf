@@ -106,3 +106,14 @@ module "cos" {
   existing_cos_instance_id = var.existing_cos_instance_id
   bucket_configs           = local.bucket_config
 }
+
+locals {
+  list_of_buckets = try(module.cos.buckets, [])
+  process_bucket_configs = flatten([for bucket in local.list_of_buckets : {
+    s3_endpoint_direct  = bucket.s3_endpoint_direct
+    s3_endpoint_private = bucket.s3_endpoint_private
+    s3_endpoint_public  = bucket.s3_endpoint_public
+    bucket_name         = bucket.bucket_name
+    }
+  ])
+}
