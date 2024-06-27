@@ -240,8 +240,7 @@
                             "flavors": [
                                 "instance"
                             ],
-                            "catalog_id": "7df1e4ca-d54c-4fd0-82ce-3d13247308cd",
-                            "id": "68921490-2778-4930-ac6d-bae7be6cd958",
+                            "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
                             "name": "deploy-arch-ibm-cos",
                             "version": ">= v8.1.4"
                         }
@@ -304,8 +303,7 @@
                             "flavors": [
                                 "instance"
                             ],
-                            "catalog_id": "7df1e4ca-d54c-4fd0-82ce-3d13247308cd",
-                            "id": "68921490-2778-4930-ac6d-bae7be6cd958",
+                            "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
                             "name": "deploy-arch-ibm-cos",
                             "version": ">= v8.1.4"
                         }
