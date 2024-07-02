@@ -13,7 +13,7 @@ output "bucket_id" {
   value       = module.cos.bucket_id
 }
 
-# output "buckets" {
-#   description = "Bucket from sub module"
-#   value       = module.buckets.buckets
-# }
+output "buckets" {
+  description = "Bucket from sub module"
+  value       = module.buckets.buckets
+}
