@@ -5,8 +5,8 @@
 ##############################################################################
 
 locals {
-  at_enabled                 = var.activity_tracker_crn == null ? [] : [1]
-  metrics_enabled            = var.sysdig_crn == null ? [] : [1]
+  at_enabled                 = var.activity_tracker_read_data_events || var.activity_tracker_write_data_events || var.activity_tracker_crn != null ? [1] : []
+  metrics_enabled            = var.request_metrics_enabled || var.usage_metrics_enabled ? [1] : []
   archive_enabled            = var.archive_days == null ? [] : [1]
   expire_enabled             = var.expire_days == null ? [] : [1]
   retention_enabled          = var.retention_enabled ? [1] : []
@@ -175,8 +175,9 @@ resource "ibm_cos_bucket" "cos_bucket" {
   dynamic "activity_tracking" {
     for_each = local.at_enabled
     content {
-      read_data_events     = true
-      write_data_events    = true
+      read_data_events     = var.activity_tracker_read_data_events
+      write_data_events    = var.activity_tracker_write_data_events
+      management_events    = var.activity_tracker_management_events # NOTE: The value of this is ignored if consumer passes value for `activity_tracker_crn`
       activity_tracker_crn = var.activity_tracker_crn
     }
   }
@@ -185,9 +186,9 @@ resource "ibm_cos_bucket" "cos_bucket" {
   dynamic "metrics_monitoring" {
     for_each = local.metrics_enabled
     content {
-      usage_metrics_enabled   = true
-      request_metrics_enabled = true
-      metrics_monitoring_crn  = var.sysdig_crn
+      usage_metrics_enabled   = var.usage_metrics_enabled
+      request_metrics_enabled = var.request_metrics_enabled
+      metrics_monitoring_crn  = var.monitoring_crn
     }
   }
   dynamic "object_versioning" {
@@ -253,8 +254,9 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   dynamic "activity_tracking" {
     for_each = local.at_enabled
     content {
-      read_data_events     = true
-      write_data_events    = true
+      read_data_events     = var.activity_tracker_read_data_events
+      write_data_events    = var.activity_tracker_write_data_events
+      management_events    = var.activity_tracker_management_events # NOTE: The value of this is ignored if consumer passes value for `activity_tracker_crn`
       activity_tracker_crn = var.activity_tracker_crn
     }
   }
@@ -263,9 +265,9 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   dynamic "metrics_monitoring" {
     for_each = local.metrics_enabled
     content {
-      usage_metrics_enabled   = true
-      request_metrics_enabled = true
-      metrics_monitoring_crn  = var.sysdig_crn
+      usage_metrics_enabled   = var.usage_metrics_enabled
+      request_metrics_enabled = var.request_metrics_enabled
+      metrics_monitoring_crn  = var.monitoring_crn
     }
   }
   dynamic "object_versioning" {

@@ -40,7 +40,7 @@ resource "ibm_is_subnet" "testacc_subnet" {
 }
 
 ##############################################################################
-# Observability Instances (Sysdig + AT)
+# Observability Instances (Monitoring + AT)
 ##############################################################################
 
 locals {
@@ -48,7 +48,7 @@ locals {
   at_crn      = var.existing_at_instance_crn == null ? module.observability_instances.activity_tracker_crn : var.existing_at_instance_crn
 }
 
-# Create Sysdig and Activity Tracker instance
+# Create Monitoring and Activity Tracker instance
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
   version = "2.13.2"
@@ -58,7 +58,7 @@ module "observability_instances" {
   }
   region                         = var.region
   resource_group_id              = module.resource_group.resource_group_id
-  cloud_monitoring_instance_name = "${var.prefix}-sysdig"
+  cloud_monitoring_instance_name = "${var.prefix}-monitoring"
   cloud_monitoring_plan          = "graduated-tier"
   enable_platform_logs           = false
   enable_platform_metrics        = false
@@ -142,7 +142,7 @@ module "cos_bucket1" {
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
+  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   activity_tracker_crn                = local.at_crn
   resource_keys = [
@@ -234,7 +234,7 @@ module "cos_bucket2" {
   region                              = null
   cross_region_location               = var.cross_region_location
   archive_days                        = null
-  sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
+  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
@@ -280,7 +280,7 @@ module "cos_bucket3" {
   single_site_location                = var.single_site_location
   hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
   archive_days                        = null
-  sysdig_crn                          = module.observability_instances.cloud_monitoring_crn
+  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
   activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id

@@ -83,6 +83,7 @@ variable "bucket_configs" {
     activity_tracking = optional(object({
       read_data_events     = optional(bool, true)
       write_data_events    = optional(bool, true)
+      management_events    = optional(bool, true)
       activity_tracker_crn = optional(string, null)
     }))
     archive_rule = optional(object({

@@ -26,11 +26,11 @@ locals {
     object_lock_duration_days     = var.object_lock_duration_days
     object_lock_duration_years    = var.object_lock_duration_years
 
-    activity_tracking = var.activity_tracker_crn != null ? {
+    activity_tracking = {
       read_data_events     = true
       write_data_events    = true
       activity_tracker_crn = var.activity_tracker_crn
-    } : null
+    }
     archive_rule = var.archive_days != null ? {
       enable = true
       days   = var.archive_days
@@ -40,11 +40,12 @@ locals {
       enable = true
       days   = var.expire_days
     } : null
-    metrics_monitoring = var.monitoring_crn != null ? {
+    metrics_monitoring = {
       usage_metrics_enabled   = true
       request_metrics_enabled = true
+      management_events       = true
       metrics_monitoring_crn  = var.monitoring_crn
-    } : null
+    }
     object_versioning = {
       enable = var.object_versioning_enabled
     }
