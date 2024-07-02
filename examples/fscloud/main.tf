@@ -29,7 +29,7 @@ resource "ibm_is_subnet" "testacc_subnet" {
 }
 
 ##############################################################################
-# Observability Instances (Sysdig + AT)
+# Observability Instances (Monitoring + AT)
 ##############################################################################
 
 locals {
@@ -37,7 +37,7 @@ locals {
   at_crn      = var.existing_at_instance_crn == null ? module.observability_instances.activity_tracker_crn : var.existing_at_instance_crn
 }
 
-# Create Sysdig and Activity Tracker instance
+# Create Monitoring and Activity Tracker instance
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
   version = "2.13.2"
@@ -47,7 +47,7 @@ module "observability_instances" {
   }
   region                         = var.region
   resource_group_id              = module.resource_group.resource_group_id
-  cloud_monitoring_instance_name = "${var.prefix}-sysdig"
+  cloud_monitoring_instance_name = "${var.prefix}-monitoring"
   cloud_monitoring_plan          = "graduated-tier"
   enable_platform_logs           = false
   enable_platform_metrics        = false

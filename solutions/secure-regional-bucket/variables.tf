@@ -106,7 +106,7 @@ variable "hard_quota" {
 
 variable "activity_tracker_crn" {
   type        = string
-  description = "The CRN of the Activity Tracker instance for the Object Storage bucket."
+  description = "The CRN of an Activity Tracker instance to send Object Storage bucket events to. If no value passed, events are sent to the instance associated to the container's location unless otherwise specified in the Activity Tracker Event Routing service configuration."
   default     = null
 }
 
@@ -130,7 +130,7 @@ variable "expire_days" {
 
 variable "monitoring_crn" {
   type        = string
-  description = "The CRN of the IBM Cloud Monitoring instance for Object Storage bucket."
+  description = "The CRN of an IBM Cloud Monitoring instance to to send Object Storage bucket metrics to. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."
   default     = null
 }
 

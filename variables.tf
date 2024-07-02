@@ -241,15 +241,45 @@ variable "expire_days" {
   default     = 365
 }
 
-variable "activity_tracker_crn" {
+variable "request_metrics_enabled" {
+  type        = bool
+  description = "If set to `true`, all Object Storage bucket request metrics will be sent to the monitoring service."
+  default     = true
+}
+
+variable "usage_metrics_enabled" {
+  type        = bool
+  description = "If set to `true`, all Object Storage bucket usage metrics will be sent to the monitoring service."
+  default     = true
+}
+
+variable "monitoring_crn" {
   type        = string
-  description = "Activity tracker crn for the Object Storage bucket."
+  description = "The CRN of an IBM Cloud Monitoring instance to to send Object Storage bucket metrics to. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."
   default     = null
 }
 
-variable "sysdig_crn" {
+variable "activity_tracker_read_data_events" {
+  type        = bool
+  description = "If set to true, all Object Storage bucket read events (i.e. downloads) will be sent to Activity Tracker."
+  default     = true
+}
+
+variable "activity_tracker_write_data_events" {
+  type        = bool
+  description = "If set to true, all Object Storage bucket write events (i.e. uploads) will be sent to Activity Tracker."
+  default     = true
+}
+
+variable "activity_tracker_management_events" {
+  type        = bool
+  description = "If set to true, all Object Storage management events will be sent to Activity Tracker. Only applies if `activity_tracker_crn` is not populated."
+  default     = true
+}
+
+variable "activity_tracker_crn" {
   type        = string
-  description = "Sysdig Monitoring crn for the Object Storage bucket."
+  description = "The CRN of an Activity Tracker instance to send Object Storage bucket events to. If no value passed, events are sent to the instance associated to the container's location unless otherwise specified in the Activity Tracker Event Routing service configuration. Bucket management events are always enabled if a value is passed, regardless of the value of `activity_tracker_management_events`."
   default     = null
 }
 
