@@ -61,14 +61,19 @@ module "buckets" {
 
   access_tags = can(each.value.access_tags) ? each.value.access_tags : []
 
-  activity_tracker_crn = can(each.value.activity_tracking.activity_tracker_crn) ? each.value.activity_tracking.activity_tracker_crn : null
+  activity_tracker_read_data_events  = can(each.value.activity_tracking.read_data_events) ? each.value.activity_tracking.read_data_events : true
+  activity_tracker_write_data_events = can(each.value.activity_tracking.write_data_events) ? each.value.activity_tracking.write_data_events : true
+  activity_tracker_management_events = can(each.value.activity_tracking.management_events) ? each.value.activity_tracking.management_events : true
+  activity_tracker_crn               = can(each.value.activity_tracking.activity_tracker_crn) ? each.value.activity_tracking.activity_tracker_crn : null
 
   archive_days = can(each.value.archive_rule.days) ? (each.value.archive_rule.enable ? each.value.archive_rule.days : null) : null
   archive_type = can(each.value.archive_rule.type) ? each.value.archive_rule.type : "Glacier"
 
   expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
 
-  sysdig_crn = can(each.value.metrics_monitoring.metrics_monitoring_crn) ? each.value.metrics_monitoring.metrics_monitoring_crn : null
+  request_metrics_enabled = can(each.value.metrics_monitoring.request_metrics_enabled) ? each.value.metrics_monitoring.request_metrics_enabled : true
+  usage_metrics_enabled   = can(each.value.metrics_monitoring.usage_metrics_enabled) ? each.value.metrics_monitoring.usage_metrics_enabled : true
+  monitoring_crn          = can(each.value.metrics_monitoring.metrics_monitoring_crn) ? each.value.metrics_monitoring.metrics_monitoring_crn : null
 
   object_versioning_enabled = can(each.value.object_versioning.enable) ? each.value.object_versioning.enable : false
 
