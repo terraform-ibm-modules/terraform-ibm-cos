@@ -235,17 +235,6 @@
                     "name": "secure-cross-regional-bucket",
                     "working_directory": "solutions/secure-cross-regional-bucket",
                     "install_type": "extension",
-                    "dependencies": [
-                        {
-                            "flavors": [
-                                "instance"
-                            ],
-                            "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-                            "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-                            "name": "deploy-arch-ibm-cos",
-                            "version": ">= v8.1.4"
-                        }
-                    ],
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
@@ -299,17 +288,6 @@
                     "name": "secure-regional-bucket",
                     "working_directory": "solutions/secure-regional-bucket",
                     "install_type": "extension",
-                    "dependencies": [
-                        {
-                            "flavors": [
-                                "instance"
-                            ],
-                            "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-                            "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-                            "name": "deploy-arch-ibm-cos",
-                            "version": ">= v8.1.4"
-                        }
-                    ],
                     "compliance": {
                         "authority": "scc-v3",
                         "profiles": [
