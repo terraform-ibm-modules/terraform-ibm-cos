@@ -8,7 +8,8 @@
                 "dev_ops",
                 "target_terraform",
                 "terraform",
-                "module"
+                "module",
+                "ibm_created"
             ],
             "keywords": [
                 "terraform",
@@ -164,7 +165,8 @@
                 "target_terraform",
                 "terraform",
                 "solution",
-                "storage"
+                "storage",
+                "ibm_created"
             ],
             "keywords": [
                 "terraform",
