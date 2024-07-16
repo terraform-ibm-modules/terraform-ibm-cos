@@ -52,8 +52,8 @@ locals {
 }
 
 resource "time_sleep" "wait_for_authorization_policy" {
-  depends_on       = [ibm_iam_authorization_policy.policy]
-  count            = local.create_access_policy_kms ? 1 : 0
+  depends_on = [ibm_iam_authorization_policy.policy]
+  count      = local.create_access_policy_kms ? 1 : 0
   # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
   create_duration = "30s"
   # workaround for https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/672
