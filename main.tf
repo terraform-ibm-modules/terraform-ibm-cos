@@ -51,11 +51,13 @@ locals {
   validate_lock_duration_none = var.object_locking_enabled && var.object_lock_duration_days == 0 && var.object_lock_duration_years == 0 ? tobool("Object lock duration days or years must be set.") : true
 }
 
-# workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
 resource "time_sleep" "wait_for_authorization_policy" {
-  depends_on      = [ibm_iam_authorization_policy.policy]
-  count           = local.create_access_policy_kms ? 1 : 0
+  depends_on       = [ibm_iam_authorization_policy.policy]
+  count            = local.create_access_policy_kms ? 1 : 0
+  # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
   create_duration = "30s"
+  # workaround for https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/672
+  destroy_duration = "30s"
 }
 
 # Resource to create COS instance if create_cos_instance is true
