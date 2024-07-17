@@ -57,7 +57,7 @@ variable "cos_location" {
 }
 
 variable "cos_plan" {
-  description = "The plan to use when Object Storage instances are created. Possible values: `standard`, `cos-one-rate-plan`. Applies only if `create_cos_instance` is true. The standard plan includes a Free Tier of 5GB free storage for 12 months. To access the Free Tier select 'smart' as your bucket storage class."
+  description = "The plan to use when Object Storage instances are created. Possible values: `standard`, `cos-one-rate-plan`. Applies only if `create_cos_instance` is true. For more details refer https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision."
   type        = string
   default     = "standard"
   validation {
