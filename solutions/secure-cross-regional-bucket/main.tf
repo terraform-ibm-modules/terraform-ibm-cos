@@ -12,10 +12,10 @@ locals {
   create_cross_account_auth_policy = !var.skip_iam_authorization_policy && var.ibmcloud_kms_api_key != null
 
   kms_service_name = var.existing_kms_instance_crn != null ? (
-      can(regex(".*kms.*", var.existing_kms_instance_crn)) ? "kms" : (
-        can(regex(".*hs-crypto.*", var.existing_kms_instance_crn)) ? "hs-crypto" : null
-      )
-    ) : null
+    can(regex(".*kms.*", var.existing_kms_instance_crn)) ? "kms" : (
+      can(regex(".*hs-crypto.*", var.existing_kms_instance_crn)) ? "hs-crypto" : null
+    )
+  ) : null
 
   bucket_config = [{
     access_tags                   = var.bucket_access_tags
@@ -66,7 +66,7 @@ locals {
 #######################################################################################################################
 
 data "ibm_iam_account_settings" "iam_account_settings" {
-  count = local.create_cross_account_auth_policy ? 1 : 0
+  count    = local.create_cross_account_auth_policy ? 1 : 0
   provider = ibm.cos
 }
 
