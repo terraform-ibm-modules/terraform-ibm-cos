@@ -2,7 +2,7 @@
 
 A simple example that shows how to provision an IBM Cloud Object Storage One Rate plan instance and an Object Storage bucket with One Rate Active storage.
 
-:exclamation: **Important:** The Active storage class is available only with One Rate plans. You can't use it with Standard or Lite plans.
+:exclamation: **Important:** The Active storage class is available only with One Rate plans. You can't use it with Standard plan.
 
 The following resources are provisioned by this example:
 
