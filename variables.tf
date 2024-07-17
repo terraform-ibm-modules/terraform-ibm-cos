@@ -57,11 +57,11 @@ variable "cos_location" {
 }
 
 variable "cos_plan" {
-  description = "The plan to use when Object Storage instances are created. Possible values: `standard`, `lite`, `cos-one-rate-plan`. Applies only if `create_cos_instance` is true."
+  description = "The plan to use when Object Storage instances are created. Possible values: `standard`, `cos-one-rate-plan`. Applies only if `create_cos_instance` is true. For more details refer https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision."
   type        = string
   default     = "standard"
   validation {
-    condition     = contains(["standard", "lite", "cos-one-rate-plan"], var.cos_plan)
+    condition     = contains(["standard", "cos-one-rate-plan"], var.cos_plan)
     error_message = "The specified cos_plan is not a valid selection!"
   }
 }
