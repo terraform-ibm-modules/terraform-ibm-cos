@@ -48,6 +48,13 @@ variable "key_name" {
   description = "The name to give the Key which will be created for the Object Storage bucket. Not used if supplying an existing Key."
 }
 
+variable "ibmcloud_kms_api_key" {
+  type        = string
+  description = "The IBM Cloud API key that can create a root key and key ring in the key management service (KMS) instance. If not specified, the 'ibmcloud_api_key' variable is used. Specify this key if the instance in `existing_kms_instance_crn` is in an account that's different from the Event Notifications instance. Leave this input empty if the same account owns both instances."
+  sensitive   = true
+  default     = null
+}
+
 ########################################################################################################################
 # Object Storage variables
 ########################################################################################################################
