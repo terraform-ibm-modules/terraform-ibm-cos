@@ -77,16 +77,27 @@ variable "service_credentials_secrets" {
     secret_group_description = optional(string)
     existing_secret_group    = optional(bool, false)
     service_credentials = list(object({
-      service_credential_secret_name         = string
-      service_credentials_source_service_crn = string
-      secret_labels                          = optional(list(string))
-      secret_auto_rotation                   = optional(bool)
-      secret_auto_rotation_unit              = optional(string)
-      secret_auto_rotation_interval          = optional(number)
-      service_credentials_ttl                = optional(string)
-      service_credential_secret_description  = optional(string)
+      service_credential_secret_name          = string
+      service_credentials_source_service_role = string
+      secret_labels                           = optional(list(string))
+      secret_auto_rotation                    = optional(bool)
+      secret_auto_rotation_unit               = optional(string)
+      secret_auto_rotation_interval           = optional(number)
+      service_credentials_ttl                 = optional(string)
+      service_credential_secret_description   = optional(string)
     }))
   }))
-  default     = []
+  default = [{
+    secret_group_name     = "default"
+    existing_secret_group = true
+    service_credentials = [{
+      service_credential_secret_name          = "cred-1"
+      service_credentials_source_service_role = "Editor"
+      }, {
+      service_credential_secret_name          = "cred-2"
+      service_credentials_source_service_role = "Editor"
+
+    }]
+  }]
   description = "Service credentials secret configuration for COS"
 }

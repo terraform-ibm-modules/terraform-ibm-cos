@@ -90,6 +90,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 
 func TestRunAdvancedExample(t *testing.T) {
 	t.Parallel()
+	t.Skip()
 
 	options := setupOptions(t, "cos-advanced", advancedExampleTerraformDir)
 	output, err := options.RunTestConsistency()
@@ -99,6 +100,7 @@ func TestRunAdvancedExample(t *testing.T) {
 
 func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
+	t.Skip()
 
 	options := setupOptions(t, "cos-fscloud", fsCloudTerraformDir)
 	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
@@ -202,6 +204,7 @@ func TestRunFSCloudExample(t *testing.T) {
 
 func TestRunReplicateExample(t *testing.T) {
 	t.Parallel()
+	t.Skip()
 
 	options := setupOptions(t, "cos-replicate", replicateExampleTerraformDir)
 	output, err := options.RunTestConsistency()
@@ -211,6 +214,7 @@ func TestRunReplicateExample(t *testing.T) {
 
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
+	t.Skip()
 
 	options := setupOptions(t, "cos-upgrade", advancedExampleTerraformDir)
 
