@@ -56,3 +56,37 @@ variable "access_tags" {
   description = "A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial)."
   default     = []
 }
+
+# Secrets manger service credentials secrets
+
+variable "existing_secrets_manager_instance_crn" {
+  type        = string
+  default     = null
+  description = "The CRN of existing secrets manager to use to create service credential secrets for COS instance."
+}
+
+variable "existing_secrets_manager_endpoint_type" {
+  type        = string
+  default     = "public"
+  description = "The type of endpoint to use for communicating with the Secrets Manager instance. Possible values: `public`, `private`. Ignored if `existing_secrets_manager_crn` is null."
+}
+
+variable "service_credentials_secrets" {
+  type = list(object({
+    secret_group_name        = string
+    secret_group_description = optional(string)
+    existing_secret_group    = optional(bool, false)
+    service_credentials = list(object({
+      service_credential_secret_name         = string
+      service_credentials_source_service_crn = string
+      secret_labels                          = optional(list(string))
+      secret_auto_rotation                   = optional(bool)
+      secret_auto_rotation_unit              = optional(string)
+      secret_auto_rotation_interval          = optional(number)
+      service_credentials_ttl                = optional(string)
+      service_credential_secret_description  = optional(string)
+    }))
+  }))
+  default     = []
+  description = "Service credentials secret configuration for COS"
+}

@@ -15,3 +15,40 @@ module "cos" {
   cos_tags            = var.cos_tags
   access_tags         = var.access_tags
 }
+
+
+locals {
+  service_credentials_secrets = [
+    for service_credentials_secret in var.service_credentials_secrets : {
+      secret_group_name        = service_credentials_secret.secret_group_name
+      secret_group_description = service_credentials_secret.secret_group_description
+      existing_secret_group    = service_credentials_secret.existing_secret_group
+      secrets = [
+        for secret in service_credentials_secret.service_credentials : {
+          service_credential_secret_name         = secret.secret_name
+          service_credentials_source_service_crn = secret.service_credentials_source_service_cr
+          secret_labels                          = secret.secret_labels
+          secret_auto_rotation                   = secret.secret_auto_rotation
+          secret_auto_rotation_unit              = secret.secret_auto_rotation_unit
+          secret_auto_rotation_interval          = secret.secret_auto_rotation_interval
+          service_credentials_ttl                = secret.service_credentials_ttl
+          service_credential_secret_description  = secret.service_credential_secret_description
+        }
+      ]
+    }
+  ]
+
+  existing_secrets_manager_instance_crn_split = var.existing_secrets_manager_instance_crn != null ? split(":", var.existing_secrets_manager_instance_crn) : null
+  existing_secrets_manager_instance_guid      = var.existing_secrets_manager_instance_crn != null ? element(local.existing_secrets_manager_instance_crn_split, length(local.existing_secrets_manager_instance_crn_split) - 3) : null
+  existing_secrets_manager_instance_region    = var.existing_secrets_manager_instance_crn != null ? element(local.existing_secrets_manager_instance_crn_split, length(local.existing_secrets_manager_instance_crn_split) - 5) : null
+}
+
+module "secrets_manager_service_credentails" {
+  source                      = "terraform-ibm-modules/secrets-manager/ibm//modules/secrets"
+  version                     = "1.16.1"
+  existing_sm_instance_guid   = local.existing_secrets_manager_instance_guid
+  existing_sm_instance_region = local.existing_secrets_manager_instance_region
+  endpoint_type               = var.existing_secrets_manager_endpoint_type
+  secrets                     = local.service_credentials_secrets
+
+}
