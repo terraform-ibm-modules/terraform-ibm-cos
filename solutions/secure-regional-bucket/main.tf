@@ -62,7 +62,7 @@ locals {
 # KMS Key
 #######################################################################################################################
 
-# KMS root key for COS cross region bucket
+# KMS root key for COS bucket
 module "kms" {
   providers = {
     ibm = ibm.kms
