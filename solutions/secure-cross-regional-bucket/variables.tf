@@ -82,7 +82,7 @@ variable "management_endpoint_type_for_bucket" {
 }
 
 variable "cross_region_location" {
-  description = "Specify the cross-region bucket location. Possible values: `us`, `eu`, `ap`. If specified, set the value of `region` and `single_site_location` to `null`."
+  description = "Specify the cross-region bucket location. Possible values: `us`, `eu`, `ap`."
   type        = string
 }
 
