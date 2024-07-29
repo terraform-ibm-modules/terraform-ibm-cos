@@ -1,21 +1,22 @@
 ---
 apiVersion: v1
 offerings:
-  - name: terraform-ibm-cos
-    kind: module
-    catalog_id: 7df1e4ca-d54c-4fd0-82ce-3d13247308cd
-    offering_id: 18cdd8f4-40c5-4fbf-9d62-1dd86a2deab3
-    examples:
-      - name: basic
-        mark_ready: true
-      - name: advanced
-        mark_ready: true
-      - name: fscloud
-        mark_ready: true
-      - name: one-rate-plan
-        mark_ready: true
-      - name: replication
-        mark_ready: true
+  # disabling COS module due to reaching limit of versions - catalog team working on this
+  # - name: terraform-ibm-cos
+  #   kind: module
+  #   catalog_id: 7df1e4ca-d54c-4fd0-82ce-3d13247308cd
+  #   offering_id: 18cdd8f4-40c5-4fbf-9d62-1dd86a2deab3
+  #   examples:
+  #     - name: basic
+  #       mark_ready: true
+  #     - name: advanced
+  #       mark_ready: true
+  #     - name: fscloud
+  #       mark_ready: true
+  #     - name: one-rate-plan
+  #       mark_ready: true
+  #     - name: replication
+  #       mark_ready: true
   - name: deploy-arch-ibm-cos
     kind: solution
     catalog_id: 7df1e4ca-d54c-4fd0-82ce-3d13247308cd
