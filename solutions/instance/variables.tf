@@ -77,14 +77,13 @@ variable "service_credentials_secrets" {
     secret_group_description = optional(string)
     existing_secret_group    = optional(bool, false)
     service_credentials = list(object({
-      service_credential_secret_name         = string
-      service_credentials_source_service_crn = string
-      secret_labels                          = optional(list(string))
-      secret_auto_rotation                   = optional(bool)
-      secret_auto_rotation_unit              = optional(string)
-      secret_auto_rotation_interval          = optional(number)
-      service_credentials_ttl                = optional(string)
-      service_credential_secret_description  = optional(string)
+      secret_name                           = string
+      secret_labels                         = optional(list(string))
+      secret_auto_rotation                  = optional(bool)
+      secret_auto_rotation_unit             = optional(string)
+      secret_auto_rotation_interval         = optional(number)
+      service_credentials_ttl               = optional(string)
+      service_credential_secret_description = optional(string)
     }))
   }))
   default     = []
