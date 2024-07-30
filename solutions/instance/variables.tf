@@ -71,7 +71,7 @@ variable "existing_secrets_manager_endpoint_type" {
   description = "The type of endpoint to use for communicating with the Secrets Manager instance. Possible values: `public`, `private`. Ignored if `existing_secrets_manager_crn` is null."
 }
 
-variable "service_credentials_secrets" {
+variable "service_credential_secrets" {
   type = list(object({
     secret_group_name        = string
     secret_group_description = optional(string)
@@ -96,7 +96,7 @@ variable "service_credentials_secrets" {
     # Service roles (for Cloud Object Storage) https://cloud.ibm.com/iam/roles
     # Reader, Writer, Manager, Content Reader, Object Reader, Object Writer, NONE
     condition = alltrue([
-      for group in var.service_credentials_secrets : alltrue([
+      for group in var.service_credential_secrets : alltrue([
         for credential in group.service_credentials : contains(
           ["Writer", "Reader", "Manager", "Content Reader", "Object Reader", "Object Writer", "NONE"], credential.service_credentials_source_service_role
         )

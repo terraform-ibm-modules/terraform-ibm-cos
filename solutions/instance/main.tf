@@ -34,8 +34,8 @@ resource "time_sleep" "wait_for_cos_authorization_policy" {
 
 
 locals {
-  service_credentials_secrets = [
-    for service_credentials_secret in var.service_credentials_secrets : {
+  service_credential_secrets = [
+    for service_credentials_secret in var.service_credential_secrets : {
       secret_group_name        = service_credentials_secret.secret_group_name
       secret_group_description = service_credentials_secret.secret_group_description
       existing_secret_group    = service_credentials_secret.existing_secret_group
@@ -68,5 +68,5 @@ module "secrets_manager_service_credentails" {
   existing_sm_instance_guid   = local.existing_secrets_manager_instance_guid
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
-  secrets                     = local.service_credentials_secrets
+  secrets                     = local.service_credential_secrets
 }
