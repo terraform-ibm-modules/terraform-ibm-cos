@@ -77,15 +77,38 @@ variable "service_credentials_secrets" {
     secret_group_description = optional(string)
     existing_secret_group    = optional(bool, false)
     service_credentials = list(object({
-      secret_name                           = string
-      secret_labels                         = optional(list(string))
-      secret_auto_rotation                  = optional(bool)
-      secret_auto_rotation_unit             = optional(string)
-      secret_auto_rotation_interval         = optional(number)
-      service_credentials_ttl               = optional(string)
-      service_credential_secret_description = optional(string)
+      secret_name                             = string
+      service_credentials_source_service_role = string
+      secret_labels                           = optional(list(string))
+      secret_auto_rotation                    = optional(bool)
+      secret_auto_rotation_unit               = optional(string)
+      secret_auto_rotation_interval           = optional(number)
+      service_credentials_ttl                 = optional(string)
+      service_credential_secret_description   = optional(string)
+
     }))
   }))
   default     = []
   description = "Service credentials secret configuration for COS"
+
+  validation {
+    # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
+    # Service roles (for Cloud Object Storage) https://cloud.ibm.com/iam/roles
+    # Reader, Writer, Manager, Content Reader, Object Reader, Object Writer, NONE
+    condition = alltrue([
+      for group in var.service_credentials_secrets : alltrue([
+        for credential in group.service_credentials : contains(
+          ["Writer", "Reader", "Manager", "Content Reader", "Object Reader", "Object Writer", "NONE"], credential.service_credentials_source_service_role
+        )
+      ])
+    ])
+    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer', 'NONE', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
+
+  }
+}
+
+variable "skip_cos_kms_auth_policy" {
+  type        = bool
+  default     = false
+  description = "Whether an IAM authorization policy is created for Secrets Manager instance to create a service credentials for Cloud Object Storage. Set to `true` to use an existing policy."
 }

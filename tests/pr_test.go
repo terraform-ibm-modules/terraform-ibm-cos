@@ -272,6 +272,21 @@ func TestRunSolutions(t *testing.T) {
 	instanceOptions.TerraformVars = map[string]interface{}{
 		"cos_instance_name":   prefix,
 		"resource_group_name": fmt.Sprintf("%s-resource-group", prefix),
+		"service_credentials_secrets": []map[string]interface{}{
+			{
+				"secret_group_name": fmt.Sprintf("%s-secret-group", prefix),
+				"service_credentials": []map[string]string{
+					{
+						"secret_name": fmt.Sprintf("%s-cred-manager", prefix),
+						"service_credentials_source_service_role": "Manager",
+					},
+					{
+						"secret_name": fmt.Sprintf("%s-cred-writer", prefix),
+						"service_credentials_source_service_role": "Writer",
+					},
+				},
+			},
+		},
 	}
 	instanceOptions.SkipTestTearDown = true
 	output, err := instanceOptions.RunTestConsistency()

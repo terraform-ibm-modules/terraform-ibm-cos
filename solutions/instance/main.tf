@@ -17,12 +17,19 @@ module "cos" {
 }
 
 resource "ibm_iam_authorization_policy" "policy" {
+  count                       = var.skip_cos_kms_auth_policy ? 0 : 1
   depends_on                  = [module.cos]
   source_service_name         = "secrets-manager"
   source_resource_instance_id = local.existing_secrets_manager_instance_guid
   target_service_name         = "cloud-object-storage"
   target_resource_instance_id = module.cos.cos_instance_guid
   roles                       = ["Key Manager"]
+}
+
+# workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+resource "time_sleep" "wait_for_cos_authorization_policy" {
+  depends_on = [ibm_iam_authorization_policy.policy]
+  create_duration = "30s"
 }
 
 
@@ -34,15 +41,16 @@ locals {
       existing_secret_group    = service_credentials_secret.existing_secret_group
       secrets = [
         for secret in service_credentials_secret.service_credentials : {
-          secret_name                            = secret.secret_name
-          secret_labels                          = secret.secret_labels
-          secret_auto_rotation                   = secret.secret_auto_rotation
-          secret_auto_rotation_unit              = secret.secret_auto_rotation_unit
-          secret_auto_rotation_interval          = secret.secret_auto_rotation_interval
-          service_credentials_ttl                = secret.service_credentials_ttl
-          service_credential_secret_description  = secret.service_credential_secret_description
-          service_credentials_source_service_crn = module.cos.cos_instance_id
-          secret_type                            = "service_credentials"
+          secret_name                             = secret.secret_name
+          secret_labels                           = secret.secret_labels
+          secret_auto_rotation                    = secret.secret_auto_rotation
+          secret_auto_rotation_unit               = secret.secret_auto_rotation_unit
+          secret_auto_rotation_interval           = secret.secret_auto_rotation_interval
+          service_credentials_ttl                 = secret.service_credentials_ttl
+          service_credential_secret_description   = secret.service_credential_secret_description
+          service_credentials_source_service_role = secret.service_credentials_source_service_role
+          service_credentials_source_service_crn  = module.cos.cos_instance_id
+          secret_type                             = "service_credentials" #checkov:skip=CKV_SECRET_6
         }
       ]
     }
@@ -54,18 +62,11 @@ locals {
 }
 
 module "secrets_manager_service_credentails" {
+  depends_on                  = [time_sleep.wait_for_cos_authorization_policy]
   source                      = "terraform-ibm-modules/secrets-manager/ibm//modules/secrets"
   version                     = "1.16.1"
   existing_sm_instance_guid   = local.existing_secrets_manager_instance_guid
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
-  # secrets                     = local.service_credentials_secrets
-}
-
-output "sm_cred_ouput" {
-  value = module.secrets_manager_service_credentails
-}
-
-output "sm_cred_input" {
-  value = local.service_credentials_secrets
+  secrets                     = local.service_credentials_secrets
 }
