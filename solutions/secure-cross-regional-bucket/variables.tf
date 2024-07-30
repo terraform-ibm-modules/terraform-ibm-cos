@@ -48,6 +48,13 @@ variable "key_name" {
   description = "The name to give the Key which will be created for the Object Storage bucket. Not used if supplying an existing Key."
 }
 
+variable "ibmcloud_kms_api_key" {
+  type        = string
+  description = "The IBM Cloud API key that can create a root key and key ring in the key management service (KMS) instance. If not specified, the `ibmcloud_api_key` variable is used. Specify this key if the instance in `existing_kms_instance_crn` is in an account that's different from the Object Storage instance. Not used if the same account owns both instances."
+  sensitive   = true
+  default     = null
+}
+
 ########################################################################################################################
 # Object Storage variables
 ########################################################################################################################
@@ -75,7 +82,7 @@ variable "management_endpoint_type_for_bucket" {
 }
 
 variable "cross_region_location" {
-  description = "Specify the cross-region bucket location. Possible values: `us`, `eu`, `ap`. If specified, set the value of `region` and `single_site_location` to `null`."
+  description = "Specify the cross-region bucket location. Possible values: `us`, `eu`, `ap`."
   type        = string
 }
 

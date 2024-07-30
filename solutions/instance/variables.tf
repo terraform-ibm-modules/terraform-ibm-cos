@@ -22,7 +22,7 @@ variable "resource_group_name" {
 }
 
 variable "resource_keys" {
-  description = "The definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key)."
+  description = "The definition of the resource keys to generate. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/solutions/instance/DA-resource-keys.md)."
   type = list(object({
     name                      = string
     generate_hmac_credentials = optional(bool, false)
