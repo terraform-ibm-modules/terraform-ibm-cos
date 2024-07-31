@@ -35,12 +35,12 @@ resource "time_sleep" "wait_for_cos_authorization_policy" {
 
 locals {
   service_credential_secrets = [
-    for service_credentials_secret in var.service_credential_secrets : {
-      secret_group_name        = service_credentials_secret.secret_group_name
-      secret_group_description = service_credentials_secret.secret_group_description
-      existing_secret_group    = service_credentials_secret.existing_secret_group
+    for service_credentials in var.service_credential_secrets : {
+      secret_group_name        = service_credentials.secret_group_name
+      secret_group_description = service_credentials.secret_group_description
+      existing_secret_group    = service_credentials.existing_secret_group
       secrets = [
-        for secret in service_credentials_secret.service_credentials : {
+        for secret in service_credentials.service_credentials : {
           secret_name                             = secret.secret_name
           secret_labels                           = secret.secret_labels
           secret_auto_rotation                    = secret.secret_auto_rotation

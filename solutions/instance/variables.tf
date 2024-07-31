@@ -89,7 +89,7 @@ variable "service_credential_secrets" {
     }))
   }))
   default     = []
-  description = "Service credentials secret configuration for COS"
+  description = "Service credential secrets configuration for COS."
 
   validation {
     # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
@@ -110,5 +110,5 @@ variable "service_credential_secrets" {
 variable "skip_cos_kms_auth_policy" {
   type        = bool
   default     = false
-  description = "Whether an IAM authorization policy is created for Secrets Manager instance to create a service credentials for Cloud Object Storage. Set to `true` to use an existing policy."
+  description = "Whether an IAM authorization policy is created for Secrets Manager instance to create a service credential secrets for Cloud Object Storage. Set to `true` to use an existing policy."
 }
