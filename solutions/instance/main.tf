@@ -32,7 +32,6 @@ resource "time_sleep" "wait_for_cos_authorization_policy" {
   create_duration = "30s"
 }
 
-
 locals {
   service_credential_secrets = [
     for service_credentials in var.service_credential_secrets : {
@@ -61,7 +60,7 @@ locals {
   existing_secrets_manager_instance_region    = var.existing_secrets_manager_instance_crn != null ? element(local.existing_secrets_manager_instance_crn_split, length(local.existing_secrets_manager_instance_crn_split) - 5) : null
 }
 
-module "secrets_manager_service_credentails" {
+module "secrets_manager_service_credentials" {
   depends_on                  = [time_sleep.wait_for_cos_authorization_policy]
   source                      = "terraform-ibm-modules/secrets-manager/ibm//modules/secrets"
   version                     = "1.16.1"

@@ -57,8 +57,6 @@ variable "access_tags" {
   default     = []
 }
 
-# Secrets manger service credentials secrets
-
 variable "existing_secrets_manager_instance_crn" {
   type        = string
   default     = null
@@ -102,7 +100,7 @@ variable "service_credential_secrets" {
         )
       ])
     ])
-    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer', 'NONE', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
+    error_message = "service_credentials_source_service_role role must be one of 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer', 'NONE', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
 
   }
 }
