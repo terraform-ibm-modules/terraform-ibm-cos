@@ -22,7 +22,7 @@ variable "resource_group_name" {
 }
 
 variable "resource_keys" {
-  description = "The definition of the resource keys to generate. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/solutions/instance/DA-resource-keys.md)."
+  description = "The definition of the resource keys to generate. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/solutions/instance/DA-types.md#resource-keys)."
   type = list(object({
     name                      = string
     generate_hmac_credentials = optional(bool, false)
@@ -65,15 +65,19 @@ variable "existing_secrets_manager_instance_crn" {
 
 variable "existing_secrets_manager_endpoint_type" {
   type        = string
-  default     = "public"
-  description = "The type of endpoint to use for communicating with the Secrets Manager instance. Possible values: `public`, `private`. Ignored if `existing_secrets_manager_crn` is null."
+  description = "The endpoint type to use if existing_secrets_manager_instance_crn is specified. Possible values: public, private."
+  default     = "private"
+  validation {
+    condition     = contains(["public", "private"], var.existing_secrets_manager_endpoint_type)
+    error_message = "Only \"public\" and \"private\" are allowed values for 'existing_secrets_endpoint_type'."
+  }
 }
 
 variable "service_credential_secrets" {
   type = list(object({
     secret_group_name        = string
     secret_group_description = optional(string)
-    existing_secret_group    = optional(bool, false)
+    existing_secret_group    = optional(bool)
     service_credentials = list(object({
       secret_name                             = string
       service_credentials_source_service_role = string
@@ -87,7 +91,7 @@ variable "service_credential_secrets" {
     }))
   }))
   default     = []
-  description = "Service credential secrets configuration for COS."
+  description = "Service credential secrets configuration for COS. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/solutions/instance/DA-types.md#service-credential-secrets)."
 
   validation {
     # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
