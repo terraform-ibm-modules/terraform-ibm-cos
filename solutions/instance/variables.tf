@@ -94,7 +94,6 @@ variable "service_credential_secrets" {
   description = "Service credential secrets configuration for COS. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/solutions/instance/DA-types.md#service-credential-secrets)."
 
   validation {
-    # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
     # Service roles (for Cloud Object Storage) https://cloud.ibm.com/iam/roles
     # Reader, Writer, Manager, Content Reader, Object Reader, Object Writer, NONE
     condition = alltrue([
