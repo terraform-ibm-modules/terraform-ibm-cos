@@ -65,7 +65,7 @@ variable "existing_secrets_manager_instance_crn" {
 
 variable "existing_secrets_manager_endpoint_type" {
   type        = string
-  description = "The endpoint type to use if existing_secrets_manager_instance_crn is specified. Possible values: public, private."
+  description = "The endpoint type to use if `existing_secrets_manager_instance_crn` is specified. Possible values: public, private."
   default     = "private"
   validation {
     condition     = contains(["public", "private"], var.existing_secrets_manager_endpoint_type)

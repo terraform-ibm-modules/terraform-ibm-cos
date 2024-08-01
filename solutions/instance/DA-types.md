@@ -1,5 +1,5 @@
 # Configuring complex inputs in IBM Cloud Object Storage in IBM Cloud projects
-Several optional input variables in the IBM Cloud [Object Storage deployable architecture](https://cloud.ibm.com/catalog#deployable_architecture) use complex object types. You specify these inputs when you configure your deployable architecture.
+Several optional input variables in the IBM Cloud Object Storage [deployable architecture](https://cloud.ibm.com/catalog#deployable_architecture) use complex object types. You specify these inputs when you configure your deployable architecture.
 
 - [Resource keys](#resource-keys) (`resource_keys`)
 - [Service credential secrets](#service-credential-secrets) (`service_credential_secrets`)
@@ -39,7 +39,7 @@ The following example includes all the configuration options for two resource ke
       }
     ]
 ```
- 
+
 ## Service credential secrets <a name="service-credential-secrets"></a>
 When you add an IBM Cloud Object Storage service from the IBM Cloud catalog to an IBM Cloud Projects service, you can configure service credentials. In the edit mode for the projects configuration, select the Configure panel and then click the optional tab.
 
@@ -71,7 +71,7 @@ To enter a custom value, use the edit action to open the "Edit Array" panel. Add
 - `service_credentials_ttl`: (optional, default = `7776000`): The time-to-live (TTL) to assign to generated service credentials (in seconds).
 - `service_credential_secret_description`: (optional, default = `null`): Description of the secret to create.
 
-The following example includes all the configuration options for three service credentials and two secret groups.
+The following example includes all the configuration options for four service credentials and two secret groups.
 ```hcl
 [
   {
@@ -87,20 +87,20 @@ The following example includes all the configuration options for three service c
         "secret_auto_rotation_interval": 89
         "service_credentials_ttl": 7776000
         "service_credential_secret_description": "sample description"
-      }, 
+      },
       {
         "secret_name": "cred-2"
         "service_credentials_source_service_role": "Writer"
       }
     ]
-  }, 
+  },
   {
     "secret_group_name": "sg-2"
     "service_credentials": [
       {
         "secret_name": "cred-3"
         "service_credentials_source_service_role": "Manager"
-      }, 
+      },
       {
         "secret_name": "cred-4"
         "service_credentials_source_service_role": "Content Reader"
