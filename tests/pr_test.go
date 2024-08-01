@@ -270,9 +270,10 @@ func TestRunSolutions(t *testing.T) {
 
 	instanceOptions := setupOptions(t, prefix, solutionInstanceDir)
 	instanceOptions.TerraformVars = map[string]interface{}{
-		"cos_instance_name":                     prefix,
-		"resource_group_name":                   fmt.Sprintf("%s-resource-group", prefix),
-		"existing_secrets_manager_instance_crn": permanentResources["secretsManagerCRN"],
+		"cos_instance_name":                      prefix,
+		"resource_group_name":                    fmt.Sprintf("%s-resource-group", prefix),
+		"existing_secrets_manager_instance_crn":  permanentResources["secretsManagerCRN"],
+		"existing_secrets_manager_endpoint_type": "public",
 		"service_credential_secrets": []map[string]interface{}{
 			{
 				"secret_group_name": fmt.Sprintf("%s-secret-group", prefix),
