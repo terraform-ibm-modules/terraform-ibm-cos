@@ -73,3 +73,8 @@ module "secrets_manager_service_credentials" {
   endpoint_type               = var.existing_secrets_manager_endpoint_type
   secrets                     = local.service_credential_secrets
 }
+
+moved {
+  from = module.secrets_manager_service_credentials
+  to   = module.secrets_manager_service_credentials[0]
+}
