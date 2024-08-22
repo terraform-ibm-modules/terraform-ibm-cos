@@ -16,7 +16,7 @@ module "cos" {
   access_tags         = var.access_tags
 }
 
-resource "ibm_iam_authorization_policy" "policy" {
+resource "ibm_iam_authorization_policy" "secrets_manager_key_manager" {
   count                       = var.skip_cos_sm_auth_policy ? 0 : 1
   depends_on                  = [module.cos]
   source_service_name         = "secrets-manager"
@@ -73,9 +73,4 @@ module "secrets_manager_service_credentials" {
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
   secrets                     = local.service_credential_secrets
-}
-
-moved {
-  from = module.secrets_manager_service_credentials
-  to   = module.secrets_manager_service_credentials[0]
 }
