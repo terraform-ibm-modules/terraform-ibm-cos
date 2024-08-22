@@ -17,13 +17,14 @@ module "cos" {
 }
 
 resource "ibm_iam_authorization_policy" "policy" {
-  count                       = var.skip_cos_kms_auth_policy ? 0 : 1
+  count                       = var.skip_cos_sm_auth_policy ? 0 : 1
   depends_on                  = [module.cos]
   source_service_name         = "secrets-manager"
   source_resource_instance_id = local.existing_secrets_manager_instance_guid
   target_service_name         = "cloud-object-storage"
   target_resource_instance_id = module.cos.cos_instance_guid
   roles                       = ["Key Manager"]
+  description                 = "Allow Secrets Manager with instance id ${local.existing_secrets_manager_instance_guid} to manage key for the COS instance"
 }
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
