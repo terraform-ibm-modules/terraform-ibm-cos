@@ -16,19 +16,20 @@ module "cos" {
   access_tags         = var.access_tags
 }
 
-resource "ibm_iam_authorization_policy" "policy" {
-  count                       = var.skip_cos_kms_auth_policy ? 0 : 1
+resource "ibm_iam_authorization_policy" "secrets_manager_key_manager" {
+  count                       = var.skip_cos_sm_auth_policy ? 0 : 1
   depends_on                  = [module.cos]
   source_service_name         = "secrets-manager"
   source_resource_instance_id = local.existing_secrets_manager_instance_guid
   target_service_name         = "cloud-object-storage"
   target_resource_instance_id = module.cos.cos_instance_guid
   roles                       = ["Key Manager"]
+  description                 = "Allow Secrets Manager with instance id ${local.existing_secrets_manager_instance_guid} to manage key for the COS instance"
 }
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
 resource "time_sleep" "wait_for_cos_authorization_policy" {
-  depends_on      = [ibm_iam_authorization_policy.policy]
+  depends_on      = [ibm_iam_authorization_policy.secrets_manager_key_manager]
   create_duration = "30s"
 }
 
@@ -72,9 +73,4 @@ module "secrets_manager_service_credentials" {
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
   secrets                     = local.service_credential_secrets
-}
-
-moved {
-  from = module.secrets_manager_service_credentials
-  to   = module.secrets_manager_service_credentials[0]
 }
