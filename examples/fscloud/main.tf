@@ -40,7 +40,7 @@ locals {
 # Create Monitoring and Activity Tracker instance
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "2.14.0"
+  version = "2.14.1"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
