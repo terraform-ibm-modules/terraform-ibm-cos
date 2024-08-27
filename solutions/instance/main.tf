@@ -62,6 +62,8 @@ locals {
 
   # tflint-ignore: terraform_unused_declarations
   validate_sm_crn = length(local.service_credential_secrets) > 0 && var.existing_secrets_manager_instance_crn == null ? tobool("`existing_secrets_manager_instance_crn` is required when adding service credentials to a secrets manager secret.") : false
+  # tflint-ignore: terraform_unused_declarations
+  validate_sm_crn2 = var.skip_cos_sm_auth_policy == false && var.existing_secrets_manager_instance_crn == null ? tobool("`existing_secrets_manager_instance_crn` is required when `skip_cos_sm_auth_policy` is false") : false
 }
 
 module "secrets_manager_service_credentials" {
