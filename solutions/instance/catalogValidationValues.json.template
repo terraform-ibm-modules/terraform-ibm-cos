@@ -2,5 +2,6 @@
   "ibmcloud_api_key": $VALIDATION_APIKEY,
   "resource_group_name": $PREFIX,
   "cos_instance_name": $PREFIX,
-  "existing_secrets_manager_instance_crn": $SM_CRN
+  "skip_cos_sm_auth_policy": true
+
 }
