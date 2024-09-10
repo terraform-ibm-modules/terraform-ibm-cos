@@ -164,7 +164,7 @@ variable "retention_default" {
   type        = number
   default     = 90
   validation {
-    condition     = var.retention_default == null ? true : (var.retention_default > 0 && var.retention_default < 365243)
+    condition     = var.retention_default == null ? true : (var.retention_default >= 0 && var.retention_default < 365243)
     error_message = "The specified duration for retention maximum period is not a valid selection!"
   }
 }
@@ -174,7 +174,7 @@ variable "retention_maximum" {
   type        = number
   default     = 350
   validation {
-    condition     = (var.retention_maximum == null ? true : (var.retention_maximum > 0 && var.retention_maximum < 365243))
+    condition     = (var.retention_maximum == null ? true : (var.retention_maximum >= 0 && var.retention_maximum < 365243))
     error_message = "The specified duration for retention maximum period is not a valid selection!"
   }
 }
@@ -184,7 +184,7 @@ variable "retention_minimum" {
   type        = number
   default     = 90
   validation {
-    condition     = var.retention_minimum == null ? true : (var.retention_minimum > 0 && var.retention_minimum < 365243)
+    condition     = var.retention_minimum == null ? true : (var.retention_minimum >= 0 && var.retention_minimum < 365243)
     error_message = "The specified duration for retention minimum period is not a valid selection!"
   }
 }
