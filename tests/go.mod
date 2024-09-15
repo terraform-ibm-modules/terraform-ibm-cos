@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.23.1
 
 require (
-	github.com/IBM/ibm-cos-sdk-go v1.11.0
+	github.com/IBM/ibm-cos-sdk-go v1.11.1
 	github.com/gruntwork-io/terratest v0.47.1
 	github.com/stretchr/testify v1.9.0
 	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.38.2
@@ -103,7 +103,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.16.0 // indirect
 	golang.org/x/crypto v0.27.0 // indirect
 	golang.org/x/mod v0.17.0 // indirect
-	golang.org/x/net v0.26.0 // indirect
+	golang.org/x/net v0.28.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
