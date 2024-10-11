@@ -37,12 +37,6 @@ variable "resource_group" {
   default     = null
 }
 
-variable "existing_at_instance_crn" {
-  type        = string
-  description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
-  default     = null
-}
-
 variable "access_tags" {
   type        = list(string)
   description = "Optional list of access tags to be added to the created resources"
