@@ -201,8 +201,8 @@ github.com/IBM/go-sdk-core/v5 v5.17.5 h1:AjGC7xNee5tgDIjndekBDW5AbypdERHSgib3EZ1
 github.com/IBM/go-sdk-core/v5 v5.17.5/go.mod h1:KsAAI7eStAWwQa4F96MLy+whYSh39JzNjklZRbN/8ns=
 github.com/IBM/ibm-cos-sdk-go v1.11.1 h1:Pye61hmWA4ZVCfOfFLTJBjPka4HIGrLqmpZ2d2KlrCE=
 github.com/IBM/ibm-cos-sdk-go v1.11.1/go.mod h1:d8vET3w8wgmGwCsCVs+0y4V8+1hRNT6+pbpGaEHvSCI=
-github.com/IBM/platform-services-go-sdk v0.69.1 h1:Wb8BYVpsPIppWbOQCgF7ytm+BbSOXdWWCf9zcZ6xGA4=
-github.com/IBM/platform-services-go-sdk v0.69.1/go.mod h1:ZP3zUDxR1qRdUqzFdnJOlQN0QpVYol2eOUCv4uk03Jc=
+github.com/IBM/platform-services-go-sdk v0.69.2 h1:8XNI8rBZShutuybFN5v8BsWlrdUa1eF0L6nOS+lDXmI=
+github.com/IBM/platform-services-go-sdk v0.69.2/go.mod h1:ZP3zUDxR1qRdUqzFdnJOlQN0QpVYol2eOUCv4uk03Jc=
 github.com/IBM/project-go-sdk v0.3.6 h1:DRiANKnAePevFsIKSvR89SUaMa2xsd7YKK71Ka1eqKI=
 github.com/IBM/project-go-sdk v0.3.6/go.mod h1:FOJM9ihQV3EEAY6YigcWiTNfVCThtdY8bLC/nhQHFvo=
 github.com/IBM/schematics-go-sdk v0.3.0 h1:Vwxw85SONflakiBsNHAfViKLyp9zJiH5/hh6SewOP5Q=
@@ -623,8 +623,8 @@ github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsTg=
 github.com/stretchr/testify v1.9.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.39.7 h1:RbFoICqfBM1SrE4uSvMRidO9JtVOQT0ODfixLenE040=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.39.7/go.mod h1:FM+51RcakoYD9iBtotpf7AdxoQ5kBGIyGedfaTzu0x8=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.40.4 h1:IQbCCqug5U6E4TLjLbS+ODNT/8qdqouKzBuUmaGrBds=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.40.4/go.mod h1:V4lNkNnB7G7yuUixcMkWf+DCmRfF8hoJiDaq3f4wmLo=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tmccombs/hcl2json v0.5.0 h1:cT2sXStOzKL06c8ZTf9vh+0N8GKGzV7+9RUaY5/iUP8=
 github.com/tmccombs/hcl2json v0.5.0/go.mod h1:B0ZpBthAKbQur6yZRKrtaqDmYLCvgnwHOBApE0faCpU=
