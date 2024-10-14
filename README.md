@@ -214,6 +214,7 @@ You need the following permissions to run this module.
 | <a name="output_bucket_region"></a> [bucket\_region](#output\_bucket\_region) | Bucket region if you create a regional bucket |
 | <a name="output_bucket_storage_class"></a> [bucket\_storage\_class](#output\_bucket\_storage\_class) | Bucket Storage Class |
 | <a name="output_cbr_rule_ids"></a> [cbr\_rule\_ids](#output\_cbr\_rule\_ids) | List of all rule ids |
+| <a name="output_cos_account_id"></a> [cos\_account\_id](#output\_cos\_account\_id) | The account ID in which the Cloud Object Storage instance is created. |
 | <a name="output_cos_instance_crn"></a> [cos\_instance\_crn](#output\_cos\_instance\_crn) | The CRN of the Cloud Object Storage instance |
 | <a name="output_cos_instance_guid"></a> [cos\_instance\_guid](#output\_cos\_instance\_guid) | The GUID of the Cloud Object Storage instance |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | The ID of the Cloud Object Storage instance |
