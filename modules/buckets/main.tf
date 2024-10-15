@@ -67,7 +67,6 @@ module "buckets" {
   activity_tracker_read_data_events  = can(each.value.activity_tracking.read_data_events) ? each.value.activity_tracking.read_data_events : true
   activity_tracker_write_data_events = can(each.value.activity_tracking.write_data_events) ? each.value.activity_tracking.write_data_events : true
   activity_tracker_management_events = can(each.value.activity_tracking.management_events) ? each.value.activity_tracking.management_events : true
-  activity_tracker_crn               = can(each.value.activity_tracking.activity_tracker_crn) ? each.value.activity_tracking.activity_tracker_crn : null
 
   archive_days = can(each.value.archive_rule.days) ? (each.value.archive_rule.enable ? each.value.archive_rule.days : null) : null
   archive_type = can(each.value.archive_rule.type) ? each.value.archive_rule.type : "Glacier"

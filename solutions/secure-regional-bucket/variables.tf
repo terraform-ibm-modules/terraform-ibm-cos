@@ -111,12 +111,6 @@ variable "hard_quota" {
   default     = null
 }
 
-variable "activity_tracker_crn" {
-  type        = string
-  description = "The CRN of an Activity Tracker instance to send Object Storage bucket events to. If no value passed, events are sent to the instance associated to the container's location unless otherwise specified in the Activity Tracker Event Routing service configuration."
-  default     = null
-}
-
 variable "archive_days" {
   description = "The number of days before the `archive_type` rule action takes effect."
   type        = number

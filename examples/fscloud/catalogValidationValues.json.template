@@ -3,7 +3,6 @@
   "region": "us-south",
   "resource_tags": $TAGS,
   "prefix": $PREFIX,
-  "existing_at_instance_crn": $AT_CRN,
   "bucket_existing_hpcs_instance_guid": $HPCS_US_SOUTH_GUID,
   "bucket_hpcs_key_crn": $HPCS_US_SOUTH_ROOT_KEY_CRN
 }

@@ -66,9 +66,3 @@ variable "resource_group" {
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
   default     = null
 }
-
-variable "existing_at_instance_crn" {
-  type        = string
-  description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
-  default     = null
-}
