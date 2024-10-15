@@ -35,10 +35,9 @@ locals {
     object_lock_duration_years    = var.object_lock_duration_years
 
     activity_tracking = {
-      read_data_events     = true
-      write_data_events    = true
-      management_events    = true
-      activity_tracker_crn = var.activity_tracker_crn
+      read_data_events  = true
+      write_data_events = true
+      management_events = true
     }
     expire_rule = var.expire_days != null ? {
       enable = true
