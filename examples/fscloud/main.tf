@@ -29,23 +29,6 @@ resource "ibm_is_subnet" "testacc_subnet" {
 }
 
 ##############################################################################
-# Observability Instances (Monitoring + AT)
-##############################################################################
-
-# Create Monitoring and Activity Tracker instance
-module "observability_instances" {
-  source                         = "terraform-ibm-modules/observability-instances/ibm"
-  version                        = "3.0.1"
-  region                         = var.region
-  resource_group_id              = module.resource_group.resource_group_id
-  cloud_monitoring_instance_name = "${var.prefix}-monitoring"
-  cloud_monitoring_plan          = "graduated-tier"
-  enable_platform_logs           = false
-  enable_platform_metrics        = false
-  cloud_monitoring_tags          = var.resource_tags
-}
-
-##############################################################################
 # Get Cloud Account ID
 ##############################################################################
 
@@ -141,9 +124,6 @@ module "cos_fscloud" {
     kms_guid                 = var.bucket_existing_hpcs_instance_guid
     management_endpoint_type = var.management_endpoint_type_for_bucket
     region_location          = var.region
-    metrics_monitoring = {
-      metrics_monitoring_crn = module.observability_instances.cloud_monitoring_crn
-    }
 
     # CBR rule only allowing the COS bucket to be accessbile over the private endpoint from within the VPC
     cbr_rules = [{

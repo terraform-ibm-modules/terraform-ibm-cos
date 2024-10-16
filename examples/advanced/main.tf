@@ -40,39 +40,6 @@ resource "ibm_is_subnet" "testacc_subnet" {
 }
 
 ##############################################################################
-# Observability Instances (Monitoring + AT)
-##############################################################################
-
-# Create Monitoring and Cloud logs instance
-module "observability_instances" {
-  source                         = "terraform-ibm-modules/observability-instances/ibm"
-  version                        = "3.0.1"
-  region                         = var.region
-  resource_group_id              = module.resource_group.resource_group_id
-  cloud_monitoring_instance_name = "${var.prefix}-monitoring"
-  cloud_monitoring_plan          = "graduated-tier"
-  enable_platform_logs           = false
-  enable_platform_metrics        = false
-  cloud_monitoring_tags          = var.resource_tags
-  # Cloud Logs
-  cloud_logs_tags        = var.resource_tags
-  cloud_logs_access_tags = var.access_tags
-  cloud_logs_data_storage = {
-    # logs and metrics buckets must be different
-    logs_data = {
-      enabled         = true
-      bucket_crn      = module.cos_bucket1.bucket_crn
-      bucket_endpoint = module.cos_bucket1.s3_endpoint_direct
-    },
-    metrics_data = {
-      enabled         = true
-      bucket_crn      = module.cos_bucket2.bucket_crn
-      bucket_endpoint = module.cos_bucket2.s3_endpoint_direct
-    }
-  }
-}
-
-##############################################################################
 # Create Key Protect resources
 ##############################################################################
 
@@ -142,8 +109,9 @@ module "cos_bucket1" {
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  activity_tracker_read_data_events   = false # disable activity_tracker
+  activity_tracker_write_data_events  = false # disable activity_tracker
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
@@ -232,12 +200,13 @@ module "cos_bucket2" {
   region                              = null
   cross_region_location               = var.cross_region_location
   archive_days                        = null
-  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  activity_tracker_read_data_events   = false # disable activity_tracker
+  activity_tracker_write_data_events  = false # disable activity_tracker
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
@@ -276,12 +245,13 @@ module "cos_bucket3" {
   single_site_location                = var.single_site_location
   hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
   archive_days                        = null
-  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  activity_tracker_read_data_events   = false # disable activity_tracker
+  activity_tracker_write_data_events  = false # disable activity_tracker
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 3"
