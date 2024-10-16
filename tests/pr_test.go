@@ -68,8 +68,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		ResourceGroup: resourceGroup,
 		Region:        region,
 		TerraformVars: map[string]interface{}{
-			"existing_at_instance_crn": permanentResources["activityTrackerFrankfurtCrn"],
-			"access_tags":              permanentResources["accessTags"],
+			"access_tags": permanentResources["accessTags"],
 		},
 	})
 	// below dirs do not implement Activity Tracker functionality

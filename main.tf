@@ -5,7 +5,7 @@
 ##############################################################################
 
 locals {
-  at_enabled                 = var.activity_tracker_read_data_events || var.activity_tracker_write_data_events || var.activity_tracker_crn != null ? [1] : []
+  at_enabled                 = var.activity_tracker_read_data_events || var.activity_tracker_write_data_events ? [1] : []
   metrics_enabled            = var.request_metrics_enabled || var.usage_metrics_enabled ? [1] : []
   archive_enabled            = var.archive_days == null ? [] : [1]
   expire_enabled             = var.expire_days == null ? [] : [1]
@@ -179,10 +179,9 @@ resource "ibm_cos_bucket" "cos_bucket" {
   dynamic "activity_tracking" {
     for_each = local.at_enabled
     content {
-      read_data_events     = var.activity_tracker_read_data_events
-      write_data_events    = var.activity_tracker_write_data_events
-      management_events    = var.activity_tracker_management_events # NOTE: The value of this is ignored if consumer passes value for `activity_tracker_crn`
-      activity_tracker_crn = var.activity_tracker_crn
+      read_data_events  = var.activity_tracker_read_data_events
+      write_data_events = var.activity_tracker_write_data_events
+      management_events = var.activity_tracker_management_events
     }
   }
   ## This for_each block is NOT a loop to attach to multiple Sysdig instances.
@@ -258,10 +257,9 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   dynamic "activity_tracking" {
     for_each = local.at_enabled
     content {
-      read_data_events     = var.activity_tracker_read_data_events
-      write_data_events    = var.activity_tracker_write_data_events
-      management_events    = var.activity_tracker_management_events # NOTE: The value of this is ignored if consumer passes value for `activity_tracker_crn`
-      activity_tracker_crn = var.activity_tracker_crn
+      read_data_events  = var.activity_tracker_read_data_events
+      write_data_events = var.activity_tracker_write_data_events
+      management_events = var.activity_tracker_management_events
     }
   }
   ## This for_each block is NOT a loop to attach to multiple Sysdig instances.

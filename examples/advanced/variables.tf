@@ -7,6 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "Prefix name for all related resources"
+  default     = "andrej-t"
 }
 
 variable "resource_tags" {
@@ -25,7 +26,7 @@ variable "access_tags" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-
+  default     = "us-south"
 
   validation {
     condition     = can(regex("us-south|eu-de|jp-tok", var.region))
@@ -64,11 +65,5 @@ variable "management_endpoint_type_for_bucket" {
 variable "resource_group" {
   type        = string
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
-  default     = null
-}
-
-variable "existing_at_instance_crn" {
-  type        = string
-  description = "Optionally pass an existing activity tracker instance CRN to use in the example. If not passed, a new instance will be provisioned"
   default     = null
 }

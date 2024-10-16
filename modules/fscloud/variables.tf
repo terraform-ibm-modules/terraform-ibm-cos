@@ -81,10 +81,9 @@ variable "bucket_configs" {
     object_lock_duration_years    = optional(number, 0)
 
     activity_tracking = optional(object({
-      read_data_events     = optional(bool, true)
-      write_data_events    = optional(bool, true)
-      management_events    = optional(bool, true)
-      activity_tracker_crn = optional(string, null)
+      read_data_events  = optional(bool, true)
+      write_data_events = optional(bool, true)
+      management_events = optional(bool, true)
     }))
     archive_rule = optional(object({
       enable = optional(bool, false)

@@ -7,7 +7,7 @@ The following resources are provisioned by this example:
 - A new resource group, if an existing one is not passed in.
 - A service ID that is used to generate resource keys.
 - An IBM Cloud Monitoring instance in the given resource group and region.
-- An IBM Cloud Activity Tracker instance, if existing ones is not passed in, in the given resource group and region.
+- An IBM Cloud Logs.
 - A Key Protect instance (with metrics enabled), a key ring, and a root key in the given resource group and region.
 - An IBM Cloud Object Storage instance in the given resource group and region.
 - An IAM authorization policy to allow the Object Storage instance read access to the Key Protect instance.
