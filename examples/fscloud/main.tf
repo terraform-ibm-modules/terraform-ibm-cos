@@ -71,8 +71,6 @@ module "cbr_zone_schematics" {
 ##############################################################################
 # Create COS instance and bucket with:
 # - Encryption
-# - Monitoring
-# - Activity Tracking
 ##############################################################################
 
 module "cos_fscloud" {
