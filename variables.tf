@@ -273,14 +273,8 @@ variable "activity_tracker_write_data_events" {
 
 variable "activity_tracker_management_events" {
   type        = bool
-  description = "If set to true, all Object Storage management events will be sent to Activity Tracker. Only applies if `activity_tracker_crn` is not populated."
+  description = "If set to true, all Object Storage management events will be sent to Activity Tracker."
   default     = true
-}
-
-variable "activity_tracker_crn" {
-  type        = string
-  description = "The CRN of an Activity Tracker instance to send Object Storage bucket events to. If no value passed, events are sent to the instance associated to the container's location unless otherwise specified in the Activity Tracker Event Routing service configuration. Bucket management events are always enabled if a value is passed, regardless of the value of `activity_tracker_management_events`."
-  default     = null
 }
 
 variable "force_delete" {

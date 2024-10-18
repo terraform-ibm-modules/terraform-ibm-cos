@@ -40,38 +40,6 @@ resource "ibm_is_subnet" "testacc_subnet" {
 }
 
 ##############################################################################
-# Observability Instances (Monitoring + AT)
-##############################################################################
-
-locals {
-  existing_at = var.existing_at_instance_crn != null ? true : false
-  at_crn      = var.existing_at_instance_crn == null ? module.observability_instances.activity_tracker_crn : var.existing_at_instance_crn
-}
-
-# Create Monitoring and Activity Tracker instance
-module "observability_instances" {
-  source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "2.19.1"
-  providers = {
-    logdna.at = logdna.at
-    logdna.ld = logdna.ld
-  }
-  region                         = var.region
-  resource_group_id              = module.resource_group.resource_group_id
-  cloud_monitoring_instance_name = "${var.prefix}-monitoring"
-  cloud_monitoring_plan          = "graduated-tier"
-  enable_platform_logs           = false
-  enable_platform_metrics        = false
-  log_analysis_provision         = false
-  activity_tracker_instance_name = "${var.prefix}-at"
-  activity_tracker_tags          = var.resource_tags
-  activity_tracker_plan          = "7-day"
-  activity_tracker_provision     = !local.existing_at
-  log_analysis_tags              = var.resource_tags
-  cloud_monitoring_tags          = var.resource_tags
-}
-
-##############################################################################
 # Create Key Protect resources
 ##############################################################################
 
@@ -126,8 +94,6 @@ module "cbr_zone" {
 ##############################################################################
 # Create COS instance and COS bucket-1 with:
 # - Encryption
-# - Monitoring
-# - Activity Tracking
 ##############################################################################
 
 module "cos_bucket1" {
@@ -142,9 +108,7 @@ module "cos_bucket1" {
   management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
-  activity_tracker_crn                = local.at_crn
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
@@ -221,8 +185,6 @@ module "cos_bucket1" {
 # Create COS bucket-2 (in the COS instance created above) with:
 # - Cross Region Location
 # - Encryption
-# - Monitoring
-# - Activity Tracking
 ##############################################################################
 
 module "cos_bucket2" {
@@ -234,8 +196,6 @@ module "cos_bucket2" {
   region                              = null
   cross_region_location               = var.cross_region_location
   archive_days                        = null
-  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
-  activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
@@ -266,8 +226,6 @@ module "cos_bucket2" {
 # - Single Site Location
 # - Hard Quota
 # - Encryption
-# - Monitoring
-# - Activity Tracking
 ##############################################################################
 
 module "cos_bucket3" {
@@ -280,8 +238,6 @@ module "cos_bucket3" {
   single_site_location                = var.single_site_location
   hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
   archive_days                        = null
-  monitoring_crn                      = module.observability_instances.cloud_monitoring_crn
-  activity_tracker_crn                = local.at_crn
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   kms_encryption_enabled              = false # disable encryption because single site location doesn't support it

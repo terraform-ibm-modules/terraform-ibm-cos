@@ -29,38 +29,6 @@ resource "ibm_is_subnet" "testacc_subnet" {
 }
 
 ##############################################################################
-# Observability Instances (Monitoring + AT)
-##############################################################################
-
-locals {
-  existing_at = var.existing_at_instance_crn != null ? true : false
-  at_crn      = var.existing_at_instance_crn == null ? module.observability_instances.activity_tracker_crn : var.existing_at_instance_crn
-}
-
-# Create Monitoring and Activity Tracker instance
-module "observability_instances" {
-  source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "2.19.1"
-  providers = {
-    logdna.at = logdna.at
-    logdna.ld = logdna.ld
-  }
-  region                         = var.region
-  resource_group_id              = module.resource_group.resource_group_id
-  cloud_monitoring_instance_name = "${var.prefix}-monitoring"
-  cloud_monitoring_plan          = "graduated-tier"
-  enable_platform_logs           = false
-  enable_platform_metrics        = false
-  log_analysis_provision         = false
-  activity_tracker_instance_name = "${var.prefix}-at"
-  activity_tracker_tags          = var.resource_tags
-  activity_tracker_plan          = "7-day"
-  activity_tracker_provision     = !local.existing_at
-  log_analysis_tags              = var.resource_tags
-  cloud_monitoring_tags          = var.resource_tags
-}
-
-##############################################################################
 # Get Cloud Account ID
 ##############################################################################
 
@@ -103,8 +71,6 @@ module "cbr_zone_schematics" {
 ##############################################################################
 # Create COS instance and bucket with:
 # - Encryption
-# - Monitoring
-# - Activity Tracking
 ##############################################################################
 
 module "cos_fscloud" {
@@ -156,12 +122,6 @@ module "cos_fscloud" {
     kms_guid                 = var.bucket_existing_hpcs_instance_guid
     management_endpoint_type = var.management_endpoint_type_for_bucket
     region_location          = var.region
-    activity_tracking = {
-      activity_tracker_crn = local.at_crn
-    }
-    metrics_monitoring = {
-      metrics_monitoring_crn = module.observability_instances.cloud_monitoring_crn
-    }
 
     # CBR rule only allowing the COS bucket to be accessbile over the private endpoint from within the VPC
     cbr_rules = [{
