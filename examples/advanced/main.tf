@@ -94,7 +94,6 @@ module "cbr_zone" {
 ##############################################################################
 # Create COS instance and COS bucket-1 with:
 # - Encryption
-# - Monitoring
 ##############################################################################
 
 module "cos_bucket1" {
@@ -186,7 +185,6 @@ module "cos_bucket1" {
 # Create COS bucket-2 (in the COS instance created above) with:
 # - Cross Region Location
 # - Encryption
-# - Monitoring
 ##############################################################################
 
 module "cos_bucket2" {
@@ -228,7 +226,6 @@ module "cos_bucket2" {
 # - Single Site Location
 # - Hard Quota
 # - Encryption
-# - Monitoring
 ##############################################################################
 
 module "cos_bucket3" {
