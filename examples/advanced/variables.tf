@@ -7,7 +7,6 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "Prefix name for all related resources"
-  default     = "andrej-t"
 }
 
 variable "resource_tags" {
@@ -26,7 +25,6 @@ variable "access_tags" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "us-south"
 
   validation {
     condition     = can(regex("us-south|eu-de|jp-tok", var.region))

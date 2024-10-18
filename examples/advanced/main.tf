@@ -110,8 +110,6 @@ module "cos_bucket1" {
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
-  activity_tracker_read_data_events   = false # disable activity_tracker
-  activity_tracker_write_data_events  = false # disable activity_tracker
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
@@ -205,8 +203,6 @@ module "cos_bucket2" {
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  activity_tracker_read_data_events   = false # disable activity_tracker
-  activity_tracker_write_data_events  = false # disable activity_tracker
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 2"
@@ -250,8 +246,6 @@ module "cos_bucket3" {
   kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
-  activity_tracker_read_data_events   = false # disable activity_tracker
-  activity_tracker_write_data_events  = false # disable activity_tracker
   bucket_cbr_rules = [
     {
       description      = "sample rule for bucket 3"

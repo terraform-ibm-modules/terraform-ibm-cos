@@ -16,18 +16,16 @@ module "resource_group" {
 ##############################################################################
 
 module "cos_bucket" {
-  source                             = "../../"
-  resource_group_id                  = module.resource_group.resource_group_id
-  region                             = var.region
-  cross_region_location              = null
-  cos_instance_name                  = "${var.prefix}-cos"
-  cos_tags                           = var.resource_tags
-  bucket_name                        = "${var.prefix}-bucket-one-rate"
-  retention_enabled                  = false # disable retention for test environments - enable for stage/prod
-  kms_encryption_enabled             = false
-  cos_plan                           = "cos-one-rate-plan"
-  bucket_storage_class               = "onerate_active"
-  access_tags                        = var.access_tags
-  activity_tracker_read_data_events  = false # disable activity_tracker
-  activity_tracker_write_data_events = false # disable activity_tracker
+  source                 = "../../"
+  resource_group_id      = module.resource_group.resource_group_id
+  region                 = var.region
+  cross_region_location  = null
+  cos_instance_name      = "${var.prefix}-cos"
+  cos_tags               = var.resource_tags
+  bucket_name            = "${var.prefix}-bucket-one-rate"
+  retention_enabled      = false # disable retention for test environments - enable for stage/prod
+  kms_encryption_enabled = false
+  cos_plan               = "cos-one-rate-plan"
+  bucket_storage_class   = "onerate_active"
+  access_tags            = var.access_tags
 }
