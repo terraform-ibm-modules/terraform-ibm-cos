@@ -10,6 +10,7 @@ locals {
   existing_kms_instance_region     = var.existing_kms_instance_crn != null ? element(split(":", var.existing_kms_instance_crn), length(split(":", var.existing_kms_instance_crn)) - 5) : null
   cos_instance_guid                = var.existing_cos_instance_id != null ? element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3) : null
   create_cross_account_auth_policy = !var.skip_iam_authorization_policy && var.ibmcloud_kms_api_key != null
+
   kms_service_name = var.existing_kms_instance_crn != null ? (
     can(regex(".*kms.*", var.existing_kms_instance_crn)) ? "kms" : (
       can(regex(".*hs-crypto.*", var.existing_kms_instance_crn)) ? "hs-crypto" : null
