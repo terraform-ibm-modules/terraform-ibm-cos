@@ -187,7 +187,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle" {
-  count      = (var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  count      = (var.kms_encryption_enabled && var.create_cos_bucket) && (var.expire_days != null || var.archive_days != null) ? 1 : 0
   bucket_crn = ibm_cos_bucket.cos_bucket[0].crn
   bucket_location = ibm_cos_bucket.cos_bucket[0].region_location != null ? ibm_cos_bucket.cos_bucket[0].region_location : (
     ibm_cos_bucket.cos_bucket[0].cross_region_location != null ? ibm_cos_bucket.cos_bucket[0].cross_region_location : ibm_cos_bucket.cos_bucket[0].single_site_location
@@ -285,7 +285,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 
 
 resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle1" {
-  count      = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  count      = (!var.kms_encryption_enabled && var.create_cos_bucket) && (var.expire_days != null || var.archive_days != null) ? 1 : 0
   bucket_crn = ibm_cos_bucket.cos_bucket1[0].crn
   bucket_location = ibm_cos_bucket.cos_bucket1[0].region_location != null ? ibm_cos_bucket.cos_bucket1[0].region_location : (
     ibm_cos_bucket.cos_bucket1[0].cross_region_location != null ? ibm_cos_bucket.cos_bucket1[0].cross_region_location : ibm_cos_bucket.cos_bucket1[0].single_site_location

@@ -220,7 +220,7 @@ variable "object_versioning_enabled" {
 }
 
 variable "archive_days" {
-  description = "The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is true. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets."
+  description = "The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is true. Set to `null` if you specify a bucket location in `cross_region_location`or `single_site_location` because archive data is not supported with cross-region or single-site buckets."
   type        = number
   default     = 90
 }
