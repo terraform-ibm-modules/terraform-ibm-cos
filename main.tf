@@ -38,6 +38,8 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.archive_days cannot be set.") : true
   # tflint-ignore: terraform_unused_declarations
+  validate_sinlge_site_location_archive_disabled_inputs = var.create_cos_bucket && (var.single_site_location != null && var.archive_days != null) ? tobool("If var.single_site_location is set, then var.archive_days cannot be set.") : true
+  # tflint-ignore: terraform_unused_declarations
   validate_single_site_location_inputs = var.single_site_location != null && var.kms_encryption_enabled == true ? tobool("If var.single_site_location is set, then var.kms_encryption_enabled cannot be set as the key protect does not support single site location.") : true
   # retention/immuatbile object storage https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
   # only in cross region 'us' and all mzr
@@ -202,6 +204,44 @@ resource "ibm_cos_bucket" "cos_bucket" {
   }
 }
 
+resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle" {
+  count      = (var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  bucket_crn = ibm_cos_bucket.cos_bucket[0].crn
+  bucket_location = ibm_cos_bucket.cos_bucket[0].region_location != null ? ibm_cos_bucket.cos_bucket[0].region_location : (
+    ibm_cos_bucket.cos_bucket[0].cross_region_location != null ? ibm_cos_bucket.cos_bucket[0].cross_region_location : ibm_cos_bucket.cos_bucket[0].single_site_location
+  )
+
+  dynamic "lifecycle_rule" {
+    for_each = local.expire_enabled
+    content {
+      expiration {
+        days = var.expire_days
+      }
+      filter {
+        prefix = ""
+      }
+      rule_id = "${ibm_cos_bucket.cos_bucket[0].bucket_name}-expiry-0"
+      status  = "enable"
+    }
+  }
+
+  dynamic "lifecycle_rule" {
+    for_each = local.archive_enabled
+    content {
+
+      transition {
+        days          = var.archive_days
+        storage_class = upper(var.archive_type)
+      }
+      filter {
+        prefix = ""
+      }
+      rule_id = "${ibm_cos_bucket.cos_bucket[0].bucket_name}-transition-0"
+      status  = "enable"
+    }
+  }
+}
+
 # Create COS bucket with:
 # - Retention
 # - Monitoring
@@ -279,6 +319,46 @@ resource "ibm_cos_bucket" "cos_bucket1" {
     }
   }
 }
+
+
+resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle1" {
+  count      = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
+  bucket_crn = ibm_cos_bucket.cos_bucket1[0].crn
+  bucket_location = ibm_cos_bucket.cos_bucket1[0].region_location != null ? ibm_cos_bucket.cos_bucket1[0].region_location : (
+    ibm_cos_bucket.cos_bucket1[0].cross_region_location != null ? ibm_cos_bucket.cos_bucket1[0].cross_region_location : ibm_cos_bucket.cos_bucket1[0].single_site_location
+  )
+
+  dynamic "lifecycle_rule" {
+    for_each = local.expire_enabled
+    content {
+      expiration {
+        days = var.expire_days
+      }
+      filter {
+        prefix = ""
+      }
+      rule_id = "${ibm_cos_bucket.cos_bucket1[0].bucket_name}-expiry-0"
+      status  = "enable"
+    }
+  }
+
+  dynamic "lifecycle_rule" {
+    for_each = local.archive_enabled
+    content {
+
+      transition {
+        days          = var.archive_days
+        storage_class = upper(var.archive_type)
+      }
+      filter {
+        prefix = ""
+      }
+      rule_id = "${ibm_cos_bucket.cos_bucket1[0].bucket_name}-transition-0"
+      status  = "enable"
+    }
+  }
+}
+
 
 locals {
   bucket_crn           = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].crn : ibm_cos_bucket.cos_bucket1[0].crn) : null
