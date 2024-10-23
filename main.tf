@@ -157,25 +157,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
       permanent = var.retention_permanent
     }
   }
-  ## This for_each block is NOT a loop to attach to multiple archive blocks.
-  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
-  dynamic "archive_rule" {
-    for_each = local.archive_enabled
-    content {
-      enable = true
-      days   = var.archive_days
-      type   = var.archive_type
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple expire blocks.
-  ## This block is only used to conditionally add retention block depending on expire rule is enabled.
-  dynamic "expire_rule" {
-    for_each = local.expire_enabled
-    content {
-      enable = true
-      days   = var.expire_days
-    }
-  }
+
   ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
   ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
   dynamic "activity_tracking" {
@@ -271,25 +253,6 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       maximum   = var.retention_maximum
       minimum   = var.retention_minimum
       permanent = var.retention_permanent
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple archive blocks.
-  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
-  dynamic "archive_rule" {
-    for_each = local.archive_enabled
-    content {
-      enable = true
-      days   = var.archive_days
-      type   = var.archive_type
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
-  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
-  dynamic "expire_rule" {
-    for_each = local.expire_enabled
-    content {
-      enable = true
-      days   = var.expire_days
     }
   }
   ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
