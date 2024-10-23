@@ -38,7 +38,7 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.archive_days cannot be set.") : true
   # tflint-ignore: terraform_unused_declarations
-  validate_sinlge_site_location_archive_disabled_inputs = var.create_cos_bucket && (var.single_site_location != null && var.archive_days != null) ? tobool("If var.single_site_location is set, then var.archive_days cannot be set.") : true
+  validate_single_site_location_archive_disabled_inputs = var.create_cos_bucket && (var.single_site_location != null && var.archive_days != null) ? tobool("If var.single_site_location is set, then var.archive_days cannot be set.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_single_site_location_inputs = var.single_site_location != null && var.kms_encryption_enabled == true ? tobool("If var.single_site_location is set, then var.kms_encryption_enabled cannot be set as the key protect does not support single site location.") : true
   # retention/immuatbile object storage https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
@@ -200,7 +200,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle" {
         days = var.expire_days
       }
       filter {
-        prefix = ""
+        prefix = "" # target all object in bucket
       }
       rule_id = "${ibm_cos_bucket.cos_bucket[0].bucket_name}-expiry-0"
       status  = "enable"
@@ -216,7 +216,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle" {
         storage_class = upper(var.archive_type)
       }
       filter {
-        prefix = ""
+        prefix = "" # target all object in bucket
       }
       rule_id = "${ibm_cos_bucket.cos_bucket[0].bucket_name}-transition-0"
       status  = "enable"
@@ -298,7 +298,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle1" {
         days = var.expire_days
       }
       filter {
-        prefix = ""
+        prefix = "" # target all object in bucket
       }
       rule_id = "${ibm_cos_bucket.cos_bucket1[0].bucket_name}-expiry-0"
       status  = "enable"
@@ -314,7 +314,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "lifecycle1" {
         storage_class = upper(var.archive_type)
       }
       filter {
-        prefix = ""
+        prefix = "" # target all object in bucket
       }
       rule_id = "${ibm_cos_bucket.cos_bucket1[0].bucket_name}-transition-0"
       status  = "enable"
