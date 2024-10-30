@@ -13,11 +13,11 @@ locals {
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
   object_versioning_enabled  = var.object_versioning_enabled ? [1] : []
-  cos_instance_id          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
-  cos_instance_guid        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  cos_instance_name        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
-  cos_instance_crn         = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
-  create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
+  cos_instance_id            = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
+  cos_instance_guid          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
+  cos_instance_name          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
+  cos_instance_crn           = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
+  create_access_policy_kms   = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
 
   # input variable validation
   # tflint-ignore: terraform_unused_declarations
@@ -115,7 +115,6 @@ locals {
   kms_service    = var.kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null
   kms_account_id = var.kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null
   kms_key_id     = var.kms_key_crn != null ? module.kms_key_crn_parser[0].resource : null
-  kms_instance_guid     = var.kms_key_crn != null ? module.kms_key_crn_parser[0].service_instance : null
 }
 
 # Create IAM Authorization Policiy to allow COS to access the KMS encryption key
