@@ -158,7 +158,7 @@
         },
         {
             "name": "deploy-arch-ibm-cos",
-            "label": "Cloud Object Storage",
+            "label": "Cloud automation for Cloud Object Storage",
             "product_kind": "solution",
             "tags": [
                 "dev_ops",
