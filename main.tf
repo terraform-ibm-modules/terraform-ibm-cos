@@ -101,7 +101,7 @@ locals {
 
 # Parse data from KMS key CRN
 module "kms_key_crn_parser" {
-  count   = var.kms_key_crn != null ? 1 : 0
+  count   = local.create_access_policy_kms ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.1.0"
   crn     = var.kms_key_crn
