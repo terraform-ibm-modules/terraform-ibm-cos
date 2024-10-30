@@ -97,20 +97,11 @@ locals {
   cos_instance_name        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
   cos_instance_crn         = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
   create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
-}
-
-# Parse data from KMS key CRN
-module "kms_key_crn_parser" {
-  count   = local.create_access_policy_kms ? 1 : 0
-  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.1.0"
-  crn     = var.kms_key_crn
-}
-
-locals {
-  kms_service    = var.kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null
-  kms_account_id = var.kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null
-  kms_key_id     = var.kms_key_crn != null ? module.kms_key_crn_parser[0].resource : null
+  parsed_kms_key_crn       = var.kms_key_crn != null ? split(":", var.kms_key_crn) : []
+  kms_service              = length(local.parsed_kms_key_crn) > 0 ? local.parsed_kms_key_crn[4] : null
+  kms_scope                = length(local.parsed_kms_key_crn) > 0 ? local.parsed_kms_key_crn[6] : null
+  kms_account_id           = length(local.parsed_kms_key_crn) > 0 ? split("/", local.kms_scope)[1] : null
+  kms_key_id               = length(local.parsed_kms_key_crn) > 0 ? local.parsed_kms_key_crn[9] : null
 }
 
 # Create IAM Authorization Policy to allow COS to access KMS for the encryption key
