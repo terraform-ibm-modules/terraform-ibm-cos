@@ -13,11 +13,6 @@ locals {
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
   object_versioning_enabled  = var.object_versioning_enabled ? [1] : []
-  cos_instance_id            = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
-  cos_instance_guid          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  cos_instance_name          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
-  cos_instance_crn           = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
-  create_access_policy_kms   = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
 
   # input variable validation
   # tflint-ignore: terraform_unused_declarations
@@ -36,6 +31,8 @@ locals {
   validate_cross_region_and_plan_input = var.cross_region_location != null && var.cos_plan == "cos-one-rate-plan" ? tobool("var.cos_plan is 'cos-one-rate-plan', then var.cross_region_location cannot be set as the one rate plan does not support cross region.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_create_cos_instance_with_existing_id = var.create_cos_instance && var.existing_cos_instance_id != null ? tobool("create_cos_instance cannot be true when existing_cos_instance_id is provided.") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_kp_guid_input = var.kms_encryption_enabled && var.create_cos_bucket && var.skip_iam_authorization_policy == false && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when creating a bucket when var.kms_encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
   # tflint-ignore: terraform_unused_declarations
   validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null && var.single_site_location == null) || (var.cross_region_location != null && var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.region != null) || (var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.single_site_location != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region or var.single_site_location, only one of the regions can be set.") : true
   # tflint-ignore: terraform_unused_declarations
@@ -56,9 +53,15 @@ locals {
   validate_lock_duration_none = var.object_locking_enabled && var.object_lock_duration_days == 0 && var.object_lock_duration_years == 0 ? tobool("Object lock duration days or years must be set.") : true
 }
 
-##############################################################################
-# COS instance
-##############################################################################
+# Create IAM Authorization Policy to allow COS to access KMS for the encryption key
+resource "time_sleep" "wait_for_authorization_policy" {
+  depends_on = [ibm_iam_authorization_policy.policy]
+  count      = local.create_access_policy_kms ? 1 : 0
+  # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+  create_duration = "30s"
+  # workaround for https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/672
+  destroy_duration = "30s"
+}
 
 # Resource to create COS instance if create_cos_instance is true
 resource "ibm_resource_instance" "cos_instance" {
@@ -89,18 +92,12 @@ resource "ibm_resource_key" "resource_keys" {
   }
 }
 
-##############################################################################
-# COS bucket
-##############################################################################
-
-# Create IAM Authorization Policy to allow COS to access KMS for the encryption key
-resource "time_sleep" "wait_for_authorization_policy" {
-  depends_on = [ibm_iam_authorization_policy.policy]
-  count      = local.create_access_policy_kms ? 1 : 0
-  # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
-  create_duration = "30s"
-  # workaround for https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/672
-  destroy_duration = "30s"
+locals {
+  cos_instance_id          = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
+  cos_instance_guid        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
+  cos_instance_name        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
+  cos_instance_crn         = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
+  create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
 }
 
 # Parse data from KMS key CRN
