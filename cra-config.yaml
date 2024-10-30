@@ -11,7 +11,7 @@ CRA_TARGETS:
     PROFILE_ID: "bfacb71d-4b84-41ac-9825-e8a3a3eb7405" # SCC profile ID (currently set to IBM Cloud Framework for Financial Services 1.6.0 profile).
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
       TF_VAR_existing_kms_instance_crn: "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9::"
-      TF_VAR_existing_cos_instance_id: "mock"
+      TF_VAR_existing_cos_instance_id: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:12345a67-12ab-1a23-abc1-1a2345abcde6::"
       TF_VAR_bucket_name: "mock"
       TF_VAR_cross_region_location: us
   - CRA_TARGET: "solutions/secure-regional-bucket"  # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
@@ -19,5 +19,5 @@ CRA_TARGETS:
     PROFILE_ID: "bfacb71d-4b84-41ac-9825-e8a3a3eb7405" # SCC profile ID (currently set to IBM Cloud Framework for Financial Services 1.6.0 profile).
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
       TF_VAR_existing_kms_instance_crn: "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9::"
-      TF_VAR_existing_cos_instance_id: "mock"
+      TF_VAR_existing_cos_instance_id: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:12345a67-12ab-1a23-abc1-1a2345abcde6::"
       TF_VAR_bucket_name: "mock"
