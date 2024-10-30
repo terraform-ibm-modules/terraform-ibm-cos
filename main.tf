@@ -53,7 +53,6 @@ locals {
   validate_lock_duration_none = var.object_locking_enabled && var.object_lock_duration_days == 0 && var.object_lock_duration_years == 0 ? tobool("Object lock duration days or years must be set.") : true
 }
 
-# Create IAM Authorization Policy to allow COS to access KMS for the encryption key
 resource "time_sleep" "wait_for_authorization_policy" {
   depends_on = [ibm_iam_authorization_policy.policy]
   count      = local.create_access_policy_kms ? 1 : 0
@@ -114,7 +113,7 @@ locals {
   kms_key_id     = var.kms_key_crn != null ? module.kms_key_crn_parser[0].resource : null
 }
 
-# Create IAM Authorization Policiy to allow COS to access the KMS encryption key
+# Create IAM Authorization Policy to allow COS to access KMS for the encryption key
 resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy_kms ? 1 : 0
   source_service_name         = "cloud-object-storage"
