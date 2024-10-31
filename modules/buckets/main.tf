@@ -7,9 +7,11 @@
 locals {
   access_policy = [
     for bucket_config in var.bucket_configs : {
-      "cos_guid" : element(split(":", bucket_config.resource_instance_id), length(split(":", bucket_config.resource_instance_id)) - 3),
+      "cos_guid" : coalescelist(split(":", bucket_config.resource_instance_id))[7]
       "kms_guid" : bucket_config.kms_guid,
-      "type" : can(regex(".*kms.*", bucket_config.kms_key_crn)) ? "kms" : "hs-crypto"
+      "type" : coalescelist(split(":", bucket_config.resource_instance_id))[8]
+      "kms_key_id" : coalescelist(split(":", bucket_config.kms_key_crn))[9]
+      "kms_account_id" : split("/", coalescelist(split(":", bucket_config.resource_instance_id))[6])[1]
     } if bucket_config.kms_encryption_enabled && !bucket_config.skip_iam_authorization_policy
   ]
 }
@@ -19,10 +21,38 @@ resource "ibm_iam_authorization_policy" "policy" {
   count                       = length(local.access_policy)
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.access_policy[count.index]["cos_guid"]
-  target_service_name         = local.access_policy[count.index]["type"]
-  target_resource_instance_id = local.access_policy[count.index]["kms_guid"]
   roles                       = ["Reader"]
-  description                 = "Allow the COS instance with GUID ${local.access_policy[count.index]["cos_guid"]} reader access to the ${local.access_policy[count.index]["type"]} instance GUID ${local.access_policy[count.index]["kms_guid"]}"
+  description                 = "Allow the COS instance ${local.access_policy[count.index]["cos_guid"]} to read the ${local.access_policy[count.index]["type"]} key ${local.access_policy[count.index]["kms_key_id"]} from the instance ${local.access_policy[count.index]["kms_guid"]}"
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = local.access_policy[count.index]["type"]
+  }
+  resource_attributes {
+    name     = "accountId"
+    operator = "stringEquals"
+    value    = local.access_policy[count.index]["kms_account_id"]
+  }
+  resource_attributes {
+    name     = "serviceInstance"
+    operator = "stringEquals"
+    value    = local.access_policy[count.index]["kms_guid"]
+  }
+  resource_attributes {
+    name     = "resourceType"
+    operator = "stringEquals"
+    value    = "key"
+  }
+  resource_attributes {
+    name     = "resource"
+    operator = "stringEquals"
+    value    = local.access_policy[count.index]["kms_key_id"]
+  }
+  # Scope of policy now includes the key, so ensure to create new policy before
+  # destroying old one to prevent any disruption to every day services.
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
