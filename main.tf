@@ -97,12 +97,11 @@ locals {
   cos_instance_name        = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
   cos_instance_crn         = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
   create_access_policy_kms = var.kms_encryption_enabled && var.create_cos_bucket && !var.skip_iam_authorization_policy
-  kms_service = local.create_access_policy_kms ? (
-    can(regex(".*kms.*", var.kms_key_crn)) ? "kms" : (
-      can(regex(".*hs-crypto.*", var.kms_key_crn)) ? "hs-crypto" : null
-    )
-  ) : null
-
+  parsed_kms_key_crn       = var.kms_key_crn != null ? split(":", var.kms_key_crn) : []
+  kms_service              = length(local.parsed_kms_key_crn) > 0 ? local.parsed_kms_key_crn[4] : null
+  kms_scope                = length(local.parsed_kms_key_crn) > 0 ? local.parsed_kms_key_crn[6] : null
+  kms_account_id           = length(local.parsed_kms_key_crn) > 0 ? split("/", local.kms_scope)[1] : null
+  kms_key_id               = length(local.parsed_kms_key_crn) > 0 ? local.parsed_kms_key_crn[9] : null
 }
 
 # Create IAM Authorization Policy to allow COS to access KMS for the encryption key
@@ -110,10 +109,38 @@ resource "ibm_iam_authorization_policy" "policy" {
   count                       = local.create_access_policy_kms ? 1 : 0
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
-  target_service_name         = local.kms_service
-  target_resource_instance_id = var.existing_kms_instance_guid
   roles                       = ["Reader"]
-  description                 = "Allow the COS instance with GUID ${local.cos_instance_guid} reader access to the ${local.kms_service} instance GUID ${var.existing_kms_instance_guid}"
+  description                 = "Allow the COS instance ${local.cos_instance_guid} to read the ${local.kms_service} key ${local.kms_key_id} from the instance ${var.existing_kms_instance_guid}"
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = local.kms_service
+  }
+  resource_attributes {
+    name     = "accountId"
+    operator = "stringEquals"
+    value    = local.kms_account_id
+  }
+  resource_attributes {
+    name     = "serviceInstance"
+    operator = "stringEquals"
+    value    = var.existing_kms_instance_guid
+  }
+  resource_attributes {
+    name     = "resourceType"
+    operator = "stringEquals"
+    value    = "key"
+  }
+  resource_attributes {
+    name     = "resource"
+    operator = "stringEquals"
+    value    = local.kms_key_id
+  }
+  # Scope of policy now includes the key, so ensure to create new policy before
+  # destroying old one to prevent any disruption to every day services.
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Create random string which is added to COS bucket name as a suffix
