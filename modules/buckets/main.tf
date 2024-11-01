@@ -9,7 +9,7 @@ locals {
     for bucket_config in var.bucket_configs : {
       "cos_guid" : coalescelist(split(":", bucket_config.resource_instance_id))[7]
       "kms_guid" : bucket_config.kms_guid,
-      "type" : coalescelist(split(":", bucket_config.kms_key_crn))[8]
+      "type" : coalescelist(split(":", bucket_config.kms_key_crn))[4]
       "kms_key_id" : coalescelist(split(":", bucket_config.kms_key_crn))[9]
       "kms_account_id" : split("/", coalescelist(split(":", bucket_config.resource_instance_id))[6])[1]
     } if bucket_config.kms_encryption_enabled && !bucket_config.skip_iam_authorization_policy
