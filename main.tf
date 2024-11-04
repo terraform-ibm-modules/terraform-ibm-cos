@@ -226,7 +226,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       filter {
         prefix = ""
       }
-      rule_id = "expiry-rule-${count.index}"
+      rule_id = "expiry-rule-${count.index + 1}"
       status  = "enable"
     }
   }
