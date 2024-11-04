@@ -23,7 +23,6 @@ module "cos" {
   bucket_name            = "${var.prefix}-bucket"
   retention_enabled      = false # disable retention for test environments - enable for stage/prod
   kms_encryption_enabled = false
-  expire_days            = 60
 }
 
 ##############################################################################

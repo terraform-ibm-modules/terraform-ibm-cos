@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "(Optional) Prefix to append to all resources created by this solution."
-  default     = "jor-test"
+  default     = null
 }
 
 variable "existing_resource_group" {
@@ -66,7 +66,7 @@ variable "existing_secrets_manager_instance_crn" {
 variable "existing_secrets_manager_endpoint_type" {
   type        = string
   description = "The endpoint type to use if `existing_secrets_manager_instance_crn` is specified. Possible values: public, private."
-  default     = "public"
+  default     = "private"
   validation {
     condition     = contains(["public", "private"], var.existing_secrets_manager_endpoint_type)
     error_message = "Only \"public\" and \"private\" are allowed values for 'existing_secrets_endpoint_type'."
