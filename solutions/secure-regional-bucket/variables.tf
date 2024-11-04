@@ -120,7 +120,7 @@ variable "archive_days" {
 variable "archive_type" {
   description = "The storage class or archive type you want the object to transition to."
   type        = string
-  default     = "Glacier"
+  default     = "GLACIER"
 }
 
 variable "expire_days" {

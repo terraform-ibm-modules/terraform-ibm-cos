@@ -94,7 +94,7 @@ module "cos_buckets" {
       archive_rule = {
         days   = 90
         enable = true
-        type   = "Accelerated"
+        type   = "ACCELERATED"
       }
       expire_rule = {
         days   = 90
@@ -146,6 +146,8 @@ You need the following permissions to run this module.
 |------|------|
 | [ibm_cos_bucket.cos_bucket](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
 | [ibm_cos_bucket.cos_bucket1](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
+| [ibm_cos_bucket_lifecycle_configuration.cos_bucket1_lifecycle](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_lifecycle_configuration) | resource |
+| [ibm_cos_bucket_lifecycle_configuration.cos_bucket_lifecycle](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_lifecycle_configuration) | resource |
 | [ibm_cos_bucket_object_lock_configuration.lock_configuration](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_object_lock_configuration) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
@@ -164,7 +166,7 @@ You need the following permissions to run this module.
 | <a name="input_activity_tracker_write_data_events"></a> [activity\_tracker\_write\_data\_events](#input\_activity\_tracker\_write\_data\_events) | If set to true, all Object Storage bucket write events (i.e. uploads) will be sent to Activity Tracker. | `bool` | `true` | no |
 | <a name="input_add_bucket_name_suffix"></a> [add\_bucket\_name\_suffix](#input\_add\_bucket\_name\_suffix) | Whether to add a randomly generated 4-character suffix to the new bucket name. | `bool` | `false` | no |
 | <a name="input_archive_days"></a> [archive\_days](#input\_archive\_days) | The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is true. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets. | `number` | `90` | no |
-| <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | The storage class or archive type to which you want the object to transition. Possible values: `Glacier`, `Accelerated`. Applies only if `create_cos_bucket` is true. | `string` | `"Glacier"` | no |
+| <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | The storage class or archive type to which you want the object to transition. Possible values: `GLACIER`, `ACCELERATED`. Applies only if `create_cos_bucket` is true. | `string` | `"GLACIER"` | no |
 | <a name="input_bucket_cbr_rules"></a> [bucket\_cbr\_rules](#input\_bucket\_cbr\_rules) | The list of context-based restriction rules to create for the bucket. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    operations = optional(list(object({<br/>      api_types = list(object({<br/>        api_type_id = string<br/>      }))<br/>    })))<br/>  }))</pre> | `[]` | no |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name for the new Object Storage bucket. Applies only if `create_cos_bucket` is true. | `string` | `null` | no |
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | The storage class of the new bucket. Required only if `create_cos_bucket` is true. Possible values: `standard`, `vault`, `cold`, `smart`, `onerate_active`. | `string` | `"standard"` | no |

@@ -7,6 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "Prefix name for all related resources"
+  default     = "jor-test"
 }
 
 variable "resource_tags" {
@@ -18,6 +19,7 @@ variable "resource_tags" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
+  default     = "us-south"
 }
 
 variable "resource_group" {

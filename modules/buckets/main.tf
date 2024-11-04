@@ -69,7 +69,7 @@ module "buckets" {
   activity_tracker_management_events = can(each.value.activity_tracking.management_events) ? each.value.activity_tracking.management_events : true
 
   archive_days = can(each.value.archive_rule.days) ? (each.value.archive_rule.enable ? each.value.archive_rule.days : null) : null
-  archive_type = can(each.value.archive_rule.type) ? each.value.archive_rule.type : "Glacier"
+  archive_type = can(each.value.archive_rule.type) ? each.value.archive_rule.type : "GLACIER"
 
   expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
 

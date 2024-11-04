@@ -226,11 +226,11 @@ variable "archive_days" {
 }
 
 variable "archive_type" {
-  description = "The storage class or archive type to which you want the object to transition. Possible values: `Glacier`, `Accelerated`. Applies only if `create_cos_bucket` is true."
+  description = "The storage class or archive type to which you want the object to transition. Possible values: `GLACIER`, `ACCELERATED`. Applies only if `create_cos_bucket` is true."
   type        = string
-  default     = "Glacier"
+  default     = "GLACIER"
   validation {
-    condition     = contains(["Glacier", "Accelerated"], var.archive_type)
+    condition     = contains(["GLACIER", "ACCELERATED"], var.archive_type)
     error_message = "The specified archive_type is not a valid selection!"
   }
 }
