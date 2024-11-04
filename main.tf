@@ -270,16 +270,17 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  expiration_or_archiving_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0)
+  create_cos_bucket  = (var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
+  create_cos_bucket1 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
+
+  cos_bucket_resource = local.create_cos_bucket ? ibm_cos_bucket.cos_bucket : local.create_cos_bucket1 ? ibm_cos_bucket.cos_bucket1 : null
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
-  for_each = {
-    for key, value in concat(ibm_cos_bucket.cos_bucket, ibm_cos_bucket.cos_bucket1)
-    : value.bucket_name => value if local.expiration_or_archiving_rule_enabled
-  }
-  bucket_crn      = each.value.crn
-  bucket_location = each.value.region_location
+  count = local.create_cos_bucket || local.create_cos_bucket1 ? 1 : 0
+
+  bucket_crn      = local.cos_bucket_resource[count.index].crn
+  bucket_location = local.cos_bucket_resource[count.index].region_location
 
   dynamic "lifecycle_rule" {
     ## This for_each block is NOT a loop to attach to multiple expiration blocks.
