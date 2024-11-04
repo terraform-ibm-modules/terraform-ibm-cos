@@ -211,11 +211,11 @@ resource "ibm_cos_bucket" "cos_bucket" {
 }
 
 locals {
-  expiry_or_archiving_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0)
+  expiration_or_archiving_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0)
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
-  count           = (var.kms_encryption_enabled && var.create_cos_bucket) && local.expiry_or_archiving_rule_enabled ? 1 : 0
+  count           = (var.kms_encryption_enabled && var.create_cos_bucket) && local.expiration_or_archiving_rule_enabled ? 1 : 0
   bucket_crn      = ibm_cos_bucket.cos_bucket[count.index].crn
   bucket_location = ibm_cos_bucket.cos_bucket[count.index].region_location
 
@@ -230,7 +230,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       filter {
         prefix = ""
       }
-      rule_id = "expiry-rule-${count.index + 1}"
+      rule_id = "expiry-rule"
       status  = "enable"
     }
   }
@@ -247,7 +247,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       filter {
         prefix = ""
       }
-      rule_id = "archive-rule-${count.index + 1}"
+      rule_id = "archive-rule"
       status  = "enable"
     }
   }
@@ -313,7 +313,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket1_lifecycle" {
-  count           = (!var.kms_encryption_enabled && var.create_cos_bucket) && local.expiry_or_archiving_rule_enabled ? 1 : 0
+  count           = (!var.kms_encryption_enabled && var.create_cos_bucket) && local.expiration_or_archiving_rule_enabled ? 1 : 0
   bucket_crn      = ibm_cos_bucket.cos_bucket1[count.index].crn
   bucket_location = ibm_cos_bucket.cos_bucket1[count.index].region_location
 
@@ -328,7 +328,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket1_lifecycle" {
       filter {
         prefix = ""
       }
-      rule_id = "expiry-rule-${count.index}"
+      rule_id = "expiry-rule"
       status  = "enable"
     }
   }
@@ -345,7 +345,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket1_lifecycle" {
       filter {
         prefix = ""
       }
-      rule_id = "archive-rule-${count.index}"
+      rule_id = "archive-rule"
       status  = "enable"
     }
   }
