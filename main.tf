@@ -275,7 +275,7 @@ locals {
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
   for_each = {
-    for key, value in concat(ibm_cos_bucket.cos_bucket, ibm_cos_bucket.cos_bucket1, []) 
+    for key, value in concat(ibm_cos_bucket.cos_bucket, ibm_cos_bucket.cos_bucket1)
     : value.bucket_name => value if local.expiration_or_archiving_rule_enabled
   }
   bucket_crn      = each.value.crn
@@ -303,7 +303,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
     content {
       transition {
         days          = var.archive_days
-        storage_class = var.archive_type
+        storage_class = upper(var.archive_type)
 
       }
       filter {

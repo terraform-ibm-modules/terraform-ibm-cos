@@ -34,7 +34,7 @@ variable "bucket_configs" {
     archive_rule = optional(object({
       enable = optional(bool, false)
       days   = optional(number, 20)
-      type   = optional(string, "GLACIER")
+      type   = optional(string, "Glacier")
     }))
     expire_rule = optional(object({
       enable = optional(bool, false)
