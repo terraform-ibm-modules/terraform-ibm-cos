@@ -270,6 +270,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
+  expiration_or_archiving_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0)
+
   create_cos_bucket  = (var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
   create_cos_bucket1 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
 
@@ -277,7 +279,7 @@ locals {
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
-  count = local.create_cos_bucket || local.create_cos_bucket1 ? 1 : 0
+  count = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
 
   bucket_crn      = local.cos_bucket_resource[count.index].crn
   bucket_location = local.cos_bucket_resource[count.index].region_location
