@@ -16,6 +16,9 @@ locals {
       can(regex(".*hs-crypto.*", var.existing_kms_instance_crn)) ? "hs-crypto" : null
     )
   ) : null
+  kms_account_id = var.existing_kms_instance_crn != null ? split("/", coalescelist(split(":", var.existing_kms_instance_crn))[6])[1] : null
+  kms_key_crn    = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.key_ring_name, var.key_name)].crn
+  kms_key_id     = coalescelist(split(":", local.kms_key_crn))[9]
 
   bucket_config = [{
     access_tags                   = var.bucket_access_tags
@@ -23,7 +26,7 @@ locals {
     kms_encryption_enabled        = true
     add_bucket_name_suffix        = var.add_bucket_name_suffix
     kms_guid                      = local.existing_kms_instance_guid
-    kms_key_crn                   = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.key_ring_name, var.key_name)].crn
+    kms_key_crn                   = local.kms_key_crn
     skip_iam_authorization_policy = local.create_cross_account_auth_policy || var.skip_iam_authorization_policy
     management_endpoint_type      = var.management_endpoint_type_for_bucket
     cross_region_location         = var.cross_region_location
@@ -78,10 +81,38 @@ resource "ibm_iam_authorization_policy" "cos_kms_policy" {
   source_service_account      = module.cos_crn_parser.account_id
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
-  target_service_name         = local.kms_service_name
-  target_resource_instance_id = local.existing_kms_instance_guid
   roles                       = ["Reader"]
-  description                 = "Allow the COS instance with GUID ${local.cos_instance_guid} to read from the ${local.kms_service_name} instance GUID ${local.existing_kms_instance_guid}"
+  description                 = "Allow the COS instance ${local.cos_instance_guid} to read the ${local.kms_service_name} key ${local.kms_key_id} from the instance ${local.existing_kms_instance_guid}"
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = local.kms_service_name
+  }
+  resource_attributes {
+    name     = "accountId"
+    operator = "stringEquals"
+    value    = local.kms_account_id
+  }
+  resource_attributes {
+    name     = "serviceInstance"
+    operator = "stringEquals"
+    value    = local.existing_kms_instance_guid
+  }
+  resource_attributes {
+    name     = "resourceType"
+    operator = "stringEquals"
+    value    = "key"
+  }
+  resource_attributes {
+    name     = "resource"
+    operator = "stringEquals"
+    value    = local.kms_key_id
+  }
+  # Scope of policy now includes the key, so ensure to create new policy before
+  # destroying old one to prevent any disruption to every day services.
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "time_sleep" "wait_for_authorization_policy" {
@@ -96,7 +127,7 @@ module "kms" {
   }
   count                       = var.existing_kms_key_crn != null ? 0 : 1 # no need to create any KMS resources if passing an existing key.
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "4.16.4"
+  version                     = "4.16.7"
   create_key_protect_instance = false
   region                      = local.existing_kms_instance_region
   existing_kms_instance_crn   = var.existing_kms_instance_crn
