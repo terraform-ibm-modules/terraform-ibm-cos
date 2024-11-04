@@ -276,13 +276,17 @@ locals {
   create_cos_bucket1 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
 
   cos_bucket_resource = local.create_cos_bucket ? ibm_cos_bucket.cos_bucket : local.create_cos_bucket1 ? ibm_cos_bucket.cos_bucket1 : null
+
+  ## Only one of these values can be set, leaving 2 of 3 null, compact function removes nulls.
+  ## We then take the only value left in the list
+  cos_region = compact([var.region, var.cross_region_location, var.single_site_location])[0]
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
   count = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
 
   bucket_crn      = local.cos_bucket_resource[count.index].crn
-  bucket_location = var.region
+  bucket_location = local.cos_region
 
   dynamic "lifecycle_rule" {
     ## This for_each block is NOT a loop to attach to multiple expiration blocks.
@@ -305,7 +309,8 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
     for_each = local.archive_enabled
     content {
       transition {
-        days          = var.archive_days
+        days = var.archive_days
+        ## The new values changed from Capatalized to all Upper case, avoid having to change values in new release
         storage_class = upper(var.archive_type)
 
       }
