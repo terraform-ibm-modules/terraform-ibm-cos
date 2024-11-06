@@ -304,7 +304,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
         days = var.expire_days
       }
       filter {
-        prefix = var.expire_filter_prefix
+        prefix = var.expire_filter_prefix != null ? var.expire_filter_prefix : ""
       }
       rule_id = "expiry-rule"
       status  = "enable"
@@ -322,7 +322,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
 
       }
       filter {
-        prefix = var.archive_filter_prefix
+        prefix = var.archive_filter_prefix != null ? var.archive_filter_prefix : ""
       }
       rule_id = "archive-rule"
       status  = "enable"
