@@ -15,7 +15,7 @@ module "resource_group" {
 ##############################################################################
 
 module "cos" {
-  source                 = "../../"
+  source                 = "github.com/terraform-ibm-modules/terraform-ibm-cos?ref=migration"
   resource_group_id      = module.resource_group.resource_group_id
   region                 = var.region
   cos_instance_name      = "${var.prefix}-cos"
