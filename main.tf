@@ -282,8 +282,15 @@ locals {
   cos_region = compact([var.region, var.cross_region_location, var.single_site_location])[0]
 }
 
+resource "time_sleep" "wait_for_cos_bucket_lifecycle" {
+  count           = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
+  create_duration = "30s"
+}
+
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
   count = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
+
+  depends_on = [time_sleep.wait_for_cos_bucket_lifecycle]
 
   bucket_crn      = local.cos_bucket_resource[count.index].crn
   bucket_location = local.cos_region
