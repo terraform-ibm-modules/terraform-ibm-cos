@@ -2,7 +2,7 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 
 go 1.22.0
 
-toolchain go1.23.2
+toolchain go1.23.3
 
 require (
 	github.com/IBM/ibm-cos-sdk-go v1.11.1
