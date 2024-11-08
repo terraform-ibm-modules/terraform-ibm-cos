@@ -59,6 +59,8 @@ locals {
       single_site_location          = config.single_site_location
       force_delete                  = config.force_delete
       hard_quota                    = config.hard_quota
+      expire_filter_prefix          = config.expire_filter_prefix
+      archive_filter_prefix         = config.archive_filter_prefix
       add_bucket_name_suffix        = config.add_bucket_name_suffix
     }
   ]
