@@ -2,13 +2,13 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 
 go 1.22.0
 
-toolchain go1.23.2
+toolchain go1.23.3
 
 require (
 	github.com/IBM/ibm-cos-sdk-go v1.11.1
 	github.com/gruntwork-io/terratest v0.47.2
 	github.com/stretchr/testify v1.9.0
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.41.3
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.41.4
 )
 
 require (
@@ -102,13 +102,13 @@ require (
 	go.opentelemetry.io/otel v1.16.0 // indirect
 	go.opentelemetry.io/otel/metric v1.16.0 // indirect
 	go.opentelemetry.io/otel/trace v1.16.0 // indirect
-	golang.org/x/crypto v0.28.0 // indirect
+	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/net v0.28.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
-	golang.org/x/sync v0.8.0 // indirect
-	golang.org/x/sys v0.26.0 // indirect
-	golang.org/x/text v0.19.0 // indirect
+	golang.org/x/sync v0.9.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/text v0.20.0 // indirect
 	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/api v0.127.0 // indirect
