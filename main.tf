@@ -285,7 +285,7 @@ locals {
 resource "time_sleep" "wait_for_cos_bucket_lifecycle" {
   count = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
   # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5778
-  create_duration = "30s"
+  create_duration = "60s"
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
