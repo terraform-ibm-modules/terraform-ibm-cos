@@ -230,7 +230,27 @@
                                 "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance."
                             }
                         ]
-                    }
+                    },
+                    "configuration":[
+                        {
+                        "key": "provider_visibility",
+                        "options": [
+                          {
+                            "displayname": "private",
+                            "value": "private"
+                          },
+                          {
+                            "displayname": "public",
+                            "value": "public"
+                          },
+                          {
+                            "displayname": "public-and-private",
+                            "value": "public-and-private"
+                          }
+                        ]
+                      }
+                    ]
+
                 },
                 {
                     "label": "Secure cross-region bucket",
@@ -295,7 +315,27 @@
                                 "description": "This architecture supports creating and configuring a secure cross-region bucket."
                             }
                         ]
-                    }
+                    },
+                    "configuration":[
+                        {
+                        "key": "provider_visibility",
+                        "options": [
+                          {
+                            "displayname": "private",
+                            "value": "private"
+                          },
+                          {
+                            "displayname": "public",
+                            "value": "public"
+                          },
+                          {
+                            "displayname": "public-and-private",
+                            "value": "public-and-private"
+                          }
+                        ]
+                      }
+                    ]
+
                 },
                 {
                     "label": "Secure regional bucket",
@@ -364,7 +404,26 @@
                                 "description": "This architecture supports creating and configuring a regional bucket."
                             }
                         ]
-                    }
+                    },
+                    "configuration":[
+                        {
+                        "key": "provider_visibility",
+                        "options": [
+                          {
+                            "displayname": "private",
+                            "value": "private"
+                          },
+                          {
+                            "displayname": "public",
+                            "value": "public"
+                          },
+                          {
+                            "displayname": "public-and-private",
+                            "value": "public-and-private"
+                          }
+                        ]
+                      }
+                    ]
                 }
             ]
         }
