@@ -8,7 +8,7 @@ output "resource_group_id" {
 
 output "resource_group_name" {
   description = "Resource group name"
-  value       = module.resource_group.resource_group_name
+  value       = !var.existing_resource_group ? module.resource_group.resource_group_name : var.existing_resource_group
 }
 
 output "cos_instance_id" {
