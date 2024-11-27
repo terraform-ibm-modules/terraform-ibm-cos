@@ -273,6 +273,7 @@ func TestRunSolutions(t *testing.T) {
 		"resource_group_name":                    fmt.Sprintf("%s-resource-group", prefix),
 		"existing_secrets_manager_instance_crn":  permanentResources["secretsManagerCRN"],
 		"existing_secrets_manager_endpoint_type": "public",
+		"provider_visibility":                    "public",
 		"service_credential_secrets": []map[string]interface{}{
 			{
 				"secret_group_name": fmt.Sprintf("%s-secret-group", prefix),
@@ -306,6 +307,7 @@ func TestRunSolutions(t *testing.T) {
 				"region":                              region,
 				"existing_kms_instance_crn":           permanentResources["hpcs_south_crn"],
 				"kms_endpoint_type":                   "public",
+				"provider_visibility":                 "public",
 				"management_endpoint_type_for_bucket": "public",
 				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},
@@ -326,6 +328,7 @@ func TestRunSolutions(t *testing.T) {
 				"existing_kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 				"existing_kms_instance_crn":           permanentResources["hpcs_south_crn"],
 				"management_endpoint_type_for_bucket": "public",
+				"provider_visibility":                 "public",
 				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},
 		})

@@ -1,11 +1,26 @@
 # More info about this file at https://github.com/terraform-ibm-modules/common-pipeline-assets/blob/main/.github/workflows/terraform-test-pipeline.md#cra-config-yaml
 version: "v1"
 CRA_TARGETS:
-  - CRA_TARGET: "examples/fscloud" # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
+  - CRA_TARGET: "solutions/instance"  # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
     PROFILE_ID: "fe96bd4d-9b37-40f2-b39f-a62760e326a3"         # SCC profile ID (currently set to 'IBM Cloud Framework for Financial Services' '1.7.0' profile).
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
-      TF_VAR_bucket_existing_hpcs_instance_guid: "e6dce284-e80f-46e1-a3c1-830f7adff7a9"
-      TF_VAR_bucket_hpcs_key_crn: "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9:key:76170fae-4e0c-48c3-8ebe-326059ebb533"
-      TF_VAR_region: "us-south"
-      TF_VAR_prefix: "test-cos-fscloud"
+      TF_VAR_resource_group_name: "terraform-ibm-cos"
+      TF_VAR_provider_visibility: "public"
+  - CRA_TARGET: "solutions/secure-cross-regional-bucket"  # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
+    CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
+    PROFILE_ID: "bfacb71d-4b84-41ac-9825-e8a3a3eb7405" # SCC profile ID (currently set to IBM Cloud Framework for Financial Services 1.6.0 profile).
+    CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
+      TF_VAR_existing_kms_instance_crn: "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9::"
+      TF_VAR_existing_cos_instance_id: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:12345a67-12ab-1a23-abc1-1a2345abcde6::"
+      TF_VAR_bucket_name: "mock"
+      TF_VAR_cross_region_location: us
+      TF_VAR_provider_visibility: "public"
+  - CRA_TARGET: "solutions/secure-regional-bucket"  # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
+    CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
+    PROFILE_ID: "bfacb71d-4b84-41ac-9825-e8a3a3eb7405" # SCC profile ID (currently set to IBM Cloud Framework for Financial Services 1.6.0 profile).
+    CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
+      TF_VAR_existing_kms_instance_crn: "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9::"
+      TF_VAR_existing_cos_instance_id: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:12345a67-12ab-1a23-abc1-1a2345abcde6::"
+      TF_VAR_bucket_name: "mock"
+      TF_VAR_provider_visibility: "public"
