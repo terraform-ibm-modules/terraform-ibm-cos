@@ -257,7 +257,6 @@
                     "name": "secure-cross-regional-bucket",
                     "working_directory": "solutions/secure-cross-regional-bucket",
                     "install_type": "extension",
-                    "dependency_version_2": true,
                     "dependencies": [
                         {
                             "flavors": [
@@ -343,7 +342,6 @@
                     "name": "secure-regional-bucket",
                     "working_directory": "solutions/secure-regional-bucket",
                     "install_type": "extension",
-                    "dependency_version_2": true,
                     "dependencies": [
                         {
                             "flavors": [
