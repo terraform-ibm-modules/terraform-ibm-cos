@@ -60,6 +60,9 @@ locals {
       force_delete                  = config.force_delete
       hard_quota                    = config.hard_quota
       add_bucket_name_suffix        = config.add_bucket_name_suffix
+      object_locking_enabled        = config.object_locking_enabled
+      object_lock_duration_days     = config.object_lock_duration_days
+      object_lock_duration_years    = config.object_lock_duration_years
     }
   ]
 }
