@@ -62,6 +62,9 @@ locals {
       expire_filter_prefix          = config.expire_filter_prefix
       archive_filter_prefix         = config.archive_filter_prefix
       add_bucket_name_suffix        = config.add_bucket_name_suffix
+      object_locking_enabled        = config.object_locking_enabled
+      object_lock_duration_days     = config.object_lock_duration_days
+      object_lock_duration_years    = config.object_lock_duration_years
     }
   ]
 }
