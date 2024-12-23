@@ -28,7 +28,7 @@ The `instance_cbr_rules` input variable allows you to provide a rule for the tar
       - `report` - The restrictions are evaluated and reported, but not enforced.
   - `tags` (optional): (List) Resource Tags .
        - `name` (required): The Tag name.
-       - `value` (required): The Tag value. 
+       - `value` (required): The Tag value.
   - `operations` (optional): The operations this rule applies to
     - `api_types`(required): (List) The API types this rule applies to.
         - `api_type_id`(required):The API type ID
