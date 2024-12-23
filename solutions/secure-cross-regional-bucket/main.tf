@@ -164,4 +164,5 @@ module "cos" {
   create_cos_instance      = false
   existing_cos_instance_id = var.existing_cos_instance_id
   bucket_configs           = local.bucket_config
+  instance_cbr_rules       = var.instance_cbr_rules
 }

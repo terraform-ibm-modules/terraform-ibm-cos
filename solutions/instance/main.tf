@@ -14,6 +14,7 @@ module "cos" {
   cos_plan            = var.cos_plan
   cos_tags            = var.cos_tags
   access_tags         = var.access_tags
+  instance_cbr_rules  = var.instance_cbr_rules
 }
 
 resource "ibm_iam_authorization_policy" "secrets_manager_key_manager" {
