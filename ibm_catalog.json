@@ -248,6 +248,9 @@
                             "value": "public-and-private"
                           }
                         ]
+                      },
+                      {
+                        "key":"cbr_rules"
                       }
                     ]
 
@@ -333,6 +336,9 @@
                             "value": "public-and-private"
                           }
                         ]
+                      },
+                      {
+                        "key":"cbr_rules"
                       }
                     ]
 
@@ -422,6 +428,9 @@
                             "value": "public-and-private"
                           }
                         ]
+                      },
+                      {
+                        "key":"cbr_rules"
                       }
                     ]
                 }
