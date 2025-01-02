@@ -250,7 +250,7 @@
                         ]
                       },
                       {
-                        "key":"cbr_rules"
+                        "key":"instance_cbr_rules"
                       }
                     ]
 
@@ -338,7 +338,7 @@
                         ]
                       },
                       {
-                        "key":"cbr_rules"
+                        "key":"instance_cbr_rules"
                       }
                     ]
 
@@ -430,7 +430,7 @@
                         ]
                       },
                       {
-                        "key":"cbr_rules"
+                        "key":"instance_cbr_rules"
                       }
                     ]
                 }
