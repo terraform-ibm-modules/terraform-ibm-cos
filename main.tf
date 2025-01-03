@@ -182,25 +182,6 @@ resource "ibm_cos_bucket" "cos_bucket" {
       permanent = var.retention_permanent
     }
   }
-  ## This for_each block is NOT a loop to attach to multiple archive blocks.
-  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
-  dynamic "archive_rule" {
-    for_each = local.archive_enabled
-    content {
-      enable = true
-      days   = var.archive_days
-      type   = var.archive_type
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple expire blocks.
-  ## This block is only used to conditionally add retention block depending on expire rule is enabled.
-  dynamic "expire_rule" {
-    for_each = local.expire_enabled
-    content {
-      enable = true
-      days   = var.expire_days
-    }
-  }
   ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
   ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
   dynamic "activity_tracking" {
@@ -260,25 +241,6 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       permanent = var.retention_permanent
     }
   }
-  ## This for_each block is NOT a loop to attach to multiple archive blocks.
-  ## This block is only used to conditionally add retention block depending on archive rule is enabled.
-  dynamic "archive_rule" {
-    for_each = local.archive_enabled
-    content {
-      enable = true
-      days   = var.archive_days
-      type   = var.archive_type
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
-  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
-  dynamic "expire_rule" {
-    for_each = local.expire_enabled
-    content {
-      enable = true
-      days   = var.expire_days
-    }
-  }
   ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
   ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
   dynamic "activity_tracking" {
@@ -303,6 +265,68 @@ resource "ibm_cos_bucket" "cos_bucket1" {
     for_each = local.object_versioning_enabled
     content {
       enable = var.object_versioning_enabled
+    }
+  }
+}
+
+locals {
+  expiration_or_archiving_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0)
+
+  create_cos_bucket  = (var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
+  create_cos_bucket1 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
+
+  cos_bucket_resource = local.create_cos_bucket ? ibm_cos_bucket.cos_bucket : local.create_cos_bucket1 ? ibm_cos_bucket.cos_bucket1 : null
+
+  ## Only one of these values can be set, leaving 2 of 3 null, compact function removes nulls.
+  ## We then take the only value left in the list
+  cos_region = compact([var.region, var.cross_region_location, var.single_site_location])[0]
+}
+
+resource "time_sleep" "wait_for_cos_bucket_lifecycle" {
+  count = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
+  # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5778
+  create_duration = "90s"
+}
+
+resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
+  count = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
+
+  depends_on = [time_sleep.wait_for_cos_bucket_lifecycle]
+
+  bucket_crn      = local.cos_bucket_resource[count.index].crn
+  bucket_location = local.cos_region
+
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple expiration blocks.
+    ## This block is only used to conditionally add expiration block depending on expire rule is enabled.
+    for_each = local.expire_enabled
+    content {
+      expiration {
+        days = var.expire_days
+      }
+      filter {
+        prefix = var.expire_filter_prefix != null ? var.expire_filter_prefix : ""
+      }
+      rule_id = "expiry-rule"
+      status  = "enable"
+    }
+  }
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple transition blocks.
+    ## This block is only used to conditionally add retention block depending on archive rule is enabled.
+    for_each = local.archive_enabled
+    content {
+      transition {
+        days = var.archive_days
+        ## The new values changed from Capatalized to all Upper case, avoid having to change values in new release
+        storage_class = upper(var.archive_type)
+
+      }
+      filter {
+        prefix = var.archive_filter_prefix != null ? var.archive_filter_prefix : ""
+      }
+      rule_id = "archive-rule"
+      status  = "enable"
     }
   }
 }
