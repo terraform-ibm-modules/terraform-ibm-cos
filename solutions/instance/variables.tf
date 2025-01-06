@@ -9,11 +9,14 @@ variable "prefix" {
   description = "(Optional) Prefix to append to all resources created by this solution."
   default     = null
   validation {
-    error_message = "Prefix must begin with a lowercase letter and contain only lowercase letters, numbers, and - characters. Prefixes must end with a lowercase letter or number and be 16 or fewer characters."
-    condition = alltrue([
-      can(regex("^([a-z]|[a-z][-a-z0-9]{0,14}[a-z0-9])$", var.prefix)),
-      length(regexall("^.*--.*", var.prefix)) == 0
+    condition = anytrue([
+      var.prefix == null,
+      alltrue([
+        can(regex("^([a-z]|[a-z][-a-z0-9]{0,14}[a-z0-9])$", var.prefix)),
+        length(regexall("^.*--.*", var.prefix)) == 0
+      ])
     ])
+    error_message = "Prefix must begin with a lowercase letter, contain only lowercase letters, numbers, and - characters. Prefixes must end with a lowercase letter or number and be 16 or fewer characters."
   }
 }
 
