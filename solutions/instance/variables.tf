@@ -10,9 +10,9 @@ variable "prefix" {
   default     = null
   validation {
     error_message = "Prefix must begin with a lowercase letter and contain only lowercase letters, numbers, and - characters. Prefixes must end with a lowercase letter or number and be 16 or fewer characters."
-    condition = anytrue([
-      var.prefix == null,
-      can(regex("^([a-z]|[a-z][-a-z0-9]{0,14}[a-z0-9])$", var.prefix))
+    condition = alltrue([
+      can(regex("^([a-z]|[a-z][-a-z0-9]{0,14}[a-z0-9])$", var.prefix)),
+      length(regexall("^.*--.*", var.prefix)) == 0
     ])
   }
 }
