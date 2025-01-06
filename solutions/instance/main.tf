@@ -14,6 +14,7 @@ module "cos" {
   cos_plan            = var.cos_plan
   cos_tags            = var.cos_tags
   access_tags         = var.access_tags
+  instance_cbr_rules  = var.instance_cbr_rules
 }
 
 resource "ibm_iam_authorization_policy" "secrets_manager_key_manager" {
@@ -68,7 +69,7 @@ module "secrets_manager_service_credentials" {
   count                       = length(local.service_credential_secrets) > 0 ? 1 : 0
   depends_on                  = [time_sleep.wait_for_cos_authorization_policy]
   source                      = "terraform-ibm-modules/secrets-manager/ibm//modules/secrets"
-  version                     = "1.19.3"
+  version                     = "1.19.10"
   existing_sm_instance_guid   = local.existing_secrets_manager_instance_guid
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
