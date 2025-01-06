@@ -60,6 +60,9 @@ locals {
       force_delete                  = config.force_delete
       hard_quota                    = config.hard_quota
       add_bucket_name_suffix        = config.add_bucket_name_suffix
+      object_locking_enabled        = config.object_locking_enabled
+      object_lock_duration_days     = config.object_lock_duration_days
+      object_lock_duration_years    = config.object_lock_duration_years
     }
   ]
 }
@@ -84,7 +87,7 @@ module "instance_cbr_rules" {
   depends_on       = [module.buckets]
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.28.1"
+  version          = "1.29.0"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts

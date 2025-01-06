@@ -205,7 +205,7 @@
                         "profiles": [
                             {
                                 "profile_name": "IBM Cloud Framework for Financial Services",
-                                "profile_version": "1.6.0"
+                                "profile_version": "1.7.0"
                             }
                         ]
                     },
@@ -230,7 +230,30 @@
                                 "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance."
                             }
                         ]
-                    }
+                    },
+                    "configuration":[
+                        {
+                        "key": "provider_visibility",
+                        "options": [
+                          {
+                            "displayname": "private",
+                            "value": "private"
+                          },
+                          {
+                            "displayname": "public",
+                            "value": "public"
+                          },
+                          {
+                            "displayname": "public-and-private",
+                            "value": "public-and-private"
+                          }
+                        ]
+                      },
+                      {
+                        "key":"instance_cbr_rules"
+                      }
+                    ]
+
                 },
                 {
                     "label": "Secure cross-region bucket",
@@ -254,7 +277,7 @@
                         "profiles": [
                             {
                                 "profile_name": "IBM Cloud Framework for Financial Services",
-                                "profile_version": "1.6.0"
+                                "profile_version": "1.7.0"
                             }
                         ]
                     },
@@ -295,7 +318,30 @@
                                 "description": "This architecture supports creating and configuring a secure cross-region bucket."
                             }
                         ]
-                    }
+                    },
+                    "configuration":[
+                        {
+                        "key": "provider_visibility",
+                        "options": [
+                          {
+                            "displayname": "private",
+                            "value": "private"
+                          },
+                          {
+                            "displayname": "public",
+                            "value": "public"
+                          },
+                          {
+                            "displayname": "public-and-private",
+                            "value": "public-and-private"
+                          }
+                        ]
+                      },
+                      {
+                        "key":"instance_cbr_rules"
+                      }
+                    ]
+
                 },
                 {
                     "label": "Secure regional bucket",
@@ -319,7 +365,7 @@
                         "profiles": [
                             {
                                 "profile_name": "IBM Cloud Framework for Financial Services",
-                                "profile_version": "1.6.0"
+                                "profile_version": "1.7.0"
                             }
                         ]
                     },
@@ -364,7 +410,29 @@
                                 "description": "This architecture supports creating and configuring a regional bucket."
                             }
                         ]
-                    }
+                    },
+                    "configuration":[
+                        {
+                        "key": "provider_visibility",
+                        "options": [
+                          {
+                            "displayname": "private",
+                            "value": "private"
+                          },
+                          {
+                            "displayname": "public",
+                            "value": "public"
+                          },
+                          {
+                            "displayname": "public-and-private",
+                            "value": "public-and-private"
+                          }
+                        ]
+                      },
+                      {
+                        "key":"instance_cbr_rules"
+                      }
+                    ]
                 }
             ]
         }
