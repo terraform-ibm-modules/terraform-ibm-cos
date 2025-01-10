@@ -251,6 +251,10 @@
                       },
                       {
                         "key":"instance_cbr_rules"
+                      },
+                      {
+                        "key":"prefix",
+                        "required":true
                       }
                     ]
 
