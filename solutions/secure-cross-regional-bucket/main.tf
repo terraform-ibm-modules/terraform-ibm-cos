@@ -33,6 +33,8 @@ locals {
     storage_class                 = var.bucket_storage_class
     force_delete                  = var.force_delete
     hard_quota                    = var.hard_quota
+    expire_filter_prefix          = var.expire_filter_prefix
+    archive_filter_prefix         = var.archive_filter_prefix
     object_locking_enabled        = var.object_locking_enabled
     object_lock_duration_days     = var.object_lock_duration_days
     object_lock_duration_years    = var.object_lock_duration_years
