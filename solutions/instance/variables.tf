@@ -123,3 +123,31 @@ variable "provider_visibility" {
     error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
   }
 }
+
+##############################################################
+# Context-based restriction (CBR)
+##############################################################
+variable "instance_cbr_rules" {
+  type = list(object({
+    description = string
+    account_id  = string
+    rule_contexts = list(object({
+      attributes = optional(list(object({
+        name  = string
+        value = string
+    }))) }))
+    enforcement_mode = string
+    tags = optional(list(object({
+      name  = string
+      value = string
+    })), [])
+    operations = optional(list(object({
+      api_types = list(object({
+        api_type_id = string
+      }))
+    })))
+  }))
+  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/instance/DA-cbr_rules.md)"
+  default     = []
+  # Validation happens in the rule module
+}
