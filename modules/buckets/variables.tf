@@ -22,6 +22,8 @@ variable "bucket_configs" {
     force_delete                  = optional(bool, true)
     single_site_location          = optional(string, null)
     hard_quota                    = optional(number, null)
+    expire_filter_prefix          = optional(string, null)
+    archive_filter_prefix         = optional(string, null)
     object_locking_enabled        = optional(bool, false)
     object_lock_duration_days     = optional(number, 0)
     object_lock_duration_years    = optional(number, 0)
