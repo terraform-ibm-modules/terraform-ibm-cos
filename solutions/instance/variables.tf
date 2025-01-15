@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "(Optional) Prefix to append to all resources created by this solution. Prefix value can be an empty string (\"\") or `null` for advanced users."
-  default     = "cosda"
+  default     = "cos-sol"
 }
 
 variable "existing_resource_group" {
