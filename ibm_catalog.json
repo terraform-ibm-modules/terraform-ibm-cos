@@ -255,7 +255,7 @@
                       {
                         "key":"prefix",
                         "required":true,
-                        "description": "Allowed values are a string, an empty string (\"\") or __NULL__."
+                        "description": "Prefix to append to all resources created by this solution. Allowed values are either a string, an empty string (\"\") or __NULL__."
                       }
                     ]
 
