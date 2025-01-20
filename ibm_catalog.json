@@ -254,7 +254,8 @@
                       },
                       {
                         "key":"prefix",
-                        "required":true
+                        "required":true,
+                        "description": "Allowed values are a string, an empty string (\"\") or __NULL__."
                       }
                     ]
 
