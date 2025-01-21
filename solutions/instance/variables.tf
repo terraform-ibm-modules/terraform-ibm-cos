@@ -7,11 +7,11 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "(Optional) Prefix to add to all resources created by this solution. To not use any prefix value, you can set this value to `null` or an empty string."
-  default     = "cos"
+  default     = "" #"cos"
   validation {
     condition = (var.prefix == null ? true :
       alltrue([
-        can(regex("^([a-z]|[a-z][-a-z0-9]{0,14}[a-z0-9])$", var.prefix)),
+        can(regex("^([a-z]|[a-z][-a-z0-9]{0,14}[a-z0-9])$|^$", var.prefix)),
         length(regexall("^.*--.*", var.prefix)) == 0
       ])
     )
