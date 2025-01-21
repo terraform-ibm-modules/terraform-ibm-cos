@@ -110,6 +110,18 @@ variable "hard_quota" {
   default     = null
 }
 
+variable "expire_filter_prefix" {
+  type        = string
+  description = "Apply expire lifecycle rule to only objects with the following prefix. Defaults to apply to all objects."
+  default     = null
+}
+
+variable "archive_filter_prefix" {
+  type        = string
+  description = "Apply archive lifecycle rule to only objects with the following prefix. Defaults to apply to all objects."
+  default     = null
+}
+
 variable "expire_days" {
   description = "The number of days before the expire rule action takes effect."
   type        = number

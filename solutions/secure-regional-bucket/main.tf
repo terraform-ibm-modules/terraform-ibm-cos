@@ -33,6 +33,8 @@ locals {
     storage_class                 = var.bucket_storage_class
     force_delete                  = var.force_delete
     hard_quota                    = var.hard_quota
+    expire_filter_prefix          = var.expire_filter_prefix
+    archive_filter_prefix         = var.archive_filter_prefix
     object_locking_enabled        = var.object_locking_enabled
     object_lock_duration_days     = var.object_lock_duration_days
     object_lock_duration_years    = var.object_lock_duration_years
@@ -130,7 +132,7 @@ module "kms" {
   }
   count                       = var.existing_kms_key_crn != null ? 0 : 1 # no need to create any KMS resources if passing an existing key
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "4.19.1"
+  version                     = "4.19.2"
   create_key_protect_instance = false
   region                      = local.existing_kms_instance_region
   existing_kms_instance_crn   = var.existing_kms_instance_crn

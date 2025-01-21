@@ -6,8 +6,8 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  description = "(Optional) Prefix to append to all resources created by this solution."
-  default     = null
+  description = "(Optional) Prefix to add to all resources created by this solution. To not use any prefix value, you can set this value to `null` or an empty string."
+  default     = "cos"
   validation {
     condition = anytrue([
       var.prefix == null,

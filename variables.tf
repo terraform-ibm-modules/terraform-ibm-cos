@@ -290,13 +290,25 @@ variable "single_site_location" {
 
   validation {
     condition     = var.single_site_location == null || can(regex("ams03|mil01|mon01|par01|sjc04|sng01|che01", var.single_site_location))
-    error_message = "Variable 'cross_region_location' must be 'ams03', 'mil01', 'mon01', 'par01', 'sjc04', 'sng01', 'che01' or 'null'."
+    error_message = "Variable 'single_site_location' must be 'ams03', 'mil01', 'mon01', 'par01', 'sjc04', 'sng01', 'che01' or 'null'."
   }
 }
 
 variable "hard_quota" {
   type        = number
   description = "The maximum amount of available storage in bytes for a bucket. If set to `null`, the quota is disabled."
+  default     = null
+}
+
+variable "expire_filter_prefix" {
+  type        = string
+  description = "Apply expire lifecycle rule to only objects with the following prefix. Defaults to apply to all objects."
+  default     = null
+}
+
+variable "archive_filter_prefix" {
+  type        = string
+  description = "Apply archive lifecycle rule to only objects with the following prefix. Defaults to apply to all objects."
   default     = null
 }
 

@@ -1,7 +1,7 @@
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
   version                      = "1.1.6"
-  resource_group_name          = var.existing_resource_group == false ? (var.prefix != null ? "${var.prefix}-${var.resource_group_name}" : var.resource_group_name) : null
+  resource_group_name          = var.existing_resource_group == false ? ((var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.resource_group_name}" : var.resource_group_name) : null
   existing_resource_group_name = var.existing_resource_group == true ? var.resource_group_name : null
 }
 
@@ -9,7 +9,7 @@ module "cos" {
   source              = "../../modules/fscloud"
   resource_group_id   = module.resource_group.resource_group_id
   create_cos_instance = true
-  cos_instance_name   = var.prefix != null ? "${var.prefix}-${var.cos_instance_name}" : var.cos_instance_name
+  cos_instance_name   = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.cos_instance_name}" : var.cos_instance_name
   resource_keys       = var.resource_keys
   cos_plan            = var.cos_plan
   cos_tags            = var.cos_tags
@@ -69,7 +69,7 @@ module "secrets_manager_service_credentials" {
   count                       = length(local.service_credential_secrets) > 0 ? 1 : 0
   depends_on                  = [time_sleep.wait_for_cos_authorization_policy]
   source                      = "terraform-ibm-modules/secrets-manager/ibm//modules/secrets"
-  version                     = "1.19.10"
+  version                     = "1.20.0"
   existing_sm_instance_guid   = local.existing_secrets_manager_instance_guid
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
