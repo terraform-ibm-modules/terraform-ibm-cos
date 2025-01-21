@@ -35,6 +35,16 @@ resource "time_sleep" "wait_for_cos_authorization_policy" {
 }
 
 locals {
+  role_service_map = {
+    Writer        = "crn:v1:bluemix:public:iam::::serviceRole:Writer"
+    Reader        = "crn:v1:bluemix:public:iam::::serviceRole:Reader"
+    Manager       = "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+    ContentReader = "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ContentReader"
+    ObjectReader  = "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectReader"
+    ObjectWriter  = "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectWriter"
+    NONE          = "NONE"
+  }
+
   service_credential_secrets = [
     for service_credentials in var.service_credential_secrets : {
       secret_group_name        = service_credentials.secret_group_name
@@ -49,7 +59,7 @@ locals {
           secret_auto_rotation_interval           = secret.secret_auto_rotation_interval
           service_credentials_ttl                 = secret.service_credentials_ttl
           service_credential_secret_description   = secret.service_credential_secret_description
-          service_credentials_source_service_role = secret.service_credentials_source_service_role
+          service_credentials_source_service_role = local.role_service_map[secret.service_credentials_source_service_role]
           service_credentials_source_service_crn  = module.cos.cos_instance_id
           secret_type                             = "service_credentials" #checkov:skip=CKV_SECRET_6
         }

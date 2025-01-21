@@ -95,15 +95,15 @@ variable "service_credential_secrets" {
 
   validation {
     # Service roles (for Cloud Object Storage) https://cloud.ibm.com/iam/roles
-    # Reader, Writer, Manager, Content Reader, Object Reader, Object Writer, NONE
+    # Reader, Writer, Manager, ContentReader, ObjectReader, ObjectWriter, NONE
     condition = alltrue([
       for group in var.service_credential_secrets : alltrue([
         for credential in group.service_credentials : contains(
-          ["Writer", "Reader", "Manager", "Content Reader", "Object Reader", "Object Writer", "NONE"], credential.service_credentials_source_service_role
+          ["Writer", "Reader", "Manager", "ContentReader", "ObjectReader", "ObjectWriter", "NONE"], credential.service_credentials_source_service_role
         )
       ])
     ])
-    error_message = "service_credentials_source_service_role role must be one of 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer', 'NONE', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
+    error_message = "service_credentials_source_service_role role must be one of 'Writer', 'Reader', 'Manager', 'ContentReader', 'ObjectReader', 'ObjectWriter', 'NONE', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
 
   }
 }
