@@ -63,7 +63,8 @@ To enter a custom value, use the edit action to open the "Edit Array" panel. Add
 ### Options for service_credentials
 
 - `secret_name`: (required): A unique human-readable name of the secret to create.
-- `service_credentials_source_service_role`: (required): The role to give the service credential in the COS service. Acceptable values are `Reader`, `Writer`, `Manager`, `Content Reader`, `Object Reader`, `Object Writer`, `NONE`
+- `service_credentials_source_service_role_crn`: (required): The CRN of the role to give the service credential in the COS service. Service credentials role CRNs can be found at https://cloud.ibm.com/iam/roles, select Cloud Object Storage and select the role.
+
 - `secret_labels`: (optional, default = `[]`): Labels of the secret to create. Up to 30 labels can be created. Labels can be 2 - 30 characters, including spaces. Special characters that are not permitted include the angled brackets (<>), comma (,), colon (:), ampersand (&), and vertical pipe character (|).
 - `secret_auto_rotation`: (optional, default = `true`): Whether to configure automatic rotation of service credential.
 - `secret_auto_rotation_unit`: (optional, default = `day`): Specifies the unit of time for rotation of a secret. Acceptable values are `day` or `month`.
@@ -80,7 +81,7 @@ The following example includes all the configuration options for four service cr
     "service_credentials": [
       {
         "secret_name": "cred-1"
-        "service_credentials_source_service_role":  "Reader"
+        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Reader"
         "secret_labels": ["test-reader-1", "test-reader-2"]
         "secret_auto_rotation": true
         "secret_auto_rotation_unit": "day"
@@ -90,7 +91,7 @@ The following example includes all the configuration options for four service cr
       },
       {
         "secret_name": "cred-2"
-        "service_credentials_source_service_role": "Writer"
+        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer"
       }
     ]
   },
@@ -99,11 +100,11 @@ The following example includes all the configuration options for four service cr
     "service_credentials": [
       {
         "secret_name": "cred-3"
-        "service_credentials_source_service_role": "Manager"
+        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"
       },
       {
         "secret_name": "cred-4"
-        "service_credentials_source_service_role": "Content Reader"
+        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:ContentReader"
       }
     ]
   }
