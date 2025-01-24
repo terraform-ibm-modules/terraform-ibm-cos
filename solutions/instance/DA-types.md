@@ -64,7 +64,6 @@ To enter a custom value, use the edit action to open the "Edit Array" panel. Add
 
 - `secret_name`: (required): A unique human-readable name of the secret to create.
 - `service_credentials_source_service_role_crn`: (required): The CRN of the role to give the service credential in the COS service. Service credentials role CRNs can be found at https://cloud.ibm.com/iam/roles, select Cloud Object Storage and select the role.
-
 - `secret_labels`: (optional, default = `[]`): Labels of the secret to create. Up to 30 labels can be created. Labels can be 2 - 30 characters, including spaces. Special characters that are not permitted include the angled brackets (<>), comma (,), colon (:), ampersand (&), and vertical pipe character (|).
 - `secret_auto_rotation`: (optional, default = `true`): Whether to configure automatic rotation of service credential.
 - `secret_auto_rotation_unit`: (optional, default = `day`): Specifies the unit of time for rotation of a secret. Acceptable values are `day` or `month`.

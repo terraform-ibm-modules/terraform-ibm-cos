@@ -97,8 +97,8 @@ variable "service_credential_secrets" {
     # Service roles CRNs can be found at https://cloud.ibm.com/iam/roles, select Cloud Object Storage and select the role
     condition = alltrue([
       for group in var.service_credential_secrets : alltrue([
-        # crn:v?:bluemix; two non-empty segments; three possibly empty segments; :serviceRole: non-empty segment
-        for credential in group.service_credentials : can(regex("^crn:v[0-9]:bluemix(:..*){2}(:.*){3}:serviceRole:..*$", credential.service_credentials_source_service_role_crn))
+        # crn:v?:bluemix; two non-empty segments; three possibly empty segments; :serviceRole or role: non-empty segment
+        for credential in group.service_credentials : can(regex("^crn:v[0-9]:bluemix(:..*){2}(:.*){3}:(serviceRole|role):..*$", credential.service_credentials_source_service_role_crn))
       ])
     ])
     error_message = "service_credentials_source_service_role_crn must be a serviceRole CRN. See https://cloud.ibm.com/iam/roles"
