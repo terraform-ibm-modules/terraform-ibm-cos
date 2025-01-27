@@ -12,7 +12,12 @@ variable "existing_kms_instance_crn" {
   type        = string
   default     = null
   description = "The CRN of the KMS instance that is used for the Object Storage bucket root key. Required only if a KMS root key is specified and if `skip_iam_authorization_policy` is true."
+  validation {
+    condition     = !(var.existing_kms_key_crn == null && var.existing_kms_instance_crn == null)
+    error_message = "A value must be passed for 'existing_kms_instance_crn' if no value is supplied for 'existing_kms_key_crn'."
+  }
 }
+
 
 variable "skip_iam_authorization_policy" {
   type        = bool
