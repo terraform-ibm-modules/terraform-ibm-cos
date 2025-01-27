@@ -6,6 +6,10 @@ variable "resource_group_id" {
   type        = string
   description = "The resource group ID for the new Object Storage instance. Required only if `create_cos_instance` is true."
   default     = null
+  validation {
+    condition     = var.create_cos_instance == false || var.resource_group_id != null
+    error_message = "If var.create_cos_instance is true, then provide a value for var.resource_group_id to create COS instance."
+  }
 }
 
 ##############################################################################
@@ -13,7 +17,7 @@ variable "resource_group_id" {
 ##############################################################################
 
 variable "create_cos_instance" {
-  description = "Whether to create a IBM Cloud Object Storage instance."
+  description = "Whether to create an IBM Cloud Object Storage instance."
   type        = bool
   default     = true
 }
@@ -48,6 +52,10 @@ variable "cos_instance_name" {
   description = "The name for the IBM Cloud Object Storage instance provisioned by this module. Applies only if `create_cos_instance` is true."
   type        = string
   default     = null
+  validation {
+    condition     = var.create_cos_instance == false || var.cos_instance_name != null
+    error_message = "If var.create_cos_instance is true, then provide a value for var.cos_instance_name."
+  }
 }
 
 variable "cos_location" {
@@ -89,6 +97,11 @@ variable "existing_cos_instance_id" {
   description = "The ID of an existing cloud object storage instance. Required if `create_cos_instance` is false."
   type        = string
   default     = null
+
+  validation {
+    condition     = var.create_cos_instance == true || var.existing_cos_instance_id != null
+    error_message = "If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets."
+  }
 }
 
 ##############################################################################
@@ -105,6 +118,10 @@ variable "create_cos_bucket" {
   description = "Whether to create an Object Storage bucket."
   type        = bool
   default     = true
+  validation {
+    condition     = !(var.create_cos_instance == false && var.create_cos_bucket == false)
+    error_message = "`create_cos_instance` and `create_cos_bucket` cannot both be set to false. At least one must be true."
+  }
 }
 
 variable "cross_region_location" {
@@ -116,12 +133,26 @@ variable "cross_region_location" {
     condition     = var.cross_region_location == null || can(regex("us|eu|ap", var.cross_region_location))
     error_message = "Variable 'cross_region_location' must be 'us' or 'eu', 'ap', or 'null'."
   }
+  validation {
+    condition     = var.cos_plan != "cos-one-rate-plan" || var.cross_region_location == null
+    error_message = "If var.cos_plan is 'cos-one-rate-plan', then var.cross_region_location cannot be set as the one rate plan does not support cross-region."
+  }
+  validation {
+    condition = var.create_cos_bucket == false || (
+      length(compact([var.cross_region_location, var.region, var.single_site_location])) == 1
+    )
+    error_message = "If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region or var.single_site_location, only one of the regions can be set."
+  }
 }
 
 variable "bucket_name" {
   type        = string
   description = "The name for the new Object Storage bucket. Applies only if `create_cos_bucket` is true."
   default     = null
+  validation {
+    condition     = var.create_cos_bucket == false || var.bucket_name != null
+    error_message = "If var.create_cos_bucket is true, then provide a value for var.bucket_name."
+  }
 }
 
 variable "add_bucket_name_suffix" {
@@ -157,6 +188,10 @@ variable "retention_enabled" {
   description = "Whether retention for the Object Storage bucket is enabled. Applies only if `create_cos_bucket` is true."
   type        = bool
   default     = false
+  validation {
+    condition     = var.cross_region_location == null || (var.cross_region_location == "us" || !var.retention_enabled)
+    error_message = "Retention is currently only supported in the `US` location for cross region buckets."
+  }
 }
 
 variable "retention_default" {
@@ -199,12 +234,26 @@ variable "object_locking_enabled" {
   description = "Whether to create an object lock configuration. Applies only if `object_versioning_enabled` and `create_cos_bucket` are true."
   type        = bool
   default     = false
+
+  validation {
+    condition     = var.object_versioning_enabled == true || !var.object_locking_enabled
+    error_message = "Object locking requires object versioning to be enabled."
+  }
 }
 
 variable "object_lock_duration_days" {
   description = "The number of days for the object lock duration. If you specify a number of days, do not specify a value for `object_lock_duration_years`. Applies only if `create_cos_bucket` is true."
   type        = number
   default     = 0
+  validation {
+    condition     = !(var.object_locking_enabled && var.object_lock_duration_days != 0 && var.object_lock_duration_years != 0)
+    error_message = "Object lock duration days and years cannot both be set when object locking is enabled."
+  }
+
+  validation {
+    condition     = !var.object_locking_enabled || var.object_lock_duration_days != 0 || var.object_lock_duration_years != 0
+    error_message = "Object lock duration days or years must be set when object locking is enabled."
+  }
 }
 
 variable "object_lock_duration_years" {
@@ -223,6 +272,10 @@ variable "archive_days" {
   description = "The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is true. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets."
   type        = number
   default     = 90
+  validation {
+    condition     = var.create_cos_bucket == false || (var.cross_region_location == null || var.archive_days == null)
+    error_message = "If var.cross_region_location is set, then var.archive_days cannot be set."
+  }
 }
 
 variable "archive_type" {
@@ -320,18 +373,36 @@ variable "existing_kms_instance_guid" {
   description = "The GUID of the Key Protect or Hyper Protect Crypto Services instance that holds the key specified in `kms_key_crn`. Required if `skip_iam_authorization_policy` is false."
   type        = string
   default     = null
+  validation {
+    condition     = var.kms_encryption_enabled == false || var.create_cos_bucket == false || var.skip_iam_authorization_policy == true || var.existing_kms_instance_guid != null
+    error_message = "A value must be passed for var.existing_kms_instance_guid when creating a bucket when var.kms_encryption_enabled is true and var.skip_iam_authorization_policy is false."
+  }
 }
 
 variable "kms_encryption_enabled" {
   description = "Whether to use KMS key encryption to encrypt data in Object Storage buckets. Applies only if `create_cos_bucket` is true."
   type        = bool
   default     = true
+  validation {
+    condition     = var.single_site_location == null || var.kms_encryption_enabled == false
+    error_message = "If var.single_site_location is set, then var.kms_encryption_enabled cannot be set as the Key Protect does not support single site location."
+  }
 }
 
 variable "kms_key_crn" {
   description = "The CRN of the KMS key to encrypt the data in the Object Storage bucket. Required if `kms_encryption_enabled` and `create_cos_bucket` are true."
   type        = string
   default     = null
+
+  validation {
+    condition     = !(var.create_cos_bucket && var.kms_encryption_enabled && var.kms_key_crn == null)
+    error_message = "A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.kms_encryption_enabled are true."
+  }
+
+  validation {
+    condition     = var.cross_region_location == "us" || var.cross_region_location == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
+    error_message = "Support for using HPCS instance for KMS encryption in cross-regional bucket is only available in US region."
+  }
 }
 
 ##############################################################
