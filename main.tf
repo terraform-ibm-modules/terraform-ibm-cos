@@ -13,44 +13,6 @@ locals {
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
   object_versioning_enabled  = var.object_versioning_enabled ? [1] : []
-
-  # input variable validation
-  # tflint-ignore: terraform_unused_declarations
-  validate_encryption_inputs = !var.create_cos_instance && !var.create_cos_bucket ? tobool("var.create_cos_instance and var.create_cos_bucket cannot be both set to false") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_key_inputs = var.create_cos_bucket && var.kms_encryption_enabled && var.kms_key_crn == null ? tobool("A value must be passed for var.kms_key_crn when both var.create_cos_bucket and var.kms_encryption_enabled are true") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_bucket_inputs = var.create_cos_bucket && var.bucket_name == null ? tobool("If var.create_cos_bucket is true, then provide value for var.bucket_name") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_cos_inputs = var.create_cos_instance && var.cos_instance_name == null ? tobool("If var.create_cos_instance is true, then provide value for var.cos_instance_name") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_cos_id_input = !var.create_cos_instance && var.existing_cos_instance_id == null ? tobool("If var.create_cos_instance is false, then provide a value for var.existing_cos_instance_id to create buckets") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_resource_group_id_input = var.create_cos_instance && var.resource_group_id == null ? tobool("If var.create_cos_instance is true, then provide a value for var.resource_group_id to create COS instance") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_and_plan_input = var.cross_region_location != null && var.cos_plan == "cos-one-rate-plan" ? tobool("var.cos_plan is 'cos-one-rate-plan', then var.cross_region_location cannot be set as the one rate plan does not support cross region.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_create_cos_instance_with_existing_id = var.create_cos_instance && var.existing_cos_instance_id != null ? tobool("create_cos_instance cannot be true when existing_cos_instance_id is provided.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_kp_guid_input = var.kms_encryption_enabled && var.create_cos_bucket && var.skip_iam_authorization_policy == false && var.existing_kms_instance_guid == null ? tobool("A value must be passed for var.existing_kms_instance_guid when creating a bucket when var.kms_encryption_enabled is true and var.skip_iam_authorization_policy is false.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_location_inputs = var.create_cos_bucket && ((var.cross_region_location == null && var.region == null && var.single_site_location == null) || (var.cross_region_location != null && var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.region != null) || (var.region != null && var.single_site_location != null) || (var.cross_region_location != null && var.single_site_location != null)) ? tobool("If var.create_cos_bucket is true, then value needs to be provided for var.cross_region_location or var.region or var.single_site_location, only one of the regions can be set.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_location_archive_disabled_inputs = var.create_cos_bucket && (var.cross_region_location != null && var.archive_days != null) ? tobool("If var.cross_region_location is set, then var.archive_days cannot be set.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_single_site_location_inputs = var.single_site_location != null && var.kms_encryption_enabled == true ? tobool("If var.single_site_location is set, then var.kms_encryption_enabled cannot be set as the key protect does not support single site location.") : true
-  # retention/immuatbile object storage https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
-  # only in cross region 'us' and all mzr
-  # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_retention = var.cross_region_location != null && (var.cross_region_location != "us" && var.retention_enabled) ? tobool("Retention is currently only supported in the `US` location for cross region buckets.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_cross_region_kms = var.cross_region_location != "us" && var.cross_region_location != null ? can(regex(".*hs-crypto.*", var.kms_key_crn)) ? tobool("Support for using HPCS instance for KMS encryption in cross-regional bucket is only available in US region.") : true : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_locking = var.object_locking_enabled && !var.object_versioning_enabled ? tobool("Object locking requires object versioning to be enabled.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_lock_duration_both = var.object_locking_enabled && var.object_lock_duration_days != 0 && var.object_lock_duration_years != 0 ? tobool("Object lock duration days and years can not both be set.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_lock_duration_none = var.object_locking_enabled && var.object_lock_duration_days == 0 && var.object_lock_duration_years == 0 ? tobool("Object lock duration days or years must be set.") : true
 }
 
 resource "time_sleep" "wait_for_authorization_policy" {
