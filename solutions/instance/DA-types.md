@@ -103,7 +103,7 @@ The following example includes all the configuration options for four service cr
       },
       {
         "secret_name": "cred-4"
-        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:ContentReader"
+        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ContentReader"
       }
     ]
   }
