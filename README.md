@@ -128,7 +128,7 @@ You need the following permissions to run this module.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.70.0, < 2.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
@@ -176,7 +176,7 @@ You need the following permissions to run this module.
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | The plan to use when Object Storage instances are created. Possible values: `standard`, `cos-one-rate-plan`. Applies only if `create_cos_instance` is true. For more details refer https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision. | `string` | `"standard"` | no |
 | <a name="input_cos_tags"></a> [cos\_tags](#input\_cos\_tags) | A list of tags to apply to the Object Storage instance. | `list(string)` | `[]` | no |
 | <a name="input_create_cos_bucket"></a> [create\_cos\_bucket](#input\_create\_cos\_bucket) | Whether to create an Object Storage bucket. | `bool` | `true` | no |
-| <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Whether to create a IBM Cloud Object Storage instance. | `bool` | `true` | no |
+| <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Whether to create an IBM Cloud Object Storage instance. | `bool` | `true` | no |
 | <a name="input_cross_region_location"></a> [cross\_region\_location](#input\_cross\_region\_location) | Specify the cross-region bucket location. Possible values: `us`, `eu` `ap`. If specified, set `region` and `single_site_location` to `null`. | `string` | `null` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | The ID of an existing cloud object storage instance. Required if `create_cos_instance` is false. | `string` | `null` | no |
 | <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Key Protect or Hyper Protect Crypto Services instance that holds the key specified in `kms_key_crn`. Required if `skip_iam_authorization_policy` is false. | `string` | `null` | no |

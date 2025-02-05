@@ -280,11 +280,15 @@ func TestRunSolutions(t *testing.T) {
 				"service_credentials": []map[string]string{
 					{
 						"secret_name": fmt.Sprintf("%s-cred-manager", prefix),
-						"service_credentials_source_service_role": "Manager",
+						"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
 					},
 					{
 						"secret_name": fmt.Sprintf("%s-cred-writer", prefix),
-						"service_credentials_source_service_role": "Writer",
+						"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+					},
+					{
+						"secret_name": fmt.Sprintf("%s-cred-object-writer", prefix),
+						"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectWriter",
 					},
 				},
 			},

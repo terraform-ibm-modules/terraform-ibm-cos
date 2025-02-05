@@ -42,16 +42,16 @@ locals {
       existing_secret_group    = service_credentials.existing_secret_group
       secrets = [
         for secret in service_credentials.service_credentials : {
-          secret_name                             = secret.secret_name
-          secret_labels                           = secret.secret_labels
-          secret_auto_rotation                    = secret.secret_auto_rotation
-          secret_auto_rotation_unit               = secret.secret_auto_rotation_unit
-          secret_auto_rotation_interval           = secret.secret_auto_rotation_interval
-          service_credentials_ttl                 = secret.service_credentials_ttl
-          service_credential_secret_description   = secret.service_credential_secret_description
-          service_credentials_source_service_role = secret.service_credentials_source_service_role
-          service_credentials_source_service_crn  = module.cos.cos_instance_id
-          secret_type                             = "service_credentials" #checkov:skip=CKV_SECRET_6
+          secret_name                                 = secret.secret_name
+          secret_labels                               = secret.secret_labels
+          secret_auto_rotation                        = secret.secret_auto_rotation
+          secret_auto_rotation_unit                   = secret.secret_auto_rotation_unit
+          secret_auto_rotation_interval               = secret.secret_auto_rotation_interval
+          service_credentials_ttl                     = secret.service_credentials_ttl
+          service_credential_secret_description       = secret.service_credential_secret_description
+          service_credentials_source_service_role_crn = secret.service_credentials_source_service_role_crn
+          service_credentials_source_service_crn      = module.cos.cos_instance_id
+          secret_type                                 = "service_credentials" #checkov:skip=CKV_SECRET_6
         }
       ]
     }
@@ -69,7 +69,7 @@ module "secrets_manager_service_credentials" {
   count                       = length(local.service_credential_secrets) > 0 ? 1 : 0
   depends_on                  = [time_sleep.wait_for_cos_authorization_policy]
   source                      = "terraform-ibm-modules/secrets-manager/ibm//modules/secrets"
-  version                     = "1.20.0"
+  version                     = "1.22.0"
   existing_sm_instance_guid   = local.existing_secrets_manager_instance_guid
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
