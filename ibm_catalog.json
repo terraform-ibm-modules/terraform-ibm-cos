@@ -264,8 +264,7 @@
                             "key": "instance_cbr_rules"
                         },
                         {
-                            "key": "resource_keys",
-                            "type": "json editor"
+                            "key": "resource_keys"
                         },
                         {
                             "key": "existing_secrets_manager_instance_crn",
@@ -282,17 +281,13 @@
                                     "displayname": "public",
                                     "value": "public"
                                 }
-                            ],
-                            "configuration_group": "Service Credentials"
+                            ]
                         },
                         {
-                            "key": "service_credential_secrets",
-                            "type": "json editor",
-                            "configuration_group": "Service Credentials"
+                            "key": "service_credential_secrets"
                         },
                         {
-                            "key": "skip_cos_sm_auth_policy",
-                            "configuration_group": "Service Credentials"
+                            "key": "skip_cos_sm_auth_policy"
                         },
                         {
                             "key": "provider_visibility",
@@ -385,7 +380,8 @@
                         },
                         {
                             "key": "cross_region_location",
-                            "required": true
+                            "required": true,
+                            "type": "region"
                         },
                         {
                             "key": "existing_cos_instance_id",
@@ -405,7 +401,30 @@
                             "key": "bucket_access_tags"
                         },
                         {
-                            "key": "bucket_storage_class"
+                            "key": "bucket_storage_class",
+                            "options": [
+                                {
+                                    "displayname": "standard",
+                                    "value": "standard"
+                                },
+                                {
+                                    "displayname": "vault",
+                                    "value": "vault"
+                                },
+                                {
+                                    "displayname": "cold",
+                                    "value": "cold"
+                                },
+                                {
+                                    "displayname": "smart",
+                                    "value": "smart"
+                                },
+                                {
+                                    "displayname": "onerate_active",
+                                    "value": "onerate_active"
+                                }
+                            ],
+                            "default": "smart"
                         },
                         {
                             "key": "expire_days"
@@ -420,7 +439,22 @@
                             "key": "hard_quota"
                         },
                         {
-                            "key": "management_endpoint_type_for_bucket"
+                            "key": "management_endpoint_type_for_bucket",
+                            "options": [
+                                {
+                                    "displayname": "direct",
+                                    "value": "direct"
+                                },
+                                {
+                                    "displayname": "private",
+                                    "value": "private"
+                                },
+                                {
+                                    "displayname": "public",
+                                    "value": "public"
+                                }
+                            ],
+                            "default": "private"
                         },
                         {
                             "key": "monitoring_crn"
@@ -454,24 +488,19 @@
                         },
                         {
                             "key": "ibmcloud_kms_api_key",
-                            "type": "password",
-                            "configuration_group": "Encryption"
+                            "type": "password"
                         },
                         {
-                            "key": "existing_kms_instance_crn",
-                            "configuration_group": "Encryption"
+                            "key": "existing_kms_instance_crn"
                         },
                         {
-                            "key": "existing_kms_key_crn",
-                            "configuration_group": "Encryption"
+                            "key": "existing_kms_key_crn"
                         },
                         {
-                            "key": "key_ring_name",
-                            "configuration_group": "Encryption"
+                            "key": "key_ring_name"
                         },
                         {
-                            "key": "key_name",
-                            "configuration_group": "Encryption"
+                            "key": "key_name"
                         },
                         {
                             "key": "kms_endpoint_type",
@@ -485,8 +514,7 @@
                                     "value": "public"
                                 }
                             ],
-                            "default": "private",
-                            "configuration_group": "Encryption"
+                            "default": "private"
                         },
                         {
                             "key": "skip_iam_authorization_policy"
@@ -589,7 +617,8 @@
                             "type": "password"
                         },
                         {
-                            "key": "region"
+                            "key": "region",
+                            "type": "region"
                         },
                         {
                             "key": "existing_cos_instance_id",
@@ -609,13 +638,47 @@
                             "key": "archive_filter_prefix"
                         },
                         {
-                            "key": "archive_type"
+                            "key": "archive_type",
+                            "options": [
+                                {
+                                    "displayname": "Glacier",
+                                    "value": "Glacier"
+                                },
+                                {
+                                    "displayname": "Accelerated",
+                                    "value": "Accelerated"
+                                }
+                            ],
+                            "default": "Glacier"
                         },
                         {
                             "key": "bucket_access_tags"
                         },
                         {
-                            "key": "bucket_storage_class"
+                            "key": "bucket_storage_class",
+                            "options": [
+                                {
+                                    "displayname": "standard",
+                                    "value": "standard"
+                                },
+                                {
+                                    "displayname": "vault",
+                                    "value": "vault"
+                                },
+                                {
+                                    "displayname": "cold",
+                                    "value": "cold"
+                                },
+                                {
+                                    "displayname": "smart",
+                                    "value": "smart"
+                                },
+                                {
+                                    "displayname": "onerate_active",
+                                    "value": "onerate_active"
+                                }
+                            ],
+                            "default": "smart"
                         },
                         {
                             "key": "expire_days"
@@ -630,7 +693,22 @@
                             "key": "hard_quota"
                         },
                         {
-                            "key": "management_endpoint_type_for_bucket"
+                            "key": "management_endpoint_type_for_bucket",
+                            "options": [
+                                {
+                                    "displayname": "direct",
+                                    "value": "direct"
+                                },
+                                {
+                                    "displayname": "private",
+                                    "value": "private"
+                                },
+                                {
+                                    "displayname": "public",
+                                    "value": "public"
+                                }
+                            ],
+                            "default": "private"
                         },
                         {
                             "key": "monitoring_crn"
