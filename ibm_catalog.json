@@ -242,11 +242,57 @@
                             "required": true
                         },
                         {
-                            "key": "existing_resource_group",
-                            "type": "boolean"
+                            "key": "prefix",
+                            "required": true
+                        },
+                        {
+                            "key": "existing_resource_group"
                         },
                         {
                             "key": "cos_instance_name"
+                        },
+                        {
+                            "key": "cos_plan"
+                        },
+                        {
+                            "key": "access_tags"
+                        },
+                        {
+                            "key": "cos_tags"
+                        },
+                        {
+                            "key": "instance_cbr_rules"
+                        },
+                        {
+                            "key": "resource_keys",
+                            "type": "json editor"
+                        },
+                        {
+                            "key": "existing_secrets_manager_instance_crn",
+                            "configuration_group": "Service Credentials"
+                        },
+                        {
+                            "key": "existing_secrets_manager_endpoint_type",
+                            "options": [
+                                {
+                                    "displayname": "private",
+                                    "value": "private"
+                                },
+                                {
+                                    "displayname": "public",
+                                    "value": "public"
+                                }
+                            ],
+                            "configuration_group": "Service Credentials"
+                        },
+                        {
+                            "key": "service_credential_secrets",
+                            "type": "json editor",
+                            "configuration_group": "Service Credentials"
+                        },
+                        {
+                            "key": "skip_cos_sm_auth_policy",
+                            "configuration_group": "Service Credentials"
                         },
                         {
                             "key": "provider_visibility",
@@ -264,57 +310,8 @@
                                     "value": "public-and-private"
                                 }
                             ]
-                        },
-                        {
-                            "key": "instance_cbr_rules",
-                            "type": "map"
-                        },
-                        {
-                            "key": "prefix",
-                            "required": true,
-                            "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
-                        },
-                        {
-                            "key": "access_tags",
-                            "type": "array"
-                        },
-                        {
-                            "key": "cos_plan"
-                        },
-                        {
-                            "key": "cos_tags",
-                            "type": "array"
-                        },
-                        {
-                            "key": "resource_keys",
-                            "type": "map"
-                        },
-                        {
-                            "key": "existing_secrets_manager_endpoint_type",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                }
-                            ]
-                        },
-                        {
-                            "key": "existing_secrets_manager_instance_crn"
-                        },
-                        {
-                            "key": "service_credential_secrets",
-                            "type": "map"
-                        },
-                        {
-                            "key": "skip_cos_sm_auth_policy",
-                            "type": "boolean"
                         }
                     ]
-
                 },
                 {
                     "label": "Secure cross-region bucket",
@@ -399,50 +396,25 @@
                             "required": true
                         },
                         {
-                            "key": "provider_visibility",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                },
-                                {
-                                    "displayname": "public-and-private",
-                                    "value": "public-and-private"
-                                }
-                            ]
-                        },
-                        {
-                            "key": "instance_cbr_rules",
-                            "type": "map"
-                        },
-                        {
-                            "key": "add_bucket_name_suffix",
-                            "type": "boolean"
+                            "key": "add_bucket_name_suffix"
                         },
                         {
                             "key": "archive_filter_prefix"
                         },
                         {
-                            "key": "bucket_access_tags",
-                            "type": "array"
+                            "key": "bucket_access_tags"
                         },
                         {
-                           "key": "bucket_storage_class"
+                            "key": "bucket_storage_class"
                         },
                         {
-                            "key": "expire_days",
-                            "type": "number"
+                            "key": "expire_days"
                         },
                         {
                             "key": "expire_filter_prefix"
                         },
                         {
-                            "key": "force_delete",
-                            "type": "boolean"
+                            "key": "force_delete"
                         },
                         {
                             "key": "hard_quota"
@@ -460,19 +432,16 @@
                             "key": "object_lock_duration_years"
                         },
                         {
-                            "key": "object_locking_enabled",
-                            "type": "boolean"
+                            "key": "object_locking_enabled"
                         },
                         {
-                            "key": "object_versioning_enabled",
-                            "type": "boolean"
+                            "key": "object_versioning_enabled"
                         },
                         {
                             "key": "retention_default"
                         },
                         {
-                            "key": "retention_enabled",
-                            "type": "boolean"
+                            "key": "retention_enabled"
                         },
                         {
                             "key": "retention_maximum"
@@ -481,24 +450,28 @@
                             "key": "retention_minimum"
                         },
                         {
-                            "key": "retention_permanent",
-                            "type": "boolean"
-                        },
-                        {
-                            "key": "existing_kms_instance_crn"
-                        },
-                        {
-                            "key": "existing_kms_key_crn"
+                            "key": "retention_permanent"
                         },
                         {
                             "key": "ibmcloud_kms_api_key",
-                            "type": "password"
+                            "type": "password",
+                            "configuration_group": "Encryption"
                         },
                         {
-                            "key": "key_name"
+                            "key": "existing_kms_instance_crn",
+                            "configuration_group": "Encryption"
                         },
                         {
-                            "key": "key_ring_name"
+                            "key": "existing_kms_key_crn",
+                            "configuration_group": "Encryption"
+                        },
+                        {
+                            "key": "key_ring_name",
+                            "configuration_group": "Encryption"
+                        },
+                        {
+                            "key": "key_name",
+                            "configuration_group": "Encryption"
                         },
                         {
                             "key": "kms_endpoint_type",
@@ -512,11 +485,31 @@
                                     "value": "public"
                                 }
                             ],
-                            "default": "private"
+                            "default": "private",
+                            "configuration_group": "Encryption"
                         },
                         {
-                            "key": "skip_iam_authorization_policy",
-                            "type": "boolean"
+                            "key": "skip_iam_authorization_policy"
+                        },
+                        {
+                            "key": "provider_visibility",
+                            "options": [
+                                {
+                                    "displayname": "private",
+                                    "value": "private"
+                                },
+                                {
+                                    "displayname": "public",
+                                    "value": "public"
+                                },
+                                {
+                                    "displayname": "public-and-private",
+                                    "value": "public-and-private"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "instance_cbr_rules"
                         }
                     ]
 
@@ -607,28 +600,7 @@
                             "required": true
                         },
                         {
-                            "key": "provider_visibility",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                },
-                                {
-                                    "displayname": "public-and-private",
-                                   "value": "public-and-private"
-                                }
-                            ]
-                        },
-                        {
-                            "key": "instance_cbr_rules"
-                        },
-                        {
-                            "key": "add_bucket_name_suffix",
-                            "type": "boolean"
+                            "key": "add_bucket_name_suffix"
                         },
                         {
                             "key": "archive_days"
@@ -652,8 +624,7 @@
                             "key": "expire_filter_prefix"
                         },
                         {
-                            "key": "force_delete",
-                            "type": "boolean"
+                            "key": "force_delete"
                         },
                         {
                             "key": "hard_quota"
@@ -671,19 +642,16 @@
                             "key": "object_lock_duration_years"
                         },
                         {
-                            "key": "object_locking_enabled",
-                            "type": "boolean"
+                            "key": "object_locking_enabled"
                         },
                         {
-                            "key": "object_versioning_enabled",
-                            "type": "boolean"
+                            "key": "object_versioning_enabled"
                         },
                         {
                             "key": "retention_default"
                         },
                         {
-                            "key": "retention_enabled",
-                            "type": "boolean"
+                            "key": "retention_enabled"
                         },
                         {
                             "key": "retention_maximum"
@@ -692,8 +660,7 @@
                             "key": "retention_minimum"
                         },
                         {
-                            "key": "retention_permanent",
-                            "type": "boolean"
+                            "key": "retention_permanent"
                         },
                         {
                             "key": "existing_kms_instance_crn"
@@ -726,8 +693,27 @@
                             "key": "key_ring_name"
                         },
                         {
-                            "key": "skip_iam_authorization_policy",
-                            "type": "boolean"
+                            "key": "skip_iam_authorization_policy"
+                        },
+                        {
+                            "key": "provider_visibility",
+                            "options": [
+                                {
+                                    "displayname": "private",
+                                    "value": "private"
+                                },
+                                {
+                                    "displayname": "public",
+                                    "value": "public"
+                                },
+                                {
+                                    "displayname": "public-and-private",
+                                   "value": "public-and-private"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "instance_cbr_rules"
                         }
                     ]
                 }
