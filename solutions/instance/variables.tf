@@ -11,7 +11,7 @@ variable "prefix" {
   validation {
     condition = (var.prefix == null ? true :
       alltrue([
-        can(regex("^([a-z]|[a-z][-a-z0-9]{0,14}[a-z0-9])$|^$", var.prefix)),
+        can(regex("^[a-z]{0,1}[-a-z0-9]{0,11}[a-z0-9]{0,1}$", var.prefix)),
         length(regexall("^.*--.*", var.prefix)) == 0
       ])
     )
