@@ -250,20 +250,30 @@
                         ]
                       },
                       {
-                        "key":"instance_cbr_rules"
+                        "key": "instance_cbr_rules"
                       },
                       {
-                        "key":"prefix",
-                        "required":true,
+                        "key": "prefix",
+                        "required": true,
                         "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
                       },
-                      { "key":"access_tags" },
-                      { "key":"cos_instance_name"},
-                      { "key":"cos_plan" },
-                      { "key":"cos_tags" },
-                      { "key":"existing_resource_group" },
                       {
-                        "key":"existing_secrets_manager_endpoint_type",
+                        "key": "access_tags"
+                      },
+                      {
+                        "key": "cos_instance_name"
+                      },
+                      {
+                        "key": "cos_plan"
+                      },
+                      {
+                        "key": "cos_tags"
+                      },
+                      {
+                        "key": "existing_resource_group"
+                      },
+                      {
+                        "key": "existing_secrets_manager_endpoint_type",
                         "options": [
                             {
                                 "displayname": "private",
@@ -275,18 +285,26 @@
                             }
                         ]
                       },
-                      { "key":"existing_secrets_manager_instance_crn" },
                       {
-                        "key":"ibmcloud_api_key",
-                        "required":true
+                        "key": "existing_secrets_manager_instance_crn"
                       },
                       {
-                        "key":"resource_group_name",
-                        "required":true
+                        "key": "ibmcloud_api_key",
+                        "required": true
                       },
-                      { "key":"resource_keys" },
-                      { "key":"service_credential_secrets" },
-                      { "key":"skip_cos_sm_auth_policy" }
+                      {
+                        "key": "resource_group_name",
+                        "required": true
+                      },
+                      {
+                        "key": "resource_keys"
+                      },
+                      {
+                        "key": "service_credential_secrets"
+                      },
+                      {
+                        "key": "skip_cos_sm_auth_policy"
+                      }
                     ]
 
                 },
@@ -373,39 +391,67 @@
                         ]
                       },
                       {
-                        "key":"instance_cbr_rules"
-                      },
-                      { "key":"add_bucket_name_suffix"},
-                      { "key":"archive_filter_prefix" },
-                      { "key":"bucket_access_tags" },
-                      {
-                        "key":"bucket_name",
-                        "required":true
-                      },
-                      { "key":"bucket_storage_class" },
-                      {
-                        "key":"cross_region_location",
-                        "required":true
+                        "key": "instance_cbr_rules"
                       },
                       {
-                        "key":"existing_cos_instance_id",
-                        "required":true
+                        "key": "add_bucket_name_suffix"
                       },
-                      { "key":"existing_kms_instance_crn" },
-                      { "key":"existing_kms_key_crn" },
-                      { "key":"expire_days" },
-                      { "key":"expire_filter_prefix" },
-                      { "key":"force_delete" },
-                      { "key":"hard_quota" },
                       {
-                        "key":"ibmcloud_api_key",
-                        "required":true
+                        "key": "archive_filter_prefix"
                       },
-                      { "key":"ibmcloud_kms_api_key" },
-                      { "key":"key_name" },
-                      { "key":"key_ring_name" },
-                      { "key":"kms_endpoint_type" },
-                      { "key":"management_endpoint_type_for_bucket",
+                      {
+                        "key": "bucket_access_tags"
+                      },
+                      {
+                        "key": "bucket_name",
+                        "required": true
+                      },
+                      {
+                        "key": "bucket_storage_class"
+                      },
+                      {
+                        "key": "cross_region_location",
+                        "required": true
+                      },
+                      {
+                        "key": "existing_cos_instance_id",
+                        "required": true
+                      },
+                      {
+                        "key": "existing_kms_instance_crn"
+                      },
+                      {
+                        "key": "existing_kms_key_crn"
+                      },
+                      {
+                        "key": "expire_days"
+                      },
+                      {
+                        "key": "expire_filter_prefix"
+                      },
+                      {
+                        "key": "force_delete"
+                      },
+                      {
+                        "key": "hard_quota"
+                      },
+                      {
+                        "key": "ibmcloud_api_key",
+                        "required": true
+                      },
+                      {
+                        "key": "ibmcloud_kms_api_key"
+                      },
+                      {
+                        "key": "key_name"
+                      },
+                      {
+                        "key": "key_ring_name"
+                      },
+                      {
+                        "key": "kms_endpoint_type"
+                      },
+                      { "key": "management_endpoint_type_for_bucket",
                         "options": [
                             {
                                 "displayname": "private",
@@ -421,17 +467,39 @@
                             }
                         ]
                       },
-                      { "key":"monitoring_crn" },
-                      { "key":"object_lock_duration_days" },
-                      { "key":"object_lock_duration_years" },
-                      { "key":"object_locking_enabled" },
-                      { "key":"object_versioning_enabled" },
-                      { "key":"retention_default" },
-                      { "key":"retention_enabled" },
-                      { "key":"retention_maximum" },
-                      { "key":"retention_minimum" },
-                      { "key":"retention_permanent" },
-                      { "key":"skip_iam_authorization_policy"}
+                      {
+                        "key": "monitoring_crn"
+                      },
+                      {
+                        "key": "object_lock_duration_days"
+                      },
+                      {
+                        "key": "object_lock_duration_years"
+                      },
+                      {
+                        "key": "object_locking_enabled"
+                      },
+                      {
+                        "key": "object_versioning_enabled"
+                      },
+                      {
+                        "key": "retention_default"
+                      },
+                      {
+                        "key": "retention_enabled"
+                      },
+                      {
+                        "key": "retention_maximum"
+                      },
+                      {
+                        "key": "retention_minimum"
+                      },
+                      {
+                        "key": "retention_permanent"
+                      },
+                      {
+                        "key": "skip_iam_authorization_policy"
+                      }
                     ]
 
                 },
@@ -522,35 +590,63 @@
                         ]
                       },
                       {
-                        "key":"instance_cbr_rules"
+                        "key": "instance_cbr_rules"
                       },
-                      { "key":"add_bucket_name_suffix"},
-                      { "key":"archive_filter_prefix" },
-                      { "key":"bucket_access_tags" },
                       {
-                        "key":"bucket_name",
-                        "required":true
+                        "key": "add_bucket_name_suffix"
                       },
-                      { "key":"bucket_storage_class" },
                       {
-                        "key":"existing_cos_instance_id",
-                        "required":true
+                        "key": "archive_filter_prefix"
                       },
-                      { "key":"existing_kms_instance_crn" },
-                      { "key":"existing_kms_key_crn" },
-                      { "key":"expire_days" },
-                      { "key":"expire_filter_prefix" },
-                      { "key":"force_delete" },
-                      { "key":"hard_quota" },
                       {
-                        "key":"ibmcloud_api_key",
-                        "required":true
+                        "key": "bucket_access_tags"
                       },
-                      { "key":"ibmcloud_kms_api_key" },
-                      { "key":"key_name" },
-                      { "key":"key_ring_name" },
-                      { "key":"kms_endpoint_type" },
-                      { "key":"management_endpoint_type_for_bucket",
+                      {
+                        "key": "bucket_name",
+                        "required": true
+                      },
+                      {
+                        "key": "bucket_storage_class"
+                      },
+                      {
+                        "key": "existing_cos_instance_id",
+                        "required": true
+                      },
+                      {
+                        "key": "existing_kms_instance_crn"
+                      },
+                      {
+                        "key": "existing_kms_key_crn"
+                      },
+                      {
+                        "key": "expire_days"
+                      },
+                      {
+                        "key": "expire_filter_prefix"
+                      },
+                      {
+                        "key": "force_delete"
+                      },
+                      {
+                        "key": "hard_quota"
+                      },
+                      {
+                        "key": "ibmcloud_api_key",
+                        "required": true
+                      },
+                      {
+                        "key": "ibmcloud_kms_api_key"
+                      },
+                      {
+                        "key": "key_name"
+                      },
+                      {
+                        "key": "key_ring_name"
+                      },
+                      {
+                        "key": "kms_endpoint_type"
+                      },
+                      { "key": "management_endpoint_type_for_bucket",
                         "options": [
                             {
                                 "displayname": "private",
@@ -566,20 +662,48 @@
                             }
                         ]
                       },
-                      { "key":"monitoring_crn" },
-                      { "key":"object_lock_duration_days" },
-                      { "key":"object_lock_duration_years" },
-                      { "key":"object_locking_enabled" },
-                      { "key":"object_versioning_enabled" },
-                      { "key":"retention_default" },
-                      { "key":"retention_enabled" },
-                      { "key":"retention_maximum" },
-                      { "key":"retention_minimum" },
-                      { "key":"retention_permanent" },
-                      { "key":"skip_iam_authorization_policy"},
-                      { "key":"archive_days" },
-                      { "key":"archive_type" },
-                      { "key":"region" }
+                      {
+                        "key": "monitoring_crn"
+                      },
+                      {
+                        "key": "object_lock_duration_days"
+                      },
+                      {
+                        "key": "object_lock_duration_years"
+                      },
+                      {
+                        "key": "object_locking_enabled"
+                      },
+                      {
+                        "key": "object_versioning_enabled"
+                      },
+                      {
+                        "key": "retention_default"
+                      },
+                      {
+                        "key": "retention_enabled"
+                      },
+                      {
+                        "key": "retention_maximum"
+                      },
+                      {
+                        "key": "retention_minimum"
+                      },
+                      {
+                        "key": "retention_permanent"
+                      },
+                      {
+                        "key": "skip_iam_authorization_policy"
+                      },
+                      {
+                        "key": "archive_days"
+                      },
+                      {
+                        "key": "archive_type"
+                      },
+                      {
+                        "key": "region"
+                      }
                     ]
                 }
             ]
