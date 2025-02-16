@@ -1,801 +1,800 @@
 {
-    "products": [
+  "products": [
+    {
+      "name": "terraform-ibm-cos",
+      "label": "Cloud Object Storage module",
+      "product_kind": "module",
+      "tags": [
+        "dev_ops",
+        "target_terraform",
+        "terraform",
+        "module",
+        "ibm_created"
+      ],
+      "keywords": [
+        "terraform",
+        "cos",
+        "bucket",
+        "storage"
+      ],
+      "short_description": "Configures an IBM Cloud Object Storage instance and bucket",
+      "long_description": "Use this module to provision and configure an IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.\nYou can configure the following aspects of your instances:\n- [KMS encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)\n- [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing\n- [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)\n- Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options\n### Usage\n```hcl\nmodule \"cos\" {\n  # Replace \"X.X.X\" with a release version to lock into a specific release\n  source                 = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=terraform-ibm-cos&version=X.X.X\"\n  resource_group_id      = \"199f65xxxxxxXXXXXXxxxxxxed93c497\"\n  region                 = \"us-south\" # set this to null and use 'cross_region_location' to create cross-region bucket\n  cos_instance_name      = \"my-cos-instance\"\n  bucket_name            = \"my-bucket\"\n  retention_enabled      = false # disable retention for test environments - enable for stage/prod\n  kms_encryption_enabled = false # by default, all objects are encrypted by using randomly generated keys and an all-or-nothing-transform (AONT)\n}\n```",
+      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
+      "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
+      "provider_name": "IBM",
+      "features": [
         {
-            "name": "terraform-ibm-cos",
-            "label": "Cloud Object Storage module",
-            "product_kind": "module",
-            "tags": [
-                "dev_ops",
-                "target_terraform",
-                "terraform",
-                "module",
-                "ibm_created"
-            ],
-            "keywords": [
-                "terraform",
-                "cos",
-                "bucket",
-                "storage"
-            ],
-            "short_description": "Configures an IBM Cloud Object Storage instance and bucket",
-            "long_description": "Use this module to provision and configure an IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.\nYou can configure the following aspects of your instances:\n- [KMS encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)\n- [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing\n- [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)\n- Data retention, [lifecycle](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-archive) and archiving options\n### Usage\n```hcl\nmodule \"cos\" {\n  # Replace \"X.X.X\" with a release version to lock into a specific release\n  source                 = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source?archive=tgz&kind=terraform&name=terraform-ibm-cos&version=X.X.X\"\n  resource_group_id      = \"199f65xxxxxxXXXXXXxxxxxxed93c497\"\n  region                 = \"us-south\" # set this to null and use 'cross_region_location' to create cross-region bucket\n  cos_instance_name      = \"my-cos-instance\"\n  bucket_name            = \"my-bucket\"\n  retention_enabled      = false # disable retention for test environments - enable for stage/prod\n  kms_encryption_enabled = false # by default, all objects are encrypted by using randomly generated keys and an all-or-nothing-transform (AONT)\n}\n```",
-            "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
-            "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
-            "provider_name": "IBM",
-            "features": [
-                {
-                    "title": "Create an Object Storage instance",
-                    "description": "Create an IBM Cloud Object Storage instance."
-                },
-                {
-                    "title": "Create an Object Storage bucket",
-                    "description": "Create either a cross-region or regional Object Storage bucket."
-                },
-                {
-                    "title": "Create an IBM resource key",
-                    "description": "Create a resource key for the Object Storage instance."
-                },
-                {
-                    "title": "Attach access tags",
-                    "description": "Attach access tags to the Object Storage instance."
-                },
-                {
-                    "title": "Configure bucket retention",
-                    "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
-                },
-                {
-                    "title": "Enable object versioning",
-                    "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket."
-                },
-                {
-                    "title": "Add archive policies",
-                    "description": "Add archive policies on the bucket."
-                },
-                {
-                    "title": "Record Activity Tracker events",
-                    "description": "Integrate Activity Tracker to track events."
-                },
-                {
-                    "title": "Monitor data",
-                    "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
-                },
-                {
-                    "title": "Encrypt data with key management services",
-                    "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
-                },
-                {
-                    "title": "Secure access with context-based restrictions",
-                    "description": "Create context-based restriction rules for both instances and buckets."
-                }
-            ],
-            "flavors": [
-                {
-                    "label": "Basic",
-                    "name": "basic",
-                    "working_directory": "examples/basic",
-                    "architecture": {
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "Basic example",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "A simple example that shows how to provision a basic Object Storage instance and buckets."
-                            }
-                        ]
-                    }
-                },
-                {
-                    "label": "Encryption and observability",
-                    "name": "advanced",
-                    "working_directory": "examples/advanced",
-                    "architecture": {
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "Advanced example",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "This example creates buckets that are encrypted with your own keys (BYOK). The buckets include activity tracking, monitoring, and context-based restriction rules."
-                            }
-                        ]
-                    }
-                },
-                {
-                    "label": "Financial Services compliant",
-                    "name": "fscloud",
-                    "working_directory": "examples/fscloud",
-                    "architecture": {
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "Financial Services compliant example",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "This example uses a profile for IBM Cloud Framework for Financial Services to provision an Object Storage instance and a Hyper Protect Crypto Services (HPCS) bucket encrypted with KYOK. The resources include activity tracking, monitoring, and context-based restriction rules."
-                            }
-                        ]
-                    }
-                },
-                {
-                    "label": "One Rate plan",
-                    "name": "one-rate-plan",
-                    "working_directory": "examples/one-rate-plan",
-                    "architecture": {
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "One Rate plan example",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "This example shows how to provision an IBM Cloud Object Storage One Rate plan instance and an Object Storage bucket with One Rate active storage."
-                            }
-                        ]
-                    }
-                },
-                {
-                    "label": "Bucket replication",
-                    "name": "replication",
-                    "working_directory": "examples/replication",
-                    "architecture": {
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "Bucket replication example",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "This example shows how to configure replication between two buckets."
-                            }
-                        ]
-                    }
-                }
-            ]
+          "title": "Create an Object Storage instance",
+          "description": "Create an IBM Cloud Object Storage instance."
         },
         {
-            "name": "deploy-arch-ibm-cos",
-            "label": "Cloud automation for Cloud Object Storage",
-            "product_kind": "solution",
-            "tags": [
-                "dev_ops",
-                "target_terraform",
-                "terraform",
-                "solution",
-                "storage",
-                "ibm_created"
-            ],
-            "keywords": [
-                "terraform",
-                "cos",
-                "bucket",
-                "storage",
-                "solution"
-            ],
-            "short_description": "Creates and configures an IBM Cloud Object Storage instance and bucket",
-            "long_description": "This architecture supports creating an IBM Cloud Object Storage instance, cross-region and single-region bucket.",
-            "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
-            "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
-            "provider_name": "IBM",
-            "features": [
-                {
-                    "title": "Create an IBM Cloud Object Storage instance",
-                    "description": "Create an IBM Cloud Object Storage instance."
-                },
-                {
-                    "title": "Create an IBM Cloud Object Storage bucket",
-                    "description": "Create either a cross-region or regional Object Storage bucket."
-                },
-                {
-                    "title": "Attach access tags",
-                    "description": "Attach access tags to the Object Storage instance."
-                }
-            ],
-            "flavors": [
-                {
-                    "label": "Single instance",
-                    "name": "instance",
-                    "install_type": "fullstack",
-                    "working_directory": "solutions/instance",
-                    "compliance": {
-                        "authority": "scc-v3",
-                        "profiles": [
-                            {
-                                "profile_name": "IBM Cloud Framework for Financial Services",
-                                "profile_version": "1.7.0"
-                            }
-                        ]
-                    },
-                    "architecture": {
-                        "features": [
-                            {
-                                "title": "Create an IBM Cloud Object Storage instance",
-                                "description": "Create and configure an IBM Cloud Object Storage instance."
-                            },
-                            {
-                                "title": "Create an IBM resource key",
-                                "description": "Create a resource key for the Object Storage instance."
-                            }
-                        ],
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "IBM Cloud Object Storage Solution",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance."
-                            }
-                        ]
-                    },
-                    "configuration":[
-                        {
-                            "key": "ibmcloud_api_key",
-                            "required": true,
-                            "type": "password"
-                        },
-                        {
-                            "key": "resource_group_name",
-                            "required": true
-                        },
-                        {
-                            "key": "prefix",
-                            "required": true
-                        },
-                        {
-                            "key": "existing_resource_group"
-                        },
-                        {
-                            "key": "cos_instance_name"
-                        },
-                        {
-                            "key": "cos_plan"
-                        },
-                        {
-                            "key": "access_tags"
-                        },
-                        {
-                            "key": "cos_tags"
-                        },
-                        {
-                            "key": "instance_cbr_rules"
-                        },
-                        {
-                            "key": "resource_keys"
-                        },
-                        {
-                            "key": "existing_secrets_manager_instance_crn",
-                            "configuration_group": "Service Credentials"
-                        },
-                        {
-                            "key": "existing_secrets_manager_endpoint_type",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                }
-                            ]
-                        },
-                        {
-                            "key": "service_credential_secrets"
-                        },
-                        {
-                            "key": "skip_cos_sm_auth_policy"
-                        },
-                        {
-                            "key": "provider_visibility",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                },
-                                {
-                                    "displayname": "public-and-private",
-                                    "value": "public-and-private"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "label": "Secure cross-region bucket",
-                    "name": "secure-cross-regional-bucket",
-                    "working_directory": "solutions/secure-cross-regional-bucket",
-                    "install_type": "extension",
-                    "dependencies": [
-                        {
-                            "flavors": [
-                                "instance"
-                            ],
-                            "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-                            "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-                            "name": "deploy-arch-ibm-cos",
-                            "version": ">= v8.1.4",
-                            "optional": true
-                        }
-                    ],
-                    "compliance": {
-                        "authority": "scc-v3",
-                        "profiles": [
-                            {
-                                "profile_name": "IBM Cloud Framework for Financial Services",
-                                "profile_version": "1.7.0"
-                            }
-                        ]
-                    },
-                    "architecture": {
-                        "features": [
-                            {
-                                "title": "Create a secure cross-region bucket",
-                                "description": "Create a secure cross-region Object Storage bucket."
-                            },
-                            {
-                                "title": "Configure bucket retention",
-                                "description": "Configure retention policies at the Object Storage bucket level."
-                            },
-                            {
-                                "title": "Enable object versioning",
-                                "description": "Enable object versioning to keep multiple versions of an object in a bucket."
-                            },
-                            {
-                                "title": "Record Activity Tracker events",
-                                "description": "Integrate Activity Tracker to track events."
-                            },
-                            {
-                                "title": "Monitor data",
-                                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
-                            },
-                            {
-                                "title": "Encrypt data with key management services",
-                                "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
-                            }
-                        ],
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "IBM Cloud Object Storage solution",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-cross-regional-bucket.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "This architecture supports creating and configuring a secure cross-region bucket."
-                            }
-                        ]
-                    },
-                    "configuration":[
-                        {
-                            "key": "ibmcloud_api_key",
-                            "required": true,
-                            "type": "password"
-                        },
-                        {
-                            "key": "cross_region_location",
-                            "required": true,
-                            "type": "region"
-                        },
-                        {
-                            "key": "existing_cos_instance_id",
-                            "required": true
-                        },
-                        {
-                            "key": "bucket_name",
-                            "required": true
-                        },
-                        {
-                            "key": "add_bucket_name_suffix"
-                        },
-                        {
-                            "key": "archive_filter_prefix"
-                        },
-                        {
-                            "key": "bucket_access_tags"
-                        },
-                        {
-                            "key": "bucket_storage_class",
-                            "options": [
-                                {
-                                    "displayname": "standard",
-                                    "value": "standard"
-                                },
-                                {
-                                    "displayname": "vault",
-                                    "value": "vault"
-                                },
-                                {
-                                    "displayname": "cold",
-                                    "value": "cold"
-                                },
-                                {
-                                    "displayname": "smart",
-                                    "value": "smart"
-                                },
-                                {
-                                    "displayname": "onerate_active",
-                                    "value": "onerate_active"
-                                }
-                            ],
-                            "default": "smart"
-                        },
-                        {
-                            "key": "expire_days"
-                        },
-                        {
-                            "key": "expire_filter_prefix"
-                        },
-                        {
-                            "key": "force_delete"
-                        },
-                        {
-                            "key": "hard_quota"
-                        },
-                        {
-                            "key": "management_endpoint_type_for_bucket",
-                            "options": [
-                                {
-                                    "displayname": "direct",
-                                    "value": "direct"
-                                },
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                }
-                            ],
-                            "default": "private"
-                        },
-                        {
-                            "key": "monitoring_crn"
-                        },
-                        {
-                            "key": "object_lock_duration_days"
-                        },
-                        {
-                            "key": "object_lock_duration_years"
-                        },
-                        {
-                            "key": "object_locking_enabled"
-                        },
-                        {
-                            "key": "object_versioning_enabled"
-                        },
-                        {
-                            "key": "retention_default"
-                        },
-                        {
-                            "key": "retention_enabled"
-                        },
-                        {
-                            "key": "retention_maximum"
-                        },
-                        {
-                            "key": "retention_minimum"
-                        },
-                        {
-                            "key": "retention_permanent"
-                        },
-                        {
-                            "key": "ibmcloud_kms_api_key",
-                            "type": "password"
-                        },
-                        {
-                            "key": "existing_kms_instance_crn"
-                        },
-                        {
-                            "key": "existing_kms_key_crn"
-                        },
-                        {
-                            "key": "key_ring_name"
-                        },
-                        {
-                            "key": "key_name"
-                        },
-                        {
-                            "key": "kms_endpoint_type",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                }
-                            ],
-                            "default": "private"
-                        },
-                        {
-                            "key": "skip_iam_authorization_policy"
-                        },
-                        {
-                            "key": "provider_visibility",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                },
-                                {
-                                    "displayname": "public-and-private",
-                                    "value": "public-and-private"
-                                }
-                            ]
-                        },
-                        {
-                            "key": "instance_cbr_rules"
-                        }
-                    ]
-
-                },
-                {
-                    "label": "Secure regional bucket",
-                    "name": "secure-regional-bucket",
-                    "working_directory": "solutions/secure-regional-bucket",
-                    "install_type": "extension",
-                    "dependencies": [
-                        {
-                            "flavors": [
-                                "instance"
-                            ],
-                            "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-                            "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-                            "name": "deploy-arch-ibm-cos",
-                            "version": ">= v8.1.4",
-                            "optional": true
-                        }
-                    ],
-                    "compliance": {
-                        "authority": "scc-v3",
-                        "profiles": [
-                            {
-                                "profile_name": "IBM Cloud Framework for Financial Services",
-                                "profile_version": "1.7.0"
-                            }
-                        ]
-                    },
-                    "architecture": {
-                        "features": [
-                            {
-                                "title": "Create secure regional bucket",
-                                "description": "Create a secure regional bucket."
-                            },
-                            {
-                                "title": "Configure bucket retention",
-                                "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
-                            },
-                            {
-                                "title": "Enable object versioning",
-                                "description": "Enable object versioning to keep multiple versions of an object in a bucket."
-                            },
-                            {
-                                "title": "Add archive policies",
-                                "description": "Add archive policies on the bucket."
-                            },
-                            {
-                                "title": "Record Activity Tracker events",
-                                "description": "Integrate Activity Tracker to track events."
-                            },
-                            {
-                                "title": "Monitor data",
-                                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
-                            },
-                            {
-                                "title": "Encrypt data with key management services",
-                                "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
-                            }
-                        ],
-                        "diagrams": [
-                            {
-                                "diagram": {
-                                    "caption": "IBM Cloud Object Storage solution",
-                                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-regional-bucket.svg",
-                                    "type": "image/svg+xml"
-                                },
-                                "description": "This architecture supports creating and configuring a regional bucket."
-                            }
-                        ]
-                    },
-                    "configuration":[
-                        {
-                            "key": "ibmcloud_api_key",
-                            "required": true,
-                            "type": "password"
-                        },
-                        {
-                            "key": "region",
-                            "type": "region"
-                        },
-                        {
-                            "key": "existing_cos_instance_id",
-                            "required": true
-                        },
-                        {
-                            "key": "bucket_name",
-                            "required": true
-                        },
-                        {
-                            "key": "add_bucket_name_suffix"
-                        },
-                        {
-                            "key": "archive_days"
-                        },
-                        {
-                            "key": "archive_filter_prefix"
-                        },
-                        {
-                            "key": "archive_type",
-                            "options": [
-                                {
-                                    "displayname": "Glacier",
-                                    "value": "Glacier"
-                                },
-                                {
-                                    "displayname": "Accelerated",
-                                    "value": "Accelerated"
-                                }
-                            ],
-                            "default": "Glacier"
-                        },
-                        {
-                            "key": "bucket_access_tags"
-                        },
-                        {
-                            "key": "bucket_storage_class",
-                            "options": [
-                                {
-                                    "displayname": "standard",
-                                    "value": "standard"
-                                },
-                                {
-                                    "displayname": "vault",
-                                    "value": "vault"
-                                },
-                                {
-                                    "displayname": "cold",
-                                    "value": "cold"
-                                },
-                                {
-                                    "displayname": "smart",
-                                    "value": "smart"
-                                },
-                                {
-                                    "displayname": "onerate_active",
-                                    "value": "onerate_active"
-                                }
-                            ],
-                            "default": "smart"
-                        },
-                        {
-                            "key": "expire_days"
-                        },
-                        {
-                            "key": "expire_filter_prefix"
-                        },
-                        {
-                            "key": "force_delete"
-                        },
-                        {
-                            "key": "hard_quota"
-                        },
-                        {
-                            "key": "management_endpoint_type_for_bucket",
-                            "options": [
-                                {
-                                    "displayname": "direct",
-                                    "value": "direct"
-                                },
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                }
-                            ],
-                            "default": "private"
-                        },
-                        {
-                            "key": "monitoring_crn"
-                        },
-                        {
-                            "key": "object_lock_duration_days"
-                        },
-                        {
-                            "key": "object_lock_duration_years"
-                        },
-                        {
-                            "key": "object_locking_enabled"
-                        },
-                        {
-                            "key": "object_versioning_enabled"
-                        },
-                        {
-                            "key": "retention_default"
-                        },
-                        {
-                            "key": "retention_enabled"
-                        },
-                        {
-                            "key": "retention_maximum"
-                        },
-                        {
-                            "key": "retention_minimum"
-                        },
-                        {
-                            "key": "retention_permanent"
-                        },
-                        {
-                            "key": "existing_kms_instance_crn"
-                        },
-                        {
-                            "key": "existing_kms_key_crn"
-                        },
-                        {
-                            "key": "ibmcloud_kms_api_key",
-                            "type": "password"
-                        },
-                        {
-                            "key": "kms_endpoint_type",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                }
-                            ],
-                            "default": "private"
-                        },
-                        {
-                            "key": "key_name"
-                        },
-                        {
-                            "key": "key_ring_name"
-                        },
-                        {
-                            "key": "skip_iam_authorization_policy"
-                        },
-                        {
-                            "key": "provider_visibility",
-                            "options": [
-                                {
-                                    "displayname": "private",
-                                    "value": "private"
-                                },
-                                {
-                                    "displayname": "public",
-                                    "value": "public"
-                                },
-                                {
-                                    "displayname": "public-and-private",
-                                   "value": "public-and-private"
-                                }
-                            ]
-                        },
-                        {
-                            "key": "instance_cbr_rules"
-                        }
-                    ]
-                }
-            ]
+          "title": "Create an Object Storage bucket",
+          "description": "Create either a cross-region or regional Object Storage bucket."
+        },
+        {
+          "title": "Create an IBM resource key",
+          "description": "Create a resource key for the Object Storage instance."
+        },
+        {
+          "title": "Attach access tags",
+          "description": "Attach access tags to the Object Storage instance."
+        },
+        {
+          "title": "Configure bucket retention",
+          "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
+        },
+        {
+          "title": "Enable object versioning",
+          "description": "Supports enabling object versioning to keep multiple versions of an object in a bucket."
+        },
+        {
+          "title": "Add archive policies",
+          "description": "Add archive policies on the bucket."
+        },
+        {
+          "title": "Record Activity Tracker events",
+          "description": "Integrate Activity Tracker to track events."
+        },
+        {
+          "title": "Monitor data",
+          "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
+        },
+        {
+          "title": "Encrypt data with key management services",
+          "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
+        },
+        {
+          "title": "Secure access with context-based restrictions",
+          "description": "Create context-based restriction rules for both instances and buckets."
         }
-    ]
+      ],
+      "flavors": [
+        {
+          "label": "Basic",
+          "name": "basic",
+          "working_directory": "examples/basic",
+          "architecture": {
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "Basic example",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "A simple example that shows how to provision a basic Object Storage instance and buckets."
+              }
+            ]
+          }
+        },
+        {
+          "label": "Encryption and observability",
+          "name": "advanced",
+          "working_directory": "examples/advanced",
+          "architecture": {
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "Advanced example",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This example creates buckets that are encrypted with your own keys (BYOK). The buckets include activity tracking, monitoring, and context-based restriction rules."
+              }
+            ]
+          }
+        },
+        {
+          "label": "Financial Services compliant",
+          "name": "fscloud",
+          "working_directory": "examples/fscloud",
+          "architecture": {
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "Financial Services compliant example",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This example uses a profile for IBM Cloud Framework for Financial Services to provision an Object Storage instance and a Hyper Protect Crypto Services (HPCS) bucket encrypted with KYOK. The resources include activity tracking, monitoring, and context-based restriction rules."
+              }
+            ]
+          }
+        },
+        {
+          "label": "One Rate plan",
+          "name": "one-rate-plan",
+          "working_directory": "examples/one-rate-plan",
+          "architecture": {
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "One Rate plan example",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This example shows how to provision an IBM Cloud Object Storage One Rate plan instance and an Object Storage bucket with One Rate active storage."
+              }
+            ]
+          }
+        },
+        {
+          "label": "Bucket replication",
+          "name": "replication",
+          "working_directory": "examples/replication",
+          "architecture": {
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "Bucket replication example",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/documentation/main/icons/ModuleExampleDiagram.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This example shows how to configure replication between two buckets."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "deploy-arch-ibm-cos",
+      "label": "Cloud automation for Cloud Object Storage",
+      "product_kind": "solution",
+      "tags": [
+        "dev_ops",
+        "target_terraform",
+        "terraform",
+        "solution",
+        "storage",
+        "ibm_created"
+      ],
+      "keywords": [
+        "terraform",
+        "cos",
+        "bucket",
+        "storage",
+        "solution"
+      ],
+      "short_description": "Creates and configures an IBM Cloud Object Storage instance and bucket",
+      "long_description": "This architecture supports creating an IBM Cloud Object Storage instance, cross-region and single-region bucket.",
+      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
+      "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
+      "provider_name": "IBM",
+      "features": [
+        {
+          "title": "Create an IBM Cloud Object Storage instance",
+          "description": "Create an IBM Cloud Object Storage instance."
+        },
+        {
+          "title": "Create an IBM Cloud Object Storage bucket",
+          "description": "Create either a cross-region or regional Object Storage bucket."
+        },
+        {
+          "title": "Attach access tags",
+          "description": "Attach access tags to the Object Storage instance."
+        }
+      ],
+      "flavors": [
+        {
+          "label": "Single instance",
+          "name": "instance",
+          "install_type": "fullstack",
+          "working_directory": "solutions/instance",
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
+          },
+          "architecture": {
+            "features": [
+              {
+                "title": "Create an IBM Cloud Object Storage instance",
+                "description": "Create and configure an IBM Cloud Object Storage instance."
+              },
+              {
+                "title": "Create an IBM resource key",
+                "description": "Create a resource key for the Object Storage instance."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "IBM Cloud Object Storage Solution",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance."
+              }
+            ]
+          },
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key",
+              "required": true,
+              "type": "password"
+            },
+            {
+              "key": "resource_group_name",
+              "required": true
+            },
+            {
+              "key": "prefix",
+              "required": true
+            },
+            {
+              "key": "existing_resource_group"
+            },
+            {
+              "key": "cos_instance_name"
+            },
+            {
+              "key": "cos_plan"
+            },
+            {
+              "key": "access_tags"
+            },
+            {
+              "key": "cos_tags"
+            },
+            {
+              "key": "instance_cbr_rules"
+            },
+            {
+              "key": "resource_keys"
+            },
+            {
+              "key": "existing_secrets_manager_instance_crn",
+              "configuration_group": "Service Credentials"
+            },
+            {
+              "key": "existing_secrets_manager_endpoint_type",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ]
+            },
+            {
+              "key": "service_credential_secrets"
+            },
+            {
+              "key": "skip_cos_sm_auth_policy"
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Secure cross-region bucket",
+          "name": "secure-cross-regional-bucket",
+          "working_directory": "solutions/secure-cross-regional-bucket",
+          "install_type": "extension",
+          "dependencies": [
+            {
+              "flavors": [
+                "instance"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
+              "name": "deploy-arch-ibm-cos",
+              "version": ">= v8.1.4",
+              "optional": true
+            }
+          ],
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
+          },
+          "architecture": {
+            "features": [
+              {
+                "title": "Create a secure cross-region bucket",
+                "description": "Create a secure cross-region Object Storage bucket."
+              },
+              {
+                "title": "Configure bucket retention",
+                "description": "Configure retention policies at the Object Storage bucket level."
+              },
+              {
+                "title": "Enable object versioning",
+                "description": "Enable object versioning to keep multiple versions of an object in a bucket."
+              },
+              {
+                "title": "Record Activity Tracker events",
+                "description": "Integrate Activity Tracker to track events."
+              },
+              {
+                "title": "Monitor data",
+                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
+              },
+              {
+                "title": "Encrypt data with key management services",
+                "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "IBM Cloud Object Storage solution",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-cross-regional-bucket.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture supports creating and configuring a secure cross-region bucket."
+              }
+            ]
+          },
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key",
+              "required": true,
+              "type": "password"
+            },
+            {
+              "key": "cross_region_location",
+              "required": true,
+              "type": "region"
+            },
+            {
+              "key": "existing_cos_instance_id",
+              "required": true
+            },
+            {
+              "key": "bucket_name",
+              "required": true
+            },
+            {
+              "key": "add_bucket_name_suffix"
+            },
+            {
+              "key": "archive_filter_prefix"
+            },
+            {
+              "key": "bucket_access_tags"
+            },
+            {
+              "key": "bucket_storage_class",
+              "options": [
+                {
+                  "displayname": "standard",
+                  "value": "standard"
+                },
+                {
+                  "displayname": "vault",
+                  "value": "vault"
+                },
+                {
+                  "displayname": "cold",
+                  "value": "cold"
+                },
+                {
+                  "displayname": "smart",
+                  "value": "smart"
+                },
+                {
+                  "displayname": "onerate_active",
+                  "value": "onerate_active"
+                }
+              ],
+              "default": "smart"
+            },
+            {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
+              "key": "force_delete"
+            },
+            {
+              "key": "hard_quota"
+            },
+            {
+              "key": "management_endpoint_type_for_bucket",
+              "options": [
+                {
+                  "displayname": "direct",
+                  "value": "direct"
+                },
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ],
+              "default": "private"
+            },
+            {
+              "key": "monitoring_crn"
+            },
+            {
+              "key": "object_lock_duration_days"
+            },
+            {
+              "key": "object_lock_duration_years"
+            },
+            {
+              "key": "object_locking_enabled"
+            },
+            {
+              "key": "object_versioning_enabled"
+            },
+            {
+              "key": "retention_default"
+            },
+            {
+              "key": "retention_enabled"
+            },
+            {
+              "key": "retention_maximum"
+            },
+            {
+              "key": "retention_minimum"
+            },
+            {
+              "key": "retention_permanent"
+            },
+            {
+              "key": "ibmcloud_kms_api_key",
+              "type": "password"
+            },
+            {
+              "key": "existing_kms_instance_crn"
+            },
+            {
+              "key": "existing_kms_key_crn"
+            },
+            {
+              "key": "key_ring_name"
+            },
+            {
+              "key": "key_name"
+            },
+            {
+              "key": "kms_endpoint_type",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ],
+              "default": "private"
+            },
+            {
+              "key": "skip_iam_authorization_policy"
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            },
+            {
+              "key": "instance_cbr_rules"
+            }
+          ]
+        },
+        {
+          "label": "Secure regional bucket",
+          "name": "secure-regional-bucket",
+          "working_directory": "solutions/secure-regional-bucket",
+          "install_type": "extension",
+          "dependencies": [
+            {
+              "flavors": [
+                "instance"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
+              "name": "deploy-arch-ibm-cos",
+              "version": ">= v8.1.4",
+              "optional": true
+            }
+          ],
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
+          },
+          "architecture": {
+            "features": [
+              {
+                "title": "Create secure regional bucket",
+                "description": "Create a secure regional bucket."
+              },
+              {
+                "title": "Configure bucket retention",
+                "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
+              },
+              {
+                "title": "Enable object versioning",
+                "description": "Enable object versioning to keep multiple versions of an object in a bucket."
+              },
+              {
+                "title": "Add archive policies",
+                "description": "Add archive policies on the bucket."
+              },
+              {
+                "title": "Record Activity Tracker events",
+                "description": "Integrate Activity Tracker to track events."
+              },
+              {
+                "title": "Monitor data",
+                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
+              },
+              {
+                "title": "Encrypt data with key management services",
+                "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "IBM Cloud Object Storage solution",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-regional-bucket.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture supports creating and configuring a regional bucket."
+              }
+            ]
+          },
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key",
+              "required": true,
+              "type": "password"
+            },
+            {
+              "key": "region",
+              "type": "region"
+            },
+            {
+              "key": "existing_cos_instance_id",
+              "required": true
+            },
+            {
+              "key": "bucket_name",
+              "required": true
+            },
+            {
+              "key": "add_bucket_name_suffix"
+            },
+            {
+              "key": "archive_days"
+            },
+            {
+              "key": "archive_filter_prefix"
+            },
+            {
+              "key": "archive_type",
+              "options": [
+                {
+                  "displayname": "Glacier",
+                  "value": "Glacier"
+                },
+                {
+                  "displayname": "Accelerated",
+                  "value": "Accelerated"
+                }
+              ],
+              "default": "Glacier"
+            },
+            {
+              "key": "bucket_access_tags"
+            },
+            {
+              "key": "bucket_storage_class",
+              "options": [
+                {
+                  "displayname": "standard",
+                  "value": "standard"
+                },
+                {
+                  "displayname": "vault",
+                  "value": "vault"
+                },
+                {
+                  "displayname": "cold",
+                  "value": "cold"
+                },
+                {
+                  "displayname": "smart",
+                  "value": "smart"
+                },
+                {
+                  "displayname": "onerate_active",
+                  "value": "onerate_active"
+                }
+              ],
+              "default": "smart"
+            },
+            {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
+              "key": "force_delete"
+            },
+            {
+              "key": "hard_quota"
+            },
+            {
+              "key": "management_endpoint_type_for_bucket",
+              "options": [
+                {
+                  "displayname": "direct",
+                  "value": "direct"
+                },
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ],
+              "default": "private"
+            },
+            {
+              "key": "monitoring_crn"
+            },
+            {
+              "key": "object_lock_duration_days"
+            },
+            {
+              "key": "object_lock_duration_years"
+            },
+            {
+              "key": "object_locking_enabled"
+            },
+            {
+              "key": "object_versioning_enabled"
+            },
+            {
+              "key": "retention_default"
+            },
+            {
+              "key": "retention_enabled"
+            },
+            {
+              "key": "retention_maximum"
+            },
+            {
+              "key": "retention_minimum"
+            },
+            {
+              "key": "retention_permanent"
+            },
+            {
+              "key": "existing_kms_instance_crn"
+            },
+            {
+              "key": "existing_kms_key_crn"
+            },
+            {
+              "key": "ibmcloud_kms_api_key",
+              "type": "password"
+            },
+            {
+              "key": "kms_endpoint_type",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ],
+              "default": "private"
+            },
+            {
+              "key": "key_name"
+            },
+            {
+              "key": "key_ring_name"
+            },
+            {
+              "key": "skip_iam_authorization_policy"
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            },
+            {
+              "key": "instance_cbr_rules"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
