@@ -242,8 +242,9 @@
               "required": true
             },
             {
-              "key": "prefix",
-              "required": true
+              "key":"prefix",
+              "required":true,
+              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
               "key": "existing_resource_group"
