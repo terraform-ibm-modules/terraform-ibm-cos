@@ -39,7 +39,7 @@ variable "cos_instance_name" {
 }
 
 variable "cos_tags" {
-  description = "A list of tags to apply to data in the Object Storage instance."
+  description = "A list of resource tags to apply to the Object Storage instance."
   type        = list(string)
   default     = []
 }
