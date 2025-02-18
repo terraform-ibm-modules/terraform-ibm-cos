@@ -233,13 +233,10 @@
           },
           "configuration": [
             {
-              "key": "ibmcloud_api_key",
-              "required": true,
-              "type": "password"
+              "key": "ibmcloud_api_key"
             },
             {
-              "key": "resource_group_name",
-              "required": true
+              "key": "resource_group_name"
             },
             {
               "key":"prefix",
@@ -268,8 +265,7 @@
               "key": "resource_keys"
             },
             {
-              "key": "existing_secrets_manager_instance_crn",
-              "configuration_group": "Service Credentials"
+              "key": "existing_secrets_manager_instance_crn"
             },
             {
               "key": "existing_secrets_manager_endpoint_type",
@@ -375,22 +371,16 @@
           },
           "configuration": [
             {
-              "key": "ibmcloud_api_key",
-              "required": true,
-              "type": "password"
+              "key": "ibmcloud_api_key"
             },
             {
-              "key": "cross_region_location",
-              "required": true,
-              "type": "region"
+              "key": "cross_region_location"
             },
             {
-              "key": "existing_cos_instance_id",
-              "required": true
+              "key": "existing_cos_instance_id"
             },
             {
-              "key": "bucket_name",
-              "required": true
+              "key": "bucket_name"
             },
             {
               "key": "add_bucket_name_suffix"
@@ -488,8 +478,7 @@
               "key": "retention_permanent"
             },
             {
-              "key": "ibmcloud_kms_api_key",
-              "type": "password"
+              "key": "ibmcloud_kms_api_key"
             },
             {
               "key": "existing_kms_instance_crn"
@@ -612,21 +601,16 @@
           },
           "configuration": [
             {
-              "key": "ibmcloud_api_key",
-              "required": true,
-              "type": "password"
+              "key": "ibmcloud_api_key"
             },
             {
-              "key": "region",
-              "type": "region"
+              "key": "region"
             },
             {
-              "key": "existing_cos_instance_id",
-              "required": true
+              "key": "existing_cos_instance_id"
             },
             {
-              "key": "bucket_name",
-              "required": true
+              "key": "bucket_name"
             },
             {
               "key": "add_bucket_name_suffix"
@@ -747,8 +731,7 @@
               "key": "existing_kms_key_crn"
             },
             {
-              "key": "ibmcloud_kms_api_key",
-              "type": "password"
+              "key": "ibmcloud_kms_api_key"
             },
             {
               "key": "kms_endpoint_type",
