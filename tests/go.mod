@@ -2,13 +2,13 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 
 go 1.22.4
 
-toolchain go1.23.4
+toolchain go1.24.0
 
 require (
-	github.com/IBM/ibm-cos-sdk-go v1.12.0
-	github.com/gruntwork-io/terratest v0.48.1
+	github.com/IBM/ibm-cos-sdk-go v1.12.1
+	github.com/gruntwork-io/terratest v0.48.2
 	github.com/stretchr/testify v1.10.0
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.42.10
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.46.2
 )
 
 require (
