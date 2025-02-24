@@ -236,11 +236,11 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "resource_group_name",
+              "key": "use_existing_resource_group",
               "required": true
             },
             {
-              "key": "use_existing_resource_group",
+              "key": "resource_group_name",
               "required": true
             },
             {
