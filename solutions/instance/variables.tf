@@ -6,11 +6,11 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  description = "(Optional) Prefix to add to all resources created by this solution. To not use any prefix value, you can set this value to `null` or an empty string."
+  description = "(Optional) Prefix to add to all resources created by this solution. If specified, resources created will have a name format of <prefix>-<resource_name>.To not use any prefix value, you can set this value to `null` or an empty string."
   default     = "dev"
 }
 
-variable "existing_resource_group" {
+variable "use_existing_resource_group" {
   type        = bool
   description = "Whether to use an existing resource group."
   default     = false
@@ -105,7 +105,7 @@ variable "service_credential_secrets" {
   }
 }
 
-variable "skip_cos_sm_auth_policy" {
+variable "skip_cos_secrets_manager_auth_policy" {
   type        = bool
   default     = false
   description = "Whether an IAM authorization policy is created for Secrets Manager instance to create a service credential secrets for Cloud Object Storage. Set to `true` to use an existing policy."

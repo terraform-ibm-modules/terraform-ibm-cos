@@ -29,7 +29,7 @@ locals {
     region_location               = var.region
     storage_class                 = var.bucket_storage_class
     force_delete                  = var.force_delete
-    hard_quota                    = var.hard_quota
+    hard_quota                    = var.bucket_hard_quota
     expire_filter_prefix          = var.expire_filter_prefix
     archive_filter_prefix         = var.archive_filter_prefix
     object_locking_enabled        = var.object_locking_enabled
@@ -58,11 +58,11 @@ locals {
     object_versioning = {
       enable = var.object_versioning_enabled
     }
-    retention_rule = var.retention_enabled ? {
-      default   = var.retention_default
-      maximum   = var.retention_maximum
-      minimum   = var.retention_minimum
-      permanent = var.retention_permanent
+    retention_rule = var.enable_retention ? {
+      default   = var.default_retention_period
+      maximum   = var.maximum_retention_period
+      minimum   = var.minimum_retention_period
+      permanent = var.enable_permanent_retention
     } : null
   }]
 }
