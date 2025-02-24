@@ -11,7 +11,7 @@ variable "ibmcloud_api_key" {
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The CRN of the KMS instance that is used for the Object Storage bucket root key. Required only if a KMS root key is specified and if `skip_iam_authorization_policy` is true."
+  description = "The CRN of the KMS instance that is used for the Object Storage bucket root key. Required only if a KMS root key is not specified and if `skip_iam_authorization_policy` is false."
   validation {
     condition     = !(var.existing_kms_key_crn == null && var.existing_kms_instance_crn == null)
     error_message = "A value must be passed for 'existing_kms_instance_crn' if no value is supplied for 'existing_kms_key_crn'."
@@ -21,7 +21,7 @@ variable "existing_kms_instance_crn" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the KMS instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the KMS instance in `existing_kms_guid`."
+  description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the KMS instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the KMS instance in `existing_kms_instance_crn`."
   default     = false
 }
 
@@ -110,7 +110,7 @@ variable "force_delete" {
   default     = true
 }
 
-variable "hard_quota" {
+variable "bucket_hard_quota" {
   type        = number
   description = "Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled."
   default     = null
@@ -158,31 +158,31 @@ variable "object_versioning_enabled" {
   default     = false
 }
 
-variable "retention_enabled" {
+variable "enable_retention" {
   description = "Whether retention is enabled for the Object Storage bucket."
   type        = bool
   default     = false
 }
 
-variable "retention_default" {
+variable "default_retention_period" {
   description = "The number of days that an object can remain unmodified in an Object Storage bucket."
   type        = number
   default     = 90
 }
 
-variable "retention_maximum" {
+variable "maximum_retention_period" {
   description = "The maximum number of days that an object can be kept unmodified in the bucket."
   type        = number
   default     = 350
 }
 
-variable "retention_minimum" {
+variable "minimum_retention_period" {
   description = "The minimum number of days that an object must be kept unmodified in the bucket."
   type        = number
   default     = 90
 }
 
-variable "retention_permanent" {
+variable "enable_permanent_retention" {
   description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable)."
   type        = bool
   default     = false
