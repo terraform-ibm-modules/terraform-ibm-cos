@@ -12,8 +12,8 @@ module "cos" {
   cos_instance_name   = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.cos_instance_name}" : var.cos_instance_name
   resource_keys       = var.resource_keys
   cos_plan            = var.cos_plan
-  cos_tags            = var.cos_tags
-  access_tags         = var.access_tags
+  cos_tags            = var.cos_instance_tags
+  access_tags         = var.cos_instance_access_tags
   instance_cbr_rules  = var.instance_cbr_rules
 }
 

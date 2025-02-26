@@ -272,10 +272,24 @@
               "key": "cos_plan"
             },
             {
-              "key": "cos_tags"
+              "key": "cos_instance_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
-              "key": "access_tags"
+              "key": "cos_instance_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
               "key": "resource_keys"
@@ -411,7 +425,14 @@
               "key": "archive_filter_prefix"
             },
             {
-              "key": "bucket_access_tags"
+              "key": "bucket_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
               "key": "bucket_storage_class",
@@ -661,7 +682,14 @@
               "default": "Glacier"
             },
             {
-              "key": "bucket_access_tags"
+              "key": "bucket_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
               "key": "bucket_storage_class",
