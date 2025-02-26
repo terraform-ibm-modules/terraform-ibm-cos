@@ -272,7 +272,7 @@
               "key": "cos_plan"
             },
             {
-              "key": "cos_instance_tags",
+              "key": "cos_tags",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
@@ -282,7 +282,7 @@
               }
             },
             {
-              "key": "cos_instance_access_tags",
+              "key": "access_tags",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",

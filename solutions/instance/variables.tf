@@ -38,7 +38,7 @@ variable "cos_instance_name" {
   default     = "cos-instance"
 }
 
-variable "cos_instance_tags" {
+variable "cos_tags" {
   description = "A list of resource tags to apply to the Object Storage instance."
   type        = list(string)
   default     = []
@@ -51,7 +51,7 @@ variable "cos_plan" {
   # Validation happens in the fscloud module
 }
 
-variable "cos_instance_access_tags" {
+variable "access_tags" {
   type        = list(string)
   description = "A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial)."
   default     = []
