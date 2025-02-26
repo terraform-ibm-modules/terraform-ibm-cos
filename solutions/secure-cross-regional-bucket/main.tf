@@ -7,7 +7,7 @@ locals {
   existing_kms_instance_guid       = var.existing_kms_instance_crn != null ? element(split(":", var.existing_kms_instance_crn), length(split(":", var.existing_kms_instance_crn)) - 3) : null
   existing_kms_instance_region     = var.existing_kms_instance_crn != null ? element(split(":", var.existing_kms_instance_crn), length(split(":", var.existing_kms_instance_crn)) - 5) : null
   cos_instance_guid                = var.existing_cos_instance_id != null ? element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3) : null
-  create_cross_account_auth_policy = !var.skip_iam_authorization_policy && var.ibmcloud_kms_api_key != null
+  create_cross_account_auth_policy = !var.skip_cos_kms_iam_auth_policy && var.ibmcloud_kms_api_key != null
 
   kms_service_name = var.existing_kms_instance_crn != null ? (
     can(regex(".*kms.*", var.existing_kms_instance_crn)) ? "kms" : (
@@ -25,7 +25,7 @@ locals {
     add_bucket_name_suffix        = var.add_bucket_name_suffix
     kms_guid                      = local.existing_kms_instance_guid
     kms_key_crn                   = local.kms_key_crn
-    skip_iam_authorization_policy = local.create_cross_account_auth_policy || var.skip_iam_authorization_policy
+    skip_iam_authorization_policy = local.create_cross_account_auth_policy || var.skip_cos_kms_iam_auth_policy
     management_endpoint_type      = var.management_endpoint_type_for_bucket
     cross_region_location         = var.cross_region_location
     storage_class                 = var.bucket_storage_class
@@ -164,5 +164,5 @@ module "cos" {
   create_cos_instance      = false
   existing_cos_instance_id = var.existing_cos_instance_id
   bucket_configs           = local.bucket_config
-  instance_cbr_rules       = var.instance_cbr_rules
+  instance_cbr_rules       = var.cos_instance_cbr_rules
 }

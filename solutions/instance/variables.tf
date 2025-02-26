@@ -105,7 +105,7 @@ variable "service_credential_secrets" {
   }
 }
 
-variable "skip_cos_secrets_manager_auth_policy" {
+variable "skip_secrets_manager_cos_iam_auth_policy" {
   type        = bool
   default     = false
   description = "Whether an IAM authorization policy is created for Secrets Manager instance to create a service credential secrets for Cloud Object Storage. Set to `true` to use an existing policy."
@@ -124,7 +124,7 @@ variable "provider_visibility" {
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
-variable "instance_cbr_rules" {
+variable "cos_instance_cbr_rules" {
   type = list(object({
     description = string
     account_id  = string

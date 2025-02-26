@@ -14,11 +14,11 @@ module "cos" {
   cos_plan            = var.cos_plan
   cos_tags            = var.cos_tags
   access_tags         = var.access_tags
-  instance_cbr_rules  = var.instance_cbr_rules
+  instance_cbr_rules  = var.cos_instance_cbr_rules
 }
 
 resource "ibm_iam_authorization_policy" "secrets_manager_key_manager" {
-  count                       = var.skip_cos_secrets_manager_auth_policy || var.existing_secrets_manager_instance_crn == null ? 0 : 1
+  count                       = var.skip_secrets_manager_cos_iam_auth_policy || var.existing_secrets_manager_instance_crn == null ? 0 : 1
   depends_on                  = [module.cos]
   source_service_name         = "secrets-manager"
   source_resource_instance_id = local.existing_secrets_manager_instance_guid

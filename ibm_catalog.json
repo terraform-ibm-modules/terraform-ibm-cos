@@ -314,10 +314,10 @@
               "key": "service_credential_secrets"
             },
             {
-              "key": "skip_cos_secrets_manager_auth_policy"
+              "key": "skip_secrets_manager_cos_iam_auth_policy"
             },
             {
-              "key": "instance_cbr_rules"
+              "key": "cos_instance_cbr_rules"
             }
           ]
         },
@@ -550,10 +550,10 @@
               "default": "private"
             },
             {
-              "key": "skip_iam_authorization_policy"
+              "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "instance_cbr_rules"
+              "key": "cos_instance_cbr_rules"
             }
           ]
         },
@@ -807,10 +807,10 @@
               "key": "key_ring_name"
             },
             {
-              "key": "skip_iam_authorization_policy"
+              "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "instance_cbr_rules"
+              "key": "cos_instance_cbr_rules"
             }
           ]
         }
