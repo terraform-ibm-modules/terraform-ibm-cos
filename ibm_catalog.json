@@ -246,7 +246,7 @@
             {
               "key":"prefix",
               "required": true,
-              "description": "Prefix to add to all resources created by this solution.If specified, resources created will have a name format of <prefix>-<resource_name>.To not use any prefix value, you can enter the string `__NULL__`."
+              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
               "key": "provider_visibility",
