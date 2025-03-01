@@ -236,15 +236,34 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "resource_group_name"
+              "key": "use_existing_resource_group",
+              "required": true
+            },
+            {
+              "key": "resource_group_name",
+              "required": true
             },
             {
               "key":"prefix",
-              "required":true,
+              "required": true,
               "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
-              "key": "existing_resource_group"
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
             },
             {
               "key": "cos_instance_name"
@@ -253,13 +272,24 @@
               "key": "cos_plan"
             },
             {
-              "key": "access_tags"
+              "key": "cos_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
-              "key": "cos_tags"
-            },
-            {
-              "key": "instance_cbr_rules"
+              "key": "access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
               "key": "resource_keys"
@@ -284,24 +314,10 @@
               "key": "service_credential_secrets"
             },
             {
-              "key": "skip_cos_sm_auth_policy"
+              "key": "skip_secrets_manager_cos_iam_auth_policy"
             },
             {
-              "key": "provider_visibility",
-              "options": [
-                {
-                  "displayname": "private",
-                  "value": "private"
-                },
-                {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
-                }
-              ]
+              "key": "cos_instance_cbr_rules"
             }
           ]
         },
@@ -374,13 +390,38 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "cross_region_location"
+              "key":"prefix",
+              "required": true,
+              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
-              "key": "existing_cos_instance_id"
+              "key": "cross_region_location",
+              "required": true
             },
             {
-              "key": "bucket_name"
+              "key": "existing_cos_instance_id",
+              "required": true
+            },
+            {
+              "key": "bucket_name",
+              "required": true
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
             },
             {
               "key": "add_bucket_name_suffix"
@@ -389,7 +430,14 @@
               "key": "archive_filter_prefix"
             },
             {
-              "key": "bucket_access_tags"
+              "key": "bucket_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
               "key": "bucket_storage_class",
@@ -427,7 +475,7 @@
               "key": "force_delete"
             },
             {
-              "key": "hard_quota"
+              "key": "bucket_hard_quota"
             },
             {
               "key": "management_endpoint_type_for_bucket",
@@ -451,31 +499,31 @@
               "key": "monitoring_crn"
             },
             {
+              "key": "object_locking_enabled"
+            },
+            {
               "key": "object_lock_duration_days"
             },
             {
               "key": "object_lock_duration_years"
             },
             {
-              "key": "object_locking_enabled"
-            },
-            {
               "key": "object_versioning_enabled"
             },
             {
-              "key": "retention_default"
+              "key": "enable_retention"
             },
             {
-              "key": "retention_enabled"
+              "key": "enable_permanent_retention"
             },
             {
-              "key": "retention_maximum"
+              "key": "default_retention_period"
             },
             {
-              "key": "retention_minimum"
+              "key": "minimum_retention_period"
             },
             {
-              "key": "retention_permanent"
+              "key": "maximum_retention_period"
             },
             {
               "key": "ibmcloud_kms_api_key"
@@ -507,27 +555,10 @@
               "default": "private"
             },
             {
-              "key": "skip_iam_authorization_policy"
+              "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "provider_visibility",
-              "options": [
-                {
-                  "displayname": "private",
-                  "value": "private"
-                },
-                {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
-                }
-              ]
-            },
-            {
-              "key": "instance_cbr_rules"
+              "key": "cos_instance_cbr_rules"
             }
           ]
         },
@@ -604,13 +635,38 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "region"
+              "key":"prefix",
+              "required": true,
+              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
-              "key": "existing_cos_instance_id"
+              "key": "region",
+              "required": true
             },
             {
-              "key": "bucket_name"
+              "key": "existing_cos_instance_id",
+              "required": true
+            },
+            {
+              "key": "bucket_name",
+              "required": true
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
             },
             {
               "key": "add_bucket_name_suffix"
@@ -636,7 +692,14 @@
               "default": "Glacier"
             },
             {
-              "key": "bucket_access_tags"
+              "key": "bucket_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
               "key": "bucket_storage_class",
@@ -674,7 +737,7 @@
               "key": "force_delete"
             },
             {
-              "key": "hard_quota"
+              "key": "bucket_hard_quota"
             },
             {
               "key": "management_endpoint_type_for_bucket",
@@ -698,31 +761,31 @@
               "key": "monitoring_crn"
             },
             {
+              "key": "object_locking_enabled"
+            },
+            {
               "key": "object_lock_duration_days"
             },
             {
               "key": "object_lock_duration_years"
             },
             {
-              "key": "object_locking_enabled"
-            },
-            {
               "key": "object_versioning_enabled"
             },
             {
-              "key": "retention_default"
+              "key": "enable_retention"
             },
             {
-              "key": "retention_enabled"
+              "key": "enable_permanent_retention"
             },
             {
-              "key": "retention_maximum"
+              "key": "default_retention_period"
             },
             {
-              "key": "retention_minimum"
+              "key": "minimum_retention_period"
             },
             {
-              "key": "retention_permanent"
+              "key": "maximum_retention_period"
             },
             {
               "key": "existing_kms_instance_crn"
@@ -754,27 +817,10 @@
               "key": "key_ring_name"
             },
             {
-              "key": "skip_iam_authorization_policy"
+              "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "provider_visibility",
-              "options": [
-                {
-                  "displayname": "private",
-                  "value": "private"
-                },
-                {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
-                }
-              ]
-            },
-            {
-              "key": "instance_cbr_rules"
+              "key": "cos_instance_cbr_rules"
             }
           ]
         }
