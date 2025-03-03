@@ -69,7 +69,7 @@ variable "ibmcloud_kms_api_key" {
 # Object Storage variables
 ########################################################################################################################
 
-variable "existing_cos_instance_id" {
+variable "existing_cos_instance_crn" {
   description = "The ID of an existing Cloud Object Storage instance."
   type        = string
 }
@@ -92,7 +92,7 @@ variable "management_endpoint_type_for_bucket" {
 }
 
 variable "cross_region_location" {
-  description = "Specify the cross-region bucket location. Possible values: `us-south`, `eu-de`, `jp-tok`."
+  description = "Specify the cross-region bucket location. Possible values: `us`, `eu`, `ap`."
   type        = string
 }
 
@@ -210,7 +210,7 @@ variable "provider_visibility" {
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
-variable "cos_instance_cbr_rules" {
+variable "cos_bucket_cbr_rules" {
   type = list(object({
     description = string
     account_id  = string

@@ -396,10 +396,24 @@
             },
             {
               "key": "cross_region_location",
-              "required": true
+              "required": true,
+              "options": [
+                {
+                  "displayname": "United States Geo (us-geo)",
+                  "value": "us"
+                },
+                {
+                  "displayname": "Asia Pacific Geo (ap-geo)",
+                  "value": "ap"
+                },
+                {
+                  "displayname": "Europe Geo (eu-geo)",
+                  "value": "eu"
+                }
+              ]
             },
             {
-              "key": "existing_cos_instance_id",
+              "key": "existing_cos_instance_crn",
               "required": true
             },
             {
@@ -558,7 +572,7 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "cos_instance_cbr_rules"
+              "key": "cos_bucket_cbr_rules"
             }
           ]
         },
@@ -644,7 +658,7 @@
               "required": true
             },
             {
-              "key": "existing_cos_instance_id",
+              "key": "existing_cos_instance_crn",
               "required": true
             },
             {
@@ -820,7 +834,7 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "cos_instance_cbr_rules"
+              "key": "cos_bucket_cbr_rules"
             }
           ]
         }

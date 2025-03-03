@@ -6,7 +6,7 @@ locals {
 
   existing_kms_instance_guid       = var.existing_kms_instance_crn != null ? element(split(":", var.existing_kms_instance_crn), length(split(":", var.existing_kms_instance_crn)) - 3) : null
   existing_kms_instance_region     = var.existing_kms_instance_crn != null ? element(split(":", var.existing_kms_instance_crn), length(split(":", var.existing_kms_instance_crn)) - 5) : null
-  cos_instance_guid                = var.existing_cos_instance_id != null ? element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3) : null
+  cos_instance_guid                = var.existing_cos_instance_crn != null ? element(split(":", var.existing_cos_instance_crn), length(split(":", var.existing_cos_instance_crn)) - 3) : null
   create_cross_account_auth_policy = !var.skip_cos_kms_iam_auth_policy && var.ibmcloud_kms_api_key != null
 
   kms_service_name = var.existing_kms_instance_crn != null ? (
@@ -71,7 +71,7 @@ locals {
 module "cos_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.1.0"
-  crn     = var.existing_cos_instance_id
+  crn     = var.existing_cos_instance_crn
 }
 
 # Create IAM Authorization Policy to allow COS to access KMS for the encryption key
@@ -162,7 +162,7 @@ module "cos" {
   source                   = "../../modules/fscloud"
   resource_group_id        = null
   create_cos_instance      = false
-  existing_cos_instance_id = var.existing_cos_instance_id
+  existing_cos_instance_id = var.existing_cos_instance_crn
   bucket_configs           = local.bucket_config
-  instance_cbr_rules       = var.cos_instance_cbr_rules
+  instance_cbr_rules       = var.cos_bucket_cbr_rules
 }

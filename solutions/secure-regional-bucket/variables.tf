@@ -82,7 +82,7 @@ variable "add_bucket_name_suffix" {
   default     = false
 }
 
-variable "existing_cos_instance_id" {
+variable "existing_cos_instance_crn" {
   description = "The ID of an existing Cloud Object Storage instance."
   type        = string
 }
@@ -224,7 +224,7 @@ variable "provider_visibility" {
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
-variable "cos_instance_cbr_rules" {
+variable "cos_bucket_cbr_rules" {
   type = list(object({
     description = string
     account_id  = string
