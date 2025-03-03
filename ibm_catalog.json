@@ -499,7 +499,7 @@
               "key": "monitoring_crn"
             },
             {
-              "key": "object_locking_enabled"
+              "key": "enable_object_locking"
             },
             {
               "key": "object_lock_duration_days"
@@ -508,7 +508,7 @@
               "key": "object_lock_duration_years"
             },
             {
-              "key": "object_versioning_enabled"
+              "key": "enable_object_versioning"
             },
             {
               "key": "enable_retention"
@@ -517,13 +517,13 @@
               "key": "enable_permanent_retention"
             },
             {
-              "key": "default_retention_period"
+              "key": "default_retention_days"
             },
             {
-              "key": "minimum_retention_period"
+              "key": "minimum_retention_days"
             },
             {
-              "key": "maximum_retention_period"
+              "key": "maximum_retention_days"
             },
             {
               "key": "ibmcloud_kms_api_key"
@@ -761,7 +761,7 @@
               "key": "monitoring_crn"
             },
             {
-              "key": "object_locking_enabled"
+              "key": "enable_object_locking"
             },
             {
               "key": "object_lock_duration_days"
@@ -770,7 +770,7 @@
               "key": "object_lock_duration_years"
             },
             {
-              "key": "object_versioning_enabled"
+              "key": "enable_object_versioning"
             },
             {
               "key": "enable_retention"
@@ -779,13 +779,13 @@
               "key": "enable_permanent_retention"
             },
             {
-              "key": "default_retention_period"
+              "key": "default_retention_days"
             },
             {
-              "key": "minimum_retention_period"
+              "key": "minimum_retention_days"
             },
             {
-              "key": "maximum_retention_period"
+              "key": "maximum_retention_days"
             },
             {
               "key": "existing_kms_instance_crn"

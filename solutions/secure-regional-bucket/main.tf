@@ -32,7 +32,7 @@ locals {
     hard_quota                    = var.bucket_hard_quota
     expire_filter_prefix          = var.expire_filter_prefix
     archive_filter_prefix         = var.archive_filter_prefix
-    object_locking_enabled        = var.object_locking_enabled
+    object_locking_enabled        = var.enable_object_locking
     object_lock_duration_days     = var.object_lock_duration_days
     object_lock_duration_years    = var.object_lock_duration_years
 
@@ -56,12 +56,12 @@ locals {
       metrics_monitoring_crn  = var.monitoring_crn
     }
     object_versioning = {
-      enable = var.object_versioning_enabled
+      enable = var.enable_object_versioning
     }
     retention_rule = var.enable_retention ? {
-      default   = var.default_retention_period
-      maximum   = var.maximum_retention_period
-      minimum   = var.minimum_retention_period
+      default   = var.default_retention_days
+      maximum   = var.maximum_retention_days
+      minimum   = var.minimum_retention_days
       permanent = var.enable_permanent_retention
     } : null
   }]

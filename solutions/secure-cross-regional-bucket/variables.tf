@@ -144,7 +144,7 @@ variable "monitoring_crn" {
   default     = null
 }
 
-variable "object_versioning_enabled" {
+variable "enable_object_versioning" {
   description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `retention_enabled` is true."
   type        = bool
   default     = false
@@ -156,19 +156,19 @@ variable "enable_retention" {
   default     = false
 }
 
-variable "default_retention_period" {
+variable "default_retention_days" {
   description = "The number of days that an object can remain unmodified in an Object Storage bucket."
   type        = number
   default     = 90
 }
 
-variable "maximum_retention_period" {
+variable "maximum_retention_days" {
   description = "The maximum number of days that an object can be kept unmodified in the bucket."
   type        = number
   default     = 350
 }
 
-variable "minimum_retention_period" {
+variable "minimum_retention_days" {
   description = "The minimum number of days that an object must be kept unmodified in the bucket."
   type        = number
   default     = 90
@@ -180,7 +180,7 @@ variable "enable_permanent_retention" {
   default     = false
 }
 
-variable "object_locking_enabled" {
+variable "enable_object_locking" {
   description = "Whether to create an object lock configuration. Applies only if `object_versioning_enabled` is true."
   type        = bool
   default     = false
