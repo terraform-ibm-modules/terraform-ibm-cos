@@ -145,7 +145,7 @@ variable "monitoring_crn" {
 }
 
 variable "enable_object_versioning" {
-  description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `retention_enabled` is true."
+  description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `enable_retention` is true."
   type        = bool
   default     = false
 }
