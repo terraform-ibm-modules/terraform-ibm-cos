@@ -844,13 +844,19 @@
               "key": "maximum_retention_days"
             },
             {
+              "key": "ibmcloud_kms_api_key"
+            },
+            {
               "key": "existing_kms_instance_crn"
             },
             {
               "key": "existing_kms_key_crn"
             },
             {
-              "key": "ibmcloud_kms_api_key"
+              "key": "key_name"
+            },
+            {
+              "key": "key_ring_name"
             },
             {
               "key": "kms_endpoint_type",
@@ -865,12 +871,6 @@
                 }
               ],
               "default": "private"
-            },
-            {
-              "key": "key_name"
-            },
-            {
-              "key": "key_ring_name"
             },
             {
               "key": "skip_cos_kms_iam_auth_policy"
