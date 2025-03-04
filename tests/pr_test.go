@@ -313,7 +313,7 @@ func TestRunSolutions(t *testing.T) {
 				"kms_endpoint_type":                   "public",
 				"provider_visibility":                 "public",
 				"management_endpoint_type_for_bucket": "public",
-				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+				"existing_cos_instance_crn":           instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},
 		})
 
@@ -333,7 +333,7 @@ func TestRunSolutions(t *testing.T) {
 				"existing_kms_instance_crn":           permanentResources["hpcs_south_crn"],
 				"management_endpoint_type_for_bucket": "public",
 				"provider_visibility":                 "public",
-				"existing_cos_instance_id":            instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+				"existing_cos_instance_crn":           instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
 			},
 		})
 
