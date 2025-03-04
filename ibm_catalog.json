@@ -853,10 +853,10 @@
               "key": "existing_kms_key_crn"
             },
             {
-              "key": "key_name"
+              "key": "key_ring_name"
             },
             {
-              "key": "key_ring_name"
+              "key": "key_name"
             },
             {
               "key": "kms_endpoint_type",
