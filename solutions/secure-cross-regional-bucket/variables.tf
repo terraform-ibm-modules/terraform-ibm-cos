@@ -46,13 +46,13 @@ variable "kms_endpoint_type" {
   }
 }
 
-variable "key_ring_name" {
+variable "cos_key_ring_name" {
   type        = string
   default     = "cross-region-key-ring"
   description = "The name to give the Key Ring which will be created for the Object Storage bucket Key. Not used if supplying an existing Key."
 }
 
-variable "key_name" {
+variable "cos_key_name" {
   type        = string
   default     = "cross-region-key"
   description = "The name to give the Key which will be created for the Object Storage bucket. Not used if supplying an existing Key."

@@ -15,7 +15,7 @@ locals {
     )
   ) : null
   kms_account_id = var.existing_kms_instance_crn != null ? split("/", coalescelist(split(":", var.existing_kms_instance_crn))[6])[1] : null
-  kms_key_crn    = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.key_ring_name, var.key_name)].crn
+  kms_key_crn    = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].crn
   kms_key_id     = coalescelist(split(":", local.kms_key_crn))[9]
 
   bucket_config = [{
@@ -135,11 +135,11 @@ module "kms" {
   key_endpoint_type           = var.kms_endpoint_type
   keys = [
     {
-      key_ring_name     = var.key_ring_name
+      key_ring_name     = var.cos_key_ring_name
       existing_key_ring = false
       keys = [
         {
-          key_name                 = var.key_name
+          key_name                 = var.cos_key_name
           standard_key             = false
           rotation_interval_month  = 3
           dual_auth_delete_enabled = false

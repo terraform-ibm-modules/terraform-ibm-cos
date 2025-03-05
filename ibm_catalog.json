@@ -549,10 +549,10 @@
               "key": "existing_kms_key_crn"
             },
             {
-              "key": "key_ring_name"
+              "key": "cos_key_ring_name"
             },
             {
-              "key": "key_name"
+              "key": "cos_key_name"
             },
             {
               "key": "kms_endpoint_type",
@@ -853,10 +853,10 @@
               "key": "existing_kms_key_crn"
             },
             {
-              "key": "key_ring_name"
+              "key": "cos_key_ring_name"
             },
             {
-              "key": "key_name"
+              "key": "cos_key_name"
             },
             {
               "key": "kms_endpoint_type",
