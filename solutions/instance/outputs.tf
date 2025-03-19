@@ -16,6 +16,11 @@ output "cos_instance_id" {
   value       = module.cos.cos_instance_id
 }
 
+output "cos_instance_crn" {
+  description = "COS instance crn"
+  value       = module.cos.cos_instance_crn
+}
+
 output "cos_instance_guid" {
   description = "COS instance guid"
   value       = module.cos.cos_instance_guid
