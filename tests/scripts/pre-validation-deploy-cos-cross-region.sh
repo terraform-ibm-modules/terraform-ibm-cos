@@ -27,7 +27,7 @@ TF_VARS_FILE="terraform-cross-regional.tfvars"
   terraform apply -input=false -auto-approve -var-file=${TF_VARS_FILE} || exit 1
 
   cos_instance_crn_var_name="existing_cos_instance_crn"
-  cos_instance_crn_value=$(terraform output -state=terraform.tfstate -raw cos_instance_id) # TODO: Replace with crn when https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/839 is done
+  cos_instance_crn_value=$(terraform output -state=terraform.tfstate -raw cos_instance_crn)
 
   echo "Appending '${cos_instance_crn_var_name}' input variable values to ${JSON_FILE}.."
 
