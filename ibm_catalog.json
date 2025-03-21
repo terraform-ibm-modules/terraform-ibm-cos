@@ -176,22 +176,70 @@
         "solution"
       ],
       "short_description": "Creates and configures an IBM Cloud Object Storage instance and bucket",
-      "long_description": "This architecture supports creating an IBM Cloud Object Storage instance, cross-region and single-region bucket.",
+      "long_description": "This deployable architecture supports the creation, configuration, and management of [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instances and buckets. It facilitates the setup of secure cross-region and regional buckets, ensuring your data is both accessible and protected.\n\nThis Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) collection, each following the naming pattern \"Cloud Automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects) to infrastructure management, or assembled together into a broader [automated stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understand-module-da) for more complex deployment.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
       "provider_name": "IBM",
       "features": [
         {
           "title": "Create an IBM Cloud Object Storage instance",
-          "description": "Create an IBM Cloud Object Storage instance."
+          "description": "Create an IBM Cloud Object Storage instance with customizable configurations such as instance name, resource keys, and plan."
         },
         {
           "title": "Create an IBM Cloud Object Storage bucket",
-          "description": "Create either a cross-region or regional Object Storage bucket."
+          "description": "Create either a cross-region or regional Object Storage bucket with options for encryption, access tags, and storage class."
         },
         {
           "title": "Attach access tags",
-          "description": "Attach access tags to the Object Storage instance."
+          "description": "Attach access tags to the Object Storage instance for fine-grained access control."
+        },
+        {
+          "title": "Configure IAM authorization policies",
+          "description": "Set up IAM authorization policies to allow Secrets Manager to manage keys for the COS instance."
+        },
+        {
+          "title": "Manage service credentials",
+          "description": "Create and manage service credentials for the COS instance, including automatic rotation and integration with Secrets Manager."
+        },
+        {
+          "title": "Secure cross-region bucket setup",
+          "description": "Configure secure cross-region buckets with KMS encryption, activity tracking, and metrics monitoring."
+        },
+        {
+          "title": "Secure regional bucket setup",
+          "description": "Configure secure regional buckets with KMS encryption, activity tracking, and metrics monitoring."
+        },
+        {
+          "title": "KMS key management",
+          "description": "Create and manage KMS keys for encryption, including key rotation and dual-auth delete options."
+        },
+        {
+          "title": "Bucket configuration options",
+          "description": "Customize bucket configurations such as storage class, object locking, versioning, and retention rules."
+        },
+        {
+          "title": "Resource group management",
+          "description": "Create or use existing resource groups to organize and manage your COS instances and buckets."
+        },
+        {
+          "title": "Cross-account authorization policies",
+          "description": "Set up cross-account authorization policies to allow COS instances to access KMS keys from different accounts."
+        },
+        {
+          "title": "Bucket lifecycle management",
+          "description": "Configure lifecycle rules for buckets, including expiration, archiving, and retention policies."
+        },
+        {
+          "title": "Metrics and monitoring",
+          "description": "Enable metrics and monitoring for buckets to track usage, request metrics, and management events."
+        },
+        {
+          "title": "Object versioning",
+          "description": "Enable object versioning to keep multiple versions of objects in the bucket."
+        },
+        {
+          "title": "Object locking",
+          "description": "Enable object locking to prevent objects from being deleted or overwritten for a specified duration."
         }
       ],
       "flavors": [
@@ -244,7 +292,7 @@
               "required": true
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true,
               "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
@@ -390,7 +438,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true,
               "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
@@ -649,7 +697,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true,
               "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
             },
