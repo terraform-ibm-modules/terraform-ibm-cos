@@ -257,6 +257,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
 
   bucket_crn      = local.cos_bucket_resource[count.index].crn
   bucket_location = local.cos_region
+  endpoint_type   = var.management_endpoint_type_for_bucket
 
   dynamic "lifecycle_rule" {
     ## This for_each block is NOT a loop to attach to multiple expiration blocks.
