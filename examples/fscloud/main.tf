@@ -116,12 +116,12 @@ module "cos_fscloud" {
 
   # Create one regional bucket, encrypted with the HPCS root key
   bucket_configs = [{
-    access_tags              = var.access_tags
-    bucket_name              = "${var.prefix}-bucket"
-    kms_key_crn              = var.bucket_hpcs_key_crn
-    kms_guid                 = var.bucket_existing_hpcs_instance_guid
-    management_endpoint_type = var.management_endpoint_type_for_bucket
-    region_location          = var.region
+    access_tags                         = var.access_tags
+    bucket_name                         = "${var.prefix}-bucket"
+    kms_key_crn                         = var.bucket_hpcs_key_crn
+    kms_guid                            = var.bucket_existing_hpcs_instance_guid
+    management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+    region_location                     = var.region
 
     # CBR rule only allowing the COS bucket to be accessbile over the private endpoint from within the VPC
     cbr_rules = [{
