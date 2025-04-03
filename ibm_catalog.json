@@ -245,8 +245,7 @@
             },
             {
               "key":"prefix",
-              "required": true,
-              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
+              "required": true
             },
             {
               "key": "provider_visibility",
@@ -391,8 +390,7 @@
             },
             {
               "key":"prefix",
-              "required": true,
-              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
+              "required": true
             },
             {
               "key": "cross_region_location",
@@ -650,8 +648,7 @@
             },
             {
               "key":"prefix",
-              "required": true,
-              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
+              "required": true
             },
             {
               "key": "region",
