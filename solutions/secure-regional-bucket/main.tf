@@ -18,23 +18,23 @@ locals {
   kms_key_id     = coalescelist(split(":", local.kms_key_crn))[9]
 
   bucket_config = [{
-    access_tags                   = var.bucket_access_tags
-    bucket_name                   = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.bucket_name}" : var.bucket_name
-    kms_encryption_enabled        = true
-    add_bucket_name_suffix        = var.add_bucket_name_suffix
-    kms_guid                      = local.existing_kms_instance_guid
-    kms_key_crn                   = local.kms_key_crn
-    skip_iam_authorization_policy = local.create_cross_account_auth_policy || var.skip_cos_kms_iam_auth_policy
-    management_endpoint_type      = var.management_endpoint_type_for_bucket
-    region_location               = var.region
-    storage_class                 = var.bucket_storage_class
-    force_delete                  = var.force_delete
-    hard_quota                    = var.bucket_hard_quota
-    expire_filter_prefix          = var.expire_filter_prefix
-    archive_filter_prefix         = var.archive_filter_prefix
-    object_locking_enabled        = var.enable_object_locking
-    object_lock_duration_days     = var.object_lock_duration_days
-    object_lock_duration_years    = var.object_lock_duration_years
+    access_tags                         = var.bucket_access_tags
+    bucket_name                         = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.bucket_name}" : var.bucket_name
+    kms_encryption_enabled              = true
+    add_bucket_name_suffix              = var.add_bucket_name_suffix
+    kms_guid                            = local.existing_kms_instance_guid
+    kms_key_crn                         = local.kms_key_crn
+    skip_iam_authorization_policy       = local.create_cross_account_auth_policy || var.skip_cos_kms_iam_auth_policy
+    management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+    region_location                     = var.region
+    storage_class                       = var.bucket_storage_class
+    force_delete                        = var.force_delete
+    hard_quota                          = var.bucket_hard_quota
+    expire_filter_prefix                = var.expire_filter_prefix
+    archive_filter_prefix               = var.archive_filter_prefix
+    object_locking_enabled              = var.enable_object_locking
+    object_lock_duration_days           = var.object_lock_duration_days
+    object_lock_duration_years          = var.object_lock_duration_years
 
     activity_tracking = {
       read_data_events  = true
