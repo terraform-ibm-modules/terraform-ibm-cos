@@ -23,5 +23,5 @@ output "bucket_name" {
 
 output "cos_instance_id" {
   description = "The CRN of the COS instance containing the created bucket."
-  value       = var.existing_cos_instance_id
+  value       = var.existing_cos_instance_crn
 }

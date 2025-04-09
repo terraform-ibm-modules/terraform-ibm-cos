@@ -26,15 +26,15 @@ TF_VARS_FILE="terraform-cross-regional.tfvars"
   } >>${TF_VARS_FILE}
   terraform apply -input=false -auto-approve -var-file=${TF_VARS_FILE} || exit 1
 
-  cos_instance_id_var_name="existing_cos_instance_id"
-  cos_instance_id_value=$(terraform output -state=terraform.tfstate -raw cos_instance_id)
+  cos_instance_crn_var_name="existing_cos_instance_crn"
+  cos_instance_crn_value=$(terraform output -state=terraform.tfstate -raw cos_instance_crn)
 
-  echo "Appending '${cos_instance_id_var_name}' input variable values to ${JSON_FILE}.."
+  echo "Appending '${cos_instance_crn_var_name}' input variable values to ${JSON_FILE}.."
 
   cd "${cwd}"
-  jq -r --arg cos_instance_id_var_name "${cos_instance_id_var_name}" \
-    --arg cos_instance_id_value "${cos_instance_id_value}" \
-    '. + {($cos_instance_id_var_name): $cos_instance_id_value}' "${JSON_FILE}" >tmpfile && mv tmpfile "${JSON_FILE}" || exit 1
+  jq -r --arg cos_instance_crn_var_name "${cos_instance_crn_var_name}" \
+    --arg cos_instance_crn_value "${cos_instance_crn_value}" \
+    '. + {($cos_instance_crn_var_name): $cos_instance_crn_value}' "${JSON_FILE}" >tmpfile && mv tmpfile "${JSON_FILE}" || exit 1
 
   echo "Pre-validation complete successfully"
 )
