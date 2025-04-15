@@ -170,6 +170,7 @@ func TestRunFSCloudExample(t *testing.T) {
 				cbrWorkingAsExpected := false
 				reason := ""
 				if resp != nil {
+					// Close the response body when done
 					defer resp.Body.Close() // nolint:errcheck
 
 					// Read the response body into a string
