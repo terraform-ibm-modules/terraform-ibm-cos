@@ -170,7 +170,7 @@ func TestRunFSCloudExample(t *testing.T) {
 				cbrWorkingAsExpected := false
 				reason := ""
 				if resp != nil {
-					defer resp.Body.Close() // Close the response body when done
+					defer resp.Body.Close() // nolint:errcheck
 
 					// Read the response body into a string
 					bodyBytes, readErr := io.ReadAll(resp.Body)
@@ -240,7 +240,7 @@ func getIAMBearerToken(apikey string) string {
 		fmt.Println("Error sending request:", err)
 		return ""
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint:errcheck
 
 	var responseJSON map[string]interface{}
 	err = json.NewDecoder(resp.Body).Decode(&responseJSON)
