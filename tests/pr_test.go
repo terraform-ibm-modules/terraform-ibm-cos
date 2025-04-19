@@ -170,7 +170,18 @@ func TestRunFSCloudExample(t *testing.T) {
 				cbrWorkingAsExpected := false
 				reason := ""
 				if resp != nil {
-					defer resp.Body.Close() // Close the response body when done
+					// Close the response body when done
+					defer func() {
+						if resp != nil {
+							err := resp.Body.Close()
+							if err != nil {
+								// Handle or log the error
+								log.Printf("Error closing response body: %v", err)
+							}
+						} else {
+							log.Print("no response, defer close not needed")
+						}
+					}()
 
 					// Read the response body into a string
 					bodyBytes, readErr := io.ReadAll(resp.Body)
@@ -240,7 +251,17 @@ func getIAMBearerToken(apikey string) string {
 		fmt.Println("Error sending request:", err)
 		return ""
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if resp != nil {
+			err := resp.Body.Close()
+			if err != nil {
+				// Handle or log the error
+				log.Printf("Error closing response body: %v", err)
+			}
+		} else {
+			log.Print("no response, defer close not needed")
+		}
+	}()
 
 	var responseJSON map[string]interface{}
 	err = json.NewDecoder(resp.Body).Decode(&responseJSON)
