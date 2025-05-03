@@ -5,11 +5,11 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = "1.77.1"
+      version = "1.78.0"
     }
     time = {
       source  = "hashicorp/time"
-      version = "0.13.0"
+      version = "0.13.1"
     }
   }
 }
