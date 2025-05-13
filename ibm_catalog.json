@@ -88,7 +88,7 @@
               "required": true
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
@@ -233,7 +233,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
@@ -491,7 +491,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
