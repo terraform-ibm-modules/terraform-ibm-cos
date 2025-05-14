@@ -201,11 +201,10 @@
           },
           "iam_permissions":[
             {
-                "service_name": "monitoring",
                 "role_crns": [
-                    "crn:v1:bluemix:public:iam::::role:Editor",
                     "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                ]
+                ],
+                "service_name": "monitoring"
             },
             {
                 "service_name": "atracker",
