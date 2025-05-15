@@ -115,7 +115,7 @@ You need the following permissions to run this module.
 - IAM Services
     - **IBM Cloud Activity Tracker** service
         - `Editor` platform access
-        - `Manager` service access
+        - `Writer` service access
     - **IBM Cloud Monitoring** service
         - `Editor` platform access
         - `Manager` service access
