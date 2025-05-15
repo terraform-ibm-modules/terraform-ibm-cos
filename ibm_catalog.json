@@ -200,25 +200,28 @@
             ]
           },
           "iam_permissions":[
-            {
-                "role_crns": [
-                    "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                ],
-                "service_name": "monitoring"
-            },
-            {
-                "service_name": "atracker",
-                "role_crns": [
-                    "crn:v1:bluemix:public:iam::::role:Editor"
-                ]
-            },
-            {
-                "service_name": "cloud-object-storage",
-                "role_crns": [
-                    "crn:v1:bluemix:public:iam::::role:Editor"
-                ]
-            }
-         ],
+              {
+                  "service_name": "monitoring",
+                  "role_crns": [
+                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                      "crn:v1:bluemix:public:iam::::role:Editor"
+                  ]
+              },
+              {
+                  "service_name": "atracker",
+                  "role_crns": [
+                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                      "crn:v1:bluemix:public:iam::::role:Editor"
+                  ]
+              },
+              {
+                  "service_name": "cloud-object-storage",
+                  "role_crns": [
+                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                      "crn:v1:bluemix:public:iam::::role:Editor"
+                  ]
+              }
+          ],
           "architecture": {
             "features": [
               {
@@ -474,28 +477,28 @@
             ]
           },
           "iam_permissions":[
-            {
-                "service_name": "monitoring",
-                "role_crns": [
-                    "crn:v1:bluemix:public:iam::::role:Editor",
-                    "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                ]
-            },
-            {
-                "service_name": "atracker",
-                "role_crns": [
-                    "crn:v1:bluemix:public:iam::::role:Editor",
-                    "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                ]
-            },
-            {
-                "service_name": "cloud-object-storage",
-                "role_crns": [
-                    "crn:v1:bluemix:public:iam::::role:Editor",
-                    "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                ]
-            }
-         ],
+              {
+                  "service_name": "monitoring",
+                  "role_crns": [
+                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                      "crn:v1:bluemix:public:iam::::role:Editor"
+                  ]
+              },
+              {
+                  "service_name": "atracker",
+                  "role_crns": [
+                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                      "crn:v1:bluemix:public:iam::::role:Editor"
+                  ]
+              },
+              {
+                  "service_name": "cloud-object-storage",
+                  "role_crns": [
+                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                      "crn:v1:bluemix:public:iam::::role:Editor"
+                  ]
+              }
+          ],
           "architecture": {
             "features": [
               {
