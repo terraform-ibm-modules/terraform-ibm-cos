@@ -20,12 +20,12 @@ import (
 	"github.com/IBM/ibm-cos-sdk-go/aws/session"
 	"github.com/IBM/ibm-cos-sdk-go/service/s3"
 	"github.com/gruntwork-io/terratest/modules/logger"
-	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
 const advancedExampleTerraformDir = "examples/advanced"
@@ -283,85 +283,123 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 }
 
 // A single function to test all DA solutions.
-func TestRunSolutions(t *testing.T) {
+func TestRunSolutionsInSchematics(t *testing.T) {
 	t.Parallel()
 
-	prefix := fmt.Sprintf("cos-sol-%s", strings.ToLower(random.UniqueId()))
+	prefix := "cos-sol"
 
-	instanceOptions := setupOptions(t, prefix, solutionInstanceDir)
-	instanceOptions.TerraformVars = map[string]interface{}{
-		"cos_instance_name":                      prefix,
-		"resource_group_name":                    fmt.Sprintf("%s-resource-group", prefix),
-		"existing_secrets_manager_instance_crn":  permanentResources["secretsManagerCRN"],
-		"existing_secrets_manager_endpoint_type": "public",
-		"provider_visibility":                    "public",
-		"service_credential_secrets": []map[string]interface{}{
-			{
-				"secret_group_name": fmt.Sprintf("%s-secret-group", prefix),
-				"service_credentials": []map[string]string{
-					{
-						"secret_name": fmt.Sprintf("%s-cred-manager", prefix),
-						"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-					},
-					{
-						"secret_name": fmt.Sprintf("%s-cred-writer", prefix),
-						"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
-					},
-					{
-						"secret_name": fmt.Sprintf("%s-cred-object-writer", prefix),
-						"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectWriter",
-					},
+	instanceOptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing: t,
+		Region:  region,
+		Prefix:  prefix,
+		TarIncludePatterns: []string{
+			"*.tf",
+			"modules/buckets/*.tf",
+			"modules/fscloud/*.tf",
+			solutionInstanceDir + "/*.tf",
+		},
+		TemplateFolder:         solutionInstanceDir,
+		Tags:                   []string{"cos-da-test"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 120,
+	})
+
+	service_credential_secrets := []map[string]interface{}{
+		{
+			"secret_group_name": fmt.Sprintf("%s-secret-group", prefix),
+			"service_credentials": []map[string]string{
+				{
+					"secret_name": fmt.Sprintf("%s-cred-manager", prefix),
+					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+				},
+				{
+					"secret_name": fmt.Sprintf("%s-cred-writer", prefix),
+					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+				},
+				{
+					"secret_name": fmt.Sprintf("%s-cred-object-writer", prefix),
+					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectWriter",
 				},
 			},
 		},
 	}
+
+	instanceOptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: instanceOptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "cos_instance_name", Value: instanceOptions.Prefix, DataType: "string"},
+		{Name: "resource_group_name", Value: resourceGroup, DataType: "string"},
+		{Name: "use_existing_resource_group", Value: "true", DataType: "bool"},
+		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
+		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
+	}
+
 	instanceOptions.SkipTestTearDown = true
-	output, err := instanceOptions.RunTestConsistency()
+	err := instanceOptions.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
+
+	cos_instance_crn := instanceOptions.LastTestTerraformOutputs["cos_instance_crn"].(map[string]interface{})["value"].(string)
 
 	if assert.Nil(t, err, "This should not have errored") &&
-		assert.NotNil(t, output, "Expected some output") &&
 		assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
 
-		regionalOptions := testhelper.TestOptionsDefault(&testhelper.TestOptions{
-			Testing:      t,
-			TerraformDir: solutionRegionalDir,
-			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
-			ImplicitRequired: false,
-			TerraformVars: map[string]interface{}{
-				"bucket_name":                         fmt.Sprintf("%s-regional-bucket", prefix),
-				"region":                              region,
-				"existing_kms_instance_crn":           permanentResources["hpcs_south_crn"],
-				"kms_endpoint_type":                   "public",
-				"provider_visibility":                 "public",
-				"management_endpoint_type_for_bucket": "public",
-				"existing_cos_instance_crn":           instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+		regionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+			Testing: t,
+			Region:  region,
+			Prefix:  prefix,
+			TarIncludePatterns: []string{
+				"*.tf",
+				"modules/buckets/*.tf",
+				"modules/fscloud/*.tf",
+				solutionRegionalDir + "/*.tf",
 			},
+			TemplateFolder:         solutionRegionalDir,
+			Tags:                   []string{"cos-regional-bucket-test"},
+			DeleteWorkspaceOnFail:  false,
+			WaitJobCompleteMinutes: 120,
 		})
 
-		regionalOutput, err := regionalOptions.RunTestConsistency()
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, regionalOutput, "Expected some output")
+		regionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
+			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+			{Name: "bucket_name", Value: fmt.Sprintf("%s-regional-bucket", prefix), DataType: "string"},
+			{Name: "region", Value: region, DataType: "string"},
+			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
+		}
 
-		crossRegionalOptions := testhelper.TestOptionsDefault(&testhelper.TestOptions{
-			Testing:      t,
-			TerraformDir: solutionCrossRegionDir,
-			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
-			ImplicitRequired: false,
-			TerraformVars: map[string]interface{}{
-				"bucket_name":                         fmt.Sprintf("%s-cross-region-bucket", prefix),
-				"cross_region_location":               "us",
-				"existing_kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
-				"existing_kms_instance_crn":           permanentResources["hpcs_south_crn"],
-				"management_endpoint_type_for_bucket": "public",
-				"provider_visibility":                 "public",
-				"existing_cos_instance_crn":           instanceOptions.LastTestTerraformOutputs["cos_instance_id"],
+		regionalerr := regionaloptions.RunSchematicTest()
+		assert.Nil(t, regionalerr, "This should not have errored")
+
+		crossregionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+			Testing: t,
+			Region:  region,
+			Prefix:  prefix,
+			TarIncludePatterns: []string{
+				"*.tf",
+				"modules/buckets/*.tf",
+				"modules/fscloud/*.tf",
+				solutionCrossRegionDir + "/*.tf",
 			},
+			TemplateFolder:         solutionCrossRegionDir,
+			Tags:                   []string{"cos-cross-regional-bucket-test"},
+			DeleteWorkspaceOnFail:  false,
+			WaitJobCompleteMinutes: 120,
 		})
 
-		crossRegionalOutput, err := crossRegionalOptions.RunTestConsistency()
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, crossRegionalOutput, "Expected some output")
+		crossregionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
+			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+			{Name: "cross_region_location", Value: "us", DataType: "string"},
+			{Name: "bucket_name", Value: fmt.Sprintf("%s-cross-region-bucket", prefix), DataType: "string"},
+			{Name: "region", Value: region, DataType: "string"},
+			{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
+		}
+
+		crossregionalerr := crossregionaloptions.RunSchematicTest()
+		assert.Nil(t, crossregionalerr, "This should not have errored")
 
 	}
+
 	instanceOptions.TestTearDown()
+
 }
