@@ -389,7 +389,6 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 			{Name: "cross_region_location", Value: "us", DataType: "string"},
 			{Name: "bucket_name", Value: fmt.Sprintf("%s-cross-region-bucket", prefix), DataType: "string"},
-			{Name: "region", Value: region, DataType: "string"},
 			{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
 			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
