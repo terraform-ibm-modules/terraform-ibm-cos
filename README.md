@@ -122,6 +122,9 @@ You need the following permissions to run this module.
     - **IBM Cloud Object Storage** service
         - `Editor` platform access
         - `Manager` service access
+    - **KMS** service
+        - `Editor` platform access
+        - `Manager` service access
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
