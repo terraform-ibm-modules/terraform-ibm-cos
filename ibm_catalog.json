@@ -55,13 +55,13 @@
           },
           "iam_permissions": [
             {
-                "service_name": "cloud-object-storage",
-                "role_crns": [
-                    "crn:v1:bluemix:public:iam::::role:Editor",
-                    "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                ]
+              "service_name": "cloud-object-storage",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Editor",
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+              ]
             }
-         ],
+          ],
           "architecture": {
             "features": [
               {
@@ -97,7 +97,7 @@
               "required": true
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
@@ -199,35 +199,35 @@
               }
             ]
           },
-          "iam_permissions":[
-              {
-                  "service_name": "sysdig-monitor",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              },
-              {
-                  "service_name": "atracker",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Writer",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              },
-              {
-                  "service_name": "cloud-object-storage",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              },
-              {
-                  "service_name": "kms",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              }
+          "iam_permissions": [
+            {
+              "service_name": "sysdig-monitor",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            },
+            {
+              "service_name": "atracker",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            },
+            {
+              "service_name": "cloud-object-storage",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            },
+            {
+              "service_name": "kms",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            }
           ],
           "architecture": {
             "features": [
@@ -272,7 +272,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
@@ -483,35 +483,35 @@
               }
             ]
           },
-          "iam_permissions":[
-              {
-                  "service_name": "sysdig-monitor",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              },
-              {
-                  "service_name": "atracker",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Writer",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              },
-              {
-                  "service_name": "cloud-object-storage",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              },
-              {
-                  "service_name": "kms",
-                  "role_crns": [
-                      "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                      "crn:v1:bluemix:public:iam::::role:Editor"
-                  ]
-              }
+          "iam_permissions": [
+            {
+              "service_name": "sysdig-monitor",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            },
+            {
+              "service_name": "atracker",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            },
+            {
+              "service_name": "cloud-object-storage",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            },
+            {
+              "service_name": "kms",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ]
+            }
           ],
           "architecture": {
             "features": [
@@ -560,7 +560,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
