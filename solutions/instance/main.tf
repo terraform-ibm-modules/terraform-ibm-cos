@@ -36,8 +36,8 @@ module "crn_parser" {
   crn     = var.existing_secrets_manager_instance_crn
 }
 locals {
-  existing_secrets_manager_instance_guid   = var.existing_secrets_manager_instance_crn != null ? module.crn_parser[0].service_instance : null
-  existing_secrets_manager_instance_region = var.existing_secrets_manager_instance_crn != null ? module.crn_parser[0].region : null
+  existing_secrets_manager_instance_guid   = var.existing_secrets_manager_instance_crn != null ? module.crn_parser[0].service_instance : ""
+  existing_secrets_manager_instance_region = var.existing_secrets_manager_instance_crn != null ? module.crn_parser[0].region : ""
 }
 
 # create s2s auth policy with Secrets Manager
