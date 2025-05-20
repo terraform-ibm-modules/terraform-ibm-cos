@@ -1,5 +1,5 @@
 {
   "ibmcloud_api_key": $VALIDATION_APIKEY,
-  "resource_group_name": $PREFIX,
-  "cos_instance_name": $PREFIX
+  "existing_resource_group_name": "geretain-test-cos-base",
+  "prefix": $PREFIX
 }

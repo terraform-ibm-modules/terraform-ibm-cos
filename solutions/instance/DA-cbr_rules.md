@@ -36,33 +36,33 @@ The `cos_instance_cbr_rules` input variable allows you to provide a rule for the
 ### Example Rule For Context-Based Restrictions Configuration
 
 ```hcl
-cos_instance_cbr_rules = [
+[
   {
-  description = "COS can be accessed from xyz"
-  account_id = "defc0df06b644a9cabc6e44f55b3880s."
-  rule_contexts= [{
+    description = "COS can be accessed from xyz"
+    account_id  = "defc0df06b644a9cabc6e44f55b3880s"
+    rule_contexts = [{
       attributes = [
-                {
-                              "name" : "endpointType",
-                              "value" : "private"
-                },
-                {
-                  name  = "networkZoneId"
-                  value = "93a51a1debe2674193217209601dde6f" # pragma: allowlist secret
-                }
-        ]
-     }
-   ]
-  enforcement_mode = "enabled"
-  resources = [{
-    tags {
-              name     = "tag_name"
-              value    = "tag_value"
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = "93a51a1debe2674193217209601dde6f"
         }
-  }]
-  operations = [{
-    api_types = [{
-     api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+      ]
+      }
+    ]
+    enforcement_mode = "enabled"
+    resources = [{
+      tags = {
+        name  = "tag_name"
+        value = "tag_value"
+      }
+    }]
+    operations = [{
+      api_types = [{
+        api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }]
     }]
   }

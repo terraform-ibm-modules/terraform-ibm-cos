@@ -24,20 +24,20 @@ To enter a custom value, use the edit action to open the "Edit Array" panel. Add
 - `role` (optional, default = `Reader`): The name of the user role.
 - `service_id_crn` (optional, default = `null`): Pass a Service ID CRN to create credentials for a resource with a Service ID. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key#example-to-create-by-using-serviceid).
 
-The following example includes all the configuration options for two resource keys. One is a key with a `Reader` role, the other with a `Writer` role.
+The following example includes all the configuration options for two resource keys. One is a key with a `Reader` role (using an existing Service ID), the other with a `Writer` role.
 ```hcl
-    [
-      {
-        "name": "da-reader-resource-key",
-        "generate_hmac_credentials": "false",
-        "role": "Reader",
-        "service_id_crn": null
-      },
-      {
-        "name": "da-writer-resource-key",
-        "role": "Writer"
-      }
-    ]
+[
+  {
+    "name": "cos-reader-resource-key",
+    "generate_hmac_credentials": "false",
+    "role": "Reader",
+    "service_id_crn": "crn:v1:bluemix:public:iam-identity::a/abac0df06b644a9cabc6e44f55b3880e::serviceid:ServiceId-e4f41dd6-db57-4870-b6c5-6908419fc913"
+  },
+  {
+    "name": "cos-writer-resource-key",
+    "role": "Writer"
+  }
+]
 ```
 
 ## Service credential secrets <a name="service-credential-secrets"></a>
@@ -75,35 +75,35 @@ The following example includes all the configuration options for four service cr
 ```hcl
 [
   {
-    "secret_group_name": "sg-1"
-    "existing_secret_group": true
-    "service_credentials": [
+    "secret_group_name" : "sg-1"
+    "existing_secret_group" : true
+    "service_credentials" : [
       {
-        "secret_name": "cred-1"
-        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Reader"
-        "secret_labels": ["test-reader-1", "test-reader-2"]
-        "secret_auto_rotation": true
-        "secret_auto_rotation_unit": "day"
-        "secret_auto_rotation_interval": 89
-        "service_credentials_ttl": 7776000
-        "service_credential_secret_description": "sample description"
+        "secret_name" : "cred-1"
+        "service_credentials_source_service_role_crn" : "crn:v1:bluemix:public:iam::::serviceRole:Reader"
+        "secret_labels" : ["test-reader-1", "test-reader-2"]
+        "secret_auto_rotation" : true
+        "secret_auto_rotation_unit" : "day"
+        "secret_auto_rotation_interval" : 89
+        "service_credentials_ttl" : 7776000
+        "service_credential_secret_description" : "sample description"
       },
       {
-        "secret_name": "cred-2"
-        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer"
+        "secret_name" : "cred-2"
+        "service_credentials_source_service_role_crn" : "crn:v1:bluemix:public:iam::::serviceRole:Writer"
       }
     ]
   },
   {
-    "secret_group_name": "sg-2"
-    "service_credentials": [
+    "secret_group_name" : "sg-2"
+    "service_credentials" : [
       {
-        "secret_name": "cred-3"
-        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+        "secret_name" : "cred-3"
+        "service_credentials_source_service_role_crn" : "crn:v1:bluemix:public:iam::::serviceRole:Manager"
       },
       {
-        "secret_name": "cred-4"
-        "service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ContentReader"
+        "secret_name" : "cred-4"
+        "service_credentials_source_service_role_crn" : "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ContentReader"
       }
     ]
   }
