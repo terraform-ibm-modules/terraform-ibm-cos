@@ -88,11 +88,11 @@
               },
               {
                 "title": "Service credentials",
-                "description": "Create and configure Object Storage service credentials for your instance. Optionally choose to [configure IBM Cloud® Secrets Manager to manage the service credentials](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform)."
+                "description": "Create and configure Object Storage service credentials for your instance. Optionally choose to configure IBM Cloud® Secrets Manager to manage the service credentials."
               },
               {
                 "title": "Context-based restrictions",
-                "description": "Create and configure [Context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis)."
+                "description": "Create and configure context-based restrictions."
               }
             ],
             "diagrams": [
@@ -248,7 +248,7 @@
           "terraform_version": "1.10.5"
         },
         {
-          "label": "Secure cross-region bucket",
+          "label": "Security-enforced cross-region bucket",
           "name": "secure-cross-regional-bucket",
           "working_directory": "solutions/secure-cross-regional-bucket",
           "install_type": "extension",
@@ -502,7 +502,7 @@
           ]
         },
         {
-          "label": "Secure regional bucket",
+          "label": "Security-enforced regional bucket",
           "name": "secure-regional-bucket",
           "working_directory": "solutions/secure-regional-bucket",
           "install_type": "extension",
