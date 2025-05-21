@@ -2,10 +2,9 @@
   "products": [
     {
       "name": "deploy-arch-ibm-cos",
-      "label": "Cloud automation for Cloud Object Storage",
+      "label": "Cloud automation for Object Storage",
       "product_kind": "solution",
       "tags": [
-        "dev_ops",
         "target_terraform",
         "terraform",
         "solution",
@@ -15,27 +14,39 @@
       "keywords": [
         "terraform",
         "cos",
+        "object storage",
         "bucket",
         "storage",
-        "solution"
+        "solution",
+        "IaC",
+        "infrastructure as code"
       ],
-      "short_description": "Creates and configures an IBM Cloud Object Storage instance and bucket",
-      "long_description": "This architecture supports creating an IBM Cloud Object Storage instance, cross-region and single-region bucket.",
+      "short_description": "Creates and configures an IBM Cloud Object Storage instance and buckets",
+      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) resources. It consists of a `Single instance` variation which can be used to provision and configure the instance, and then multiple other variations for provisioning and configuring differnt kinds of buckets. This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [https://github.com/terraform-ibm-modules/terraform-cos/issues](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
       "provider_name": "IBM",
       "features": [
         {
-          "title": "Create an IBM Cloud Object Storage instance",
-          "description": "Create an IBM Cloud Object Storage instance."
+          "title": "Cloud Object Storage instance",
+          "description": "Create and configures an IBM Cloud Object Storage instance."
         },
         {
-          "title": "Create an IBM Cloud Object Storage bucket",
-          "description": "Create either a cross-region or regional Object Storage bucket."
+          "title": "Cloud Object Storage bucket",
+          "description": "Supports both cross-regional and regional bucket creation and configuration."
         },
         {
-          "title": "Attach access tags",
-          "description": "Attach access tags to the Object Storage instance."
+          "title": "Data encryption",
+          "description": "Encrypt your data using the default encryption model or use IBM Key Protect or IBM Hyper Protect Crypto Services for full control over the data encryption keys used. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
+        },
+        {
+          "title": "Service credentials",
+          "description": "Optionally create and configure Object Storage service credentials for your instance. Optionally choose to [configure IBM Cloud® Secrets Manager to manage the service credentials](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform)."
+        },
+        {
+          "title": "Context-based restrictions",
+          "description": "Optionally create and configure [Context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) for both instance and buckets."
         }
       ],
       "flavors": [
@@ -53,21 +64,41 @@
               }
             ]
           },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "cloud-object-storage"
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator"
+              ],
+              "service_name": "iam-identity",
+              "notes": "[Optional] Required if Cloud automation for account configuration is enabled."
+            }
+          ],
           "architecture": {
             "features": [
               {
-                "title": "Create an IBM Cloud Object Storage instance",
-                "description": "Create and configure an IBM Cloud Object Storage instance."
+                "title": "Cloud Object Storage instance",
+                "description": "Create and configures an IBM Cloud Object Storage instance."
               },
               {
-                "title": "Create an IBM resource key",
-                "description": "Create a resource key for the Object Storage instance."
+                "title": "Service credentials",
+                "description": "Create and configure Object Storage service credentials for your instance. Optionally choose to configure IBM Cloud® Secrets Manager to manage the service credentials."
+              },
+              {
+                "title": "Context-based restrictions",
+                "description": "Optionally create and configure context-based restrictions."
               }
             ],
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "IBM Cloud Object Storage Solution",
+                  "caption": "IBM Cloud Object Storage solution",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
                   "type": "image/svg+xml"
                 },
@@ -80,42 +111,39 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "use_existing_resource_group",
-              "required": true
+              "key":"prefix"
             },
             {
-              "key": "resource_group_name",
-              "required": true
-            },
-            {
-              "key":"prefix",
-              "required": true
-            },
-            {
-              "key": "provider_visibility",
+              "key": "plan",
+              "required": true,
               "options": [
                 {
-                  "displayname": "private",
-                  "value": "private"
+                  "displayname": "Standard",
+                  "value": "standard"
                 },
                 {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
+                  "displayname": "One Rate",
+                  "value": "cos-one-rate-plan"
                 }
               ]
             },
             {
-              "key": "cos_instance_name"
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
             },
             {
-              "key": "cos_plan"
+              "key": "instance_name"
             },
             {
-              "key": "cos_tags",
+              "key": "resource_tags",
               "custom_config": {
                 "grouping": "deployment",
                 "original_grouping": "deployment",
@@ -138,6 +166,9 @@
               "key": "resource_keys"
             },
             {
+              "key": "service_credential_secrets"
+            },
+            {
               "key": "existing_secrets_manager_instance_crn"
             },
             {
@@ -154,18 +185,66 @@
               ]
             },
             {
-              "key": "service_credential_secrets"
-            },
-            {
               "key": "skip_secrets_manager_cos_iam_auth_policy"
             },
             {
               "key": "cos_instance_cbr_rules"
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
             }
-          ]
+          ],
+          "dependencies": [
+            {
+              "name": "deploy-arch-ibm-account-infra-base",
+              "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default—and, when you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "flavors": [
+                "resource-group-only",
+                "resource-groups-with-account-settings"
+              ],
+              "default_flavor": "resource-group-only",
+              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
+              "input_mapping": [
+                {
+                  "dependency_output": "workload_resource_group_name",
+                  "version_input": "existing_resource_group_name"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "provider_visibility",
+                  "version_input": "provider_visibility",
+                  "reference_version": true
+                }
+              ],
+              "optional": true,
+              "on_by_default": false,
+              "version": "v3.0.7"
+            }
+          ],
+          "dependency_version_2": true,
+          "terraform_version": "1.10.5"
         },
         {
-          "label": "Secure cross-region bucket",
+          "label": "Security-enforced cross-region bucket",
           "name": "secure-cross-regional-bucket",
           "working_directory": "solutions/secure-cross-regional-bucket",
           "install_type": "extension",
@@ -190,6 +269,31 @@
               }
             ]
           },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "cloud-object-storage"
+            },
+            {
+              "service_name": "kms",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "notes": "[Optional] Required if creating a new Key Protect root key for bucket encryption."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if creating a new Hyper Protect Crypto Services root key for bucket encryption."
+            }
+          ],
           "architecture": {
             "features": [
               {
@@ -419,7 +523,7 @@
           ]
         },
         {
-          "label": "Secure regional bucket",
+          "label": "Security-enforced regional bucket",
           "name": "secure-regional-bucket",
           "working_directory": "solutions/secure-regional-bucket",
           "install_type": "extension",
@@ -444,6 +548,31 @@
               }
             ]
           },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "cloud-object-storage"
+            },
+            {
+              "service_name": "kms",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "notes": "[Optional] Required if creating a new Key Protect root key for bucket encryption."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if creating a new Hyper Protect Crypto Services root key for bucket encryption."
+            }
+          ],
           "architecture": {
             "features": [
               {

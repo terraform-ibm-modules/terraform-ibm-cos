@@ -1,25 +1,48 @@
+##############################################################################
+# Existing resource group
+##############################################################################
+
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
   version                      = "1.2.0"
-  resource_group_name          = var.use_existing_resource_group == false ? ((var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.resource_group_name}" : var.resource_group_name) : null
-  existing_resource_group_name = var.use_existing_resource_group == true ? var.resource_group_name : null
+  existing_resource_group_name = var.existing_resource_group_name
 }
+
+##############################################################################
+# Create COS instance
+##############################################################################
 
 module "cos" {
   source              = "../../modules/fscloud"
   resource_group_id   = module.resource_group.resource_group_id
   create_cos_instance = true
-  cos_instance_name   = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.cos_instance_name}" : var.cos_instance_name
+  cos_instance_name   = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.instance_name}" : var.instance_name
   resource_keys       = var.resource_keys
-  cos_plan            = var.cos_plan
-  cos_tags            = var.cos_tags
+  cos_plan            = var.plan
+  cos_tags            = var.resource_tags
   access_tags         = var.access_tags
   instance_cbr_rules  = var.cos_instance_cbr_rules
 }
 
+##############################################################################
+# Secrets Manager service credentials
+##############################################################################
+
+# parse info from Secrets Manager CRN
+module "crn_parser" {
+  count   = var.existing_secrets_manager_instance_crn != null ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.1.0"
+  crn     = var.existing_secrets_manager_instance_crn
+}
+locals {
+  existing_secrets_manager_instance_guid   = var.existing_secrets_manager_instance_crn != null ? module.crn_parser[0].service_instance : ""
+  existing_secrets_manager_instance_region = var.existing_secrets_manager_instance_crn != null ? module.crn_parser[0].region : ""
+}
+
+# create s2s auth policy with Secrets Manager
 resource "ibm_iam_authorization_policy" "secrets_manager_key_manager" {
-  count                       = var.skip_secrets_manager_cos_iam_auth_policy || var.existing_secrets_manager_instance_crn == null ? 0 : 1
-  depends_on                  = [module.cos]
+  count                       = !var.skip_secrets_manager_cos_iam_auth_policy && var.existing_secrets_manager_instance_crn != null ? 1 : 0
   source_service_name         = "secrets-manager"
   source_resource_instance_id = local.existing_secrets_manager_instance_guid
   target_service_name         = "cloud-object-storage"
@@ -30,10 +53,12 @@ resource "ibm_iam_authorization_policy" "secrets_manager_key_manager" {
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
 resource "time_sleep" "wait_for_cos_authorization_policy" {
+  count           = length(local.service_credential_secrets) > 0 ? 1 : 0
   depends_on      = [ibm_iam_authorization_policy.secrets_manager_key_manager]
   create_duration = "30s"
 }
 
+# create Secrets Manager service credentials for COS instance
 locals {
   service_credential_secrets = [
     for service_credentials in var.service_credential_secrets : {
@@ -56,15 +81,7 @@ locals {
       ]
     }
   ]
-
-  existing_secrets_manager_instance_crn_split = var.existing_secrets_manager_instance_crn != null ? split(":", var.existing_secrets_manager_instance_crn) : null
-  existing_secrets_manager_instance_guid      = var.existing_secrets_manager_instance_crn != null ? element(local.existing_secrets_manager_instance_crn_split, length(local.existing_secrets_manager_instance_crn_split) - 3) : null
-  existing_secrets_manager_instance_region    = var.existing_secrets_manager_instance_crn != null ? element(local.existing_secrets_manager_instance_crn_split, length(local.existing_secrets_manager_instance_crn_split) - 5) : null
-
-  # tflint-ignore: terraform_unused_declarations
-  validate_sm_crn = length(local.service_credential_secrets) > 0 && var.existing_secrets_manager_instance_crn == null ? tobool("`existing_secrets_manager_instance_crn` is required when adding service credentials to a secrets manager secret.") : false
 }
-
 module "secrets_manager_service_credentials" {
   count                       = length(local.service_credential_secrets) > 0 ? 1 : 0
   depends_on                  = [time_sleep.wait_for_cos_authorization_policy]

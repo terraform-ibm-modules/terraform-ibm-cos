@@ -7,6 +7,7 @@ CRA_TARGETS:
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
       TF_VAR_resource_group_name: "terraform-ibm-cos"
       TF_VAR_provider_visibility: "public"
+      TF_VAR_prefix: "test"
   - CRA_TARGET: "solutions/secure-cross-regional-bucket"  # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
     PROFILE_ID: "fe96bd4d-9b37-40f2-b39f-a62760e326a3"  # SCC profile ID (currently set to 'IBM Cloud Framework for Financial Services' '1.7.0' profile).
@@ -16,6 +17,7 @@ CRA_TARGETS:
       TF_VAR_bucket_name: "mock"
       TF_VAR_cross_region_location: us
       TF_VAR_provider_visibility: "public"
+      TF_VAR_prefix: "test"
   - CRA_TARGET: "solutions/secure-regional-bucket"  # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
     PROFILE_ID: "fe96bd4d-9b37-40f2-b39f-a62760e326a3"  # SCC profile ID (currently set to 'IBM Cloud Framework for Financial Services' '1.7.0' profile).
@@ -24,3 +26,4 @@ CRA_TARGETS:
       TF_VAR_existing_cos_instance_crn: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:12345a67-12ab-1a23-abc1-1a2345abcde6::"
       TF_VAR_bucket_name: "mock"
       TF_VAR_provider_visibility: "public"
+      TF_VAR_prefix: "test"

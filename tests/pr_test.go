@@ -306,18 +306,18 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 
 	service_credential_secrets := []map[string]interface{}{
 		{
-			"secret_group_name": fmt.Sprintf("%s-secret-group", prefix),
+			"secret_group_name": fmt.Sprintf("%s-secret-group", instanceOptions.Prefix),
 			"service_credentials": []map[string]string{
 				{
-					"secret_name": fmt.Sprintf("%s-cred-manager", prefix),
+					"secret_name": fmt.Sprintf("%s-cred-manager", instanceOptions.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
 				},
 				{
-					"secret_name": fmt.Sprintf("%s-cred-writer", prefix),
+					"secret_name": fmt.Sprintf("%s-cred-writer", instanceOptions.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
 				},
 				{
-					"secret_name": fmt.Sprintf("%s-cred-object-writer", prefix),
+					"secret_name": fmt.Sprintf("%s-cred-object-writer", instanceOptions.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectWriter",
 				},
 			},
@@ -326,7 +326,7 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 
 	instanceOptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: instanceOptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "cos_instance_name", Value: instanceOptions.Prefix, DataType: "string"},
+		{Name: "prefix", Value: instanceOptions.Prefix, DataType: "string"},
 		{Name: "resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "use_existing_resource_group", Value: "true", DataType: "bool"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
@@ -360,6 +360,7 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 
 		regionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
 			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+			{Name: "prefix", Value: regionaloptions.Prefix, DataType: "string"},
 			{Name: "bucket_name", Value: fmt.Sprintf("%s-regional-bucket", prefix), DataType: "string"},
 			{Name: "region", Value: region, DataType: "string"},
 			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
@@ -387,6 +388,7 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 
 		crossregionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
 			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+			{Name: "prefix", Value: crossregionaloptions.Prefix, DataType: "string"},
 			{Name: "cross_region_location", Value: "us", DataType: "string"},
 			{Name: "bucket_name", Value: fmt.Sprintf("%s-cross-region-bucket", prefix), DataType: "string"},
 			{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
