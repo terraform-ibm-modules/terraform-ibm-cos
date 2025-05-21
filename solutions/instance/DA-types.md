@@ -24,14 +24,13 @@ To enter a custom value, use the edit action to open the "Edit Array" panel. Add
 - `role` (optional, default = `Reader`): The name of the user role.
 - `service_id_crn` (optional, default = `null`): Pass a Service ID CRN to create credentials for a resource with a Service ID. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key#example-to-create-by-using-serviceid).
 
-The following example includes all the configuration options for two resource keys. One is a key with a `Reader` role (using an existing Service ID), the other with a `Writer` role.
+The following example includes all the configuration options for two resource keys. One is a HMAC key with a `Reader` role, the other with an IAM key with `Writer` role.
 ```hcl
 [
   {
     "name": "cos-reader-resource-key",
-    "generate_hmac_credentials": "false",
+    "generate_hmac_credentials": true,
     "role": "Reader",
-    "service_id_crn": "crn:v1:bluemix:public:iam-identity::a/abac0df06b644a9cabc6e44f55b3880e::serviceid:ServiceId-e4f41dd6-db57-4870-b6c5-6908419fc913"
   },
   {
     "name": "cos-writer-resource-key",
