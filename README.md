@@ -109,17 +109,10 @@ module "cos_buckets" {
 
 You need the following permissions to run this module.
 
-- Account Management
-    - **Resource Group** service
-        - `Viewer` platform access
-- IAM Services
-    - **IBM Cloud Activity Tracker** service
-        - `Editor` platform access
-        - `Manager` service access
-    - **IBM Cloud Monitoring** service
-        - `Editor` platform access
-        - `Manager` service access
-    - **IBM Cloud Object Storage** service
+- Service
+    - **Resource group only**
+        - `Viewer` access on the specific resource group
+    - **Cloud Object Storage** service
         - `Editor` platform access
         - `Manager` service access
 
