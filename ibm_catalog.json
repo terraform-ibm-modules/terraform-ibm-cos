@@ -233,10 +233,6 @@
                   "dependency_input": "provider_visibility",
                   "version_input": "provider_visibility",
                   "reference_version": true
-                },
-                {
-                  "version_input": "use_existing_resource_group",
-                  "value": true
                 }
               ],
               "optional": true,
