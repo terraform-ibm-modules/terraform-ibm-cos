@@ -3,5 +3,6 @@
   "prefix": $PREFIX,
   "bucket_name": "test",
   "existing_kms_instance_crn": $HPCS_US_SOUTH_CRN,
+  "existing_cos_instance_crn": $COS_INSTANCE_CRN,
   "cross_region_location": "us"
 }
