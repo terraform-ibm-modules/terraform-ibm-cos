@@ -407,10 +407,11 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 			"modules/fscloud/*.tf",
 			solutionInstanceDir + "/*.tf",
 		},
-		TemplateFolder:         solutionInstanceDir,
-		Tags:                   []string{"cos-upg"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 120,
+		TemplateFolder:             solutionInstanceDir,
+		Tags:                       []string{"cos-upg"},
+		DeleteWorkspaceOnFail:      false,
+		WaitJobCompleteMinutes:     120,
+		CheckApplyResultForUpgrade: true,
 	})
 
 	service_credential_secrets := []map[string]interface{}{
@@ -460,10 +461,11 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 				"modules/fscloud/*.tf",
 				solutionRegionalDir + "/*.tf",
 			},
-			TemplateFolder:         solutionRegionalDir,
-			Tags:                   []string{"cos-regional-bucket-upgrade-test"},
-			DeleteWorkspaceOnFail:  false,
-			WaitJobCompleteMinutes: 120,
+			TemplateFolder:             solutionRegionalDir,
+			Tags:                       []string{"cos-regional-bucket-upgrade-test"},
+			DeleteWorkspaceOnFail:      false,
+			WaitJobCompleteMinutes:     120,
+			CheckApplyResultForUpgrade: true,
 		})
 
 		regionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -488,10 +490,11 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 				"modules/fscloud/*.tf",
 				solutionCrossRegionDir + "/*.tf",
 			},
-			TemplateFolder:         solutionCrossRegionDir,
-			Tags:                   []string{"cos-cross-regional-bucket-upgrade-test"},
-			DeleteWorkspaceOnFail:  false,
-			WaitJobCompleteMinutes: 120,
+			TemplateFolder:             solutionCrossRegionDir,
+			Tags:                       []string{"cos-cross-regional-bucket-upgrade-test"},
+			DeleteWorkspaceOnFail:      false,
+			WaitJobCompleteMinutes:     120,
+			CheckApplyResultForUpgrade: true,
 		})
 
 		crossregionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
