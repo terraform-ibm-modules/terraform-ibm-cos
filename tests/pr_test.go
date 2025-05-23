@@ -327,8 +327,7 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 	instanceOptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: instanceOptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: instanceOptions.Prefix, DataType: "string"},
-		{Name: "resource_group_name", Value: resourceGroup, DataType: "string"},
-		{Name: "use_existing_resource_group", Value: "true", DataType: "bool"},
+		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
 	}
@@ -408,7 +407,7 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 func TestRunDAUpgradeInSchematics(t *testing.T) {
 	t.Parallel()
 
-	prefix := "cos-sol-upg"
+	prefix := "cos-upg"
 
 	instanceOptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
@@ -421,7 +420,7 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 			solutionInstanceDir + "/*.tf",
 		},
 		TemplateFolder:         solutionInstanceDir,
-		Tags:                   []string{"cos-da-upg"},
+		Tags:                   []string{"cos-upg"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 120,
 	})
@@ -449,8 +448,7 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 	instanceOptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: instanceOptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: instanceOptions.Prefix, DataType: "string"},
-		{Name: "resource_group_name", Value: resourceGroup, DataType: "string"},
-		{Name: "use_existing_resource_group", Value: "true", DataType: "bool"},
+		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
 	}
