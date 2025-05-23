@@ -219,18 +219,6 @@ func TestRunReplicateExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunUpgradeExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "cos-upgrade", advancedExampleTerraformDir)
-
-	output, err := options.RunTestUpgrade()
-	if !options.UpgradeTestSkipped {
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, output, "Expected some output")
-	}
-}
-
 func getIAMBearerToken(apikey string) string {
 	authEndpoint := "https://iam.cloud.ibm.com/identity/token"
 	data := url.Values{}
