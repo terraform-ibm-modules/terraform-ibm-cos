@@ -473,7 +473,7 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 				solutionRegionalDir + "/*.tf",
 			},
 			TemplateFolder:         solutionRegionalDir,
-			Tags:                   []string{"cos-regional-bucket-test"},
+			Tags:                   []string{"cos-regional-bucket-upgrade-test"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 120,
 		})
@@ -501,7 +501,7 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 				solutionCrossRegionDir + "/*.tf",
 			},
 			TemplateFolder:         solutionCrossRegionDir,
-			Tags:                   []string{"cos-cross-regional-bucket-test"},
+			Tags:                   []string{"cos-cross-regional-bucket-upgrade-test"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 120,
 		})
