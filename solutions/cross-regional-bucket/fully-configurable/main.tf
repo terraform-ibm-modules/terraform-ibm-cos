@@ -24,6 +24,7 @@ locals {
     skip_iam_authorization_policy = local.create_cross_account_auth_policy || var.skip_cos_kms_iam_auth_policy
     management_endpoint_type      = var.management_endpoint_type_for_bucket
     cross_region_location         = var.cross_region_location
+    resource_instance_id          = var.existing_cos_instance_crn
     storage_class                 = var.bucket_storage_class
     force_delete                  = var.force_delete
     hard_quota                    = var.bucket_hard_quota
@@ -60,6 +61,20 @@ locals {
 }
 
 #######################################################################################################################
+# Parse COS
+#######################################################################################################################
+
+module "cos_instance_crn_parser" {
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.1.0"
+  crn     = var.existing_cos_instance_crn
+}
+
+locals {
+  cos_instance_guid = module.cos_instance_crn_parser.service_instance
+}
+
+#######################################################################################################################
 # KMS Key
 #######################################################################################################################
 
@@ -69,7 +84,7 @@ locals {
   kms_service_name           = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].service_name : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null : null
   kms_account_id             = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].account_id : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null : null
 
-  kms_key_crn                = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].crn : null
+  kms_key_crn                = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].crn : null
 
   kms_key_id = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].resource : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].key_id : null
 
@@ -98,7 +113,7 @@ module "kms_key_crn_parser" {
 resource "ibm_iam_authorization_policy" "cos_kms_policy" {
   count                       = local.create_cross_account_auth_policy ? 1 : 0
   provider                    = ibm.kms
-  source_service_account      = module.cos_crn_parser.account_id
+  source_service_account      = module.cos_instance_crn_parser.account_id
   source_service_name         = "cloud-object-storage"
   source_resource_instance_id = local.cos_instance_guid
   roles                       = ["Reader"]
@@ -179,10 +194,6 @@ module "cos" {
     ibm = ibm.cos
   }
   depends_on               = [time_sleep.wait_for_authorization_policy]
-  source                   = "../../modules/buckets"
-  resource_group_id        = null
-  create_cos_instance      = false
-  existing_cos_instance_id = var.existing_cos_instance_crn
+  source                   = "../../../modules/buckets"
   bucket_configs           = local.bucket_config
-  instance_cbr_rules       = var.cos_bucket_cbr_rules
 }
