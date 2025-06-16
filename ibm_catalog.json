@@ -244,9 +244,9 @@
           "terraform_version": "1.10.5"
         },
         {
-          "label": "Security-enforced cross-region bucket",
-          "name": "secure-cross-regional-bucket",
-          "working_directory": "solutions/secure-cross-regional-bucket",
+          "label": "cross regional bucket fully configurable",
+          "name": "cross-regional-bucket-fully-configurable",
+          "working_directory": "solutions/cross-regional-bucket/fully-configurable",
           "install_type": "extension",
           "dependencies": [
             {

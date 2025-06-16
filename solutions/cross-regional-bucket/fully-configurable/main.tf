@@ -10,7 +10,7 @@ locals {
 
   bucket_config = [{
     access_tags                   = var.bucket_access_tags
-    bucket_name                   = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.bucket_name}" : var.bucket_name
+    bucket_name                   = "${local.prefix}${var.bucket_name}"
     kms_encryption_enabled        = var.kms_encryption_enabled
     add_bucket_name_suffix        = var.add_bucket_name_suffix
     kms_guid                      = local.existing_kms_instance_guid
@@ -51,6 +51,8 @@ locals {
       minimum   = var.minimum_retention_days
       permanent = var.enable_permanent_retention
     } : null
+
+    cos_bucket_cbr_rules = var.cos_bucket_cbr_rules
   }]
 }
 
@@ -78,7 +80,7 @@ locals {
   kms_service_name           = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].service_name : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null : null
   kms_account_id             = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].account_id : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null : null
 
-  kms_key_crn                = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].crn : null
+  kms_key_crn = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].crn : null
 
   kms_key_id = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].resource : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].key_id : null
 
@@ -187,7 +189,7 @@ module "cos" {
   providers = {
     ibm = ibm.cos
   }
-  depends_on               = [time_sleep.wait_for_authorization_policy]
-  source                   = "../../../modules/buckets"
-  bucket_configs           = local.bucket_config
+  depends_on     = [time_sleep.wait_for_authorization_policy]
+  source         = "../../../modules/buckets"
+  bucket_configs = local.bucket_config
 }
