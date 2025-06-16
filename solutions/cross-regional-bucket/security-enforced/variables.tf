@@ -35,12 +35,6 @@ variable "prefix" {
 # KMS variables
 ########################################################################################################################
 
-variable "kms_encryption_enabled" {
-  type        = bool
-  description = "Set to true to enable Secrets Manager Secrets Encryption using customer managed keys. When set to true, a value must be passed for either `existing_kms_instance_crn` or `existing_secrets_manager_kms_key_crn`. Cannot be set to true if passing a value for `existing_secrets_manager_crn`."
-  default     = false
-}
-
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
@@ -61,16 +55,6 @@ variable "existing_kms_key_crn" {
   type        = string
   default     = null
   description = "The CRN of an existing KMS key to be used to encrypt the Object Storage bucket. If not supplied, a new key ring and key will be created in the provided KMS instance."
-}
-
-variable "kms_endpoint_type" {
-  type        = string
-  description = "The type of endpoint to use to communicate with the KMS instance. Allowed values are `public` or `private` (default)."
-  default     = "private"
-  validation {
-    condition     = can(regex("public|private", var.kms_endpoint_type))
-    error_message = "The value for `kms_endpoint_type` must be `public` or `private`."
-  }
 }
 
 variable "cos_key_ring_name" {
@@ -110,12 +94,6 @@ variable "bucket_access_tags" {
 variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned Object Storage bucket."
-}
-
-variable "management_endpoint_type_for_bucket" {
-  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
-  type        = string
-  default     = "private"
 }
 
 variable "cross_region_location" {
@@ -224,16 +202,7 @@ variable "object_lock_duration_years" {
   type        = number
   default     = 0
 }
-variable "provider_visibility" {
-  description = "Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints)."
-  type        = string
-  default     = "private"
 
-  validation {
-    condition     = contains(["public", "private", "public-and-private"], var.provider_visibility)
-    error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
-  }
-}
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

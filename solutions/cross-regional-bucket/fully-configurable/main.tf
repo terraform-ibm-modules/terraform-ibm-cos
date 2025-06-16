@@ -6,12 +6,6 @@ locals {
   prefix = var.prefix != null ? trimspace(var.prefix) != "" ? "${var.prefix}-" : "" : ""
 }
 
-module "resource_group" {
-  source                       = "terraform-ibm-modules/resource-group/ibm"
-  version                      = "1.2.0"
-  existing_resource_group_name = var.existing_resource_group_name
-}
-
 locals {
 
   bucket_config = [{
