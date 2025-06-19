@@ -615,13 +615,35 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	t.Parallel()
 
+	t.Parallel()
+
+	excludeDirs := []string{
+		".terraform",
+		".docs",
+		".github",
+		".git",
+		".idea",
+		"common-dev-assets",
+		"examples",
+		"tests",
+		"reference-architectures",
+	}
+	includeFiletypes := []string{
+		".tf",
+		".yaml",
+		".py",
+		".tpl",
+	}
+
+	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing: t,
-		Prefix:  "sm-pc-up",
-		TarIncludePatterns: []string{
-			"*.tf",
-			fullyConfigurableDir + "/*.tf",
-		},
+		Testing:                t,
+		Prefix:                 "f-sb-up",
+		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         fullyConfigurableDir,
 		Tags:                   []string{"test-schematic"},
@@ -631,8 +653,13 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "existing_secrets_manager_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
+		{Name: "cross_region_location", Value: "us", DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:7572e59a-d4ab-439d-b3c6-5c8d4ef9c6d2::", DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 	}
 
 	err := options.RunSchematicUpgradeTest()
