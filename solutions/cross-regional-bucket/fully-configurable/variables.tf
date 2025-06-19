@@ -37,8 +37,18 @@ variable "prefix" {
 
 variable "kms_encryption_enabled" {
   type        = bool
-  description = "Set to true to enable Secrets Manager Secrets Encryption using customer managed keys. When set to true, a value must be passed for either `existing_kms_instance_crn` or `existing_secrets_manager_kms_key_crn`. Cannot be set to true if passing a value for `existing_secrets_manager_crn`."
+  description = "Set to true to enable Object Storage bucket Encryption using customer managed keys. When set to true, a value must be passed for either `existing_kms_instance_crn` or `existing_kms_key_crn`."
   default     = false
+
+  validation {
+    condition     = var.existing_kms_instance_crn != null ? var.kms_encryption_enabled : true
+    error_message = "If passing a value for 'existing_kms_instance_crn', you should set 'kms_encryption_enabled' to true."
+  }
+
+  validation {
+    condition     = var.kms_encryption_enabled ? ((var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? true : false) : true
+    error_message = "Either 'existing_kms_instance_crn' or `existing_kms_key_crn` is required if 'kms_encryption_enabled' is set to true."
+  }
 }
 
 variable "existing_kms_instance_crn" {

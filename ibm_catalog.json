@@ -297,19 +297,19 @@
           "architecture": {
             "features": [
               {
-                "title": "Create a secure cross-region bucket",
-                "description": "Create a secure cross-region Object Storage bucket."
+                "title": "Cross-region bucket",
+                "description": "Create a cross-region Object Storage bucket."
               },
               {
-                "title": "Configure bucket retention",
+                "title": "Bucket retention",
                 "description": "Configure retention policies at the Object Storage bucket level."
               },
               {
-                "title": "Enable object versioning",
+                "title": "Object versioning",
                 "description": "Enable object versioning to keep multiple versions of an object in a bucket."
               },
               {
-                "title": "Record Activity Tracker events",
+                "title": "Activity Tracker events",
                 "description": "Integrate Activity Tracker to track events."
               },
               {
@@ -325,7 +325,7 @@
               {
                 "diagram": {
                   "caption": "IBM Cloud Object Storage solution",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-cross-regional-bucket.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "This architecture supports creating and configuring a secure cross-region bucket."

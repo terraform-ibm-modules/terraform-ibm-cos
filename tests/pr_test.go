@@ -603,7 +603,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-		{Name: "existing_cos_instance_crn", Value: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:7572e59a-d4ab-439d-b3c6-5c8d4ef9c6d2::", DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 	}
@@ -657,7 +657,7 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-		{Name: "existing_cos_instance_crn", Value: "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:7572e59a-d4ab-439d-b3c6-5c8d4ef9c6d2::", DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 	}
