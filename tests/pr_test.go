@@ -615,8 +615,6 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	t.Parallel()
 
-	t.Parallel()
-
 	excludeDirs := []string{
 		".terraform",
 		".docs",
