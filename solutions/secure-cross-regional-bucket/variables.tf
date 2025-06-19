@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   nullable    = true
-  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-0205-cos. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/prefix.md)."
+  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-us-bucket."
 
   validation {
     # - null and empty string is allowed
@@ -57,6 +57,16 @@ variable "existing_kms_key_crn" {
   description = "The CRN of an existing KMS key to be used to encrypt the Object Storage bucket. If not supplied, a new key ring and key will be created in the provided KMS instance."
 }
 
+variable "kms_endpoint_type" {
+  type        = string
+  description = "The type of endpoint to use to communicate with the KMS instance. Allowed values are `public` or `private` (default)."
+  default     = "private"
+  validation {
+    condition     = can(regex("public|private", var.kms_endpoint_type))
+    error_message = "The value for `kms_endpoint_type` must be `public` or `private`."
+  }
+}
+
 variable "cos_key_ring_name" {
   type        = string
   default     = "cross-region-key-ring"
@@ -94,6 +104,12 @@ variable "bucket_access_tags" {
 variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned Object Storage bucket."
+}
+
+variable "management_endpoint_type_for_bucket" {
+  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
+  type        = string
+  default     = "private"
 }
 
 variable "cross_region_location" {
@@ -202,7 +218,16 @@ variable "object_lock_duration_years" {
   type        = number
   default     = 0
 }
+variable "provider_visibility" {
+  description = "Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints)."
+  type        = string
+  default     = "private"
 
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.provider_visibility)
+    error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
+  }
+}
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

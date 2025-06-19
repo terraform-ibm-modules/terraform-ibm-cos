@@ -526,9 +526,9 @@
           ]
         },
         {
-          "label": "cross regional bucket security enforced",
-          "name": "cross-regional-bucket-security-enforced",
-          "working_directory": "solutions/cross-regional-bucket/security-enforced",
+          "label": "Security-enforced cross-region bucket",
+          "name": "secure-cross-regional-bucket",
+          "working_directory": "solutions/secure-cross-regional-bucket",
           "install_type": "extension",
           "dependencies": [
             {
@@ -649,6 +649,23 @@
               "required": true
             },
             {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            },
+            {
               "key": "add_bucket_name_suffix"
             },
             {
@@ -703,6 +720,24 @@
               "key": "bucket_hard_quota"
             },
             {
+              "key": "management_endpoint_type_for_bucket",
+              "options": [
+                {
+                  "displayname": "direct",
+                  "value": "direct"
+                },
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ],
+              "default": "private"
+            },
+            {
               "key": "monitoring_crn"
             },
             {
@@ -746,6 +781,20 @@
             },
             {
               "key": "cos_key_name"
+            },
+            {
+              "key": "kms_endpoint_type",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ],
+              "default": "private"
             },
             {
               "key": "skip_cos_kms_iam_auth_policy"

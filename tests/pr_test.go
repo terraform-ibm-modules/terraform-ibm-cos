@@ -39,7 +39,6 @@ const solutionInstanceDir = "solutions/instance"
 const solutionRegionalDir = "solutions/secure-regional-bucket"
 const solutionCrossRegionDir = "solutions/secure-cross-regional-bucket"
 const fullyConfigurableDir = "solutions/cross-regional-bucket/fully-configurable"
-const securityEnforcedDir = "solutions/cross-regional-bucket/security-enforced"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -625,66 +624,6 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		},
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         fullyConfigurableDir,
-		Tags:                   []string{"test-schematic"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 80,
-	})
-
-	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
-		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "existing_secrets_manager_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
-		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-	}
-
-	err := options.RunSchematicUpgradeTest()
-	if !options.UpgradeTestSkipped {
-		assert.Nil(t, err, "This should not have errored")
-	}
-}
-
-func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
-	t.Parallel()
-
-	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing: t,
-		Prefix:  "f-sb",
-		TarIncludePatterns: []string{
-			"*.tf",
-			securityEnforcedDir + "/*.tf",
-		},
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         securityEnforcedDir,
-		Tags:                   []string{"test-schematic"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 80,
-	})
-
-	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
-		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "cross_region_location", Value: "us", DataType: "string"},
-		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-		{Name: "existing_cos_instance_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-		{Name: "cert_name", Value: fmt.Sprintf("%s-cert", options.Prefix), DataType: "string"},
-		{Name: "cert_common_name", Value: "terraform-modules.ibm.com", DataType: "string"},
-	}
-
-	err := options.RunSchematicTest()
-	assert.Nil(t, err, "This should not have errored")
-}
-
-func TestRunCrossRegionalSecurityEnforcedUpgradeSchematics(t *testing.T) {
-	t.Parallel()
-
-	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing: t,
-		Prefix:  "sm-pc-up",
-		TarIncludePatterns: []string{
-			"*.tf",
-			securityEnforcedDir + "/*.tf",
-		},
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         securityEnforcedDir,
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
