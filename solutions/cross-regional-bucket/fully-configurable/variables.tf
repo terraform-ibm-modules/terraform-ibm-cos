@@ -110,6 +110,7 @@ variable "bucket_access_tags" {
 variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned Object Storage bucket."
+  default     = "cr-bucket"
 }
 
 variable "management_endpoint_type_for_bucket" {

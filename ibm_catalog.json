@@ -489,6 +489,9 @@
               "key": "ibmcloud_kms_api_key"
             },
             {
+              "key": "kms_encryption_enabled"
+            },
+            {
               "key": "existing_kms_instance_crn"
             },
             {
@@ -513,6 +516,236 @@
                 }
               ],
               "default": "private"
+            },
+            {
+              "key": "skip_cos_kms_iam_auth_policy"
+            },
+            {
+              "key": "cos_bucket_cbr_rules"
+            }
+          ]
+        },
+        {
+          "label": "cross regional bucket security enforced",
+          "name": "cross-regional-bucket-security-enforced",
+          "working_directory": "solutions/cross-regional-bucket/security-enforced",
+          "install_type": "extension",
+          "dependencies": [
+            {
+              "flavors": [
+                "instance"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
+              "name": "deploy-arch-ibm-cos",
+              "version": ">= v8.1.4",
+              "optional": true
+            }
+          ],
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
+          },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "cloud-object-storage"
+            },
+            {
+              "service_name": "kms",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "notes": "[Optional] Required if creating a new Key Protect root key for bucket encryption."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if creating a new Hyper Protect Crypto Services root key for bucket encryption."
+            }
+          ],
+          "architecture": {
+            "features": [
+              {
+                "title": "Create a secure cross-region bucket",
+                "description": "Create a secure cross-region Object Storage bucket."
+              },
+              {
+                "title": "Configure bucket retention",
+                "description": "Configure retention policies at the Object Storage bucket level."
+              },
+              {
+                "title": "Enable object versioning",
+                "description": "Enable object versioning to keep multiple versions of an object in a bucket."
+              },
+              {
+                "title": "Record Activity Tracker events",
+                "description": "Integrate Activity Tracker to track events."
+              },
+              {
+                "title": "Monitor data",
+                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
+              },
+              {
+                "title": "Encrypt data with key management services",
+                "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "IBM Cloud Object Storage solution",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-cross-regional-bucket.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture supports creating and configuring a secure cross-region bucket."
+              }
+            ]
+          },
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key"
+            },
+            {
+              "key":"prefix",
+              "required": true
+            },
+            {
+              "key": "cross_region_location",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "United States Geo (us-geo)",
+                  "value": "us"
+                },
+                {
+                  "displayname": "Asia Pacific Geo (ap-geo)",
+                  "value": "ap"
+                },
+                {
+                  "displayname": "Europe Geo (eu-geo)",
+                  "value": "eu"
+                }
+              ]
+            },
+            {
+              "key": "existing_cos_instance_crn",
+              "required": true
+            },
+            {
+              "key": "bucket_name",
+              "required": true
+            },
+            {
+              "key": "add_bucket_name_suffix"
+            },
+            {
+              "key": "archive_filter_prefix"
+            },
+            {
+              "key": "bucket_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "bucket_storage_class",
+              "options": [
+                {
+                  "displayname": "standard",
+                  "value": "standard"
+                },
+                {
+                  "displayname": "vault",
+                  "value": "vault"
+                },
+                {
+                  "displayname": "cold",
+                  "value": "cold"
+                },
+                {
+                  "displayname": "smart",
+                  "value": "smart"
+                },
+                {
+                  "displayname": "onerate_active",
+                  "value": "onerate_active"
+                }
+              ],
+              "default": "smart"
+            },
+            {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
+              "key": "force_delete"
+            },
+            {
+              "key": "bucket_hard_quota"
+            },
+            {
+              "key": "monitoring_crn"
+            },
+            {
+              "key": "enable_object_locking"
+            },
+            {
+              "key": "object_lock_duration_days"
+            },
+            {
+              "key": "object_lock_duration_years"
+            },
+            {
+              "key": "enable_object_versioning"
+            },
+            {
+              "key": "enable_retention"
+            },
+            {
+              "key": "enable_permanent_retention"
+            },
+            {
+              "key": "default_retention_days"
+            },
+            {
+              "key": "minimum_retention_days"
+            },
+            {
+              "key": "maximum_retention_days"
+            },
+            {
+              "key": "ibmcloud_kms_api_key"
+            },
+            {
+              "key": "existing_kms_instance_crn"
+            },
+            {
+              "key": "existing_kms_key_crn"
+            },
+            {
+              "key": "cos_key_ring_name"
+            },
+            {
+              "key": "cos_key_name"
             },
             {
               "key": "skip_cos_kms_iam_auth_policy"
