@@ -490,73 +490,77 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 	err := instanceOptions.RunSchematicUpgradeTest()
 	assert.Nil(t, err, "This should not have errored")
 
-	cos_instance_crn := instanceOptions.LastTestTerraformOutputs["cos_instance_crn"].(map[string]interface{})["value"].(string)
+	var cos_instance_crn string
 
-	if assert.Nil(t, err, "This should not have errored") &&
-		assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
+	if !instanceOptions.UpgradeTestSkipped {
+		cos_instance_crn = instanceOptions.LastTestTerraformOutputs["cos_instance_crn"].(map[string]interface{})["value"].(string)
 
-		regionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-			Testing: t,
-			Region:  region,
-			Prefix:  prefix,
-			TarIncludePatterns: []string{
-				"*.tf",
-				"modules/buckets/*.tf",
-				"modules/fscloud/*.tf",
-				solutionRegionalDir + "/*.tf",
-			},
-			TemplateFolder:             solutionRegionalDir,
-			Tags:                       []string{"cos-regional-bucket-upgrade-test"},
-			DeleteWorkspaceOnFail:      false,
-			WaitJobCompleteMinutes:     120,
-			CheckApplyResultForUpgrade: true,
-		})
+		if assert.Nil(t, err, "This should not have errored") &&
+			assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
 
-		regionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-			{Name: "prefix", Value: regionaloptions.Prefix, DataType: "string"},
-			{Name: "bucket_name", Value: "regional-bucket", DataType: "string"},
-			{Name: "region", Value: region, DataType: "string"},
-			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
+			regionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+				Testing: t,
+				Region:  region,
+				Prefix:  prefix,
+				TarIncludePatterns: []string{
+					"*.tf",
+					"modules/buckets/*.tf",
+					"modules/fscloud/*.tf",
+					solutionRegionalDir + "/*.tf",
+				},
+				TemplateFolder:             solutionRegionalDir,
+				Tags:                       []string{"cos-regional-bucket-upgrade-test"},
+				DeleteWorkspaceOnFail:      false,
+				WaitJobCompleteMinutes:     120,
+				CheckApplyResultForUpgrade: true,
+			})
+
+			regionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
+				{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+				{Name: "prefix", Value: regionaloptions.Prefix, DataType: "string"},
+				{Name: "bucket_name", Value: "regional-bucket", DataType: "string"},
+				{Name: "region", Value: region, DataType: "string"},
+				{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+				{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
+			}
+
+			regionalerr := regionaloptions.RunSchematicUpgradeTest()
+			assert.Nil(t, regionalerr, "This should not have errored")
+
+			crossregionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+				Testing: t,
+				Region:  region,
+				Prefix:  prefix,
+				TarIncludePatterns: []string{
+					"*.tf",
+					"modules/buckets/*.tf",
+					"modules/fscloud/*.tf",
+					solutionCrossRegionDir + "/*.tf",
+				},
+				TemplateFolder:             solutionCrossRegionDir,
+				Tags:                       []string{"cos-cross-regional-bucket-upgrade-test"},
+				DeleteWorkspaceOnFail:      false,
+				WaitJobCompleteMinutes:     120,
+				CheckApplyResultForUpgrade: true,
+			})
+
+			crossregionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
+				{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+				{Name: "prefix", Value: crossregionaloptions.Prefix, DataType: "string"},
+				{Name: "cross_region_location", Value: "us", DataType: "string"},
+				{Name: "bucket_name", Value: "cross-regional-bucket", DataType: "string"},
+				{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+				{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+				{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
+			}
+
+			crossregionalerr := crossregionaloptions.RunSchematicUpgradeTest()
+			assert.Nil(t, crossregionalerr, "This should not have errored")
+
 		}
 
-		regionalerr := regionaloptions.RunSchematicUpgradeTest()
-		assert.Nil(t, regionalerr, "This should not have errored")
-
-		crossregionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-			Testing: t,
-			Region:  region,
-			Prefix:  prefix,
-			TarIncludePatterns: []string{
-				"*.tf",
-				"modules/buckets/*.tf",
-				"modules/fscloud/*.tf",
-				solutionCrossRegionDir + "/*.tf",
-			},
-			TemplateFolder:             solutionCrossRegionDir,
-			Tags:                       []string{"cos-cross-regional-bucket-upgrade-test"},
-			DeleteWorkspaceOnFail:      false,
-			WaitJobCompleteMinutes:     120,
-			CheckApplyResultForUpgrade: true,
-		})
-
-		crossregionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-			{Name: "prefix", Value: crossregionaloptions.Prefix, DataType: "string"},
-			{Name: "cross_region_location", Value: "us", DataType: "string"},
-			{Name: "bucket_name", Value: "cross-regional-bucket", DataType: "string"},
-			{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
-		}
-
-		crossregionalerr := crossregionaloptions.RunSchematicUpgradeTest()
-		assert.Nil(t, crossregionalerr, "This should not have errored")
-
+		instanceOptions.TestTearDown()
 	}
-
-	instanceOptions.TestTearDown()
 
 }
 
