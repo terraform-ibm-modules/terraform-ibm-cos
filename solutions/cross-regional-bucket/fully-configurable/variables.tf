@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   nullable    = true
-  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-0205-cos. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/prefix.md)."
+  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-cos-buc. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/prefix.md)."
 
   validation {
     # - null and empty string is allowed
@@ -55,6 +55,7 @@ variable "existing_kms_instance_crn" {
   type        = string
   default     = null
   description = "The CRN of the KMS instance that is used for the Object Storage bucket root key. Required only if a KMS root key is not specified and if `skip_cos_kms_iam_auth_policy` is false."
+
   validation {
     condition     = !(var.existing_kms_key_crn == null && var.existing_kms_instance_crn == null)
     error_message = "A value must be passed for 'existing_kms_instance_crn' if no value is supplied for 'existing_kms_key_crn'."
@@ -132,12 +133,22 @@ variable "management_endpoint_type_for_bucket" {
 variable "cross_region_location" {
   description = "Specify the cross-region bucket location. Possible values: `us`, `eu`, `ap`."
   type        = string
+
+  validation {
+    condition     = contains(["us", "eu", "ap"], var.cross_region_location)
+    error_message = "The value of cross_region_location must be one of: 'us', 'eu', or 'ap'."
+  }
 }
 
 variable "bucket_storage_class" {
   type        = string
   description = "The storage class of the newly provisioned Object Storage bucket. Possible values: `standard`, `vault`, `cold`, `smart`, `onerate_active`."
   default     = "smart"
+
+  validation {
+    condition     = contains(["standard", "vault", "cold", "smart", "onerate_active"], var.bucket_storage_class)
+    error_message = "The value of bucket_storage_class must be one of: 'standard', 'vault', 'cold', 'smart', or 'onerate_active'."
+  }
 }
 
 variable "force_delete" {

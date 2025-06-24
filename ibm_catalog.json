@@ -53,6 +53,7 @@
         {
           "label": "Single instance",
           "name": "instance",
+          "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/instance",
           "compliance": {
@@ -246,20 +247,9 @@
         {
           "label": "cross regional bucket fully configurable",
           "name": "cross-regional-bucket-fully-configurable",
+          "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
           "install_type": "extension",
-          "dependencies": [
-            {
-              "flavors": [
-                "instance"
-              ],
-              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "name": "deploy-arch-ibm-cos",
-              "version": ">= v8.1.4",
-              "optional": true
-            }
-          ],
           "compliance": {
             "authority": "scc-v3",
             "profiles": [
@@ -368,6 +358,7 @@
             },
             {
               "key": "provider_visibility",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -439,6 +430,7 @@
             },
             {
               "key": "management_endpoint_type_for_bucket",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "direct",
@@ -505,6 +497,7 @@
             },
             {
               "key": "kms_endpoint_type",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -521,7 +514,38 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "cos_bucket_cbr_rules"
+              "key": "cos_bucket_cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "textarea",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
+            }
+          ],
+          "dependencies": [
+            {
+              "name": "deploy-arch-ibm-cos",
+              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
+              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
+              "version": "v9.0.2",
+              "flavors": [
+                "instance"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "cos_instance_crn",
+                  "version_input": "existing_cos_instance_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                }
+              ]
             }
           ]
         },
@@ -650,6 +674,7 @@
             },
             {
               "key": "provider_visibility",
+              "hidden": "true",
               "options": [
                 {
                   "displayname": "private",
@@ -721,6 +746,7 @@
             },
             {
               "key": "management_endpoint_type_for_bucket",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "direct",
@@ -784,6 +810,7 @@
             },
             {
               "key": "kms_endpoint_type",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
