@@ -38,7 +38,7 @@ const oneRateExampleTerraformDir = "examples/one-rate-plan"
 const solutionInstanceDir = "solutions/instance"
 const solutionRegionalDir = "solutions/secure-regional-bucket"
 const solutionCrossRegionDir = "solutions/secure-cross-regional-bucket"
-const fullyConfigurableDir = "solutions/cross-regional-bucket/fully-configurable"
+const fullyConfigurableCrossRegionalDir = "solutions/cross-regional-bucket/fully-configurable"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -595,7 +595,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		Prefix:                 "f-sb",
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
-		TemplateFolder:         fullyConfigurableDir,
+		TemplateFolder:         fullyConfigurableCrossRegionalDir,
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
@@ -647,7 +647,7 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		Prefix:                 "f-sb-up",
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
-		TemplateFolder:         fullyConfigurableDir,
+		TemplateFolder:         fullyConfigurableCrossRegionalDir,
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
