@@ -76,12 +76,12 @@ locals {
 #######################################################################################################################
 
 locals {
-  existing_kms_instance_guid = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].service_instance : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].service_instance : null : null
-  kms_region                 = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].region : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].region : null : null
-  kms_service_name           = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].service_name : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null : null
-  kms_account_id             = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].account_id : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null : null
-  kms_key_crn = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].crn : null
-  kms_key_id = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].resource : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].key_id : null
+  existing_kms_instance_guid       = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].service_instance : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].service_instance : null : null
+  kms_region                       = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].region : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].region : null : null
+  kms_service_name                 = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].service_name : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null : null
+  kms_account_id                   = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.kms_instance_crn_parser[0].account_id : var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null : null
+  kms_key_crn                      = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].crn : null
+  kms_key_id                       = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].resource : module.kms[0].keys[format("%s.%s", var.cos_key_ring_name, var.cos_key_name)].key_id : null
   create_cross_account_auth_policy = !var.skip_cos_kms_iam_auth_policy && var.ibmcloud_kms_api_key != null
 }
 ########################################################################################################################
@@ -186,7 +186,7 @@ module "cos" {
   providers = {
     ibm = ibm.cos
   }
-  depends_on               = [time_sleep.wait_for_authorization_policy]
-  source                   = "../../../modules/buckets"
-  bucket_configs           = local.bucket_config
+  depends_on     = [time_sleep.wait_for_authorization_policy]
+  source         = "../../../modules/buckets"
+  bucket_configs = local.bucket_config
 }
