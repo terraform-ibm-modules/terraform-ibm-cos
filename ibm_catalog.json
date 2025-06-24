@@ -640,6 +640,10 @@
                   "value": "br-sao"
                 },
                 {
+                  "displayname": "Montreal (ca-mon)",
+                  "value": "ca-mon"
+                },
+                {
                   "displayname": "Toronto (ca-tor)",
                   "value": "ca-tor"
                 },
