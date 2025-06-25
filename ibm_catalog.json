@@ -287,28 +287,8 @@
           "architecture": {
             "features": [
               {
-                "title": "Cross-region bucket",
-                "description": "Create a cross-region Object Storage bucket."
-              },
-              {
-                "title": "Bucket retention",
-                "description": "Configure retention policies at the Object Storage bucket level."
-              },
-              {
-                "title": "Object versioning",
-                "description": "Enable object versioning to keep multiple versions of an object in a bucket."
-              },
-              {
-                "title": "Activity Tracker events",
-                "description": "Integrate Activity Tracker to track events."
-              },
-              {
-                "title": "Monitor data",
-                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
-              },
-              {
-                "title": "Encrypt data with key management services",
-                "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
+                "title": " ",
+                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
               }
             ],
             "diagrams": [
@@ -318,7 +298,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture supports creating and configuring a secure cross-region bucket."
+                "description": "This architecture supports creating and configuring a secure cross-region bucket.<br><br>This solution optionally provisions the IBM Key Protect service and creates keys for encryption."
               }
             ]
           },
@@ -413,8 +393,7 @@
                   "displayname": "onerate_active",
                   "value": "onerate_active"
                 }
-              ],
-              "default": "smart"
+              ]
             },
             {
               "key": "expire_days"
@@ -444,8 +423,7 @@
                   "displayname": "public",
                   "value": "public"
                 }
-              ],
-              "default": "private"
+              ]
             },
             {
               "key": "monitoring_crn"
@@ -507,8 +485,7 @@
                   "displayname": "public",
                   "value": "public"
                 }
-              ],
-              "default": "private"
+              ]
             },
             {
               "key": "skip_cos_kms_iam_auth_policy"

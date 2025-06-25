@@ -153,7 +153,7 @@ variable "bucket_storage_class" {
 
 variable "force_delete" {
   type        = bool
-  description = "Deletes all the objects in the Object Storage Bucket before bucket is deleted."
+  description = "To delete all the objects in the Object Storage Bucket before bucket is deleted."
   default     = true
 }
 
@@ -279,7 +279,7 @@ variable "cos_bucket_cbr_rules" {
       }))
     })))
   }))
-  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/secure-cross-regional-bucket/DA-cbr_rules.md)"
+  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/cross-regional-bucket/fully-configurable/DA-cbr_rules.md)"
   default     = []
   # Validation happens in the rule module
 }

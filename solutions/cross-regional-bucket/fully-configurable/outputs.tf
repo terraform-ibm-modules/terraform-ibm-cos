@@ -2,7 +2,7 @@
 # Outputs
 ##############################################################################
 output "buckets" {
-  description = "List of buckets created"
+  description = "The list of buckets created by this DA."
   value       = module.cos.buckets
 }
 
