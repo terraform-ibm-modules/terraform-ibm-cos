@@ -53,6 +53,7 @@
         {
           "label": "Single instance",
           "name": "instance",
+          "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/instance",
           "compliance": {
@@ -525,20 +526,9 @@
         {
           "label": "regional bucket fully configurable",
           "name": "regional-bucket-fully-configurable",
+          "index": 3,
           "working_directory": "solutions/regional-bucket/fully-configurable",
           "install_type": "extension",
-          "dependencies": [
-            {
-              "flavors": [
-                "instance"
-              ],
-              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "name": "deploy-arch-ibm-cos",
-              "version": ">= v8.1.4",
-              "optional": true
-            }
-          ],
           "compliance": {
             "authority": "scc-v3",
             "profiles": [
@@ -576,32 +566,8 @@
           "architecture": {
             "features": [
               {
-                "title": "Create secure regional bucket",
-                "description": "Create a secure regional bucket."
-              },
-              {
-                "title": "Configure bucket retention",
-                "description": "Configure retention policies at the IBM Cloud Object Storage bucket level."
-              },
-              {
-                "title": "Enable object versioning",
-                "description": "Enable object versioning to keep multiple versions of an object in a bucket."
-              },
-              {
-                "title": "Add archive policies",
-                "description": "Add archive policies on the bucket."
-              },
-              {
-                "title": "Record Activity Tracker events",
-                "description": "Integrate Activity Tracker to track events."
-              },
-              {
-                "title": "Monitor data",
-                "description": "Integrate with the IBM Cloud Monitoring service to monitor your Object Storage data."
-              },
-              {
-                "title": "Encrypt data with key management services",
-                "description": "Use key management services (BYOK and KYOK), including service-to-service authorization policies."
+                "title": " ",
+                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
               }
             ],
             "diagrams": [
@@ -611,7 +577,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture supports creating and configuring a regional bucket."
+                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability.<br> Integrated services like <b>KMS</b> enable encryption, while <b>Activity Tracker</b> and <b>Monitoring</b> provide security and observability for resilient, secure cloud storage."
               }
             ]
           },
@@ -679,6 +645,7 @@
             },
             {
               "key": "provider_visibility",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -750,8 +717,7 @@
                   "displayname": "onerate_active",
                   "value": "onerate_active"
                 }
-              ],
-              "default": "smart"
+              ]
             },
             {
               "key": "expire_days"
@@ -767,6 +733,7 @@
             },
             {
               "key": "management_endpoint_type_for_bucket",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "direct",
@@ -780,8 +747,7 @@
                   "displayname": "public",
                   "value": "public"
                 }
-              ],
-              "default": "private"
+              ]
             },
             {
               "key": "monitoring_crn"
@@ -833,6 +799,7 @@
             },
             {
               "key": "kms_endpoint_type",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -842,14 +809,44 @@
                   "displayname": "public",
                   "value": "public"
                 }
-              ],
-              "default": "private"
+              ]
             },
             {
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "cos_bucket_cbr_rules"
+              "key": "cos_bucket_cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "textarea",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
+            }
+          ],
+          "dependencies": [
+            {
+              "name": "deploy-arch-ibm-cos",
+              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
+              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
+              "version": "v9.0.2",
+              "flavors": [
+                "instance"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "cos_instance_crn",
+                  "version_input": "existing_cos_instance_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                }
+              ]
             }
           ]
         },
@@ -1014,6 +1011,7 @@
             },
             {
               "key": "provider_visibility",
+              "hidden": "true",
               "options": [
                 {
                   "displayname": "private",
@@ -1102,6 +1100,7 @@
             },
             {
               "key": "management_endpoint_type_for_bucket",
+              "hidden": "true",
               "options": [
                 {
                   "displayname": "direct",
@@ -1165,6 +1164,7 @@
             },
             {
               "key": "kms_endpoint_type",
+              "hidden": "true",
               "options": [
                 {
                   "displayname": "private",

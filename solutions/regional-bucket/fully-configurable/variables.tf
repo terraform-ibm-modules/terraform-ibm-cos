@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   nullable    = true
-  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-us-bucket."
+  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-us-bucket. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/prefix.md)."
 
   validation {
     # - null and empty string is allowed
@@ -138,17 +138,25 @@ variable "management_endpoint_type_for_bucket" {
   description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
   type        = string
   default     = "private"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+    error_message = "The value of management_endpoint_type_for_bucket must be one of: `public`, `private`, `direct`."
+  }
 }
 
 variable "bucket_storage_class" {
   type        = string
   description = "The storage class of the newly provisioned Object Storage bucket. Possible values: `standard`, `vault`, `cold`, `smart` `onerate_active`."
   default     = "smart"
+  validation {
+    condition     = contains(["standard", "vault", "cold", "smart", "onerate_active"], var.bucket_storage_class)
+    error_message = "The value of bucket_storage_class must be one of: 'standard', 'vault', 'cold', 'smart', or 'onerate_active'."
+  }
 }
 
 variable "force_delete" {
   type        = bool
-  description = "Deletes all the objects in the Object Storage Bucket before bucket is deleted."
+  description = "To delete all the objects in the Object Storage Bucket before bucket is deleted."
   default     = true
 }
 
