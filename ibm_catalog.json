@@ -881,7 +881,7 @@
                   "version_input": "existing_kms_instance_crn"
                 },
                 {
-                  "version_input": "enable_kms_encryption",
+                  "version_input": "kms_encryption_enabled",
                   "value": true
                 },
                 {
