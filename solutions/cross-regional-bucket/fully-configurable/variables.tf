@@ -46,6 +46,11 @@ variable "kms_encryption_enabled" {
   }
 
   validation {
+    condition     = var.existing_kms_key_crn != null ? var.kms_encryption_enabled : true
+    error_message = "If passing a value for 'existing_kms_key_crn', you should set 'kms_encryption_enabled' to true."
+  }
+
+  validation {
     condition     = var.kms_encryption_enabled ? ((var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? true : false) : true
     error_message = "Either 'existing_kms_instance_crn' or `existing_kms_key_crn` is required if 'kms_encryption_enabled' is set to true."
   }
@@ -86,13 +91,13 @@ variable "kms_endpoint_type" {
 
 variable "cos_key_ring_name" {
   type        = string
-  default     = "cross-region-key-ring"
+  default     = "cross-regional-bucket-key-ring"
   description = "The name to give the Key Ring which will be created for the Object Storage bucket Key. Not used if supplying an existing Key."
 }
 
 variable "cos_key_name" {
   type        = string
-  default     = "cross-region-key"
+  default     = "cross-regional-bucket-key"
   description = "The name to give the Key which will be created for the Object Storage bucket. Not used if supplying an existing Key."
 }
 
@@ -108,7 +113,7 @@ variable "ibmcloud_kms_api_key" {
 ########################################################################################################################
 
 variable "existing_cos_instance_crn" {
-  description = "The ID of an existing Cloud Object Storage instance."
+  description = "The CRN of an existing Cloud Object Storage instance."
   type        = string
 }
 
