@@ -1,4 +1,4 @@
-# Configuring complex inputs for COS - Secure Regional bucket in IBM Cloud projects
+# Configuring complex inputs for COS - Regional bucket (Fully configurable) in IBM Cloud projects
 
 Several optional input variables in the IBM Cloud [COS - Secure Regional bucket deployable architecture](https://cloud.ibm.com/catalog#deployable_architecture) use complex object types. You specify these inputs when you configure deployable architecture.
 
