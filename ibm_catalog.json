@@ -249,7 +249,7 @@
           "name": "cross-regional-bucket-fully-configurable",
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
-          "install_type": "extension",
+          "install_type": "fullstack",
           "compliance": {
             "authority": "scc-v3",
             "profiles": [
