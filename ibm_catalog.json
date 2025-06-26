@@ -22,7 +22,7 @@
         "infrastructure as code"
       ],
       "short_description": "Creates and configures an IBM Cloud Object Storage instance and buckets",
-      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) resources. It consists of a `Single instance` variation which can be used to provision and configure the instance, and then multiple other variations for provisioning and configuring differnt kinds of buckets. This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) resources. It consists of a `Single instance` variation which can be used to provision and configure the instance, and then multiple other variations for provisioning and configuring differnt kinds of buckets.\n\n\n💡 This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
       "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
@@ -42,7 +42,7 @@
         },
         {
           "title": "Service credentials",
-          "description": "Optionally create and configure Object Storage service credentials for your instance. Optionally choose to [configure IBM Cloud® Secrets Manager to manage the service credentials](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform)."
+          "description": "Optionally create and configure Object Storage service credentials for your instance. Optionally choose to [configure IBM Cloud Secrets Manager to manage the service credentials](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform)."
         },
         {
           "title": "Context-based restrictions",
@@ -826,12 +826,13 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-cos",
-              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
+              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned. ",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
               "version": "v9.0.2",
               "flavors": [
                 "instance"
               ],
+              "default_flavor": "instance",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "optional": true,
               "on_by_default": true,
@@ -839,6 +840,38 @@
                 {
                   "dependency_output": "cos_instance_crn",
                   "version_input": "existing_cos_instance_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                }
+              ]
+            },
+            {
+              "name": "deploy-arch-ibm-kms",
+              "description":"Enable Cloud Automation for Key Protect when you want services to use your own managed encryption keys. If disabled, it will fall back on IBM Cloud's default service-managed encryption. ",
+              "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
+              "version": "v5.1.4",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "kms_instance_crn",
+                  "version_input": "existing_kms_instance_crn"
+                },
+                {
+                  "version_input": "enable_kms_encryption",
+                  "value": true
+                },
+                {
+                  "dependency_input": "kms_endpoint_type",
+                  "version_input": "kms_endpoint_type",
+                  "reference_version": true
                 },
                 {
                   "dependency_input": "prefix",
