@@ -298,7 +298,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture supports creating and configuring a secure cross-region bucket.<br><br>This solution optionally provisions the IBM Key Protect service and creates keys for encryption."
+                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability.<br> Integrated services like <b>KMS</b> enable encryption, while <b>Activity Tracker</b> and <b>Monitoring</b> provide security and observability for resilient, secure cloud storage."
               }
             ]
           },
@@ -523,6 +523,33 @@
                   "reference_version": true
                 }
               ]
+            },
+            {
+              "name": "deploy-arch-ibm-kms",
+              "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
+              "description": "Enable Cloud automation for Key Protect to use your own managed encryption keys. If disabled, IBM Cloud's default service-managed encryption is used.",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "input_mapping": [
+                {
+                  "dependency_output": "kms_instance_crn",
+                  "version_input": "existing_kms_instance_crn"
+                },
+                {
+                  "version_input": "kms_encryption_enabled",
+                  "value": true
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                }
+              ],
+              "optional": true,
+              "on_by_default": true,
+              "version": "v5.1.4"
             }
           ]
         },
