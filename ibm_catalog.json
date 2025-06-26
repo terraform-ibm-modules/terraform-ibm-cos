@@ -21,32 +21,32 @@
         "IaC",
         "infrastructure as code"
       ],
-      "short_description": "Creates and configures an IBM Cloud Object Storage instance and buckets",
-      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) resources. It consists of a `Single instance` variation which can be used to provision and configure the instance, and then multiple other variations for provisioning and configuring differnt kinds of buckets. This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
-      "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
+      "short_description": "Creates and configures an IBM Cloud Object Storage instance and buckets. ",
+      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) resources. It consists of a `Single instance` variation which can be used to provision and configure the instance, and then multiple other variations for provisioning and configuring regional and cross regional buckets.\n\nℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
       "provider_name": "IBM",
       "features": [
         {
-          "title": "Cloud Object Storage instance",
+          "title": "Object Storage instance",
           "description": "Create and configures an IBM Cloud Object Storage instance."
         },
         {
-          "title": "Cloud Object Storage bucket",
+          "title": "Object Storage bucket",
           "description": "Supports both cross-regional and regional bucket creation and configuration."
         },
         {
-          "title": "Data encryption",
+          "title": "KMS encryption",
           "description": "Encrypt your data using the default encryption model or use IBM Key Protect or IBM Hyper Protect Crypto Services for full control over the data encryption keys used. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
         },
         {
           "title": "Service credentials",
-          "description": "Optionally create and configure Object Storage service credentials for your instance. Optionally choose to [configure IBM Cloud® Secrets Manager to manage the service credentials](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform)."
+          "description": "Has the ability to create and configure Object Storage service credentials for your instance. Optionally choose to configure  [IBM Cloud Secrets Manager](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform) to manage the service credentials. "
         },
         {
           "title": "Context-based restrictions",
-          "description": "Optionally create and configure [Context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) for both instance and buckets."
+          "description": "Optionally create and configure [Context-based restrictions(CBR)](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) for both instance and buckets."
         }
       ],
       "flavors": [
@@ -245,7 +245,7 @@
           "terraform_version": "1.10.5"
         },
         {
-          "label": "cross regional bucket fully configurable",
+          "label": "Fully configurable Cross regional bucket ",
           "name": "cross-regional-bucket-fully-configurable",
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
@@ -265,7 +265,8 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "service_name": "cloud-object-storage"
+              "service_name": "cloud-object-storage",
+              "notes": "Required to create Cloud Object Storage (COS) Instance."
             },
             {
               "service_name": "kms",
@@ -273,7 +274,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if creating a new Key Protect root key for bucket encryption."
+              "notes": "[Optional] Required if KMS encryption is enabled and Key protect is used for bucket encryption."
             },
             {
               "role_crns": [
@@ -281,7 +282,22 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if creating a new Hyper Protect Crypto Services root key for bucket encryption."
+              "notes": "[Optional] Required if KMS encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
+            },
+                        {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "sysdig-monitor",
+              "notes": "[Optional] Required for creating a new instance of cloud monitoring."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "metrics-router",
+              "notes": "[Optional] Required if metrics routing to cloud monitoring instance is enabled."
             }
           ],
           "architecture": {
@@ -298,7 +314,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability.<br> Integrated services like <b>KMS</b> enable encryption, while <b>Activity Tracker</b> and <b>Monitoring</b> provide security and observability for resilient, secure cloud storage."
+                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability.<br> Integrated services like <b>KMS</b> enable encryption provide security <br> while <b>Activity Tracker</b> and <b>Monitoring</b> provide observability for resilient, secure cloud storage."
               }
             ]
           },
@@ -550,8 +566,33 @@
               "optional": true,
               "on_by_default": true,
               "version": "v5.1.4"
+            },
+            {
+              "name": "deploy-arch-ibm-cloud-monitoring",
+              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
+              "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
+              "version": "v1.2.14",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "cloud_monitoring_crn",
+                  "version_input": "monitoring_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                }
+              ]
             }
-          ]
+          ],
+          "dependency_version_2": true,
+          "terraform_version": "1.10.5"
         },
         {
           "label": "Security-enforced cross-region bucket",
