@@ -43,7 +43,10 @@ variable "kms_encryption_enabled" {
     condition     = var.existing_kms_instance_crn != null ? var.kms_encryption_enabled : true
     error_message = "If passing a value for 'existing_kms_instance_crn', you should set 'kms_encryption_enabled' to true."
   }
-
+  validation {
+    condition     = var.existing_kms_key_crn != null ? var.kms_encryption_enabled : true
+    error_message = "If passing a value for 'existing_kms_key_crn', you should set 'kms_encryption_enabled' to true."
+  }
   validation {
     condition     = var.kms_encryption_enabled ? ((var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? true : false) : true
     error_message = "Either 'existing_kms_instance_crn' or `existing_kms_key_crn` is required if 'kms_encryption_enabled' is set to true."
@@ -84,13 +87,13 @@ variable "kms_endpoint_type" {
 
 variable "cos_key_ring_name" {
   type        = string
-  default     = "cross-region-key-ring"
+  default     = "regional-bucket-key-ring"
   description = "The name for the new key ring for the Object Storage bucket key. Does not apply if a key is specified in `existing_kms_key_crn`."
 }
 
 variable "cos_key_name" {
   type        = string
-  default     = "cross-region-key"
+  default     = "regional-bucket-key"
   description = "The name for the new key for the Object Storage bucket. Does not apply if a key is specified in `existing_kms_key_crn`."
 }
 
@@ -118,7 +121,7 @@ variable "add_bucket_name_suffix" {
 }
 
 variable "existing_cos_instance_crn" {
-  description = "The ID of an existing Cloud Object Storage instance."
+  description = "The CRN of an existing Cloud Object Storage (COS) instance."
   type        = string
 }
 

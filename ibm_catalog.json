@@ -681,8 +681,7 @@
                   "displayname": "Accelerated",
                   "value": "Accelerated"
                 }
-              ],
-              "default": "Glacier"
+              ]
             },
             {
               "key": "bucket_access_tags",

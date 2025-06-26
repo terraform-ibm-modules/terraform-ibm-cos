@@ -592,7 +592,7 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
-		Prefix:                 "f-reg-sb",
+		Prefix:                 "reg-fc",
 		Region:                 region,
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
@@ -643,7 +643,7 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
-		Prefix:                 "f-reg-sb-up",
+		Prefix:                 "reg-fc-up",
 		Region:                 region,
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
