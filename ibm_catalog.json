@@ -46,7 +46,7 @@
         },
         {
           "title": "Context-based restrictions",
-          "description": "Optionally create and configure [Context-based restrictions(CBR)](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) for both instance and buckets."
+          "description": "Optionally create and configure [Context-based restrictions (CBR)](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) for both instance and buckets."
         }
       ],
       "flavors": [
