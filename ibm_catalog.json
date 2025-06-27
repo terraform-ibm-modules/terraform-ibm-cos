@@ -245,7 +245,7 @@
           "terraform_version": "1.10.5"
         },
         {
-          "label": "Fully configurable Cross regional bucket ",
+          "label": "Fully configurable Cross-region bucket ",
           "name": "cross-regional-bucket-fully-configurable",
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
