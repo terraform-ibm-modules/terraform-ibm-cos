@@ -128,6 +128,10 @@ variable "management_endpoint_type_for_bucket" {
   description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
   type        = string
   default     = "private"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+    error_message = "The value of management_endpoint_type_for_bucket must be one of: `public`, `private`, `direct`."
+  }
 }
 
 variable "cross_region_location" {
