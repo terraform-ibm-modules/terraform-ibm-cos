@@ -10,7 +10,7 @@ locals {
   bucket_config = [{
     access_tags                   = var.bucket_access_tags
     bucket_name                   = "${local.prefix}${var.bucket_name}"
-    kms_encryption_enabled        = true
+    kms_encryption_enabled        = var.kms_encryption_enabled
     add_bucket_name_suffix        = var.add_bucket_name_suffix
     kms_guid                      = local.existing_kms_instance_guid
     kms_key_crn                   = local.kms_key_crn
