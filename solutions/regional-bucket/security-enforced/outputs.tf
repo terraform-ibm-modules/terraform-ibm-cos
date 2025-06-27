@@ -21,7 +21,7 @@ output "bucket_name" {
   value       = try(module.regional_bucket.cos.buckets[var.bucket_name].bucket_name, null)
 }
 
-output "cos_instance_id" {
+output "cos_instance_crn" {
   description = "The CRN of the COS instance containing the created bucket."
   value       = var.existing_cos_instance_crn
 }

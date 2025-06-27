@@ -245,7 +245,7 @@
           "terraform_version": "1.10.5"
         },
         {
-          "label": "Security enforced Cross-region bucket ",
+          "label": "Security enforced Cross Regional bucket ",
           "name": "cross-regional-bucket-security-enforced",
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/security-enforced",

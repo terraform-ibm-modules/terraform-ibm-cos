@@ -81,7 +81,7 @@ variable "ibmcloud_kms_api_key" {
 ########################################################################################################################
 
 variable "existing_cos_instance_crn" {
-  description = "The ID of an existing Cloud Object Storage instance."
+  description = "The CRN of an existing Cloud Object Storage instance."
   type        = string
 }
 
@@ -226,7 +226,7 @@ variable "cos_bucket_cbr_rules" {
       }))
     })))
   }))
-  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/security-enforced/DA-cbr_rules.md)"
+  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/cross-regional-bucket/security-enforced/DA-cbr_rules.md)"
   default     = []
   # Validation happens in the rule module
 }

@@ -589,7 +589,7 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
-		Prefix:                 "f-sb",
+		Prefix:                 "cr-sec",
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         securityEnforcedCrossRegionalDir,
@@ -638,7 +638,7 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
-		Prefix:                 "f-sb",
+		Prefix:                 "rg-sec",
 		Region:                 region,
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
