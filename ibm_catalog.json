@@ -497,7 +497,7 @@
           ]
         },
         {
-          "label": "Security enforced regional bucket",
+          "label": "Security enforced Regional bucket",
           "name": "secure-regional-bucket",
           "index": 3,
           "working_directory": "solutions/regional-bucket/security-enforced",
