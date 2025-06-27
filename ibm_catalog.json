@@ -877,6 +877,416 @@
           ]
         },
         {
+          "label": "Fully configurable Regional bucket",
+          "name": "regional-bucket-fully-configurable",
+          "index": 3,
+          "working_directory": "solutions/regional-bucket/fully-configurable",
+          "install_type": "fullstack",
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
+          },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "cloud-object-storage",
+              "notes": "Required to create Cloud Object Storage (COS) Instance."
+            },
+            {
+              "service_name": "kms",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "notes": "[Optional] Required if KMS encryption is enabled and Key protect is used for bucket encryption."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if KMS encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "sysdig-monitor",
+              "notes": "[Optional] Required for creating a new instance of cloud monitoring."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "metrics-router",
+              "notes": "[Optional] Required if metrics routing to cloud monitoring instance is enabled."
+            }
+          ],
+          "architecture": {
+            "features": [
+              {
+                "title": " ",
+                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "IBM Cloud Object Storage solution",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability. <br> Integrated services like <b>KMS</b> enable encryption provide security <br> while <b>Activity Tracker</b> and <b>Monitoring</b> provide observability for resilient, secure cloud storage."
+              }
+            ]
+          },
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key"
+            },
+            {
+              "key":"prefix",
+              "required": true
+            },
+            {
+              "key": "region",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Dallas (us-south)",
+                  "value": "us-south"
+                },
+                {
+                  "displayname": "Sydney (au-syd)",
+                  "value": "au-syd"
+                },
+                {
+                  "displayname": "Sao Paolo (br-sao)",
+                  "value": "br-sao"
+                },
+                {
+                  "displayname": "Toronto (ca-tor)",
+                  "value": "ca-tor"
+                },
+                {
+                  "displayname": "Frankfurt (eu-de)",
+                  "value": "eu-de"
+                },
+                {
+                  "displayname": "London (eu-gb)",
+                  "value": "eu-gb"
+                },
+                {
+                  "displayname": "Madrid (eu-es)",
+                  "value": "eu-es"
+                },
+                {
+                  "displayname": "Osaka (jp-osa)",
+                  "value": "jp-osa"
+                },
+                {
+                  "displayname": "Tokyo (jp-tok)",
+                  "value": "jp-tok"
+                },
+                {
+                  "displayname": "Washington DC (us-east)",
+                  "value": "us-east"
+                }
+              ]
+            },
+            {
+              "key": "existing_cos_instance_crn",
+              "required": true
+            },
+            {
+              "key": "bucket_name",
+              "required": true
+            },
+            {
+              "key": "provider_visibility",
+              "hidden": true,
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            },
+            {
+              "key": "add_bucket_name_suffix"
+            },
+            {
+              "key": "archive_days"
+            },
+            {
+              "key": "archive_filter_prefix"
+            },
+            {
+              "key": "archive_type",
+              "options": [
+                {
+                  "displayname": "Glacier",
+                  "value": "Glacier"
+                },
+                {
+                  "displayname": "Accelerated",
+                  "value": "Accelerated"
+                }
+              ]
+            },
+            {
+              "key": "bucket_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "bucket_storage_class",
+              "options": [
+                {
+                  "displayname": "standard",
+                  "value": "standard"
+                },
+                {
+                  "displayname": "vault",
+                  "value": "vault"
+                },
+                {
+                  "displayname": "cold",
+                  "value": "cold"
+                },
+                {
+                  "displayname": "smart",
+                  "value": "smart"
+                },
+                {
+                  "displayname": "onerate_active",
+                  "value": "onerate_active"
+                }
+              ]
+            },
+            {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
+              "key": "force_delete"
+            },
+            {
+              "key": "bucket_hard_quota"
+            },
+            {
+              "key": "management_endpoint_type_for_bucket",
+              "hidden": true,
+              "options": [
+                {
+                  "displayname": "direct",
+                  "value": "direct"
+                },
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ]
+            },
+            {
+              "key": "monitoring_crn"
+            },
+            {
+              "key": "enable_object_locking"
+            },
+            {
+              "key": "object_lock_duration_days"
+            },
+            {
+              "key": "object_lock_duration_years"
+            },
+            {
+              "key": "enable_object_versioning"
+            },
+            {
+              "key": "enable_retention"
+            },
+            {
+              "key": "enable_permanent_retention"
+            },
+            {
+              "key": "default_retention_days"
+            },
+            {
+              "key": "minimum_retention_days"
+            },
+            {
+              "key": "maximum_retention_days"
+            },
+            {
+              "key": "ibmcloud_kms_api_key"
+            },
+            {
+              "key": "kms_encryption_enabled"
+            },
+            {
+              "key": "existing_kms_instance_crn"
+            },
+            {
+              "key": "existing_kms_key_crn"
+            },
+            {
+              "key": "cos_key_ring_name"
+            },
+            {
+              "key": "cos_key_name"
+            },
+            {
+              "key": "kms_endpoint_type",
+              "hidden": true,
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ]
+            },
+            {
+              "key": "skip_cos_kms_iam_auth_policy"
+            },
+            {
+              "key": "cos_bucket_cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "textarea",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
+            }
+          ],
+          "dependencies": [
+            {
+              "name": "deploy-arch-ibm-cos",
+              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned. ",
+              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
+              "version": "v9.0.2",
+              "flavors": [
+                "instance"
+              ],
+              "default_flavor": "instance",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "cos_instance_crn",
+                  "version_input": "existing_cos_instance_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                }
+              ]
+            },
+            {
+              "name": "deploy-arch-ibm-kms",
+              "description":"Enable Cloud Automation for Key Protect when you want services to use your own managed encryption keys. If disabled, it will fall back on IBM Cloud's default service-managed encryption. ",
+              "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
+              "version": "v5.1.4",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "kms_instance_crn",
+                  "version_input": "existing_kms_instance_crn"
+                },
+                {
+                  "version_input": "kms_encryption_enabled",
+                  "value": true
+                },
+                {
+                  "dependency_input": "kms_endpoint_type",
+                  "version_input": "kms_endpoint_type",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                }
+              ]
+            },
+            {
+              "name": "deploy-arch-ibm-cloud-monitoring",
+              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
+              "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
+              "version": "v1.2.14",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "cloud_monitoring_crn",
+                  "version_input": "monitoring_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                }
+              ]
+            }
+          ],
+          "dependency_version_2": true,
+          "terraform_version": "1.10.5"
+        },
+        {
           "label": "Security-enforced regional bucket",
           "name": "secure-regional-bucket",
           "working_directory": "solutions/secure-regional-bucket",
@@ -1037,6 +1447,7 @@
             },
             {
               "key": "provider_visibility",
+              "hidden": "true",
               "options": [
                 {
                   "displayname": "private",
@@ -1125,6 +1536,7 @@
             },
             {
               "key": "management_endpoint_type_for_bucket",
+              "hidden": "true",
               "options": [
                 {
                   "displayname": "direct",
@@ -1188,6 +1600,7 @@
             },
             {
               "key": "kms_endpoint_type",
+              "hidden": "true",
               "options": [
                 {
                   "displayname": "private",
