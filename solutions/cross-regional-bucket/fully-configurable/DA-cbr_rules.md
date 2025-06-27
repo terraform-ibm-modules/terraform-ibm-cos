@@ -65,5 +65,4 @@ The `cos_bucket_cbr_rules` input variable allows you to provide a rule for the t
       }]
     }]
   }
-
 ```
