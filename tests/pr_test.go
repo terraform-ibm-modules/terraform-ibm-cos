@@ -491,8 +491,10 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 	err := instanceOptions.RunSchematicUpgradeTest()
 	assert.Nil(t, err, "This should not have errored")
 
+	var cos_instance_crn string
+
 	if !instanceOptions.UpgradeTestSkipped {
-		cos_instance_crn := instanceOptions.LastTestTerraformOutputs["cos_instance_crn"].(map[string]interface{})["value"].(string)
+		cos_instance_crn = instanceOptions.LastTestTerraformOutputs["cos_instance_crn"].(map[string]interface{})["value"].(string)
 
 		if assert.Nil(t, err, "This should not have errored") &&
 			assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
@@ -555,10 +557,12 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 
 			crossregionalerr := crossregionaloptions.RunSchematicUpgradeTest()
 			assert.Nil(t, crossregionalerr, "This should not have errored")
+
 		}
 
 		instanceOptions.TestTearDown()
 	}
+
 }
 
 func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
