@@ -25,3 +25,8 @@ output "cos_instance_crn" {
   description = "The CRN of the COS instance containing the created bucket."
   value       = var.existing_cos_instance_crn
 }
+
+output "cos_instance_guid" {
+  description = "The guid of the COS instance containing the created bucket."
+  value       = local.cos_instance_guid
+}
