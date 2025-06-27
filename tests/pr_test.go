@@ -39,6 +39,7 @@ const solutionInstanceDir = "solutions/instance"
 const solutionRegionalDir = "solutions/secure-regional-bucket"
 const solutionCrossRegionDir = "solutions/secure-cross-regional-bucket"
 const securityEnforcedCrossRegionalDir = "solutions/cross-regional-bucket/security-enforced"
+const securityEnforcedRegionalDir = "solutions/regional-bucket/security-enforced"
 
 // Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
@@ -600,6 +601,55 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "cross_region_location", Value: "us", DataType: "string"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+	}
+
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
+}
+func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
+	t.Parallel()
+
+	excludeDirs := []string{
+		".terraform",
+		".docs",
+		".github",
+		".git",
+		".idea",
+		"common-dev-assets",
+		"examples",
+		"tests",
+		"reference-architectures",
+	}
+	includeFiletypes := []string{
+		".tf",
+		".yaml",
+		".py",
+		".tpl",
+	}
+
+	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing:                t,
+		Prefix:                 "f-sb",
+		Region:                 region,
+		TarIncludePatterns:     tarIncludePatterns,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         securityEnforcedRegionalDir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 80,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
