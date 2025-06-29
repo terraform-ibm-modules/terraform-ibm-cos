@@ -467,6 +467,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -518,6 +519,7 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicUpgradeTest()
@@ -571,6 +573,7 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -622,6 +625,7 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicUpgradeTest()
