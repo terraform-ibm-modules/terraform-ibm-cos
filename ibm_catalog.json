@@ -520,12 +520,12 @@
             {
               "name": "deploy-arch-ibm-cos",
               "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
-              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
+              "id": "6d1c1dae-4e97-49d3-a1d3-c9ff026b62c6",
               "version": "v9.0.2",
               "flavors": [
                 "instance"
               ],
-              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "catalog_id": "a86b3e42-3818-4aa4-99f7-9e4df859aaa4",
               "optional": true,
               "on_by_default": true,
               "input_mapping": [
