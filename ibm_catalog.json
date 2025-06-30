@@ -1279,7 +1279,7 @@
         },
         {
           "label": "Regional bucket (security-enforced)",
-          "name": "secure-regional-bucket",
+          "name": "regional-bucket-security-enforced",
           "index": 5,
           "working_directory": "solutions/regional-bucket/security-enforced",
           "install_type": "fullstack",
