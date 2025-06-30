@@ -84,16 +84,8 @@
           "architecture": {
             "features": [
               {
-                "title": "Cloud Object Storage instance",
-                "description": "Create and configures an IBM Cloud Object Storage instance."
-              },
-              {
-                "title": "Service credentials",
-                "description": "Create and configure Object Storage service credentials for your instance. Optionally choose to configure IBM Cloud® Secrets Manager to manage the service credentials."
-              },
-              {
-                "title": "Context-based restrictions",
-                "description": "Optionally create and configure context-based restrictions."
+                "title": " ",
+                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
               }
             ],
             "diagrams": [
@@ -520,12 +512,12 @@
             {
               "name": "deploy-arch-ibm-cos",
               "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
-              "id": "6d1c1dae-4e97-49d3-a1d3-c9ff026b62c6",
+              "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
               "version": "v9.0.2",
               "flavors": [
                 "instance"
               ],
-              "catalog_id": "a86b3e42-3818-4aa4-99f7-9e4df859aaa4",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "optional": true,
               "on_by_default": true,
               "input_mapping": [
