@@ -36,7 +36,6 @@ The `cos_bucket_cbr_rules` input variable allows you to provide a rule for the t
 ### Example Rule For Context-Based Restrictions Configuration
 
 ```hcl
-cos_bucket_cbr_rules = [
   {
   description = "COS can be accessed from xyz"
   account_id = "defc0df06b644a9cabc6e44f55b3880s."
@@ -66,5 +65,4 @@ cos_bucket_cbr_rules = [
       }]
     }]
   }
-]
 ```
