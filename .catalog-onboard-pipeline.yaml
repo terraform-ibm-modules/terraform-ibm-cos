@@ -12,15 +12,15 @@ offerings:
         scc:
           instance_id: 1c7d5f78-9262-44c3-b779-b28fe4d88c37
           region: us-south
-      - name: secure-cross-regional-bucket
+      - name: cross-regional-bucket-fully-configurable
         mark_ready: true
-        install_type: extension
+        install_type: fullstack
         scc:
           instance_id: 1c7d5f78-9262-44c3-b779-b28fe4d88c37
           region: us-south
-      - name: secure-regional-bucket
+      - name: regional-bucket-fully-configurable
         mark_ready: true
-        install_type: extension
+        install_type: fullstack
         scc:
           instance_id: 1c7d5f78-9262-44c3-b779-b28fe4d88c37
           region: us-south
