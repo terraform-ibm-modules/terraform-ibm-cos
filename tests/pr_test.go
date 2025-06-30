@@ -36,8 +36,8 @@ const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
 const oneRateExampleTerraformDir = "examples/one-rate-plan"
 const solutionInstanceDir = "solutions/instance"
-const solutionRegionalDir = "solutions/secure-regional-bucket"
-const solutionCrossRegionDir = "solutions/secure-cross-regional-bucket"
+const fullyConfigurableCrossRegionalDir = "solutions/cross-regional-bucket/fully-configurable"
+const RegionalfullyConfigurableDir = "solutions/regional-bucket/fully-configurable"
 const securityEnforcedCrossRegionalDir = "solutions/cross-regional-bucket/security-enforced"
 const securityEnforcedRegionalDir = "solutions/regional-bucket/security-enforced"
 
@@ -314,14 +314,12 @@ func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoi
 		WithS3ForcePathStyle(true)
 	return s3.New(sess, conf)
 }
-
-// A single function to test all DA solutions.
-func TestRunSolutionsInSchematics(t *testing.T) {
+func TestRunInstancesSchematics(t *testing.T) {
 	t.Parallel()
 
 	prefix := "cos-sol"
 
-	instanceOptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
 		Region:  region,
 		Prefix:  prefix,
@@ -339,110 +337,43 @@ func TestRunSolutionsInSchematics(t *testing.T) {
 
 	service_credential_secrets := []map[string]interface{}{
 		{
-			"secret_group_name": fmt.Sprintf("%s-secret-group", instanceOptions.Prefix),
+			"secret_group_name": fmt.Sprintf("%s-secret-group", options.Prefix),
 			"service_credentials": []map[string]string{
 				{
-					"secret_name": fmt.Sprintf("%s-cred-manager", instanceOptions.Prefix),
+					"secret_name": fmt.Sprintf("%s-cred-manager", options.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
 				},
 				{
-					"secret_name": fmt.Sprintf("%s-cred-writer", instanceOptions.Prefix),
+					"secret_name": fmt.Sprintf("%s-cred-writer", options.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
 				},
 				{
-					"secret_name": fmt.Sprintf("%s-cred-object-writer", instanceOptions.Prefix),
+					"secret_name": fmt.Sprintf("%s-cred-object-writer", options.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectWriter",
 				},
 			},
 		},
 	}
 
-	instanceOptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-		{Name: "ibmcloud_api_key", Value: instanceOptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "prefix", Value: instanceOptions.Prefix, DataType: "string"},
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
 	}
 
-	instanceOptions.SkipTestTearDown = true
-	err := instanceOptions.RunSchematicTest()
+	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
-
-	cos_instance_crn := instanceOptions.LastTestTerraformOutputs["cos_instance_crn"].(map[string]interface{})["value"].(string)
-
-	if assert.Nil(t, err, "This should not have errored") &&
-		assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
-
-		regionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-			Testing: t,
-			Region:  region,
-			Prefix:  prefix,
-			TarIncludePatterns: []string{
-				"*.tf",
-				"modules/buckets/*.tf",
-				"modules/fscloud/*.tf",
-				solutionRegionalDir + "/*.tf",
-			},
-			TemplateFolder:         solutionRegionalDir,
-			Tags:                   []string{"cos-regional-bucket-test"},
-			DeleteWorkspaceOnFail:  false,
-			WaitJobCompleteMinutes: 120,
-		})
-
-		regionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-			{Name: "prefix", Value: regionaloptions.Prefix, DataType: "string"},
-			{Name: "bucket_name", Value: "regional-bucket", DataType: "string"},
-			{Name: "region", Value: region, DataType: "string"},
-			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
-		}
-
-		regionalerr := regionaloptions.RunSchematicTest()
-		assert.Nil(t, regionalerr, "This should not have errored")
-
-		crossregionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-			Testing: t,
-			Region:  region,
-			Prefix:  prefix,
-			TarIncludePatterns: []string{
-				"*.tf",
-				"modules/buckets/*.tf",
-				"modules/fscloud/*.tf",
-				solutionCrossRegionDir + "/*.tf",
-			},
-			TemplateFolder:         solutionCrossRegionDir,
-			Tags:                   []string{"cos-cross-regional-bucket-test"},
-			DeleteWorkspaceOnFail:  false,
-			WaitJobCompleteMinutes: 120,
-		})
-
-		crossregionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-			{Name: "prefix", Value: crossregionaloptions.Prefix, DataType: "string"},
-			{Name: "cross_region_location", Value: "us", DataType: "string"},
-			{Name: "bucket_name", Value: "cross-regional-bucket", DataType: "string"},
-			{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
-		}
-
-		crossregionalerr := crossregionaloptions.RunSchematicTest()
-		assert.Nil(t, crossregionalerr, "This should not have errored")
-
-	}
-
-	instanceOptions.TestTearDown()
 
 }
 
-func TestRunDAUpgradeInSchematics(t *testing.T) {
+func TestRunInstancesUpgradeInSchematics(t *testing.T) {
 	t.Parallel()
 
 	prefix := "cos-upg"
 
-	instanceOptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
 		Region:  region,
 		Prefix:  prefix,
@@ -461,104 +392,246 @@ func TestRunDAUpgradeInSchematics(t *testing.T) {
 
 	service_credential_secrets := []map[string]interface{}{
 		{
-			"secret_group_name": fmt.Sprintf("%s-secret-group", instanceOptions.Prefix),
+			"secret_group_name": fmt.Sprintf("%s-secret-group", options.Prefix),
 			"service_credentials": []map[string]string{
 				{
-					"secret_name": fmt.Sprintf("%s-cred-manager", instanceOptions.Prefix),
+					"secret_name": fmt.Sprintf("%s-cred-manager", options.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
 				},
 				{
-					"secret_name": fmt.Sprintf("%s-cred-writer", instanceOptions.Prefix),
+					"secret_name": fmt.Sprintf("%s-cred-writer", options.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
 				},
 				{
-					"secret_name": fmt.Sprintf("%s-cred-object-writer", instanceOptions.Prefix),
+					"secret_name": fmt.Sprintf("%s-cred-object-writer", options.Prefix),
 					"service_credentials_source_service_role_crn": "crn:v1:bluemix:public:cloud-object-storage::::serviceRole:ObjectWriter",
 				},
 			},
 		},
 	}
 
-	instanceOptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-		{Name: "ibmcloud_api_key", Value: instanceOptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "prefix", Value: instanceOptions.Prefix, DataType: "string"},
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
 	}
 
-	instanceOptions.SkipTestTearDown = true
-	err := instanceOptions.RunSchematicUpgradeTest()
+	err := options.RunSchematicUpgradeTest()
 	assert.Nil(t, err, "This should not have errored")
+}
 
-	cos_instance_crn := instanceOptions.LastTestTerraformOutputs["cos_instance_crn"].(map[string]interface{})["value"].(string)
+func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
+	t.Parallel()
 
-	if assert.Nil(t, err, "This should not have errored") &&
-		assert.NotNil(t, instanceOptions.LastTestTerraformOutputs, "Expected some Terraform outputs") {
-
-		regionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-			Testing: t,
-			Region:  region,
-			Prefix:  prefix,
-			TarIncludePatterns: []string{
-				"*.tf",
-				"modules/buckets/*.tf",
-				"modules/fscloud/*.tf",
-				solutionRegionalDir + "/*.tf",
-			},
-			TemplateFolder:             solutionRegionalDir,
-			Tags:                       []string{"cos-regional-bucket-upgrade-test"},
-			DeleteWorkspaceOnFail:      false,
-			WaitJobCompleteMinutes:     120,
-			CheckApplyResultForUpgrade: true,
-		})
-
-		regionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-			{Name: "prefix", Value: regionaloptions.Prefix, DataType: "string"},
-			{Name: "bucket_name", Value: "regional-bucket", DataType: "string"},
-			{Name: "region", Value: region, DataType: "string"},
-			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
-		}
-
-		regionalerr := regionaloptions.RunSchematicUpgradeTest()
-		assert.Nil(t, regionalerr, "This should not have errored")
-
-		crossregionaloptions := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-			Testing: t,
-			Region:  region,
-			Prefix:  prefix,
-			TarIncludePatterns: []string{
-				"*.tf",
-				"modules/buckets/*.tf",
-				"modules/fscloud/*.tf",
-				solutionCrossRegionDir + "/*.tf",
-			},
-			TemplateFolder:             solutionCrossRegionDir,
-			Tags:                       []string{"cos-cross-regional-bucket-upgrade-test"},
-			DeleteWorkspaceOnFail:      false,
-			WaitJobCompleteMinutes:     120,
-			CheckApplyResultForUpgrade: true,
-		})
-
-		crossregionaloptions.TerraformVars = []testschematic.TestSchematicTerraformVar{
-			{Name: "ibmcloud_api_key", Value: regionaloptions.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-			{Name: "prefix", Value: crossregionaloptions.Prefix, DataType: "string"},
-			{Name: "cross_region_location", Value: "us", DataType: "string"},
-			{Name: "bucket_name", Value: "cross-regional-bucket", DataType: "string"},
-			{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-			{Name: "existing_cos_instance_crn", Value: cos_instance_crn, DataType: "string"},
-		}
-
-		crossregionalerr := crossregionaloptions.RunSchematicUpgradeTest()
-		assert.Nil(t, crossregionalerr, "This should not have errored")
-
+	excludeDirs := []string{
+		".terraform",
+		".docs",
+		".github",
+		".git",
+		".idea",
+		"common-dev-assets",
+		"examples",
+		"tests",
+		"reference-architectures",
+	}
+	includeFiletypes := []string{
+		".tf",
+		".yaml",
+		".py",
+		".tpl",
 	}
 
-	instanceOptions.TestTearDown()
+	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
 
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing:                t,
+		Prefix:                 "f-sb",
+		TarIncludePatterns:     tarIncludePatterns,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         fullyConfigurableCrossRegionalDir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 80,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "cross_region_location", Value: "us", DataType: "string"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
+	}
+
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
+}
+
+func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
+	t.Parallel()
+
+	excludeDirs := []string{
+		".terraform",
+		".docs",
+		".github",
+		".git",
+		".idea",
+		"common-dev-assets",
+		"examples",
+		"tests",
+		"reference-architectures",
+	}
+	includeFiletypes := []string{
+		".tf",
+		".yaml",
+		".py",
+		".tpl",
+	}
+
+	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing:                t,
+		Prefix:                 "f-sb-up",
+		TarIncludePatterns:     tarIncludePatterns,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         fullyConfigurableCrossRegionalDir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 80,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "cross_region_location", Value: "us", DataType: "string"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
+	}
+
+	err := options.RunSchematicUpgradeTest()
+	if !options.UpgradeTestSkipped {
+		assert.Nil(t, err, "This should not have errored")
+	}
+}
+
+func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
+	t.Parallel()
+
+	excludeDirs := []string{
+		".terraform",
+		".docs",
+		".github",
+		".git",
+		".idea",
+		"common-dev-assets",
+		"examples",
+		"tests",
+		"reference-architectures",
+	}
+	includeFiletypes := []string{
+		".tf",
+		".yaml",
+		".py",
+		".tpl",
+	}
+
+	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing:                t,
+		Prefix:                 "reg-fc",
+		Region:                 region,
+		TarIncludePatterns:     tarIncludePatterns,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         RegionalfullyConfigurableDir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 80,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
+	}
+
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
+}
+
+func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
+	t.Parallel()
+
+	excludeDirs := []string{
+		".terraform",
+		".docs",
+		".github",
+		".git",
+		".idea",
+		"common-dev-assets",
+		"examples",
+		"tests",
+		"reference-architectures",
+	}
+	includeFiletypes := []string{
+		".tf",
+		".yaml",
+		".py",
+		".tpl",
+	}
+
+	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing:                t,
+		Prefix:                 "reg-fc-up",
+		Region:                 region,
+		TarIncludePatterns:     tarIncludePatterns,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         RegionalfullyConfigurableDir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 80,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
+	}
+
+	err := options.RunSchematicUpgradeTest()
+	if !options.UpgradeTestSkipped {
+		assert.Nil(t, err, "This should not have errored")
+	}
 }
 
 func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
@@ -605,6 +678,7 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "cr-sec-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -654,6 +728,7 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "reg-sec-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()

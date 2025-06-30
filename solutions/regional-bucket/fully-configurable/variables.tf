@@ -34,7 +34,24 @@ variable "prefix" {
 ########################################################################################################################
 # KMS variables
 ########################################################################################################################
+variable "kms_encryption_enabled" {
+  type        = bool
+  description = "Set to true to enable Object Storage bucket Encryption using customer managed keys. When set to true, a value must be passed for either `existing_kms_instance_crn` or `existing_kms_key_crn`."
+  default     = false
 
+  validation {
+    condition     = var.existing_kms_instance_crn != null ? var.kms_encryption_enabled : true
+    error_message = "If passing a value for 'existing_kms_instance_crn', you should set 'kms_encryption_enabled' to true."
+  }
+  validation {
+    condition     = var.existing_kms_key_crn != null ? var.kms_encryption_enabled : true
+    error_message = "If passing a value for 'existing_kms_key_crn', you should set 'kms_encryption_enabled' to true."
+  }
+  validation {
+    condition     = var.kms_encryption_enabled ? ((var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? true : false) : true
+    error_message = "Either 'existing_kms_instance_crn' or `existing_kms_key_crn` is required if 'kms_encryption_enabled' is set to true."
+  }
+}
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
@@ -54,15 +71,25 @@ variable "existing_kms_key_crn" {
   description = "The CRN of an existing KMS key to be used to encrypt the Object Storage bucket. If not supplied, a new key ring and key will be created in the provided KMS instance."
 }
 
+variable "kms_endpoint_type" {
+  type        = string
+  description = "The type of endpoint to use to communicate with the KMS instance. Allowed values are `public` or `private` (default)."
+  default     = "private"
+  validation {
+    condition     = can(regex("public|private", var.kms_endpoint_type))
+    error_message = "The value for `kms_endpoint_type` must be `public` or `private`."
+  }
+}
+
 variable "cos_key_ring_name" {
   type        = string
-  default     = "cr-reg-key-ring"
+  default     = "regional-bucket-key-ring"
   description = "The name for the new key ring for the Object Storage bucket key. Does not apply if a key is specified in `existing_kms_key_crn`."
 }
 
 variable "cos_key_name" {
   type        = string
-  default     = "cr-reg-key"
+  default     = "regional-bucket-key"
   description = "The name for the new key for the Object Storage bucket. Does not apply if a key is specified in `existing_kms_key_crn`."
 }
 
@@ -103,6 +130,16 @@ variable "bucket_access_tags" {
 variable "bucket_name" {
   type        = string
   description = "The name to give the newly provisioned Object Storage bucket."
+}
+
+variable "management_endpoint_type_for_bucket" {
+  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
+  type        = string
+  default     = "private"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+    error_message = "The value of management_endpoint_type_for_bucket must be one of: `public`, `private`, `direct`."
+  }
 }
 
 variable "bucket_storage_class" {
@@ -216,7 +253,16 @@ variable "object_lock_duration_years" {
   type        = number
   default     = 0
 }
+variable "provider_visibility" {
+  description = "Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints)."
+  type        = string
+  default     = "private"
 
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.provider_visibility)
+    error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
+  }
+}
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
@@ -240,7 +286,7 @@ variable "cos_bucket_cbr_rules" {
       }))
     })))
   }))
-  description = "The list of context-based restriction rules to create for the instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/regional-bucket/security-enforced/DA-cbr_rules.md)"
+  description = "The list of context-based restriction rules to create for the instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/regional-bucket/fully-configurable/DA-cbr_rules.md)"
   default     = []
   # Validation happens in the rule module
 }
