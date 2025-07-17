@@ -1,15 +1,16 @@
 {
   "products": [
-     {
+    {
       "name": "deploy-arch-ibm-cos",
       "label": "Cloud automation for Object Storage",
       "product_kind": "solution",
       "tags": [
+        "ibm_created",
         "target_terraform",
         "terraform",
         "solution",
         "storage",
-        "ibm_created"
+        "converged_infra"
       ],
       "keywords": [
         "terraform",
@@ -104,7 +105,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix"
+              "key": "prefix"
             },
             {
               "key": "plan",
@@ -276,7 +277,7 @@
               "service_name": "hs-crypto",
               "notes": "[Optional] Required if KMS encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
             },
-                        {
+            {
               "role_crns": [
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
@@ -315,7 +316,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
@@ -628,10 +629,10 @@
           ],
           "architecture": {
             "features": [
-                {
-                  "title": " ",
-                  "description": "Configured to use IBM secure by default standards that can't be changed."
-                }
+              {
+                "title": " ",
+                "description": "Configured to use IBM secure by default standards that can't be changed."
+              }
             ],
             "diagrams": [
               {
@@ -649,7 +650,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
@@ -946,7 +947,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
@@ -1214,7 +1215,7 @@
             },
             {
               "name": "deploy-arch-ibm-kms",
-              "description":"Enable Cloud Automation for Key Protect when you want services to use your own managed encryption keys. If disabled, it will fall back on IBM Cloud's default service-managed encryption. ",
+              "description": "Enable Cloud Automation for Key Protect when you want services to use your own managed encryption keys. If disabled, it will fall back on IBM Cloud's default service-managed encryption. ",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
               "version": "v5.1.4",
               "flavors": [
@@ -1323,11 +1324,11 @@
           ],
           "architecture": {
             "features": [
-                {
-                  "title": " ",
-                  "description": "Configured to use IBM secure by default standards that can't be changed."
-                }
-             ],
+              {
+                "title": " ",
+                "description": "Configured to use IBM secure by default standards that can't be changed."
+              }
+            ],
             "diagrams": [
               {
                 "diagram": {
@@ -1344,7 +1345,7 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key":"prefix",
+              "key": "prefix",
               "required": true
             },
             {
