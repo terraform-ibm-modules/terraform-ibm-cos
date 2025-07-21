@@ -23,12 +23,12 @@ variable "prefix" {
     )
     error_message = "Prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It must not end with a hyphen('-'), and cannot contain consecutive hyphens ('--')."
   }
-
   validation {
     # must not exceed 16 characters in length
-    condition     = length(var.prefix) <= 16
+    condition     = var.prefix == null || var.prefix == "" ? true : length(var.prefix) <= 16
     error_message = "Prefix must not exceed 16 characters."
   }
+
 }
 
 variable "existing_resource_group_name" {
