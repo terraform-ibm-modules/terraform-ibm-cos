@@ -39,7 +39,7 @@
         },
         {
           "title": "KMS encryption",
-          "description": "Encrypt your data using the default encryption model or use IBM Key Protect or IBM Hyper Protect Crypto Services for full control over the data encryption keys used. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
+          "description": "Optionally encrypt your data using the default encryption model or use IBM Key Protect or IBM Hyper Protect Crypto Services for full control over the data encryption keys used. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
         },
         {
           "title": "Service credentials",
@@ -92,11 +92,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "IBM Cloud Object Storage solution",
+                  "caption": "IBM Cloud Object Storage - Single instance (fully configurable)",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture supports creating and configuring an IBM Cloud Object Storage instance."
+                "description": "This architecture automates the provisioning and configuration of an <b>IBM Cloud Object Storage (COS) instance</b> within an existing resource group, including advanced bucket management, integration with <b>IBM Secrets Manager</b> for secure credential storage, IAM authorization policies, and enforcement of <b>Context-Based Restrictions (CBR)</b> for enhanced security and compliance."
               }
             ]
           },
@@ -303,11 +303,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "IBM Cloud Object Storage solution",
+                  "caption": "Cross-regional bucket",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability.<br> Integrated services like <b>KMS</b> enable encryption provide security <br> while <b>Activity Tracker</b> and <b>Monitoring</b> provide observability for resilient, secure cloud storage."
+                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -637,11 +637,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "IBM Cloud Object Storage solution",
+                  "caption": "Cross-regional bucket",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability.<br> Integrated services like <b>KMS</b> enable encryption, while <b>Activity Tracker</b> and <b>Monitoring</b> provide security and observability for resilient, secure cloud storage."
+                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -934,11 +934,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "IBM Cloud Object Storage solution",
+                  "caption": "Regional bucket",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability. <br> Integrated services like <b>KMS</b> enable encryption provide security <br> while <b>Activity Tracker</b> and <b>Monitoring</b> provide observability for resilient, secure cloud storage."
+                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability. <br>  Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -1332,11 +1332,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "IBM Cloud Object Storage solution",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/secure-regional-bucket.svg",
+                  "caption": "Regional bucket",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture supports creating and configuring a regional bucket."
+                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability. <br>  Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
