@@ -168,6 +168,7 @@
             },
             {
               "key": "existing_secrets_manager_endpoint_type",
+              "hidden":true,
               "options": [
                 {
                   "displayname": "private",
