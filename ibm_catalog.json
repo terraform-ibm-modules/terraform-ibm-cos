@@ -441,6 +441,24 @@
               "key": "monitoring_crn"
             },
             {
+              "key": "enable_platform_metrics",
+              "type": "string",
+              "default_value": "true",
+              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "required": true,
+              "virtual": true,
+              "options": [
+                {
+                  "displayname": "true",
+                  "value": "true"
+                },
+                {
+                  "displayname": "false",
+                  "value": "false"
+                }
+              ]
+            },
+            {
               "key": "enable_object_locking"
             },
             {
@@ -582,6 +600,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "enable_platform_metrics",
+                  "version_input": "enable_platform_metrics",
                   "reference_version": true
                 }
               ]
@@ -740,6 +763,24 @@
               "key": "monitoring_crn"
             },
             {
+              "key": "enable_platform_metrics",
+              "type": "string",
+              "default_value": "true",
+              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "required": true,
+              "virtual": true,
+              "options": [
+                {
+                  "displayname": "true",
+                  "value": "true"
+                },
+                {
+                  "displayname": "false",
+                  "value": "false"
+                }
+              ]
+            },
+            {
               "key": "enable_object_locking"
             },
             {
@@ -864,6 +905,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "enable_platform_metrics",
+                  "version_input": "enable_platform_metrics",
                   "reference_version": true
                 }
               ]
@@ -1119,6 +1165,24 @@
             },
             {
               "key": "monitoring_crn"
+            },
+                        {
+              "key": "enable_platform_metrics",
+              "type": "string",
+              "default_value": "true",
+              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "required": true,
+              "virtual": true,
+              "options": [
+                {
+                  "displayname": "true",
+                  "value": "true"
+                },
+                {
+                  "displayname": "false",
+                  "value": "false"
+                }
+              ]
             },
             {
               "key": "enable_object_locking"
@@ -1484,6 +1548,24 @@
               "key": "monitoring_crn"
             },
             {
+              "key": "enable_platform_metrics",
+              "type": "string",
+              "default_value": "true",
+              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "required": true,
+              "virtual": true,
+              "options": [
+                {
+                  "displayname": "true",
+                  "value": "true"
+                },
+                {
+                  "displayname": "false",
+                  "value": "false"
+                }
+              ]
+            },
+            {
               "key": "enable_object_locking"
             },
             {
@@ -1602,6 +1684,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "enable_platform_metrics",
+                  "version_input": "enable_platform_metrics",
                   "reference_version": true
                 }
               ]
