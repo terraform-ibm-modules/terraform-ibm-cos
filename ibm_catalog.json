@@ -39,7 +39,7 @@
         },
         {
           "title": "KMS encryption",
-          "description": "Optionally encrypt your data using the default encryption model or use IBM Key Protect or IBM Hyper Protect Crypto Services for full control over the data encryption keys used. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
+          "description": "You can optionally choose to encrypt your data using the default encryption keys, or opt for IBM Key Protect or IBM Hyper Protect Crypto Services to have complete control over the encryption keys. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
         },
         {
           "title": "Service credentials",
@@ -72,7 +72,8 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "service_name": "cloud-object-storage"
+              "service_name": "cloud-object-storage",
+              "notes": "Required to create Cloud Object Storage (COS) Instance."
             },
             {
               "role_crns": [
@@ -96,7 +97,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture automates the provisioning and configuration of an <b>IBM Cloud Object Storage (COS) instance</b> within an existing resource group, including advanced bucket management, integration with <b>IBM Secrets Manager</b> for secure credential storage, IAM authorization policies, and enforcement of <b>Context-Based Restrictions (CBR)</b> for enhanced security and compliance."
+                "description": "This architecture automates the provisioning and configuration of an <b>IBM Cloud Object Storage (COS) instance</b> within an existing resource group, integration with <b>IBM Secrets Manager</b> for secure credential storage, IAM authorization policies, and enforcement of <b>Context-Based Restrictions (CBR)</b> for enhanced security and compliance."
               }
             ]
           },
@@ -186,6 +187,7 @@
             },
             {
               "key": "provider_visibility",
+              "hidden":true,
               "options": [
                 {
                   "displayname": "private",
@@ -303,11 +305,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "Cross-regional bucket",
+                  "caption": "Cross-regional Object Storage Bucket Topology",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b> Cross-regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -608,7 +610,8 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "service_name": "cloud-object-storage"
+              "service_name": "cloud-object-storage",
+              "notes": "Required to create Cloud Object Storage (COS) Instance."
             },
             {
               "service_name": "kms",
@@ -637,11 +640,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "Cross-regional bucket",
+                  "caption": "Cross-regional Object Storage Bucket Topology",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b> Cross-Regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b> Cross-regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -934,7 +937,7 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "Regional bucket",
+                  "caption": "Regional Object Storage Bucket Topology",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
@@ -1303,7 +1306,8 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "service_name": "cloud-object-storage"
+              "service_name": "cloud-object-storage",
+              "notes": "Required to create Cloud Object Storage (COS) Instance."
             },
             {
               "service_name": "kms",
@@ -1332,7 +1336,7 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "Regional bucket",
+                  "caption": "Regional Object Storage Bucket Topology",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
