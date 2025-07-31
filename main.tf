@@ -9,6 +9,8 @@ locals {
   metrics_enabled            = var.request_metrics_enabled || var.usage_metrics_enabled ? [1] : []
   archive_enabled            = var.archive_days == null ? [] : [1]
   expire_enabled             = var.expire_days == null ? [] : [1]
+  noncurrent_expire_enabled  = var.enable_noncurrent_expire ? [1] : []
+  abort_multipart_enabled    = var.enable_abort_multipart ? [1] : []
   retention_enabled          = var.retention_enabled ? [1] : []
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
@@ -284,7 +286,81 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       status  = "enable"
     }
   }
+
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple transition blocks.
+    ## This block is only used to conditionally add NoncurrentVersionExpiration
+    for_each = local.noncurrent_expire_enabled
+    content {
+      noncurrent_version_expiration {
+        noncurrent_days = var.noncurrent_expire_days
+      }
+      filter {
+        prefix = var.noncurrent_expire_filter_prefix != null ? var.noncurrent_expire_filter_prefix : ""
+      }
+      rule_id = "noncurrent-expiry-rule"
+      status  = "enable"
+    }
+  }
+
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple transition blocks.
+    ## Conditional AbortIncompleteMultipartUpload rule
+    for_each = local.abort_multipart_enabled
+    content {
+      abort_incomplete_multipart_upload {
+        days_after_initiation = var.abort_multipart_days
+      }
+      filter {
+        prefix = var.abort_multipart_filter_prefix != null ? var.abort_multipart_filter_prefix : ""
+      }
+      rule_id = "delete-after-3-days"
+      status  = "enable"
+    }
+  }
 }
+
+##############################################################################
+# Bucket replication rule
+##############################################################################
+
+# Optional Destination Bucket
+# resource "ibm_cos_bucket" "replication_destination" {
+#   count = var.enable_replication ? 1 : 0
+
+#   bucket_name       = var.replication_destination_bucket_name
+#   resource_group_id = var.resource_group_id
+#   region            = local.cos_region
+#   storage_class     = "standard"
+#   force_delete      = true
+
+#   versioning {
+#     status = "Enabled" # Replication requires versioning
+#   }
+# }
+
+# resource "ibm_cos_bucket_replication_rule" "replication_rule" {
+#   count = var.enable_replication ? 1 : 0
+
+#   bucket_crn = local.cos_bucket_resource[count.index].crn
+#   role_crn   = var.replication_role_crn
+
+#   rule_id  = "SimpleReplication-${local.cos_bucket_resource[count.index].name}"
+#   priority = var.replication_priority
+#   status   = "enable"
+
+#   filter {
+#     prefix = var.replication_filter_prefix != null ? var.replication_filter_prefix : ""
+#   }
+
+#   destination {
+#     bucket = ibm_cos_bucket.replication_destination[0].crn
+#   }
+
+#   delete_marker_replication {
+#     status = "enabled"
+#   }
+# }
 
 locals {
   bucket_crn           = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].crn : ibm_cos_bucket.cos_bucket1[0].crn) : null

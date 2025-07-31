@@ -306,6 +306,71 @@ variable "usage_metrics_enabled" {
   default     = true
 }
 
+variable "enable_noncurrent_expire" {
+  type        = bool
+  description = "Set it to `true` to enable noncurrent version expiration rule."
+  default     = true
+}
+
+variable "noncurrent_expire_days" {
+  type        = number
+  description = "Number of days after which noncurrent versions are deleted."
+  default     = 30
+}
+
+variable "noncurrent_expire_filter_prefix" {
+  type        = string
+  description = "Prefix for noncurrent version expiration."
+  default     = null
+}
+
+variable "enable_abort_multipart" {
+  type        = bool
+  description = "Set it to `true` to enable abort incomplete multipart upload rule."
+  default     = true
+}
+
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = 3
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
+  default     = null
+}
+
+variable "enable_replication" {
+  description = "Enable COS replication rule and create a destination bucket"
+  type        = bool
+  default     = false
+}
+
+variable "replication_destination_bucket_name" {
+  type        = string
+  description = "Name prefix for replication destination bucket."
+  default     = "rep-dt-bc"
+}
+
+variable "replication_priority" {
+  type        = number
+  description = "Priority for replication rule."
+  default     = 1
+}
+
+# variable "replication_role_crn" {
+#   type        = string
+#   description = "IAM role CRN with replication permissions."
+# }
+
+variable "replication_filter_prefix" {
+  type        = string
+  description = "Prefix filter for replication"
+  default     = null
+}
+
 variable "monitoring_crn" {
   type        = string
   description = "The CRN of an IBM Cloud Monitoring instance to to send Object Storage bucket metrics to. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."
