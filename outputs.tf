@@ -3,7 +3,7 @@
 ##############################################################################
 
 output "resource_group_id" {
-  description = "Resource Group ID"
+  description = "Resource group ID"
   value       = var.resource_group_id
 }
 
@@ -23,7 +23,7 @@ output "s3_endpoint_direct" {
 }
 
 output "bucket_id" {
-  description = "Bucket id"
+  description = "Bucket ID"
   value       = local.bucket_id
 }
 
@@ -40,57 +40,57 @@ output "bucket_name" {
 }
 
 output "bucket_storage_class" {
-  description = "Bucket Storage Class"
+  description = "Bucket storage class"
   value       = local.bucket_storage_class
 }
 
 output "bucket_region" {
-  description = "Bucket region if you create a regional bucket"
+  description = "Bucket region if a regional bucket is created"
   value       = local.bucket_region
 }
 
 output "kms_key_crn" {
-  description = "The CRN of the KMS key used to encrypt the COS bucket"
+  description = "The CRN of the KMS key used to encrypt the bucket"
   value       = var.kms_key_crn
 }
 
 output "cos_instance_id" {
-  description = "The ID of the Cloud Object Storage instance"
+  description = "The ID of the Object Storage instance"
   value       = local.cos_instance_id
 }
 
 output "cos_instance_guid" {
-  description = "The GUID of the Cloud Object Storage instance"
+  description = "The GUID of the Object Storage instance"
   value       = local.cos_instance_guid
 }
 
 output "cos_instance_name" {
-  description = "The name of the Cloud Object Storage instance"
+  description = "The name of the Object Storage instance"
   value       = local.cos_instance_name
 }
 
 output "cos_instance_crn" {
-  description = "The CRN of the Cloud Object Storage instance"
+  description = "The CRN of the Object Storage instance"
   value       = local.cos_instance_crn
 }
 
 output "cos_account_id" {
-  description = "The account ID in which the Cloud Object Storage instance is created."
+  description = "The account ID in which the Object Storage instance is created."
   value       = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].account_id : null
 }
 
 output "bucket_cbr_rules" {
-  description = "COS bucket rules"
+  description = "Object Storage bucket context-based restriction rules"
   value       = module.bucket_cbr_rule
 }
 
 output "instance_cbr_rules" {
-  description = "COS instance rules"
+  description = "Object Storage instance context-based restriction rules"
   value       = module.instance_cbr_rule
 }
 
 output "cbr_rule_ids" {
-  description = "List of all rule ids"
+  description = "List of all rule IDs"
   value       = local.all_rule_ids
 }
 
