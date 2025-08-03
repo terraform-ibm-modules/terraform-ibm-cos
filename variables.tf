@@ -342,34 +342,34 @@ variable "abort_multipart_filter_prefix" {
   default     = null
 }
 
-variable "enable_replication" {
-  description = "Enable COS replication rule and create a destination bucket"
-  type        = bool
-  default     = false
-}
+# variable "enable_replication" {
+#   description = "Enable COS replication rule and create a destination bucket"
+#   type        = bool
+#   default     = false
+# }
 
-variable "replication_destination_bucket_name" {
-  type        = string
-  description = "Name prefix for replication destination bucket."
-  default     = "rep-dt-bc"
-}
+# variable "replication_destination_bucket_name" {
+#   type        = string
+#   description = "Name prefix for replication destination bucket."
+#   default     = "rep-dt-bc"
+# }
 
-variable "replication_priority" {
-  type        = number
-  description = "Priority for replication rule."
-  default     = 1
-}
+# variable "replication_priority" {
+#   type        = number
+#   description = "Priority for replication rule."
+#   default     = 1
+# }
 
 # variable "replication_role_crn" {
 #   type        = string
 #   description = "IAM role CRN with replication permissions."
 # }
 
-variable "replication_filter_prefix" {
-  type        = string
-  description = "Prefix filter for replication"
-  default     = null
-}
+# variable "replication_filter_prefix" {
+#   type        = string
+#   description = "Prefix filter for replication"
+#   default     = null
+# }
 
 variable "monitoring_crn" {
   type        = string
