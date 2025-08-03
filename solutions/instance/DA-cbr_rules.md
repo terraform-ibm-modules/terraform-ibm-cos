@@ -39,7 +39,7 @@ The `cos_instance_cbr_rules` input variable allows you to provide a rule for the
 [
   {
     description = "COS can be accessed from xyz"
-    account_id  = "defc0df06b644a9cabc6e44f55b3880s"
+    account_id  = "<REPLACE ME>"
     rule_contexts = [{
       attributes = [
         {
@@ -48,7 +48,7 @@ The `cos_instance_cbr_rules` input variable allows you to provide a rule for the
         },
         {
           name  = "networkZoneId"
-          value = "93a51a1debe2674193217209601dde6f"
+          value = "<REPLACE ME>"
         }
       ]
       }

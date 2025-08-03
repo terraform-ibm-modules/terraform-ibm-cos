@@ -26,7 +26,7 @@ variable "prefix" {
 
   validation {
     # must not exceed 16 characters in length
-    condition     = length(var.prefix) <= 16
+    condition     = var.prefix == null || var.prefix == "" ? true : length(var.prefix) <= 16
     error_message = "Prefix must not exceed 16 characters."
   }
 }
@@ -286,7 +286,7 @@ variable "cos_bucket_cbr_rules" {
       }))
     })))
   }))
-  description = "The list of context-based restriction rules to create for the instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/regional-bucket/fully-configurable/DA-cbr_rules.md)"
+  description = "The list of context-based restriction rules to create for the instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/regional-bucket/fully-configurable/DA-cbr_rules.md)."
   default     = []
   # Validation happens in the rule module
 }
