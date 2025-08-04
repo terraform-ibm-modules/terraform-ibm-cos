@@ -139,8 +139,10 @@ You need the following permissions to run this module.
 |------|------|
 | [ibm_cos_bucket.cos_bucket](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
 | [ibm_cos_bucket.cos_bucket1](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
+| [ibm_cos_bucket.replication_destination](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
 | [ibm_cos_bucket_lifecycle_configuration.cos_bucket_lifecycle](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_lifecycle_configuration) | resource |
 | [ibm_cos_bucket_object_lock_configuration.lock_configuration](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_object_lock_configuration) | resource |
+| [ibm_cos_bucket_replication_rule.replication_rule](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_replication_rule) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_keys](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
@@ -174,6 +176,7 @@ You need the following permissions to run this module.
 | <a name="input_cross_region_location"></a> [cross\_region\_location](#input\_cross\_region\_location) | Specify the cross-region bucket location. Possible values: `us`, `eu` `ap`. If specified, set `region` and `single_site_location` to `null`. | `string` | `null` | no |
 | <a name="input_enable_abort_multipart"></a> [enable\_abort\_multipart](#input\_enable\_abort\_multipart) | Set it to `true` to enable abort incomplete multipart upload rule. | `bool` | `true` | no |
 | <a name="input_enable_noncurrent_expire"></a> [enable\_noncurrent\_expire](#input\_enable\_noncurrent\_expire) | Set it to `true` to enable noncurrent version expiration rule. | `bool` | `true` | no |
+| <a name="input_enable_replication"></a> [enable\_replication](#input\_enable\_replication) | Enable COS replication rule and create a destination bucket | `bool` | `true` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | The ID of an existing cloud object storage instance. Required if `create_cos_instance` is false. | `string` | `null` | no |
 | <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Key Protect or Hyper Protect Crypto Services instance that holds the key specified in `kms_key_crn`. Required if `skip_iam_authorization_policy` is false. | `string` | `null` | no |
 | <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | The number of days before the expire rule action takes effect. Applies only if `create_cos_bucket` is true. | `number` | `365` | no |
@@ -192,6 +195,10 @@ You need the following permissions to run this module.
 | <a name="input_object_locking_enabled"></a> [object\_locking\_enabled](#input\_object\_locking\_enabled) | Whether to create an object lock configuration. Applies only if `object_versioning_enabled` and `create_cos_bucket` are true. | `bool` | `false` | no |
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Whether to enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. Applies only if `create_cos_bucket` is true. | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If specified, set `cross_region_location` and `single_site_location` to `null`. | `string` | `"us-south"` | no |
+| <a name="input_replication_destination_bucket_name"></a> [replication\_destination\_bucket\_name](#input\_replication\_destination\_bucket\_name) | Name prefix for replication destination bucket. | `string` | `"rep-dt"` | no |
+| <a name="input_replication_prefix"></a> [replication\_prefix](#input\_replication\_prefix) | Prefix for replication | `string` | `null` | no |
+| <a name="input_replication_priority"></a> [replication\_priority](#input\_replication\_priority) | Priority for replication rule. | `number` | `1` | no |
+| <a name="input_replication_rule_id"></a> [replication\_rule\_id](#input\_replication\_rule\_id) | Replication rule id. | `string` | `"Rule-1"` | no |
 | <a name="input_request_metrics_enabled"></a> [request\_metrics\_enabled](#input\_request\_metrics\_enabled) | If set to `true`, all Object Storage bucket request metrics will be sent to the monitoring service. | `bool` | `true` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID for the new Object Storage instance. Required only if `create_cos_instance` is true. | `string` | `null` | no |
 | <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key). | <pre>list(object({<br/>    name                      = string<br/>    key_name                  = optional(string, null)<br/>    generate_hmac_credentials = optional(bool, false)<br/>    role                      = optional(string, "Reader")<br/>    service_id_crn            = optional(string, null)<br/>  }))</pre> | `[]` | no |

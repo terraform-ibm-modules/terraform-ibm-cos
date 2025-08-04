@@ -324,43 +324,39 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
 # Bucket replication rule
 ##############################################################################
 
-# Optional Destination Bucket
-# resource "ibm_cos_bucket" "replication_destination" {
-#   count = var.enable_replication ? 1 : 0
+# Destination Bucket
+resource "ibm_cos_bucket" "replication_destination" {
+  count                 = var.enable_replication ? 1 : 0
+  resource_instance_id  = local.cos_instance_id
+  bucket_name           = var.replication_destination_bucket_name
+  region_location       = var.region
+  cross_region_location = var.cross_region_location
+  single_site_location  = var.single_site_location
+  endpoint_type         = var.management_endpoint_type_for_bucket
+  storage_class         = var.bucket_storage_class
+  hard_quota            = var.hard_quota
+  force_delete          = var.force_delete
+  object_lock           = var.object_locking_enabled ? true : null
 
-#   bucket_name       = var.replication_destination_bucket_name
-#   resource_group_id = var.resource_group_id
-#   region            = local.cos_region
-#   storage_class     = "standard"
-#   force_delete      = true
+  object_versioning {
+    enable = true
+  }
+}
 
-#   versioning {
-#     status = "Enabled" # Replication requires versioning
-#   }
-# }
+resource "ibm_cos_bucket_replication_rule" "replication_rule" {
+  count           = var.enable_replication ? 1 : 0
+  bucket_crn      = local.cos_bucket_resource[count.index].crn
+  bucket_location = "us-south"
 
-# resource "ibm_cos_bucket_replication_rule" "replication_rule" {
-#   count = var.enable_replication ? 1 : 0
-
-#   bucket_crn = local.cos_bucket_resource[count.index].crn
-#   role_crn   = var.replication_role_crn
-
-#   rule_id  = "SimpleReplication-${local.cos_bucket_resource[count.index].name}"
-#   priority = var.replication_priority
-#   status   = "enable"
-
-#   filter {
-#     prefix = var.replication_filter_prefix != null ? var.replication_filter_prefix : ""
-#   }
-
-#   destination {
-#     bucket = ibm_cos_bucket.replication_destination[0].crn
-#   }
-
-#   delete_marker_replication {
-#     status = "enabled"
-#   }
-# }
+  replication_rule {
+    rule_id                         = var.replication_rule_id
+    enable                          = true
+    prefix                          = var.replication_prefix
+    priority                        = var.replication_priority
+    deletemarker_replication_status = true
+    destination_bucket_crn          = ibm_cos_bucket.replication_destination[0].crn
+  }
+}
 
 locals {
   bucket_crn           = var.create_cos_bucket ? (var.kms_encryption_enabled ? ibm_cos_bucket.cos_bucket[0].crn : ibm_cos_bucket.cos_bucket1[0].crn) : null

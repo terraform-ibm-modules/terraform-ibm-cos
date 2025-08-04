@@ -342,34 +342,44 @@ variable "abort_multipart_filter_prefix" {
   default     = null
 }
 
-# variable "enable_replication" {
-#   description = "Enable COS replication rule and create a destination bucket"
-#   type        = bool
-#   default     = false
-# }
+##############################################################################
+# COS bucket Replication variables
+##############################################################################
 
-# variable "replication_destination_bucket_name" {
-#   type        = string
-#   description = "Name prefix for replication destination bucket."
-#   default     = "rep-dt-bc"
-# }
+variable "enable_replication" {
+  description = "Enable COS replication rule and create a destination bucket"
+  type        = bool
+  default     = true
+}
 
-# variable "replication_priority" {
-#   type        = number
-#   description = "Priority for replication rule."
-#   default     = 1
-# }
+variable "replication_destination_bucket_name" {
+  type        = string
+  description = "Name prefix for replication destination bucket."
+  default     = "rep-dt"
 
-# variable "replication_role_crn" {
-#   type        = string
-#   description = "IAM role CRN with replication permissions."
-# }
+  validation {
+    condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
+    error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
+  }
+}
 
-# variable "replication_filter_prefix" {
-#   type        = string
-#   description = "Prefix filter for replication"
-#   default     = null
-# }
+variable "replication_priority" {
+  type        = number
+  description = "Priority for replication rule."
+  default     = 1
+}
+
+variable "replication_rule_id" {
+  type        = string
+  description = "Replication rule id."
+  default     = "Rule-1"
+}
+
+variable "replication_prefix" {
+  type        = string
+  description = "Prefix for replication"
+  default     = null
+}
 
 variable "monitoring_crn" {
   type        = string
