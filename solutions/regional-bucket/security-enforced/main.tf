@@ -14,7 +14,7 @@ module "regional_bucket" {
   existing_cos_instance_crn           = var.existing_cos_instance_crn
   bucket_access_tags                  = var.bucket_access_tags
   bucket_name                         = var.bucket_name
-  management_endpoint_type_for_bucket = "private"
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
   region                              = var.region
   bucket_storage_class                = var.bucket_storage_class
   force_delete                        = var.force_delete
