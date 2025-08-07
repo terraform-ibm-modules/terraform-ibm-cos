@@ -421,7 +421,6 @@
             },
             {
               "key": "management_endpoint_type_for_bucket",
-              "hidden": true,
               "options": [
                 {
                   "displayname": "direct",
@@ -758,6 +757,19 @@
             },
             {
               "key": "bucket_hard_quota"
+            },
+            {
+              "key": "management_endpoint_type_for_bucket",
+              "options": [
+                {
+                  "displayname": "direct",
+                  "value": "direct"
+                },
+                {
+                  "displayname": "private",
+                  "value": "private"
+                }
+              ]
             },
             {
               "key": "monitoring_crn"
@@ -1147,7 +1159,6 @@
             },
             {
               "key": "management_endpoint_type_for_bucket",
-              "hidden": true,
               "options": [
                 {
                   "displayname": "direct",
@@ -1543,6 +1554,19 @@
             },
             {
               "key": "bucket_hard_quota"
+            },
+            {
+              "key": "management_endpoint_type_for_bucket",
+              "options": [
+                {
+                  "displayname": "direct",
+                  "value": "direct"
+                },
+                {
+                  "displayname": "private",
+                  "value": "private"
+                }
+              ]
             },
             {
               "key": "monitoring_crn"
