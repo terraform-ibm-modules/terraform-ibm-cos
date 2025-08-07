@@ -263,6 +263,82 @@ variable "provider_visibility" {
     error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
   }
 }
+
+variable "request_metrics_enabled" {
+  type        = bool
+  description = "If set to `true`, all Object Storage bucket request metrics will be sent to the monitoring service."
+  default     = true
+}
+
+variable "usage_metrics_enabled" {
+  type        = bool
+  description = "If set to `true`, all Object Storage bucket usage metrics will be sent to the monitoring service."
+  default     = true
+}
+
+variable "noncurrent_expire_days" {
+  type        = number
+  description = "Number of days after which noncurrent versions are deleted."
+  default     = 30
+}
+
+variable "noncurrent_expire_filter_prefix" {
+  type        = string
+  description = "Prefix for noncurrent version expiration."
+  default     = null
+}
+
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = 3
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
+  default     = null
+}
+
+########################################################################################################################
+# Replication variables
+########################################################################################################################
+
+variable "enable_replication" {
+  description = "Enable COS replication rule and create a destination bucket"
+  type        = bool
+  default     = true
+}
+
+variable "replication_destination_bucket_name" {
+  type        = string
+  description = "Name prefix for replication destination bucket."
+  default     = "rep-dt"
+
+  validation {
+    condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
+    error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
+  }
+}
+
+variable "replication_priority" {
+  type        = number
+  description = "Priority for replication rule."
+  default     = 1
+}
+
+variable "replication_rule_id" {
+  type        = string
+  description = "Replication rule id."
+  default     = "Rule-1"
+}
+
+variable "replication_prefix" {
+  type        = string
+  description = "Prefix for replication"
+  default     = null
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

@@ -306,12 +306,6 @@ variable "usage_metrics_enabled" {
   default     = true
 }
 
-variable "enable_noncurrent_expire" {
-  type        = bool
-  description = "Set it to `true` to enable noncurrent version expiration rule."
-  default     = true
-}
-
 variable "noncurrent_expire_days" {
   type        = number
   description = "Number of days after which noncurrent versions are deleted."
@@ -322,12 +316,6 @@ variable "noncurrent_expire_filter_prefix" {
   type        = string
   description = "Prefix for noncurrent version expiration."
   default     = null
-}
-
-variable "enable_abort_multipart" {
-  type        = bool
-  description = "Set it to `true` to enable abort incomplete multipart upload rule."
-  default     = true
 }
 
 variable "abort_multipart_days" {

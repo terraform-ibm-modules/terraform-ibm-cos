@@ -40,6 +40,16 @@ locals {
       enable = true
       days   = var.expire_days
     } : null
+     noncurrent_expire = var.noncurrent_expire_days != null ? {
+      enable = true
+      days = var.noncurrent_expire_days
+      prefix = var.noncurrent_expire_filter_prefix
+    } : null
+    abort_multipart = var.abort_multipart_days != null ? {
+      enable = true
+      days = abort_multipart_days
+      prefix = var.abort_multipart_filter_prefix
+    } : null
     metrics_monitoring = {
       usage_metrics_enabled   = true
       request_metrics_enabled = true
@@ -55,6 +65,15 @@ locals {
       minimum   = var.minimum_retention_days
       permanent = var.enable_permanent_retention
     } : null
+
+    replication = var.enable_replication ? {
+      enable = true
+      rule_id = var.replication_rule_id
+      prefix = var.replication_prefix
+      priority = var.replication_priority
+      bucket_name = var.replication_destination_bucket_name
+    } : null
+
     cos_bucket_cbr_rules = var.cos_bucket_cbr_rules
   }]
 }
