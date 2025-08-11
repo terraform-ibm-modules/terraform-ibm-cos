@@ -260,18 +260,6 @@ variable "provider_visibility" {
   }
 }
 
-variable "request_metrics_enabled" {
-  type        = bool
-  description = "If set to `true`, all Object Storage bucket request metrics will be sent to the monitoring service."
-  default     = true
-}
-
-variable "usage_metrics_enabled" {
-  type        = bool
-  description = "If set to `true`, all Object Storage bucket usage metrics will be sent to the monitoring service."
-  default     = true
-}
-
 variable "noncurrent_expire_days" {
   type        = number
   description = "Number of days after which noncurrent versions are deleted."

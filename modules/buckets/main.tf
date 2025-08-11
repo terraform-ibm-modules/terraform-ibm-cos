@@ -106,7 +106,7 @@ module "buckets" {
   expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
 
   noncurrent_expire_days = can(each.value.noncurrent_expire.days) ? (each.value.noncurrent_expire.enable ? each.value.noncurrent_expire.days : null) : null
-  abort_multipart_days = can(each.value.abort_multipart.days) ? (each.value.abort_multipart.enable ? each.value.abort_multipart.days : null) : null
+  abort_multipart_days   = can(each.value.abort_multipart.days) ? (each.value.abort_multipart.enable ? each.value.abort_multipart.days : null) : null
 
   request_metrics_enabled = can(each.value.metrics_monitoring.request_metrics_enabled) ? each.value.metrics_monitoring.request_metrics_enabled : true
   usage_metrics_enabled   = can(each.value.metrics_monitoring.usage_metrics_enabled) ? each.value.metrics_monitoring.usage_metrics_enabled : true
@@ -120,10 +120,10 @@ module "buckets" {
   retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
 
-  enable_replication = each.value.replication.enable
-  replication_rule_id = each.value.replication.rule_id
-  replication_prefix = each.value.replication.prefix
-  replication_priority = each.value.replication.priority
+  enable_replication                  = each.value.replication.enable
+  replication_rule_id                 = each.value.replication.rule_id
+  replication_prefix                  = each.value.replication.prefix
+  replication_priority                = each.value.replication.priority
   replication_destination_bucket_name = each.value.replication.bucket_name
 
   bucket_cbr_rules = each.value.cbr_rules

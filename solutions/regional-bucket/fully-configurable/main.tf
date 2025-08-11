@@ -40,14 +40,14 @@ locals {
       enable = true
       days   = var.expire_days
     } : null
-     noncurrent_expire = var.noncurrent_expire_days != null ? {
+    noncurrent_expire = var.noncurrent_expire_days != null ? {
       enable = true
-      days = var.noncurrent_expire_days
+      days   = var.noncurrent_expire_days
       prefix = var.noncurrent_expire_filter_prefix
     } : null
     abort_multipart = var.abort_multipart_days != null ? {
       enable = true
-      days = abort_multipart_days
+      days   = var.abort_multipart_days
       prefix = var.abort_multipart_filter_prefix
     } : null
     metrics_monitoring = {
@@ -67,10 +67,10 @@ locals {
     } : null
 
     replication = var.enable_replication ? {
-      enable = true
-      rule_id = var.replication_rule_id
-      prefix = var.replication_prefix
-      priority = var.replication_priority
+      enable      = true
+      rule_id     = var.replication_rule_id
+      prefix      = var.replication_prefix
+      priority    = var.replication_priority
       bucket_name = var.replication_destination_bucket_name
     } : null
 
