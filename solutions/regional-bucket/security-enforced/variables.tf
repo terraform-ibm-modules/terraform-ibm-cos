@@ -105,6 +105,16 @@ variable "bucket_name" {
   description = "The name to give the newly provisioned Object Storage bucket."
 }
 
+variable "management_endpoint_type_for_bucket" {
+  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values:  `private`, `direct`."
+  type        = string
+  default     = "direct"
+  validation {
+    condition     = contains(["private", "direct"], var.management_endpoint_type_for_bucket)
+    error_message = "The value of management_endpoint_type_for_bucket must be one of: `private`, `direct`."
+  }
+}
+
 variable "bucket_storage_class" {
   type        = string
   description = "The storage class of the newly provisioned Object Storage bucket. Possible values: `standard`, `vault`, `cold`, `smart` `onerate_active`."
