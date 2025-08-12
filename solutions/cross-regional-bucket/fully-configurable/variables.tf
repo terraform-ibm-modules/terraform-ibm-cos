@@ -291,7 +291,7 @@ variable "abort_multipart_filter_prefix" {
 variable "enable_replication" {
   description = "Enable COS replication rule and create a destination bucket"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "replication_destination_bucket_name" {
@@ -299,10 +299,21 @@ variable "replication_destination_bucket_name" {
   description = "Name prefix for replication destination bucket."
   default     = "rep-dt"
 
-  validation {
-    condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
-    error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
-  }
+  # validation {
+  #   condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
+  #   error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
+  # }
+}
+
+variable "replication_bucket_region" {
+  type        = string
+  description = "The region in which the replication bucket is to be provisioned."
+  default     = "eu-de"
+
+  # validation {
+  #   condition     = var.region == var.replication_bucket_region ? false : true
+  #   error_message = "The source bucket and destination bucket should have different regions."
+  # }
 }
 
 variable "replication_priority" {
@@ -315,12 +326,6 @@ variable "replication_rule_id" {
   type        = string
   description = "Replication rule id."
   default     = "Rule-1"
-}
-
-variable "replication_prefix" {
-  type        = string
-  description = "Prefix for replication"
-  default     = null
 }
 
 ##############################################################

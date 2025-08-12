@@ -27,10 +27,11 @@ module "cross_regional_bucket" {
   noncurrent_expire_filter_prefix     = var.noncurrent_expire_filter_prefix
   abort_multipart_days                = var.abort_multipart_days
   abort_multipart_filter_prefix       = var.abort_multipart_filter_prefix
+  enable_replication                  = var.enable_replication
   replication_destination_bucket_name = var.replication_destination_bucket_name
+  replication_bucket_region           = var.replication_bucket_region
   replication_priority                = var.replication_priority
   replication_rule_id                 = var.replication_rule_id
-  replication_prefix                  = var.replication_prefix
   monitoring_crn                      = var.monitoring_crn
   enable_object_versioning            = var.enable_object_versioning
   enable_retention                    = var.enable_retention

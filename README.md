@@ -143,6 +143,7 @@ You need the following permissions to run this module.
 | [ibm_cos_bucket_lifecycle_configuration.cos_bucket_lifecycle](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_lifecycle_configuration) | resource |
 | [ibm_cos_bucket_object_lock_configuration.lock_configuration](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_object_lock_configuration) | resource |
 | [ibm_cos_bucket_replication_rule.replication_rule](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_replication_rule) | resource |
+| [ibm_iam_authorization_policy.cos_replication](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_keys](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
@@ -193,6 +194,7 @@ You need the following permissions to run this module.
 | <a name="input_object_locking_enabled"></a> [object\_locking\_enabled](#input\_object\_locking\_enabled) | Whether to create an object lock configuration. Applies only if `object_versioning_enabled` and `create_cos_bucket` are true. | `bool` | `false` | no |
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Whether to enable object versioning to keep multiple versions of an object in a bucket. Cannot be used with retention rule. Applies only if `create_cos_bucket` is true. | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If specified, set `cross_region_location` and `single_site_location` to `null`. | `string` | `"us-south"` | no |
+| <a name="input_replication_bucket_region"></a> [replication\_bucket\_region](#input\_replication\_bucket\_region) | The region in which the replication bucket is to be provisioned. | `string` | `"eu-de"` | no |
 | <a name="input_replication_destination_bucket_name"></a> [replication\_destination\_bucket\_name](#input\_replication\_destination\_bucket\_name) | Name prefix for replication destination bucket. | `string` | `"rep-dt"` | no |
 | <a name="input_replication_prefix"></a> [replication\_prefix](#input\_replication\_prefix) | Prefix for replication | `string` | `null` | no |
 | <a name="input_replication_priority"></a> [replication\_priority](#input\_replication\_priority) | Priority for replication rule. | `number` | `1` | no |

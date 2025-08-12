@@ -503,7 +503,7 @@
               "key": "replication_rule_id"
             },
             {
-              "key": "replication_prefix"
+              "key": "replication_bucket_region"
             },
             {
               "key": "replication_priority"
@@ -865,7 +865,7 @@
               "key": "replication_rule_id"
             },
             {
-              "key": "replication_prefix"
+              "key": "replication_bucket_region"
             },
             {
               "key": "replication_priority"
@@ -1295,7 +1295,7 @@
               "key": "replication_rule_id"
             },
             {
-              "key": "replication_prefix"
+              "key": "replication_bucket_region"
             },
             {
               "key": "replication_priority"
@@ -1716,7 +1716,7 @@
               "key": "replication_rule_id"
             },
             {
-              "key": "replication_prefix"
+              "key": "replication_bucket_region"
             },
             {
               "key": "replication_priority"

@@ -351,6 +351,17 @@ variable "replication_destination_bucket_name" {
   }
 }
 
+variable "replication_bucket_region" {
+  type        = string
+  description = "The region in which the replication bucket is to be provisioned."
+  default     = "eu-de"
+
+  validation {
+    condition     = var.region == var.replication_bucket_region ? false : true
+    error_message = "The source bucket and destination bucket should have different regions."
+  }
+}
+
 variable "replication_priority" {
   type        = number
   description = "Priority for replication rule."
