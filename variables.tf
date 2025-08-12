@@ -70,7 +70,7 @@ variable "cos_plan" {
   default     = "standard"
   validation {
     condition     = contains(["standard", "cos-one-rate-plan"], var.cos_plan)
-    error_message = "The value isn't valid. Possible values are `standard` or `cos-one-rate-plan`."
+    error_message = "The value is not valid. Possible values are `standard` or `cos-one-rate-plan`."
   }
 }
 
