@@ -147,7 +147,7 @@ variable "cross_region_location" {
 
 variable "bucket_name" {
   type        = string
-  description = "The name for the Object Storage bucket. Required only if `create_cos_bucket` is set to `true`."
+  description = "The name for the Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`."
   default     = null
   validation {
     condition     = var.create_cos_bucket == false || var.bucket_name != null
@@ -163,7 +163,7 @@ variable "add_bucket_name_suffix" {
 
 variable "bucket_storage_class" {
   type        = string
-  description = "The storage class of the bucket. Required only if `create_cos_bucket` is set to `true`. Possible values are `standard`, `vault`, `cold`, `smart`, or `onerate_active`."
+  description = "The storage class of the bucket. Applies only if `create_cos_bucket` is set to `true`. Possible values are `standard`, `vault`, `cold`, `smart`, or `onerate_active`."
   default     = "standard"
 
   validation {
@@ -185,7 +185,7 @@ variable "management_endpoint_type_for_bucket" {
 # Where is retention (immuatble object storage) supported
 # https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
 variable "retention_enabled" {
-  description = "Whether retention for the Object Storage bucket is enabled. Required only if `create_cos_bucket` is set to `true`."
+  description = "Whether retention for the Object Storage bucket is enabled. Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
   default     = false
   validation {
@@ -195,7 +195,7 @@ variable "retention_enabled" {
 }
 
 variable "retention_default" {
-  description = "The number of days that an object can remain unmodified in an Object Storage bucket. Required only if `create_cos_bucket` is set to `true`."
+  description = "The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`."
   type        = number
   default     = 90
   validation {
@@ -205,7 +205,7 @@ variable "retention_default" {
 }
 
 variable "retention_maximum" {
-  description = "The maximum number of days that an object can be kept unmodified in the bucket. Required only if `create_cos_bucket` is set to `true`."
+  description = "The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`."
   type        = number
   default     = 350
   validation {
@@ -215,7 +215,7 @@ variable "retention_maximum" {
 }
 
 variable "retention_minimum" {
-  description = "The minimum number of days that an object must be kept unmodified in the bucket. Required only if `create_cos_bucket` is set to `true`."
+  description = "The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`."
   type        = number
   default     = 90
   validation {
@@ -225,7 +225,7 @@ variable "retention_minimum" {
 }
 
 variable "retention_permanent" {
-  description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Required only if `create_cos_bucket` is set to `true`."
+  description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
   default     = false
 }
@@ -242,7 +242,7 @@ variable "object_locking_enabled" {
 }
 
 variable "object_lock_duration_days" {
-  description = "The number of days for the object lock duration. If you specify a number of days, do not specify a value for `object_lock_duration_years`. Required only if `create_cos_bucket` is set to `true`."
+  description = "The number of days for the object lock duration. If you specify a number of days, do not specify a value for `object_lock_duration_years`. Applies only if `create_cos_bucket` is set to `true`."
   type        = number
   default     = 0
   validation {
@@ -257,19 +257,19 @@ variable "object_lock_duration_days" {
 }
 
 variable "object_lock_duration_years" {
-  description = "The number of years for the object lock duration. If you specify a number of years, do not specify a value for `object_lock_duration_days`. Required only if `create_cos_bucket` is set to `true`."
+  description = "The number of years for the object lock duration. If you specify a number of years, do not specify a value for `object_lock_duration_days`. Applies only if `create_cos_bucket` is set to `true`."
   type        = number
   default     = 0
 }
 
 variable "object_versioning_enabled" {
-  description = "Whether to enable object versioning to keep multiple versions of an object in a bucket. Can't be used with retention rule. Required only if `create_cos_bucket` is set to `true`."
+  description = "Whether to enable object versioning to keep multiple versions of an object in a bucket. Can't be used with retention rule. Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
   default     = false
 }
 
 variable "archive_days" {
-  description = "The number of days before the `archive_type` rule action takes effect. Required only if `create_cos_bucket` is set to `true`. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets."
+  description = "The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets."
   type        = number
   default     = 90
   validation {
@@ -279,7 +279,7 @@ variable "archive_days" {
 }
 
 variable "archive_type" {
-  description = "The storage class or archive type to which you want the object to transition. Possible values are `Glacier` or `Accelerated`. Required only if `create_cos_bucket` is set to `true`."
+  description = "The storage class or archive type to which you want the object to transition. Possible values are `Glacier` or `Accelerated`. Applies only if `create_cos_bucket` is set to `true`."
   type        = string
   default     = "Glacier"
   validation {
@@ -289,7 +289,7 @@ variable "archive_type" {
 }
 
 variable "expire_days" {
-  description = "The number of days before the expire rule action takes effect. Required only if `create_cos_bucket` is set to `true`."
+  description = "The number of days before the expire rule action takes effect. Applies only if `create_cos_bucket` is set to `true`."
   type        = number
   default     = 365
 }
@@ -380,7 +380,7 @@ variable "existing_kms_instance_guid" {
 }
 
 variable "kms_encryption_enabled" {
-  description = "Whether to use KMS key encryption to encrypt data in Object Storage buckets. Required only if `create_cos_bucket` is set to `true`."
+  description = "Whether to use KMS key encryption to encrypt data in Object Storage buckets. Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
   default     = true
   validation {
