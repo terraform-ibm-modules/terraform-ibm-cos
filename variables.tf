@@ -200,7 +200,7 @@ variable "retention_default" {
   default     = 90
   validation {
     condition     = var.retention_default == null ? true : (var.retention_default >= 0 && var.retention_default < 365243)
-    error_message = "The value isn't valid. Specify any number."
+    error_message = "The value is not valid. Possible values range from `0` to `365243`."
   }
 }
 
@@ -210,7 +210,7 @@ variable "retention_maximum" {
   default     = 350
   validation {
     condition     = (var.retention_maximum == null ? true : (var.retention_maximum >= 0 && var.retention_maximum < 365243))
-    error_message = "The value isn't valid. Specify any number."
+    error_message = "The value is not valid. Possible values range from `0` to `365243`."
   }
 }
 
@@ -220,7 +220,7 @@ variable "retention_minimum" {
   default     = 90
   validation {
     condition     = var.retention_minimum == null ? true : (var.retention_minimum >= 0 && var.retention_minimum < 365243)
-    error_message = "The value isn't valid. Specify any number."
+    error_message = "The value is not valid. Possible values range from `0` to `365243`."
   }
 }
 
