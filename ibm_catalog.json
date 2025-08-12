@@ -271,7 +271,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if KMS encryption is enabled and Key Protect is used for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and Key Protect is used for bucket encryption."
             },
             {
               "role_crns": [
@@ -279,7 +279,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if KMS encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
             },
             {
               "role_crns": [
@@ -311,7 +311,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>cross-regional IBM Cloud Object Storage bucket</b> with <b>replication</b> which ensures high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>cross-regional IBM Cloud Object Storage bucket</b> with <b>replication</b> which ensures high availability and durability.<br> Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -668,7 +668,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>cross-regional IBM Cloud Object Storage bucket</b> with <b>replication</b>, ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>cross-regional IBM Cloud Object Storage bucket</b> with <b>replication</b>, ensuring high availability and durability.<br> Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -961,7 +961,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if KMS encryption is enabled and Key Protect is used for bucket encryption."
+              "notes": "[Optional] Required if ky encryption is enabled and Key Protect is used for bucket encryption."
             },
             {
               "role_crns": [
@@ -969,7 +969,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if KMS encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
             },
             {
               "role_crns": [
@@ -1001,7 +1001,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>regional IBM Cloud Object Storage bucket</b> across multiple availability zones with <b>replication</b>, ensuring high availability and durability. <br>  Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>regional IBM Cloud Object Storage bucket</b> across multiple availability zones with <b>replication</b>, ensuring high availability and durability. <br>  Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -1417,7 +1417,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>regional IBM Cloud Object Storage bucket</b> across multiple availability zones with <b>replication</b>, ensuring high availability and durability. <br>  Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>regional IBM Cloud Object Storage bucket</b> across multiple availability zones with <b>replication</b>, ensuring high availability and durability. <br>  Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
