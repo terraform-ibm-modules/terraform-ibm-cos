@@ -44,7 +44,7 @@ variable "resource_keys" {
     condition = alltrue([
       for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Content Reader", "Object Reader", "Object Writer", "NONE"], key.role)
     ])
-    error_message = "`resource_keys` role must be one of the following: 'Writer', 'Reader', 'Manager', 'Content Reader', 'Object Reader', 'Object Writer', or 'NONE'. Reference https://cloud.ibm.com/iam/roles and `Object Storage`"
+    error_message = "`resource_keys` role must be one of the following: `Writer', `Reader`, `Manager`, `Content Reader`, `Object Reader`, `Object Writer`, or `NONE`. Reference https://cloud.ibm.com/iam/roles and `Object Storage`"
   }
 }
 
