@@ -380,7 +380,7 @@ variable "existing_kms_instance_guid" {
 }
 
 variable "kms_encryption_enabled" {
-  description = "Whether to use KMS key encryption to encrypt data in Object Storage buckets. Applies only if `create_cos_bucket` is set to `true`."
+  description = "Whether to use key management service key encryption to encrypt data in Object Storage buckets. Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
   default     = true
   validation {
@@ -390,7 +390,7 @@ variable "kms_encryption_enabled" {
 }
 
 variable "kms_key_crn" {
-  description = "The CRN of the KMS key to encrypt the data in the Object Storage bucket. Required if `kms_encryption_enabled` and `create_cos_bucket` are set to `true`."
+  description = "The CRN of the key management service key to encrypt the data in the Object Storage bucket. Required if `kms_encryption_enabled` and `create_cos_bucket` are set to `true`."
   type        = string
   default     = null
 
@@ -401,7 +401,7 @@ variable "kms_key_crn" {
 
   validation {
     condition     = var.cross_region_location == "us" || var.cross_region_location == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
-    error_message = "Support for using HPCS instance for KMS encryption in a cross-regional bucket is only available in the US region."
+    error_message = "Support for using a Hyper Protect Crypto Services instance for key encryption in a cross-regional bucket is only available in the US region."
   }
 }
 
@@ -461,6 +461,6 @@ variable "instance_cbr_rules" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the KMS instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the KMS instance in `existing_kms_guid`."
+  description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the key management service instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the key management service instance in `existing_kms_guid`."
   default     = false
 }
