@@ -675,7 +675,6 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
-		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "cr-sec-bucket", DataType: "string"},
 	}
 
@@ -727,7 +726,6 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-sec-bucket", DataType: "string"},
-		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 	}
 
 	err := options.RunSchematicTest()
