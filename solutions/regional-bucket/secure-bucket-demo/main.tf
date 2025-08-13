@@ -9,8 +9,8 @@ module "secure_regional_bucket" {
   provider_visibility = "private"
 
   # KMS Configuration
-  kms_encryption_enabled = true
-  existing_kms_key_crn   = var.existing_kms_key_crn
+  kms_encryption_enabled    = true
+  existing_kms_instance_crn = var.existing_kms_instance_crn
 
   # COS Configuration
   existing_cos_instance_crn           = var.existing_cos_instance_crn

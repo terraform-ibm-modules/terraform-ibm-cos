@@ -1746,7 +1746,7 @@
         "infrastructure as code"
       ],
       "short_description": "Creates a single, security-enforced COS bucket in Brazil with minimal inputs",
-      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure a single, security-enforced [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) bucket with hard-coded compliance features for demonstration purposes.\n\nℹ️ This Terraform-based automation is a specialized demo variation focusing on minimal configuration with enforced security standards. It creates a regional bucket in Brazil São Paulo (br-sao) with mandatory encryption, versioning, retention policies, and lifecycle management, making it ideal for controlled environments and private catalog demonstrations.",
+      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure a single, security-enforced [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) bucket with hard-coded compliance features for demonstration purposes.\n\nℹ️ This Terraform-based automation is a specialized demo variation focusing on minimal configuration with enforced security standards. It creates a regional bucket in Brazil São Paulo (br-sao) with mandatory encryption, versioning, and lifecycle management, making it ideal for controlled environments and private catalog demonstrations.",
       "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/regional-bucket/secure-bucket-demo/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
@@ -1811,7 +1811,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> in Brazil São Paulo with enforced security features including <b>KMS encryption</b>, object versioning, retention policies, and lifecycle management for secure, compliant cloud storage."
+                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> in Brazil São Paulo with enforced security features including <b>KMS encryption</b>, object versioning, and lifecycle management for secure, compliant cloud storage."
               }
             ]
           },
@@ -1828,7 +1828,7 @@
               "required": true
             },
             {
-              "key": "existing_kms_key_crn",
+              "key": "existing_kms_instance_crn",
               "required": true
             }
           ],

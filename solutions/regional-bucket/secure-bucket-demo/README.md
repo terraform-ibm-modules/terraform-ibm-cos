@@ -6,10 +6,10 @@ This is a specialized Deployable Architecture (DA) designed for creating a singl
 
 ## 🔐 Key Features
 
-- **Hard-coded Security**: Enforced KMS encryption, object versioning, retention policies, and object locking
-- **Brazil Region**: Fixed to São Paulo (br-sao) for data sovereignty demonstration  
+- **Hard-coded Security**: Enforced KMS encryption, object versioning, and object locking
+- **Brazil Region**: Fixed to São Paulo (br-sao) for data sovereignty demonstration
 - **Minimal Inputs**: Only requires bucket name, existing COS instance CRN, and KMS key CRN
-- **Compliance Ready**: 30-365 day retention, 30-day object locking, lifecycle management
+- **Compliance Ready**: object versioning, 30-day object locking, lifecycle management
 - **Cost Controlled**: 100GB hard quota and automatic archival policies
 
 ## 📋 Required Inputs
@@ -26,7 +26,6 @@ This is a specialized Deployable Architecture (DA) designed for creating a singl
 - **Region**: Brazil São Paulo (br-sao)
 - **Encryption**: Mandatory KMS encryption with customer keys
 - **Versioning**: Object versioning enabled
-- **Retention**: 90 days default (30-365 range)
 - **Object Locking**: 30-day lock period
 - **Lifecycle**: Archive to Glacier after 30 days, expire after 7 years
 - **Quota**: 100GB hard limit
@@ -37,8 +36,7 @@ This is a specialized Deployable Architecture (DA) designed for creating a singl
 ```hcl
 module "secure_bucket_demo" {
   source = "github.com/terraform-ibm-modules/terraform-ibm-cos//solutions/secure-bucket-demo"
-
-  ibmcloud_api_key          = var.ibmcloud_api_key
+  ibmcloud_api_key         = var.ibmcloud_api_key      # pragma: allowlist secret
   bucket_name              = "my-demo-bucket"
   existing_cos_instance_id = "crn:v1:bluemix:public:cloud-object-storage:global:a/abc123:instance-id::"
   existing_kms_key_crn     = "crn:v1:bluemix:public:kms:br-sao:a/abc123:instance-id:key:key-id"

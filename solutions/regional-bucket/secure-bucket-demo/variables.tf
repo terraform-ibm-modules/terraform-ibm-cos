@@ -18,7 +18,7 @@ variable "existing_cos_instance_crn" {
   description = "The CRN of the existing COS instance where the bucket will be created."
 }
 
-variable "existing_kms_key_crn" {
+variable "existing_kms_instance_crn" {
   type        = string
-  description = "The CRN of the existing KMS key for bucket encryption."
+  description = "The CRN of the existing KMS for bucket encryption."
 }
