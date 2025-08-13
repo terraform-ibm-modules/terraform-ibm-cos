@@ -1794,7 +1794,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Reader"
               ],
               "service_name": "kms",
-              "notes": "Required to use existing KMS key for bucket encryption."
+              "notes": "Required to use existing KMS instance for bucket encryption."
             }
           ],
           "architecture": {

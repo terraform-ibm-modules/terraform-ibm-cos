@@ -19,7 +19,7 @@ This is a specialized Deployable Architecture (DA) designed for creating a singl
 | `ibmcloud_api_key` | IBM Cloud API key for deployment |
 | `bucket_name` | Name for the secure bucket (random suffix added) |
 | `existing_cos_instance_id` | CRN of existing COS instance |
-| `existing_kms_key_crn` | CRN of existing KMS key for encryption |
+| `existing_kms_instance_crn` | CRN of existing KMS instance for encryption |
 
 ## 🛡️ Hard-coded Security Settings
 
@@ -39,7 +39,7 @@ module "secure_bucket_demo" {
   ibmcloud_api_key         = var.ibmcloud_api_key      # pragma: allowlist secret
   bucket_name              = "my-demo-bucket"
   existing_cos_instance_id = "crn:v1:bluemix:public:cloud-object-storage:global:a/abc123:instance-id::"
-  existing_kms_key_crn     = "crn:v1:bluemix:public:kms:br-sao:a/abc123:instance-id:key:key-id"
+  existing_kms_instance_crn     = "crn:v1:bluemix:public:kms:br-sao:a/abc123:instance-id::"
 }
 ```
 
