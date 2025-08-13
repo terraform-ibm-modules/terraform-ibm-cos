@@ -6,11 +6,12 @@ module "secure_regional_bucket" {
   source              = "../fully-configurable"
   ibmcloud_api_key    = var.ibmcloud_api_key
   prefix              = "sec-buc-demo"
-  provider_visibility = "private"
+  provider_visibility = "public-and-private"
 
   # KMS Configuration
-  kms_encryption_enabled = true
-  existing_kms_key_crn   = var.existing_kms_key_crn
+  kms_encryption_enabled       = true
+  skip_cos_kms_iam_auth_policy = true
+  existing_kms_key_crn         = var.existing_kms_key_crn
 
   # COS Configuration
   existing_cos_instance_crn           = var.existing_cos_instance_crn
@@ -21,7 +22,7 @@ module "secure_regional_bucket" {
   region                 = "br-sao"
   bucket_storage_class   = "standard"
   force_delete           = false
-  add_bucket_name_suffix = true
+  add_bucket_name_suffix = false
 
   # Compliance Features
   enable_object_versioning  = true
