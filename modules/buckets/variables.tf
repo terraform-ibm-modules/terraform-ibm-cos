@@ -66,7 +66,6 @@ variable "bucket_configs" {
       minimum   = optional(number, 90)
       permanent = optional(bool, false)
     }))
-    enable_replication = optional(bool, false)
     replication = optional(object({
       rule_id                   = optional(string, "test-1")
       prefix                    = optional(string, "test-rp")

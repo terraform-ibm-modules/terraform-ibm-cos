@@ -574,6 +574,8 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
+		{Name: "enable_replication", Value: true, DataType: "bool"},
+		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
 
 	err := options.RunSchematicTest()

@@ -497,21 +497,6 @@
               "key": "abort_multipart_filter_prefix"
             },
             {
-              "key": "enable_replication"
-            },
-            {
-              "key": "replication_rule_id"
-            },
-            {
-              "key": "replication_bucket_region"
-            },
-            {
-              "key": "replication_priority"
-            },
-            {
-              "key": "replication_destination_bucket_name"
-            },
-            {
               "key": "ibmcloud_kms_api_key"
             },
             {
@@ -857,21 +842,6 @@
             },
             {
               "key": "abort_multipart_filter_prefix"
-            },
-            {
-              "key": "enable_replication"
-            },
-            {
-              "key": "replication_rule_id"
-            },
-            {
-              "key": "replication_bucket_region"
-            },
-            {
-              "key": "replication_priority"
-            },
-            {
-              "key": "replication_destination_bucket_name"
             },
             {
               "key": "ibmcloud_kms_api_key"
