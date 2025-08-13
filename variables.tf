@@ -337,7 +337,7 @@ variable "abort_multipart_filter_prefix" {
 variable "enable_replication" {
   description = "Enable COS replication rule and create a destination bucket"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "replication_destination_bucket_name" {
