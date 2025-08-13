@@ -196,7 +196,7 @@ You need the following permissions to run this module.
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If specified, set `cross_region_location` and `single_site_location` to `null`. | `string` | `"us-south"` | no |
 | <a name="input_replication_bucket_region"></a> [replication\_bucket\_region](#input\_replication\_bucket\_region) | The region in which the replication bucket is to be provisioned. | `string` | `"eu-de"` | no |
 | <a name="input_replication_destination_bucket_name"></a> [replication\_destination\_bucket\_name](#input\_replication\_destination\_bucket\_name) | Name prefix for replication destination bucket. | `string` | `"rep-dt"` | no |
-| <a name="input_replication_prefix"></a> [replication\_prefix](#input\_replication\_prefix) | Prefix for replication | `string` | `null` | no |
+| <a name="input_replication_prefix"></a> [replication\_prefix](#input\_replication\_prefix) | Prefix for replication | `string` | `"rep-b"` | no |
 | <a name="input_replication_priority"></a> [replication\_priority](#input\_replication\_priority) | Priority for replication rule. | `number` | `1` | no |
 | <a name="input_replication_rule_id"></a> [replication\_rule\_id](#input\_replication\_rule\_id) | Replication rule id. | `string` | `"Rule-1"` | no |
 | <a name="input_request_metrics_enabled"></a> [request\_metrics\_enabled](#input\_request\_metrics\_enabled) | If set to `true`, all Object Storage bucket request metrics will be sent to the monitoring service. | `bool` | `true` | no |

@@ -377,7 +377,7 @@ variable "replication_rule_id" {
 variable "replication_prefix" {
   type        = string
   description = "Prefix for replication"
-  default     = null
+  default     = "rep-b"
 }
 
 variable "monitoring_crn" {
