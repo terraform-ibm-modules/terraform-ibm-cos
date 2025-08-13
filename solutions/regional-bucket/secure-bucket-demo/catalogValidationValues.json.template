@@ -1,0 +1,6 @@
+{
+  "ibmcloud_api_key": $VALIDATION_APIKEY,
+  "bucket_name": "secure-demo-bucket",
+  "existing_cos_instance_crn": $COS_INSTANCE_CRN,
+  "existing_kms_key_crn": $HPCS_US_SOUTH_CRN
+}
