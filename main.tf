@@ -340,7 +340,7 @@ resource "ibm_cos_bucket" "replication_destination" {
 
 locals {
   source_instance_guid      = local.cos_bucket_resource == null ? null : split(":", local.cos_bucket_resource[0].crn)[7]
-  destination_instance_guid = split(":", ibm_cos_bucket.replication_destination[0].crn)[7]
+  destination_instance_guid = var.enable_replication ? split(":", ibm_cos_bucket.replication_destination[0].crn)[7] : null
 }
 
 resource "ibm_iam_authorization_policy" "cos_replication" {
