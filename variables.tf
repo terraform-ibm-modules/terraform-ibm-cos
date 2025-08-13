@@ -357,8 +357,8 @@ variable "replication_bucket_region" {
   default     = "eu-de"
 
   validation {
-    condition     = var.region == var.replication_bucket_region ? false : true
-    error_message = "The source bucket and destination bucket should have different regions."
+    condition     = var.enable_replication && (var.region == var.replication_bucket_region) ? false : true
+    error_message = "For replication, the source bucket and destination bucket should have different regions."
   }
 }
 
