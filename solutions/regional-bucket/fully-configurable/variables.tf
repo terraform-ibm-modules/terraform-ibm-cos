@@ -267,7 +267,7 @@ variable "provider_visibility" {
 variable "noncurrent_expire_days" {
   type        = number
   description = "Number of days after which noncurrent versions are deleted."
-  default     = 30
+  default     = null
 }
 
 variable "noncurrent_expire_filter_prefix" {
@@ -279,7 +279,7 @@ variable "noncurrent_expire_filter_prefix" {
 variable "abort_multipart_days" {
   type        = number
   description = "Number of days after initiation to abort incomplete multipart uploads."
-  default     = 3
+  default     = null
 }
 
 variable "abort_multipart_filter_prefix" {
