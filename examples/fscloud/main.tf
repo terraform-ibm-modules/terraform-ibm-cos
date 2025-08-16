@@ -80,7 +80,7 @@ module "cos_fscloud" {
   cos_tags          = var.resource_tags
   access_tags       = var.access_tags
 
-  # CBR rule only allowing the COS instance to be accessbile over the private endpoint from within the VPC
+  # CBR rule only allowing the COS instance to be accessible over the private endpoint from within the VPC
   # or from schematics
   instance_cbr_rules = [{
     description      = "sample rule for the instance"
@@ -123,7 +123,7 @@ module "cos_fscloud" {
     management_endpoint_type = var.management_endpoint_type_for_bucket
     region_location          = var.region
 
-    # CBR rule only allowing the COS bucket to be accessbile over the private endpoint from within the VPC
+    # CBR rule only allowing the COS bucket to be accessible over the private endpoint from within the VPC
     cbr_rules = [{
       description      = "sample rule for ${var.prefix}-bucket"
       enforcement_mode = "enabled"

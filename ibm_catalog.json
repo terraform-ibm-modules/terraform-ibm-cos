@@ -20,7 +20,7 @@
         "storage",
         "solution",
         "IaC",
-        "infrastructure as code", 
+        "infrastructure as code",
         "cloud object storage"
       ],
       "short_description": "Creates and configures an IBM Cloud Object Storage instance and buckets",
