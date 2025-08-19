@@ -961,7 +961,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if ky encryption is enabled and Key Protect is used for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and Key Protect is used for bucket encryption."
             },
             {
               "role_crns": [
