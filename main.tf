@@ -355,7 +355,7 @@ resource "ibm_iam_authorization_policy" "cos_replication" {
 resource "ibm_cos_bucket_replication_rule" "replication_rule" {
   count           = var.enable_replication ? 1 : 0
   bucket_crn      = local.cos_bucket_resource[count.index].crn
-  bucket_location = var.region
+  bucket_location = var.region != null ? var.region : var.cross_region_location
 
   replication_rule {
     rule_id                         = var.replication_rule_id
