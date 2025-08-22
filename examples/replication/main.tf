@@ -18,8 +18,7 @@ module "cos_source_bucket" {
   source                    = "../../"
   bucket_name               = "${var.prefix}-bucket-source"
   resource_group_id         = module.resource_group.resource_group_id
-  cross_region_location     = var.region
-  region                    = null
+  region                    = var.region
   cos_instance_name         = "${var.prefix}-source-cos"
   cos_tags                  = var.resource_tags
   access_tags               = var.access_tags
@@ -38,8 +37,7 @@ module "cos_target_bucket" {
   source                    = "../../"
   bucket_name               = "${var.prefix}-bucket-target"
   resource_group_id         = module.resource_group.resource_group_id
-  cross_region_location     = var.region
-  region                    = null
+  region                    = var.region
   cos_instance_name         = "${var.prefix}-target-cos"
   cos_tags                  = var.resource_tags
   access_tags               = var.access_tags
