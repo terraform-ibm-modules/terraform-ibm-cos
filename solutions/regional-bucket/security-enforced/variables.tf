@@ -279,6 +279,12 @@ variable "replication_priority" {
   default     = 1
 }
 
+variable "replication_prefix" {
+  type        = string
+  description = "Prefix for replication"
+  default     = "rep-rs"
+}
+
 variable "replication_rule_id" {
   type        = string
   description = "Replication rule id."

@@ -63,11 +63,11 @@ locals {
     } : null
 
     replication = var.enable_replication ? {
-      rule_id                   = var.replication_rule_id
-      prefix                    = var.prefix
-      priority                  = var.replication_priority
-      bucket_name               = var.replication_destination_bucket_name
-      replication_bucket_region = var.replication_bucket_region
+      rule_id                                  = var.replication_rule_id
+      prefix                                   = var.replication_prefix
+      priority                                 = var.replication_priority
+      bucket_name                              = var.replication_destination_bucket_name
+      replication_bucket_cross_region_location = var.replication_bucket_cross_region_location
     } : null
 
     cos_bucket_cbr_rules = var.cos_bucket_cbr_rules

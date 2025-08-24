@@ -303,10 +303,10 @@ variable "replication_destination_bucket_name" {
   description = "Name prefix for replication destination bucket."
   default     = "rep-dt"
 
-  # validation {
-  #   condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
-  #   error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
-  # }
+  validation {
+    condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
+    error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
+  }
 }
 
 variable "replication_bucket_region" {
@@ -324,6 +324,12 @@ variable "replication_priority" {
   type        = number
   description = "Priority for replication rule."
   default     = 1
+}
+
+variable "replication_prefix" {
+  type        = string
+  description = "Prefix for replication"
+  default     = "rep-rf"
 }
 
 variable "replication_rule_id" {

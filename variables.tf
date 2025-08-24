@@ -343,7 +343,7 @@ variable "enable_replication" {
 variable "replication_destination_bucket_name" {
   type        = string
   description = "Name prefix for replication destination bucket."
-  default     = "rep-dt"
+  default     = "rep"
 
   validation {
     condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
@@ -357,8 +357,19 @@ variable "replication_bucket_region" {
   default     = "eu-de"
 
   validation {
-    condition     = var.enable_replication && (var.region == var.replication_bucket_region) ? false : true
+    condition     = var.enable_replication && var.cross_region_location == null && (var.region == var.replication_bucket_region) ? false : true
     error_message = "For replication, the source bucket and destination bucket should have different regions."
+  }
+}
+
+variable "replication_bucket_cross_region_location" {
+  type        = string
+  description = "The cross region bucket location in which the replication bucket is to be provisioned."
+  default     = null
+
+  validation {
+    condition     = var.enable_replication && var.region == null && (var.cross_region_location == var.replication_bucket_cross_region_location) ? false : true
+    error_message = "For replication, the source bucket and destination bucket should have different cross region locations."
   }
 }
 

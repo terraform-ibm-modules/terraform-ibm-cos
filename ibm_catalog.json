@@ -503,10 +503,13 @@
               "key": "replication_rule_id"
             },
             {
-              "key": "replication_bucket_region"
+              "key": "replication_bucket_cross_region_location"
             },
             {
               "key": "replication_priority"
+            },
+            {
+              "key": "replication_prefix"
             },
             {
               "key": "replication_destination_bucket_name"
@@ -865,7 +868,10 @@
               "key": "replication_rule_id"
             },
             {
-              "key": "replication_bucket_region"
+              "key": "replication_prefix"
+            },
+            {
+              "key": "replication_bucket_cross_region_location"
             },
             {
               "key": "replication_priority"
@@ -1295,6 +1301,9 @@
               "key": "replication_rule_id"
             },
             {
+              "key": "replication_prefix"
+            },
+            {
               "key": "replication_bucket_region"
             },
             {
@@ -1714,6 +1723,9 @@
             },
             {
               "key": "replication_rule_id"
+            },
+            {
+              "key": "replication_prefix"
             },
             {
               "key": "replication_bucket_region"

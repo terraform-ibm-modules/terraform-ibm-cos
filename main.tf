@@ -14,6 +14,7 @@ locals {
   retention_enabled          = var.retention_enabled ? [1] : []
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
+  object_versioning_enabled  = var.object_versioning_enabled ? [1] : []
 }
 
 resource "time_sleep" "wait_for_authorization_policy" {
@@ -135,10 +136,6 @@ resource "ibm_cos_bucket" "cos_bucket" {
   force_delete          = var.force_delete
   object_lock           = var.object_locking_enabled ? true : null
 
-  object_versioning {
-    enable = var.object_versioning_enabled
-  }
-
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -168,6 +165,13 @@ resource "ibm_cos_bucket" "cos_bucket" {
       usage_metrics_enabled   = var.usage_metrics_enabled
       request_metrics_enabled = var.request_metrics_enabled
       metrics_monitoring_crn  = var.monitoring_crn
+    }
+  }
+
+  dynamic "object_versioning" {
+    for_each = local.object_versioning_enabled
+    content {
+      enable = var.object_versioning_enabled
     }
   }
 }
@@ -193,10 +197,6 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   force_delete          = var.force_delete
   object_lock           = var.object_locking_enabled ? true : null
 
-  object_versioning {
-    enable = var.object_versioning_enabled
-  }
-
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -226,6 +226,13 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       usage_metrics_enabled   = var.usage_metrics_enabled
       request_metrics_enabled = var.request_metrics_enabled
       metrics_monitoring_crn  = var.monitoring_crn
+    }
+  }
+
+  dynamic "object_versioning" {
+    for_each = local.object_versioning_enabled
+    content {
+      enable = var.object_versioning_enabled
     }
   }
 }
@@ -323,15 +330,16 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
 
 # Destination Bucket
 resource "ibm_cos_bucket" "replication_destination" {
-  count                = var.enable_replication ? 1 : 0
-  resource_instance_id = local.cos_instance_id
-  bucket_name          = "${var.replication_prefix}-${var.replication_destination_bucket_name}"
-  region_location      = var.replication_bucket_region
-  endpoint_type        = var.management_endpoint_type_for_bucket
-  storage_class        = var.bucket_storage_class
-  hard_quota           = var.hard_quota
-  force_delete         = var.force_delete
-  object_lock          = var.object_locking_enabled ? true : null
+  count                 = var.enable_replication ? 1 : 0
+  resource_instance_id  = local.cos_instance_id
+  bucket_name           = "${var.replication_prefix}-${var.replication_destination_bucket_name}"
+  region_location       = var.replication_bucket_region
+  cross_region_location = var.replication_bucket_cross_region_location
+  endpoint_type         = var.management_endpoint_type_for_bucket
+  storage_class         = var.bucket_storage_class
+  hard_quota            = var.hard_quota
+  force_delete          = var.force_delete
+  object_lock           = var.object_locking_enabled ? true : null
 
   object_versioning {
     enable = true

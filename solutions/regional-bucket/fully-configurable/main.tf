@@ -68,7 +68,7 @@ locals {
 
     replication = var.enable_replication ? {
       rule_id                   = var.replication_rule_id
-      prefix                    = var.prefix
+      prefix                    = var.replication_prefix
       priority                  = var.replication_priority
       bucket_name               = var.replication_destination_bucket_name
       replication_bucket_region = var.replication_bucket_region

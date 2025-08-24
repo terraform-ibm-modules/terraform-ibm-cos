@@ -67,11 +67,12 @@ variable "bucket_configs" {
       permanent = optional(bool, false)
     }))
     replication = optional(object({
-      rule_id                   = optional(string, "test-1")
-      prefix                    = optional(string, "test-rp")
-      priority                  = optional(number, 1)
-      bucket_name               = optional(string, "rep-buc")
-      replication_bucket_region = optional(string, "eu-de")
+      rule_id                                  = optional(string, "test-1")
+      prefix                                   = optional(string, "test-rp")
+      priority                                 = optional(number, 1)
+      bucket_name                              = string
+      replication_bucket_region                = optional(string, null)
+      replication_bucket_cross_region_location = optional(string, null)
     }))
     cbr_rules = optional(list(object({
       description = string

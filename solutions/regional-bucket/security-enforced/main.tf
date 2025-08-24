@@ -33,6 +33,7 @@ module "regional_bucket" {
   replication_destination_bucket_name = var.replication_destination_bucket_name
   replication_bucket_region           = var.replication_bucket_region
   replication_priority                = var.replication_priority
+  replication_prefix                  = var.replication_prefix
   replication_rule_id                 = var.replication_rule_id
   monitoring_crn                      = var.monitoring_crn
   enable_object_versioning            = var.enable_object_versioning
