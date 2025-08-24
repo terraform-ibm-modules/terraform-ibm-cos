@@ -106,10 +106,10 @@ module "buckets" {
   expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
 
   noncurrent_expire_days          = can(each.value.noncurrent_expire.days) ? (each.value.noncurrent_expire.enable ? each.value.noncurrent_expire.days : null) : null
-  noncurrent_expire_filter_prefix = can(each.value.noncurrent_expire.days) ? (each.value.noncurrent_expire.enable ? each.value.noncurrent_expire.noncurrent_expire_filter_prefix : null) : null
+  noncurrent_expire_filter_prefix = can(each.value.noncurrent_expire.days) ? (each.value.noncurrent_expire.enable ? each.value.noncurrent_expire.prefix : null) : null
 
   abort_multipart_days          = can(each.value.abort_multipart.days) ? (each.value.abort_multipart.enable ? each.value.abort_multipart.days : null) : null
-  abort_multipart_filter_prefix = can(each.value.abort_multipart.days) ? (each.value.abort_multipart.enable ? each.value.abort_multipart.abort_multipart_filter_prefix : null) : null
+  abort_multipart_filter_prefix = can(each.value.abort_multipart.days) ? (each.value.abort_multipart.enable ? each.value.abort_multipart.prefix : null) : null
 
   request_metrics_enabled = can(each.value.metrics_monitoring.request_metrics_enabled) ? each.value.metrics_monitoring.request_metrics_enabled : true
   usage_metrics_enabled   = can(each.value.metrics_monitoring.usage_metrics_enabled) ? each.value.metrics_monitoring.usage_metrics_enabled : true
