@@ -466,7 +466,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 		{Name: "enable_replication", Value: true, DataType: "bool"},
-		//	{Name: "replication_destination_bucket_name", Value: "rep-cfc", DataType: "bool"},
+		{Name: "replication_destination_bucket_name", Value: "rep-cfc", DataType: "bool"},
 		{Name: "replication_bucket_cross_region_location", Value: "ap", DataType: "string"},
 		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
