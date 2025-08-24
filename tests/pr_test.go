@@ -466,7 +466,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 		{Name: "enable_replication", Value: true, DataType: "bool"},
-		{Name: "replication_destination_bucket_name", Value: "rep-cfc", DataType: "bool"},
+		{Name: "replication_destination_bucket_name", Value: "rep-cfc", DataType: "string"},
 		{Name: "replication_bucket_cross_region_location", Value: "ap", DataType: "string"},
 		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
@@ -521,7 +521,7 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 		{Name: "enable_replication", Value: true, DataType: "bool"},
-		{Name: "replication_destination_bucket_name", Value: "rep-up-cfc", DataType: "bool"},
+		{Name: "replication_destination_bucket_name", Value: "rep-up-cfc", DataType: "string"},
 		{Name: "replication_bucket_cross_region_location", Value: "ap", DataType: "string"},
 		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
@@ -576,7 +576,7 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
 		{Name: "enable_replication", Value: true, DataType: "bool"},
-		{Name: "replication_destination_bucket_name", Value: "rep-rfc", DataType: "bool"},
+		{Name: "replication_destination_bucket_name", Value: "rep-rfc", DataType: "string"},
 		{Name: "replication_bucket_region", Value: "eu-de", DataType: "string"},
 		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
@@ -631,7 +631,7 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
 		{Name: "enable_replication", Value: true, DataType: "bool"},
-		{Name: "replication_destination_bucket_name", Value: "rep-up-rfc", DataType: "bool"},
+		{Name: "replication_destination_bucket_name", Value: "rep-up-rfc", DataType: "string"},
 		{Name: "replication_bucket_region", Value: "eu-de", DataType: "string"},
 		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
@@ -688,7 +688,7 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "cr-sec-bucket", DataType: "string"},
 		{Name: "enable_replication", Value: true, DataType: "bool"},
-		{Name: "replication_destination_bucket_name", Value: "rep-cs", DataType: "bool"},
+		{Name: "replication_destination_bucket_name", Value: "rep-cs", DataType: "string"},
 		{Name: "replication_bucket_cross_region_location", Value: "ap", DataType: "string"},
 		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
@@ -742,7 +742,7 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-sec-bucket", DataType: "string"},
 		{Name: "enable_replication", Value: true, DataType: "bool"},
-		{Name: "replication_destination_bucket_name", Value: "rep-rsc", DataType: "bool"},
+		{Name: "replication_destination_bucket_name", Value: "rep-rsc", DataType: "string"},
 		{Name: "replication_bucket_region", Value: "eu-de", DataType: "string"},
 		{Name: "enable_object_versioning", Value: true, DataType: "bool"},
 	}
