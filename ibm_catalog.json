@@ -168,7 +168,7 @@
             },
             {
               "key": "existing_secrets_manager_endpoint_type",
-              "hidden":true,
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -188,7 +188,7 @@
             },
             {
               "key": "provider_visibility",
-              "hidden":true,
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -523,7 +523,7 @@
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
@@ -841,7 +841,7 @@
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
@@ -1177,7 +1177,7 @@
             {
               "key": "monitoring_crn"
             },
-                        {
+            {
               "key": "enable_platform_metrics",
               "type": "string",
               "default_value": "true",
@@ -1261,7 +1261,7 @@
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
