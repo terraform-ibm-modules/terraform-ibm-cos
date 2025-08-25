@@ -346,18 +346,54 @@ resource "ibm_cos_bucket" "replication_destination" {
   }
 }
 
-locals {
-  source_instance_guid      = local.cos_bucket_resource == null ? null : split(":", local.cos_bucket_resource[0].crn)[7]
-  destination_instance_guid = var.enable_replication ? split(":", ibm_cos_bucket.replication_destination[0].crn)[7] : null
+data "ibm_iam_account_settings" "iam_account_settings" {
 }
 
 resource "ibm_iam_authorization_policy" "cos_replication" {
-  count                       = var.enable_replication ? 1 : 0
-  source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = local.source_instance_guid
-  target_service_name         = "cloud-object-storage"
-  target_resource_instance_id = local.destination_instance_guid
-  roles                       = ["Writer", "Object Writer"]
+  count = var.enable_replication ? 1 : 0
+  roles = [
+    "Writer", "Object Writer"
+  ]
+  subject_attributes {
+    name  = "accountId"
+    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+  }
+  subject_attributes {
+    name  = "serviceName"
+    value = "cloud-object-storage"
+  }
+  subject_attributes {
+    name  = "serviceInstance"
+    value = local.cos_instance_guid
+  }
+  subject_attributes {
+    name  = "resource"
+    value = local.bucket_name
+  }
+  subject_attributes {
+    name  = "resourceType"
+    value = "bucket"
+  }
+  resource_attributes {
+    name  = "accountId"
+    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+  }
+  resource_attributes {
+    name  = "serviceName"
+    value = "cloud-object-storage"
+  }
+  resource_attributes {
+    name  = "serviceInstance"
+    value = local.cos_instance_guid
+  }
+  resource_attributes {
+    name  = "resource"
+    value = "${var.replication_prefix}-${var.replication_destination_bucket_name}"
+  }
+  resource_attributes {
+    name  = "resourceType"
+    value = "bucket"
+  }
 }
 
 resource "ibm_cos_bucket_replication_rule" "replication_rule" {
