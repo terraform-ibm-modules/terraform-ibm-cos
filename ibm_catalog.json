@@ -442,8 +442,8 @@
             },
             {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
+              "type": "boolean",
+              "default_value": false,
               "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another Monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
@@ -777,8 +777,8 @@
             },
             {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
+              "type": "boolean",
+              "default_value": false,
               "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
@@ -1178,10 +1178,10 @@
             {
               "key": "monitoring_crn"
             },
-                        {
+            {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
+              "type": "boolean",
+              "default_value": false,
               "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
@@ -1574,8 +1574,8 @@
             },
             {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
+              "type": "boolean",
+              "default_value": false,
               "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
