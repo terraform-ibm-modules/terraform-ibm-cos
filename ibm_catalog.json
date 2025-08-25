@@ -485,6 +485,36 @@
               "key": "maximum_retention_days"
             },
             {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
+              "key": "enable_replication"
+            },
+            {
+              "key": "replication_rule_id"
+            },
+            {
+              "key": "replication_bucket_cross_region_location"
+            },
+            {
+              "key": "replication_priority"
+            },
+            {
+              "key": "replication_prefix"
+            },
+            {
+              "key": "replication_destination_bucket_name"
+            },
+            {
               "key": "ibmcloud_kms_api_key"
             },
             {
@@ -818,6 +848,36 @@
             },
             {
               "key": "maximum_retention_days"
+            },
+            {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
+              "key": "enable_replication"
+            },
+            {
+              "key": "replication_rule_id"
+            },
+            {
+              "key": "replication_prefix"
+            },
+            {
+              "key": "replication_bucket_cross_region_location"
+            },
+            {
+              "key": "replication_priority"
+            },
+            {
+              "key": "replication_destination_bucket_name"
             },
             {
               "key": "ibmcloud_kms_api_key"
@@ -1223,6 +1283,36 @@
               "key": "maximum_retention_days"
             },
             {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
+              "key": "enable_replication"
+            },
+            {
+              "key": "replication_rule_id"
+            },
+            {
+              "key": "replication_prefix"
+            },
+            {
+              "key": "replication_bucket_region"
+            },
+            {
+              "key": "replication_priority"
+            },
+            {
+              "key": "replication_destination_bucket_name"
+            },
+            {
               "key": "ibmcloud_kms_api_key"
             },
             {
@@ -1615,6 +1705,36 @@
             },
             {
               "key": "maximum_retention_days"
+            },
+            {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
+              "key": "enable_replication"
+            },
+            {
+              "key": "replication_rule_id"
+            },
+            {
+              "key": "replication_prefix"
+            },
+            {
+              "key": "replication_bucket_region"
+            },
+            {
+              "key": "replication_priority"
+            },
+            {
+              "key": "replication_destination_bucket_name"
             },
             {
               "key": "ibmcloud_kms_api_key"

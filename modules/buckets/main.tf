@@ -105,6 +105,12 @@ module "buckets" {
 
   expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
 
+  noncurrent_expire_days          = can(each.value.noncurrent_expire.days) ? (each.value.noncurrent_expire.enable ? each.value.noncurrent_expire.days : null) : null
+  noncurrent_expire_filter_prefix = can(each.value.noncurrent_expire.days) ? (each.value.noncurrent_expire.enable ? each.value.noncurrent_expire.prefix : null) : null
+
+  abort_multipart_days          = can(each.value.abort_multipart.days) ? (each.value.abort_multipart.enable ? each.value.abort_multipart.days : null) : null
+  abort_multipart_filter_prefix = can(each.value.abort_multipart.days) ? (each.value.abort_multipart.enable ? each.value.abort_multipart.prefix : null) : null
+
   request_metrics_enabled = can(each.value.metrics_monitoring.request_metrics_enabled) ? each.value.metrics_monitoring.request_metrics_enabled : true
   usage_metrics_enabled   = can(each.value.metrics_monitoring.usage_metrics_enabled) ? each.value.metrics_monitoring.usage_metrics_enabled : true
   monitoring_crn          = can(each.value.metrics_monitoring.metrics_monitoring_crn) ? each.value.metrics_monitoring.metrics_monitoring_crn : null
@@ -116,6 +122,14 @@ module "buckets" {
   retention_maximum   = can(each.value.retention_rule.maximum) ? each.value.retention_rule.maximum : 350
   retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
+
+  enable_replication                       = each.value.replication != null ? true : false
+  replication_rule_id                      = each.value.replication != null ? each.value.replication.rule_id : null
+  replication_prefix                       = each.value.replication != null ? each.value.replication.prefix : null
+  replication_priority                     = each.value.replication != null ? each.value.replication.priority : null
+  replication_destination_bucket_name      = each.value.replication != null ? each.value.replication.bucket_name : null
+  replication_bucket_region                = each.value.replication != null ? each.value.replication.replication_bucket_region : null
+  replication_bucket_cross_region_location = each.value.replication != null ? each.value.replication.replication_bucket_cross_region_location : null
 
   bucket_cbr_rules = each.value.cbr_rules
 }

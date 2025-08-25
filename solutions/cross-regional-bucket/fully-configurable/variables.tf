@@ -259,6 +259,81 @@ variable "provider_visibility" {
     error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
   }
 }
+
+variable "noncurrent_expire_days" {
+  type        = number
+  description = "Number of days after which noncurrent versions are deleted."
+  default     = null
+}
+
+variable "noncurrent_expire_filter_prefix" {
+  type        = string
+  description = "Prefix for noncurrent version expiration."
+  default     = null
+}
+
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = null
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
+  default     = null
+}
+
+########################################################################################################################
+# Replication variables
+########################################################################################################################
+
+variable "enable_replication" {
+  description = "Enable COS replication rule and create a destination bucket"
+  type        = bool
+  default     = false
+}
+
+variable "replication_destination_bucket_name" {
+  type        = string
+  description = "Name prefix for replication destination bucket."
+  default     = "rep-dt"
+
+  validation {
+    condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
+    error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
+  }
+}
+
+variable "replication_bucket_cross_region_location" {
+  type        = string
+  description = "The region in which the replication bucket is to be provisioned."
+  default     = "ap"
+
+  validation {
+    condition     = var.enable_replication && (var.cross_region_location == var.replication_bucket_cross_region_location) ? false : true
+    error_message = "For replication, the source bucket and destination bucket should have different cross region location."
+  }
+}
+
+variable "replication_priority" {
+  type        = number
+  description = "Priority for replication rule."
+  default     = 1
+}
+
+variable "replication_prefix" {
+  type        = string
+  description = "Prefix for replication"
+  default     = "rep-cf"
+}
+
+variable "replication_rule_id" {
+  type        = string
+  description = "Replication rule id."
+  default     = "Rule-1"
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

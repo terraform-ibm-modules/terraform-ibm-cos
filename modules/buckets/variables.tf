@@ -42,6 +42,16 @@ variable "bucket_configs" {
       enable = optional(bool, false)
       days   = optional(number, 365)
     }))
+    noncurrent_expire = optional(object({
+      enable = optional(bool, false)
+      days   = optional(number, 365)
+      prefix = optional(string, "nc-exp")
+    }))
+    abort_multipart = optional(object({
+      enable = optional(bool, false)
+      days   = optional(number, 365)
+      prefix = optional(string, "ab-mp")
+    }))
     metrics_monitoring = optional(object({
       usage_metrics_enabled   = optional(bool, true)
       request_metrics_enabled = optional(bool, true)
@@ -55,6 +65,14 @@ variable "bucket_configs" {
       maximum   = optional(number, 350)
       minimum   = optional(number, 90)
       permanent = optional(bool, false)
+    }))
+    replication = optional(object({
+      rule_id                                  = optional(string, "test-1")
+      prefix                                   = optional(string, "test-rp")
+      priority                                 = optional(number, 1)
+      bucket_name                              = string
+      replication_bucket_region                = optional(string, null)
+      replication_bucket_cross_region_location = optional(string, null)
     }))
     cbr_rules = optional(list(object({
       description = string
