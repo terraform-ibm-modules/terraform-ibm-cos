@@ -7,8 +7,8 @@ toolchain go1.25.0
 require (
 	github.com/IBM/ibm-cos-sdk-go v1.12.2
 	github.com/gruntwork-io/terratest v0.50.0
-	github.com/stretchr/testify v1.10.0
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.59.1
+	github.com/stretchr/testify v1.11.1
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.0
 )
 
 require (

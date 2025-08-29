@@ -169,7 +169,7 @@
             },
             {
               "key": "existing_secrets_manager_endpoint_type",
-              "hidden":true,
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -189,7 +189,7 @@
             },
             {
               "key": "provider_visibility",
-              "hidden":true,
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -1178,7 +1178,7 @@
             {
               "key": "monitoring_crn"
             },
-                        {
+            {
               "key": "enable_platform_metrics",
               "type": "string",
               "default_value": "true",
