@@ -365,6 +365,18 @@ variable "archive_filter_prefix" {
   default     = null
 }
 
+variable "noncurrent_version_expiration_days" {
+  description = "The number of days after which non-current versions will be deleted."
+  type        = number
+  default     = 30
+}
+
+variable "noncurrent_version_expiration_filter_prefix" {
+  type        = string
+  description = "Apply noncurrent version expiration lifecycle rule to only objects with the following prefix. Applies to all objects by default."
+  default     = null
+}
+
 ##############################################################################
 # COS bucket encryption variables
 ##############################################################################

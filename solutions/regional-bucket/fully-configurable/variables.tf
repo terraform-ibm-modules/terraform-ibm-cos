@@ -194,6 +194,18 @@ variable "expire_days" {
   default     = null
 }
 
+variable "noncurrent_version_expiration_days" {
+  description = "The number of days after which non-current versions will be deleted."
+  type        = number
+  default     = null
+}
+
+variable "noncurrent_version_expiration_filter_prefix" {
+  type        = string
+  description = "Apply noncurrent version expiration lifecycle rule to only objects with the following prefix. Defaults to apply to all objects."
+  default     = null
+}
+
 variable "monitoring_crn" {
   type        = string
   description = "The CRN of an IBM Cloud Monitoring instance to to send Object Storage bucket metrics to. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."

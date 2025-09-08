@@ -61,26 +61,27 @@ variable "cos_plan" {
 ##############################################################################
 variable "bucket_configs" {
   type = list(object({
-    access_tags                   = optional(list(string), [])
-    add_bucket_name_suffix        = optional(bool, false)
-    bucket_name                   = string
-    kms_encryption_enabled        = optional(bool, true)
-    kms_guid                      = optional(string, null)
-    kms_key_crn                   = string
-    skip_iam_authorization_policy = optional(bool, false)
-    management_endpoint_type      = string
-    cross_region_location         = optional(string, null)
-    storage_class                 = optional(string, "smart")
-    region_location               = optional(string, null)
-    resource_instance_id          = optional(string, null)
-    force_delete                  = optional(bool, true)
-    single_site_location          = optional(string, null)
-    hard_quota                    = optional(number, null)
-    expire_filter_prefix          = optional(string, null)
-    archive_filter_prefix         = optional(string, null)
-    object_locking_enabled        = optional(bool, false)
-    object_lock_duration_days     = optional(number, 0)
-    object_lock_duration_years    = optional(number, 0)
+    access_tags                                 = optional(list(string), [])
+    add_bucket_name_suffix                      = optional(bool, false)
+    bucket_name                                 = string
+    kms_encryption_enabled                      = optional(bool, true)
+    kms_guid                                    = optional(string, null)
+    kms_key_crn                                 = string
+    skip_iam_authorization_policy               = optional(bool, false)
+    management_endpoint_type                    = string
+    cross_region_location                       = optional(string, null)
+    storage_class                               = optional(string, "smart")
+    region_location                             = optional(string, null)
+    resource_instance_id                        = optional(string, null)
+    force_delete                                = optional(bool, true)
+    single_site_location                        = optional(string, null)
+    hard_quota                                  = optional(number, null)
+    expire_filter_prefix                        = optional(string, null)
+    archive_filter_prefix                       = optional(string, null)
+    noncurrent_version_expiration_filter_prefix = optional(string, null)
+    object_locking_enabled                      = optional(bool, false)
+    object_lock_duration_days                   = optional(number, 0)
+    object_lock_duration_years                  = optional(number, 0)
 
     activity_tracking = optional(object({
       read_data_events  = optional(bool, true)
@@ -95,6 +96,10 @@ variable "bucket_configs" {
     expire_rule = optional(object({
       enable = optional(bool, false)
       days   = optional(number, 365)
+    }))
+    noncurrent_version_expiration_rule = optional(object({
+      enable = optional(bool, false)
+      days   = optional(number, 30)
     }))
     metrics_monitoring = optional(object({
       usage_metrics_enabled   = optional(bool, true)
