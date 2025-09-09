@@ -251,46 +251,6 @@ variable "abort_multipart_filter_prefix" {
   default     = null
 }
 
-########################################################################################################################
-# Replication variables
-########################################################################################################################
-
-variable "enable_replication" {
-  description = "Enable COS replication rule and create a destination bucket"
-  type        = bool
-  default     = false
-}
-
-variable "replication_destination_bucket_name" {
-  type        = string
-  description = "Name prefix for replication destination bucket."
-  default     = "rep-dt"
-}
-
-variable "replication_bucket_region" {
-  type        = string
-  description = "The region in which the replication bucket is to be provisioned."
-  default     = "eu-de"
-}
-
-variable "replication_priority" {
-  type        = number
-  description = "Priority for replication rule."
-  default     = 1
-}
-
-variable "replication_prefix" {
-  type        = string
-  description = "Prefix for replication"
-  default     = "rep-rs"
-}
-
-variable "replication_rule_id" {
-  type        = string
-  description = "Replication rule id."
-  default     = "Rule-1"
-}
-
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

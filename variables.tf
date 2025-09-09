@@ -330,67 +330,6 @@ variable "abort_multipart_filter_prefix" {
   default     = null
 }
 
-##############################################################################
-# COS bucket Replication variables
-##############################################################################
-
-variable "enable_replication" {
-  description = "Enable COS replication rule and create a destination bucket"
-  type        = bool
-  default     = false
-}
-
-variable "replication_destination_bucket_name" {
-  type        = string
-  description = "Name prefix for replication destination bucket."
-  default     = "rep"
-
-  validation {
-    condition     = var.enable_replication && var.replication_destination_bucket_name == null ? false : true
-    error_message = "When `enable_replication` is true, a value must be passed for `replication_destination_bucket_name` ."
-  }
-}
-
-variable "replication_bucket_region" {
-  type        = string
-  description = "The region in which the replication bucket is to be provisioned."
-  default     = "eu-de"
-
-  validation {
-    condition     = var.enable_replication && var.cross_region_location == null && (var.region == var.replication_bucket_region) ? false : true
-    error_message = "For replication, the source bucket and destination bucket should have different regions."
-  }
-}
-
-variable "replication_bucket_cross_region_location" {
-  type        = string
-  description = "The cross region bucket location in which the replication bucket is to be provisioned."
-  default     = null
-
-  validation {
-    condition     = var.enable_replication && var.region == null && (var.cross_region_location == var.replication_bucket_cross_region_location) ? false : true
-    error_message = "For replication, the source bucket and destination bucket should have different cross region locations."
-  }
-}
-
-variable "replication_priority" {
-  type        = number
-  description = "Priority for replication rule."
-  default     = 1
-}
-
-variable "replication_rule_id" {
-  type        = string
-  description = "Replication rule id."
-  default     = "Rule-1"
-}
-
-variable "replication_prefix" {
-  type        = string
-  description = "Prefix for replication"
-  default     = "rep-b"
-}
-
 variable "monitoring_crn" {
   type        = string
   description = "The CRN of an IBM Cloud Monitoring instance to to send Object Storage bucket metrics to. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."

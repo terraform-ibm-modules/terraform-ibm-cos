@@ -123,14 +123,6 @@ module "buckets" {
   retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
 
-  enable_replication                       = each.value.replication != null ? true : false
-  replication_rule_id                      = each.value.replication != null ? each.value.replication.rule_id : null
-  replication_prefix                       = each.value.replication != null ? each.value.replication.prefix : null
-  replication_priority                     = each.value.replication != null ? each.value.replication.priority : null
-  replication_destination_bucket_name      = each.value.replication != null ? each.value.replication.bucket_name : null
-  replication_bucket_region                = each.value.replication != null ? each.value.replication.replication_bucket_region : null
-  replication_bucket_cross_region_location = each.value.replication != null ? each.value.replication.replication_bucket_cross_region_location : null
-
   bucket_cbr_rules = each.value.cbr_rules
 }
 

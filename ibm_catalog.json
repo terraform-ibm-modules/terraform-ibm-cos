@@ -168,7 +168,7 @@
             },
             {
               "key": "existing_secrets_manager_endpoint_type",
-              "hidden":true,
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -188,7 +188,7 @@
             },
             {
               "key": "provider_visibility",
-              "hidden":true,
+              "hidden": true,
               "options": [
                 {
                   "displayname": "private",
@@ -495,24 +495,6 @@
             },
             {
               "key": "abort_multipart_filter_prefix"
-            },
-            {
-              "key": "enable_replication"
-            },
-            {
-              "key": "replication_rule_id"
-            },
-            {
-              "key": "replication_bucket_cross_region_location"
-            },
-            {
-              "key": "replication_priority"
-            },
-            {
-              "key": "replication_prefix"
-            },
-            {
-              "key": "replication_destination_bucket_name"
             },
             {
               "key": "ibmcloud_kms_api_key"
@@ -860,24 +842,6 @@
             },
             {
               "key": "abort_multipart_filter_prefix"
-            },
-            {
-              "key": "enable_replication"
-            },
-            {
-              "key": "replication_rule_id"
-            },
-            {
-              "key": "replication_prefix"
-            },
-            {
-              "key": "replication_bucket_cross_region_location"
-            },
-            {
-              "key": "replication_priority"
-            },
-            {
-              "key": "replication_destination_bucket_name"
             },
             {
               "key": "ibmcloud_kms_api_key"
@@ -1237,7 +1201,7 @@
             {
               "key": "monitoring_crn"
             },
-                        {
+            {
               "key": "enable_platform_metrics",
               "type": "string",
               "default_value": "true",
@@ -1293,24 +1257,6 @@
             },
             {
               "key": "abort_multipart_filter_prefix"
-            },
-            {
-              "key": "enable_replication"
-            },
-            {
-              "key": "replication_rule_id"
-            },
-            {
-              "key": "replication_prefix"
-            },
-            {
-              "key": "replication_bucket_region"
-            },
-            {
-              "key": "replication_priority"
-            },
-            {
-              "key": "replication_destination_bucket_name"
             },
             {
               "key": "ibmcloud_kms_api_key"
@@ -1717,24 +1663,6 @@
             },
             {
               "key": "abort_multipart_filter_prefix"
-            },
-            {
-              "key": "enable_replication"
-            },
-            {
-              "key": "replication_rule_id"
-            },
-            {
-              "key": "replication_prefix"
-            },
-            {
-              "key": "replication_bucket_region"
-            },
-            {
-              "key": "replication_priority"
-            },
-            {
-              "key": "replication_destination_bucket_name"
             },
             {
               "key": "ibmcloud_kms_api_key"
