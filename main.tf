@@ -318,7 +318,7 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       filter {
         prefix = var.abort_multipart_filter_prefix != null ? var.abort_multipart_filter_prefix : ""
       }
-      rule_id = "delete-after-3-days"
+      rule_id = "abort-multipart-rule"
       status  = "enable"
     }
   }
