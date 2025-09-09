@@ -20,10 +20,11 @@
         "storage",
         "solution",
         "IaC",
-        "infrastructure as code"
+        "infrastructure as code",
+        "cloud object storage"
       ],
       "short_description": "Creates and configures an IBM Cloud Object Storage instance and buckets",
-      "long_description": "IBM Cloud Object Storage is a highly available, durable, and secure platform for storing unstructured data. This deployable architecture is used to provision and configure [IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) resources. It consists of a `Single instance` variation which can be used to provision and configure the instance, and then other variations for provisioning and configuring regional and cross regional buckets.\n\nℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "long_description": "[IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) is a highly available, durable, and secure platform for storing unstructured data. You can choose from a few different variations to create a single instance or regional and cross-regional buckets. \n\nℹ️ This deployable architecture is a part of a larger collection that IBM provides. Each deployable architecture focuses on a single IBM Cloud service. You can use these deployable architectures on their own to automate deployments by following an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or you can [combine them together](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to deploy a more complex end-to-end solution architecture.",
       "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
@@ -31,23 +32,23 @@
       "features": [
         {
           "title": "Object Storage instance",
-          "description": "Create and configures an IBM Cloud Object Storage instance."
+          "description": "Creates and configures an IBM Cloud Object Storage instance."
         },
         {
           "title": "Object Storage bucket",
-          "description": "Supports both cross-regional and regional bucket creation and configuration."
+          "description": "Optionally creates and configures regional and cross-regional buckets."
         },
         {
-          "title": "KMS encryption",
-          "description": "You can optionally choose to encrypt your data using the default encryption keys, or opt for IBM Key Protect or IBM Hyper Protect Crypto Services to have complete control over the encryption keys. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
+          "title": "Key encryption",
+          "description": "You can optionally choose to encrypt your data using default encryption keys, IBM Key Protect, or IBM Hyper Protect Crypto Services to have complete control over your encryption keys. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)."
         },
         {
           "title": "Service credentials",
-          "description": "Has the ability to create and configure Object Storage service credentials for your instance. Optionally choose to configure  [IBM Cloud Secrets Manager](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform) to manage the service credentials. "
+          "description": "Creates and and configures Object Storage service credentials for your instance. Optionally, you can configure [IBM Cloud Secrets Manager](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-service-credentials&interface=terraform) to manage the service credentials. "
         },
         {
           "title": "Context-based restrictions",
-          "description": "Optionally create and configure [Context-based restrictions (CBR)](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) for both instance and buckets."
+          "description": "Optionally creates and configures [context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis) to control access to the instance and buckets."
         }
       ],
       "flavors": [
@@ -73,21 +74,21 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "cloud-object-storage",
-              "notes": "Required to create Cloud Object Storage (COS) Instance."
+              "notes": "Required to create an Object Storage instance."
             },
             {
               "role_crns": [
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "iam-identity",
-              "notes": "[Optional] Required if Cloud automation for account configuration is enabled."
+              "notes": "[Optional] Required if you are deploying Cloud automation for account configuration."
             }
           ],
           "architecture": {
             "features": [
               {
                 "title": " ",
-                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
+                "description": "Configured to use IBM secure-by-default standards, but you can edit it to fit your use case."
               }
             ],
             "diagrams": [
@@ -97,7 +98,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/instance.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture automates the provisioning and configuration of an <b>IBM Cloud Object Storage (COS) instance</b> within an existing resource group, integration with <b>IBM Secrets Manager</b> for secure credential storage, IAM authorization policies, and enforcement of <b>Context-Based Restrictions (CBR)</b> for enhanced security and compliance."
+                "description": "This deployable architecture automates the deployment of an <b>IBM Cloud Object Storage instance</b> within an existing resource group, integrates with <b>IBM Cloud Secrets Manager</b> for secure credential storage, and supports IAM authorization policies, including <b>context-based restrictions</b> for enhanced security and compliance."
               }
             ]
           },
@@ -208,7 +209,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default—and, when you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
+              "description": "Cloud automation for account configuration organizes your IBM Cloud account with a ready-made set of resource groups. It also applies baseline security and governance settings when you enable the <b>with Account Settings</b> option.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "resource-group-only",
@@ -262,7 +263,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "cloud-object-storage",
-              "notes": "Required to create Cloud Object Storage (COS) Instance."
+              "notes": "Required to create an Object Storage instance."
             },
             {
               "service_name": "kms",
@@ -270,7 +271,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if KMS encryption is enabled and Key protect is used for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and Key Protect is used for bucket encryption."
             },
             {
               "role_crns": [
@@ -278,7 +279,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if KMS encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
             },
             {
               "role_crns": [
@@ -286,21 +287,21 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "sysdig-monitor",
-              "notes": "[Optional] Required for creating a new instance of cloud monitoring."
+              "notes": "[Optional] Required to create a Cloud Monitoring instance."
             },
             {
               "role_crns": [
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "metrics-router",
-              "notes": "[Optional] Required if metrics routing to cloud monitoring instance is enabled."
+              "notes": "[Optional] Required if Cloud Monitoring is configured to collect platform metrics."
             }
           ],
           "architecture": {
             "features": [
               {
                 "title": " ",
-                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
+                "description": "Configured to use IBM secure-by-default standards, but you can edit it to fit your use case."
               }
             ],
             "diagrams": [
@@ -310,7 +311,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b> Cross-regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>cross-regional IBM Cloud Object Storage bucket</b> with <b>replication</b> which ensures high availability and durability.<br> Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -441,19 +442,19 @@
             },
             {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
-              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "type": "boolean",
+              "default_value": false,
+              "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another Monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
               "options": [
                 {
                   "displayname": "true",
-                  "value": "true"
+                  "value": true
                 },
                 {
                   "displayname": "false",
-                  "value": "false"
+                  "value": false
                 }
               ]
             },
@@ -535,7 +536,7 @@
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
@@ -544,7 +545,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-cos",
-              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
+              "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
               "version": "v9.0.2",
               "flavors": [
@@ -594,7 +595,7 @@
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
-              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
+              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
               "version": "v1.2.14",
               "flavors": [
@@ -646,7 +647,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "cloud-object-storage",
-              "notes": "Required to create Cloud Object Storage (COS) Instance."
+              "notes": "Required to create an Object Storage instance."
             },
             {
               "service_name": "kms",
@@ -654,7 +655,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if creating a new Key Protect root key for bucket encryption."
+              "notes": "[Optional] Required to create a Key Protect root key for bucket encryption."
             },
             {
               "role_crns": [
@@ -662,14 +663,14 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if creating a new Hyper Protect Crypto Services root key for bucket encryption."
+              "notes": "[Optional] Required to create a Hyper Protect Crypto Services root key for bucket encryption."
             }
           ],
           "architecture": {
             "features": [
               {
                 "title": " ",
-                "description": "Configured to use IBM secure by default standards that can't be changed."
+                "description": "Configured to use IBM secure-by-default standards that can't be changed."
               }
             ],
             "diagrams": [
@@ -679,7 +680,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/cross-regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b> Cross-regional IBM Cloud Object Storage Bucket</b> across multiple regions, with <b>replication</b> ensuring high availability and durability.<br> Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>cross-regional IBM Cloud Object Storage bucket</b> with <b>replication</b>, ensuring high availability and durability.<br> Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -788,19 +789,19 @@
             },
             {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
-              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "type": "boolean",
+              "default_value": false,
+              "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
               "options": [
                 {
                   "displayname": "true",
-                  "value": "true"
+                  "value": true
                 },
                 {
                   "displayname": "false",
-                  "value": "false"
+                  "value": false
                 }
               ]
             },
@@ -865,7 +866,7 @@
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
@@ -874,7 +875,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-cos",
-              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
+              "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
               "version": "v9.0.2",
               "flavors": [
@@ -924,7 +925,7 @@
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
-              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
+              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
               "version": "v1.2.14",
               "flavors": [
@@ -976,7 +977,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "cloud-object-storage",
-              "notes": "Required to create Cloud Object Storage (COS) Instance."
+              "notes": "Required to create an Object Storage instance."
             },
             {
               "service_name": "kms",
@@ -984,7 +985,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if KMS encryption is enabled and Key protect is used for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and Key Protect is used for bucket encryption."
             },
             {
               "role_crns": [
@@ -992,7 +993,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if KMS encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
+              "notes": "[Optional] Required if key encryption is enabled and IBM Hyper Protect Crypto Services is used to encrypt the root key for bucket encryption."
             },
             {
               "role_crns": [
@@ -1000,21 +1001,21 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "sysdig-monitor",
-              "notes": "[Optional] Required for creating a new instance of cloud monitoring."
+              "notes": "[Optional] Required to create a Cloud Monitoring instance."
             },
             {
               "role_crns": [
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "metrics-router",
-              "notes": "[Optional] Required if metrics routing to cloud monitoring instance is enabled."
+              "notes": "[Optional] Required if Cloud Monitoring is configured to collect platform metrics."
             }
           ],
           "architecture": {
             "features": [
               {
                 "title": " ",
-                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
+                "description": "Configured to use IBM secure-by-default standards, but you can edit it to fit your use case."
               }
             ],
             "diagrams": [
@@ -1024,7 +1025,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability. <br>  Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>regional IBM Cloud Object Storage bucket</b> across multiple availability zones with <b>replication</b>, ensuring high availability and durability. <br>  Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -1203,19 +1204,19 @@
             },
             {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
-              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "type": "boolean",
+              "default_value": false,
+              "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
               "options": [
                 {
                   "displayname": "true",
-                  "value": "true"
+                  "value": true
                 },
                 {
                   "displayname": "false",
-                  "value": "false"
+                  "value": false
                 }
               ]
             },
@@ -1297,7 +1298,7 @@
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
@@ -1306,7 +1307,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-cos",
-              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned. ",
+              "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
               "version": "v9.0.2",
               "flavors": [
@@ -1330,7 +1331,7 @@
             },
             {
               "name": "deploy-arch-ibm-kms",
-              "description": "Enable Cloud Automation for Key Protect when you want services to use your own managed encryption keys. If disabled, it will fall back on IBM Cloud's default service-managed encryption. ",
+              "description": "Enable Cloud automation for Key Protect to use your own managed encryption keys. If disabled, IBM Cloud's default service-managed encryption is used.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
               "version": "v5.1.4",
               "flavors": [
@@ -1367,7 +1368,7 @@
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
-              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
+              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
               "version": "v1.2.14",
               "flavors": [
@@ -1419,7 +1420,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "cloud-object-storage",
-              "notes": "Required to create Cloud Object Storage (COS) Instance."
+              "notes": "Required to create an Object Storage instance."
             },
             {
               "service_name": "kms",
@@ -1427,7 +1428,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes": "[Optional] Required if creating a new Key Protect root key for bucket encryption."
+              "notes": "[Optional] Required to create a Key Protect root key for bucket encryption."
             },
             {
               "role_crns": [
@@ -1435,14 +1436,14 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if creating a new Hyper Protect Crypto Services root key for bucket encryption."
+              "notes": "[Optional] Required to create a Hyper Protect Crypto Services root key for bucket encryption."
             }
           ],
           "architecture": {
             "features": [
               {
                 "title": " ",
-                "description": "Configured to use IBM secure by default standards that can't be changed."
+                "description": "Configured to use IBM secure-by-default standards that can't be changed."
               }
             ],
             "diagrams": [
@@ -1452,7 +1453,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/reference-architectures/regional-bucket.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture deploys a <b>Regional IBM Cloud Object Storage Bucket</b> across multiple availability zones, with <b>replication</b> ensuring high availability and durability. <br>  Integrated services such as <b>KMS</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
+                "description": "This architecture deploys a <b>regional IBM Cloud Object Storage bucket</b> across multiple availability zones with <b>replication</b>, ensuring high availability and durability. <br>  Integrated services such as <b>key management services</b> for encryption enhance security, while <b>Activity Tracker Event Routing</b> and <b>Cloud Monitoring</b> offer observability, ensuring resilient and secure cloud storage."
               }
             ]
           },
@@ -1609,19 +1610,19 @@
             },
             {
               "key": "enable_platform_metrics",
-              "type": "string",
-              "default_value": "true",
-              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. ⚠️ You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "type": "boolean",
+              "default_value": false,
+              "description": "When set to `true`, the IBM Cloud Monitoring instance is configured to collect platform metrics from the specified region. You can configure only one instance of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance is already configured. You might not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
               "required": true,
               "virtual": true,
               "options": [
                 {
                   "displayname": "true",
-                  "value": "true"
+                  "value": true
                 },
                 {
                   "displayname": "false",
-                  "value": "false"
+                  "value": false
                 }
               ]
             },
@@ -1689,7 +1690,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-cos",
-              "description": "Enable to create a Cloud Object Storage (COS) instance, where an object storage bucket can be provisioned.",
+              "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
               "version": "v9.0.2",
               "flavors": [
