@@ -177,7 +177,7 @@ variable "archive_filter_prefix" {
 }
 
 variable "archive_days" {
-  description = "The number of days before the `archive_type` rule action takes effect."
+  description = "The number of days before the `archive_type` rule action takes effect. If null is passed, no lifecycle configuration will be added for bucket archival."
   type        = number
   default     = null
 }
@@ -195,7 +195,7 @@ variable "expire_days" {
 }
 
 variable "noncurrent_version_expiration_days" {
-  description = "The number of days after which non-current versions will be deleted."
+  description = "The number of days after which non-current versions will be deleted. If null is passed, no lifecycle configuration will be added for bucket non-current version expiration."
   type        = number
   default     = null
 }

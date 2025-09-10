@@ -90,16 +90,16 @@ variable "bucket_configs" {
     }))
     archive_rule = optional(object({
       enable = optional(bool, false)
-      days   = optional(number, 20)
+      days   = optional(number, null)
       type   = optional(string, "Glacier")
     }))
     expire_rule = optional(object({
       enable = optional(bool, false)
-      days   = optional(number, 365)
+      days   = optional(number, null)
     }))
     noncurrent_version_expiration_rule = optional(object({
       enable = optional(bool, false)
-      days   = optional(number, 30)
+      days   = optional(number, null)
     }))
     metrics_monitoring = optional(object({
       usage_metrics_enabled   = optional(bool, true)
