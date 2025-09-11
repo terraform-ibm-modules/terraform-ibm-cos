@@ -52,6 +52,7 @@ locals {
       activity_tracking                           = config.activity_tracking
       archive_rule                                = config.archive_rule
       expire_rule                                 = config.expire_rule
+      noncurrent_version_expiration_rule          = config.noncurrent_version_expiration_rule
       metrics_monitoring                          = config.metrics_monitoring
       object_versioning                           = config.object_versioning
       retention_rule                              = config.retention_rule
