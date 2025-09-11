@@ -369,12 +369,20 @@ variable "noncurrent_version_expiration_days" {
   description = "The number of days after which non-current versions will be deleted. If null is passed, no lifecycle configuration will be added for bucket non-current version expiration."
   type        = number
   default     = null
+  validation {
+    condition     = var.noncurrent_version_expiration_days == null || var.object_versioning_enabled == true
+    error_message = "Noncurrent version expiration lifecycle rule requires object versioning. Make sure `object_versioning_enabled` is set to `true`."
+  }
 }
 
 variable "noncurrent_version_expiration_filter_prefix" {
   type        = string
   description = "Apply noncurrent version expiration lifecycle rule to only objects with the following prefix. Applies to all objects by default."
   default     = null
+  validation {
+    condition     = var.noncurrent_version_expiration_filter_prefix == null || var.object_versioning_enabled == true
+    error_message = "Noncurrent version expiration lifecycle filter prefix requires object versioning. Make sure `object_versioning_enabled` is set to `true`."
+  }
 }
 
 ##############################################################################

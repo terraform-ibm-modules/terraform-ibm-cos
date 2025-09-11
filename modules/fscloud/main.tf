@@ -38,35 +38,32 @@ locals {
   bucket_configs = [
     for config in var.bucket_configs :
     {
-      access_tags                                 = config.access_tags
-      bucket_name                                 = config.bucket_name
-      kms_encryption_enabled                      = config.kms_encryption_enabled
-      kms_guid                                    = config.kms_guid
-      kms_key_crn                                 = config.kms_key_crn
-      skip_iam_authorization_policy               = config.skip_iam_authorization_policy
-      management_endpoint_type                    = config.management_endpoint_type
-      cross_region_location                       = config.cross_region_location
-      storage_class                               = config.storage_class
-      region_location                             = config.region_location
-      resource_instance_id                        = local.cos_instance_id
-      activity_tracking                           = config.activity_tracking
-      archive_rule                                = config.archive_rule
-      expire_rule                                 = config.expire_rule
-      noncurrent_version_expiration_rule          = config.noncurrent_version_expiration_rule
-      metrics_monitoring                          = config.metrics_monitoring
-      object_versioning                           = config.object_versioning
-      retention_rule                              = config.retention_rule
-      cbr_rules                                   = config.cbr_rules
-      single_site_location                        = config.single_site_location
-      force_delete                                = config.force_delete
-      hard_quota                                  = config.hard_quota
-      expire_filter_prefix                        = config.expire_filter_prefix
-      archive_filter_prefix                       = config.archive_filter_prefix
-      noncurrent_version_expiration_filter_prefix = config.noncurrent_version_expiration_filter_prefix
-      add_bucket_name_suffix                      = config.add_bucket_name_suffix
-      object_locking_enabled                      = config.object_locking_enabled
-      object_lock_duration_days                   = config.object_lock_duration_days
-      object_lock_duration_years                  = config.object_lock_duration_years
+      access_tags                        = config.access_tags
+      bucket_name                        = config.bucket_name
+      kms_encryption_enabled             = config.kms_encryption_enabled
+      kms_guid                           = config.kms_guid
+      kms_key_crn                        = config.kms_key_crn
+      skip_iam_authorization_policy      = config.skip_iam_authorization_policy
+      management_endpoint_type           = config.management_endpoint_type
+      cross_region_location              = config.cross_region_location
+      storage_class                      = config.storage_class
+      region_location                    = config.region_location
+      resource_instance_id               = local.cos_instance_id
+      activity_tracking                  = config.activity_tracking
+      archive_rule                       = config.archive_rule
+      expire_rule                        = config.expire_rule
+      noncurrent_version_expiration_rule = config.noncurrent_version_expiration_rule
+      metrics_monitoring                 = config.metrics_monitoring
+      object_versioning                  = config.object_versioning
+      retention_rule                     = config.retention_rule
+      cbr_rules                          = config.cbr_rules
+      single_site_location               = config.single_site_location
+      force_delete                       = config.force_delete
+      hard_quota                         = config.hard_quota
+      add_bucket_name_suffix             = config.add_bucket_name_suffix
+      object_locking_enabled             = config.object_locking_enabled
+      object_lock_duration_days          = config.object_lock_duration_days
+      object_lock_duration_years         = config.object_lock_duration_years
     }
   ]
 }

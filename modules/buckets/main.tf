@@ -88,9 +88,9 @@ module "buckets" {
   management_endpoint_type_for_bucket         = each.value.management_endpoint_type
   force_delete                                = each.value.force_delete
   hard_quota                                  = each.value.hard_quota
-  expire_filter_prefix                        = each.value.expire_filter_prefix
-  archive_filter_prefix                       = each.value.archive_filter_prefix
-  noncurrent_version_expiration_filter_prefix = each.value.noncurrent_version_expiration_filter_prefix
+  expire_filter_prefix                        = each.value.expire_rule.expire_filter_prefix
+  archive_filter_prefix                       = each.value.archive_rule.archive_filter_prefix
+  noncurrent_version_expiration_filter_prefix = each.value.noncurrent_version_expiration_rule.noncurrent_version_expiration_filter_prefix
   object_locking_enabled                      = each.value.object_locking_enabled
   object_lock_duration_days                   = each.value.object_lock_duration_days
   object_lock_duration_years                  = each.value.object_lock_duration_years

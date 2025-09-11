@@ -84,7 +84,10 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			ResourceGroup: resourceGroup,
 			Region:        region,
 			TerraformVars: map[string]interface{}{
-				"access_tags": permanentResources["accessTags"],
+				"access_tags":                        permanentResources["accessTags"],
+				"expire_days":                        365,
+				"archive_days":                       90,
+				"noncurrent_version_expiration_days": 30,
 			},
 		})
 	}
