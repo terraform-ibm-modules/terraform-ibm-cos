@@ -42,6 +42,16 @@ variable "bucket_configs" {
       enable = optional(bool, false)
       days   = optional(number, 365)
     }))
+    noncurrent_expire = optional(object({
+      enable = optional(bool, false)
+      days   = optional(number, 365)
+      prefix = optional(string, "nc-exp")
+    }))
+    abort_multipart = optional(object({
+      enable = optional(bool, false)
+      days   = optional(number, 365)
+      prefix = optional(string, "ab-mp")
+    }))
     metrics_monitoring = optional(object({
       usage_metrics_enabled   = optional(bool, true)
       request_metrics_enabled = optional(bool, true)

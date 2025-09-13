@@ -306,6 +306,30 @@ variable "usage_metrics_enabled" {
   default     = true
 }
 
+variable "noncurrent_expire_days" {
+  type        = number
+  description = "Number of days after which noncurrent versions are deleted."
+  default     = 30
+}
+
+variable "noncurrent_expire_filter_prefix" {
+  type        = string
+  description = "Prefix for noncurrent version expiration."
+  default     = null
+}
+
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = 3
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
+  default     = null
+}
+
 variable "monitoring_crn" {
   type        = string
   description = "The CRN of an IBM Cloud Monitoring instance to send Object Storage bucket metrics to. If no value is set, metrics are sent to the instance associated with the container's location unless otherwise specified in the Metrics Router service configuration."

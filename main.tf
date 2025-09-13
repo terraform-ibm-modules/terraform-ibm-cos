@@ -9,6 +9,8 @@ locals {
   metrics_enabled            = var.request_metrics_enabled || var.usage_metrics_enabled ? [1] : []
   archive_enabled            = var.archive_days == null ? [] : [1]
   expire_enabled             = var.expire_days == null ? [] : [1]
+  noncurrent_expire_enabled  = var.noncurrent_expire_days == null ? [] : [1]
+  abort_multipart_enabled    = var.abort_multipart_days == null ? [] : [1]
   retention_enabled          = var.retention_enabled ? [1] : []
   object_lock_duration_days  = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years = var.object_lock_duration_years > 0 ? [1] : []
@@ -133,6 +135,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
   object_lock           = var.object_locking_enabled ? true : null
+
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -164,6 +167,7 @@ resource "ibm_cos_bucket" "cos_bucket" {
       metrics_monitoring_crn  = var.monitoring_crn
     }
   }
+
   dynamic "object_versioning" {
     for_each = local.object_versioning_enabled
     content {
@@ -192,6 +196,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   hard_quota            = var.hard_quota
   force_delete          = var.force_delete
   object_lock           = var.object_locking_enabled ? true : null
+
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
@@ -223,6 +228,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
       metrics_monitoring_crn  = var.monitoring_crn
     }
   }
+
   dynamic "object_versioning" {
     for_each = local.object_versioning_enabled
     content {
@@ -232,7 +238,7 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 locals {
-  expiration_or_archiving_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0)
+  lifecycle_rules_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0 || length(local.noncurrent_expire_enabled) != 0 || length(local.abort_multipart_enabled) != 0)
 
   create_cos_bucket  = (var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
   create_cos_bucket1 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? true : false
@@ -245,7 +251,7 @@ locals {
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
-  count = (local.create_cos_bucket || local.create_cos_bucket1) && local.expiration_or_archiving_rule_enabled ? 1 : 0
+  count = (local.create_cos_bucket || local.create_cos_bucket1) && local.lifecycle_rules_enabled ? 1 : 0
 
   bucket_crn      = local.cos_bucket_resource[count.index].crn
   bucket_location = local.cos_region
@@ -281,6 +287,38 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
         prefix = var.archive_filter_prefix != null ? var.archive_filter_prefix : ""
       }
       rule_id = "archive-rule"
+      status  = "enable"
+    }
+  }
+
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple transition blocks.
+    ## This block is only used to conditionally add NoncurrentVersionExpiration
+    for_each = local.noncurrent_expire_enabled
+    content {
+      noncurrent_version_expiration {
+        noncurrent_days = var.noncurrent_expire_days
+      }
+      filter {
+        prefix = var.noncurrent_expire_filter_prefix != null ? var.noncurrent_expire_filter_prefix : ""
+      }
+      rule_id = "noncurrent-expiry-rule"
+      status  = "enable"
+    }
+  }
+
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple transition blocks.
+    ## Conditional AbortIncompleteMultipartUpload rule
+    for_each = local.abort_multipart_enabled
+    content {
+      abort_incomplete_multipart_upload {
+        days_after_initiation = var.abort_multipart_days
+      }
+      filter {
+        prefix = var.abort_multipart_filter_prefix != null ? var.abort_multipart_filter_prefix : ""
+      }
+      rule_id = "abort-multipart-rule"
       status  = "enable"
     }
   }

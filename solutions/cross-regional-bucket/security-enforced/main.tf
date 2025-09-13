@@ -23,6 +23,10 @@ module "cross_regional_bucket" {
   expire_filter_prefix                = var.expire_filter_prefix
   archive_filter_prefix               = var.archive_filter_prefix
   expire_days                         = var.expire_days
+  noncurrent_expire_days              = var.noncurrent_expire_days
+  noncurrent_expire_filter_prefix     = var.noncurrent_expire_filter_prefix
+  abort_multipart_days                = var.abort_multipart_days
+  abort_multipart_filter_prefix       = var.abort_multipart_filter_prefix
   monitoring_crn                      = var.monitoring_crn
   enable_object_versioning            = var.enable_object_versioning
   enable_retention                    = var.enable_retention

@@ -1,3 +1,22 @@
 {
-    "scc_rules": []
+    "scc_rules": [
+        {
+            "scc_rule_id": "rule-4d86c074-097e-4ff3-a763-ccff128388e2",
+            "description": "Check whether multifactor authentication (MFA) is enabled at the account level",
+            "ignore_reason": "In order for this rule to pass, multifactor authentication (MFA) is enabled at the account level (tracking in https://github.ibm.com/workload-eng-services/HPCCluster/issues/3422).",
+            "is_valid": true
+        },
+        {
+            "scc_rule_id": "rule-0704e840-e443-4781-b9be-ec57469d09c1",
+            "description": "Check whether permissions for API key creation are limited and configured in IAM settings for the account owner",
+            "ignore_reason": "Need more exploration (tracking in https://github.ibm.com/workload-eng-services/HPCCluster/issues/3422).",
+            "is_valid": true
+        },
+        {
+            "scc_rule_id": "rule-0244c010-fde6-4db3-95aa-8952bd292ac3",
+            "description": "Check whether permissions for service ID creation are limited and configured in IAM settings for the account owner",
+            "ignore_reason": "Need more exploration (tracking in https://github.ibm.com/workload-eng-services/HPCCluster/issues/3422).",
+            "is_valid": true
+        }
+    ]
 }

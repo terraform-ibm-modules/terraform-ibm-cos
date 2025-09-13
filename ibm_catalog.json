@@ -486,6 +486,18 @@
               "key": "maximum_retention_days"
             },
             {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
               "key": "ibmcloud_kms_api_key"
             },
             {
@@ -819,6 +831,18 @@
             },
             {
               "key": "maximum_retention_days"
+            },
+            {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "ibmcloud_kms_api_key"
@@ -1224,6 +1248,18 @@
               "key": "maximum_retention_days"
             },
             {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
               "key": "ibmcloud_kms_api_key"
             },
             {
@@ -1616,6 +1652,18 @@
             },
             {
               "key": "maximum_retention_days"
+            },
+            {
+              "key": "noncurrent_expire_days"
+            },
+            {
+              "key": "noncurrent_expire_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "ibmcloud_kms_api_key"

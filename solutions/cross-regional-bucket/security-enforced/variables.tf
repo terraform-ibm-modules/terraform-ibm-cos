@@ -213,6 +213,30 @@ variable "object_lock_duration_years" {
   default     = 0
 }
 
+variable "noncurrent_expire_days" {
+  type        = number
+  description = "Number of days after which noncurrent versions are deleted."
+  default     = 30
+}
+
+variable "noncurrent_expire_filter_prefix" {
+  type        = string
+  description = "Prefix for noncurrent version expiration."
+  default     = null
+}
+
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = 3
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
+  default     = null
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

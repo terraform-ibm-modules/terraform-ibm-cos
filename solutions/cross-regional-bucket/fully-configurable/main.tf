@@ -37,6 +37,16 @@ locals {
       enable = true
       days   = var.expire_days
     } : null
+    noncurrent_expire = var.noncurrent_expire_days != null ? {
+      enable = true
+      days   = var.noncurrent_expire_days
+      prefix = var.noncurrent_expire_filter_prefix
+    } : null
+    abort_multipart = var.abort_multipart_days != null ? {
+      enable = true
+      days   = var.abort_multipart_days
+      prefix = var.abort_multipart_filter_prefix
+    } : null
     metrics_monitoring = {
       usage_metrics_enabled   = true
       request_metrics_enabled = true
