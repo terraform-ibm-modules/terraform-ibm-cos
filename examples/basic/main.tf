@@ -23,6 +23,8 @@ module "cos" {
   bucket_name            = "${var.prefix}-bucket"
   retention_enabled      = false # disable retention for test environments - enable for stage/prod
   kms_encryption_enabled = false
+  cos_plan               = "cos-one-rate-plan"
+  bucket_storage_class   = "onerate_active"
 }
 
 ##############################################################################
@@ -37,6 +39,7 @@ module "buckets" {
       kms_encryption_enabled = false
       region_location        = var.region
       resource_instance_id   = module.cos.cos_instance_id
+      storage_class          = "onerate_active"
     }
   ]
 }

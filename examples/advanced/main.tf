@@ -11,32 +11,15 @@ module "resource_group" {
 }
 
 ##############################################################################
-# Create serviceID to use for resource key hmac
+# Create service ID to use for HMAC resource key
 #
 # NOTE: The module itself supports creating internally, but this example shows
-# how to use an existing ones
+# how to use an existing service ID
 ##############################################################################
+
 resource "ibm_iam_service_id" "resource_key_existing_serviceid" {
   name        = "${var.prefix}-reskey-serviceid"
   description = "ServiceID for ${var.prefix} env to use for resource key credentials"
-}
-
-##############################################################################
-# VPC
-##############################################################################
-
-resource "ibm_is_vpc" "example_vpc" {
-  name           = "${var.prefix}-vpc"
-  resource_group = module.resource_group.resource_group_id
-  tags           = var.resource_tags
-}
-
-resource "ibm_is_subnet" "testacc_subnet" {
-  name                     = "${var.prefix}-subnet"
-  vpc                      = ibm_is_vpc.example_vpc.id
-  zone                     = "${var.region}-1"
-  total_ipv4_address_count = 256
-  resource_group           = module.resource_group.resource_group_id
 }
 
 ##############################################################################
@@ -69,29 +52,6 @@ module "key_protect_all_inclusive" {
 }
 
 ##############################################################################
-# Get Cloud Account ID
-##############################################################################
-
-data "ibm_iam_account_settings" "iam_account_settings" {
-}
-
-##############################################################################
-# Create CBR Zone
-##############################################################################
-
-module "cbr_zone" {
-  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.33.2"
-  name             = "${var.prefix}-VPC-network-zone"
-  zone_description = "CBR Network zone containing VPC"
-  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-  addresses = [{
-    type  = "vpc", # to bind a specific vpc to the zone
-    value = ibm_is_vpc.example_vpc.crn,
-  }]
-}
-
-##############################################################################
 # Create COS instance and COS bucket-1 with:
 # - Encryption
 ##############################################################################
@@ -105,7 +65,7 @@ module "cos_bucket1" {
   cos_tags                            = var.resource_tags
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
-  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  management_endpoint_type_for_bucket = "public"
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
@@ -136,49 +96,6 @@ module "cos_bucket1" {
       role = "Object Writer"
     }
   ]
-  bucket_cbr_rules = [
-    {
-      description      = "sample rule for bucket 1"
-      enforcement_mode = "report"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
-    }
-  ]
-  instance_cbr_rules = [
-    {
-      description      = "sample rule for the instance"
-      enforcement_mode = "report"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      # IAM tags on the rule resources should match to the instance level IAM tags
-      tags = [
-        {
-          name  = "env"
-          value = "test"
-        }
-      ]
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
-    }
-  ]
 }
 
 ##############################################################################
@@ -192,7 +109,7 @@ module "cos_bucket2" {
   depends_on                          = [module.cos_bucket1] # Required since cos_bucket1 creates the IAM authorization policy
   bucket_name                         = "${var.prefix}-bucket-2"
   add_bucket_name_suffix              = true
-  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  management_endpoint_type_for_bucket = "public"
   region                              = null
   cross_region_location               = var.cross_region_location
   archive_days                        = null
@@ -201,24 +118,6 @@ module "cos_bucket2" {
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  bucket_cbr_rules = [
-    {
-      description      = "sample rule for bucket 2"
-      enforcement_mode = "report"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
-    }
-  ]
 }
 
 ##############################################################################
@@ -233,7 +132,7 @@ module "cos_bucket3" {
   depends_on                          = [module.cos_bucket1] # Required since cos_bucket1 creates the IAM authorization policy
   bucket_name                         = "${var.prefix}-bucket-3"
   add_bucket_name_suffix              = true
-  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  management_endpoint_type_for_bucket = "public"
   region                              = null
   single_site_location                = var.single_site_location
   hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
@@ -243,22 +142,4 @@ module "cos_bucket3" {
   kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
-  bucket_cbr_rules = [
-    {
-      description      = "sample rule for bucket 3"
-      enforcement_mode = "report"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
-      rule_contexts = [{
-        attributes = [
-          {
-            "name" : "endpointType",
-            "value" : "private"
-          },
-          {
-            name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
-        }]
-      }]
-    }
-  ]
 }

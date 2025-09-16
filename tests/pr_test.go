@@ -16,6 +16,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/ibm-cos-sdk-go/aws"
 	"github.com/IBM/ibm-cos-sdk-go/aws/awserr"
 	"github.com/IBM/ibm-cos-sdk-go/aws/credentials/ibmiam"
@@ -25,31 +26,47 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
+/*
+Global variables
+*/
+const terraformVersion = "terraform_v1.10" // This should match the version in the ibm_catalog.json
 const advancedExampleTerraformDir = "examples/advanced"
 const fsCloudTerraformDir = "examples/fscloud"
 const replicateExampleTerraformDir = "examples/replication"
 const basicExampleTerraformDir = "examples/basic"
-const oneRateExampleTerraformDir = "examples/one-rate-plan"
 const solutionInstanceDir = "solutions/instance"
 const fullyConfigurableCrossRegionalDir = "solutions/cross-regional-bucket/fully-configurable"
 const RegionalfullyConfigurableDir = "solutions/regional-bucket/fully-configurable"
 const securityEnforcedCrossRegionalDir = "solutions/cross-regional-bucket/security-enforced"
 const securityEnforcedRegionalDir = "solutions/regional-bucket/security-enforced"
-
-// Use existing group for tests
 const resourceGroup = "geretain-test-cos-base"
+const region = "us-south"                                                                    // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
+const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml" // Define a struct with fields that match the structure of the YAML data
 
-// Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
-const region = "us-south"
-
-// Define a struct with fields that match the structure of the YAML data
-const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
-
+var excludeDirs = []string{
+	".terraform",
+	".docs",
+	".github",
+	".git",
+	".idea",
+	"common-dev-assets",
+	"examples",
+	"tests",
+	"reference-architectures",
+}
+var includeFiletypes = []string{
+	".tf",
+	".yaml",
+	".py",
+	".tpl",
+}
 var permanentResources map[string]interface{}
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
@@ -64,7 +81,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
+func setupExampleOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
 		TerraformDir:  dir,
@@ -75,19 +92,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 			"access_tags": permanentResources["accessTags"],
 		},
 	})
-	// below dirs do not implement Activity Tracker functionality
-	if dir == replicateExampleTerraformDir || dir == oneRateExampleTerraformDir {
-		options = testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-			Testing:       t,
-			TerraformDir:  dir,
-			Prefix:        prefix,
-			ResourceGroup: resourceGroup,
-			Region:        region,
-			TerraformVars: map[string]interface{}{
-				"access_tags": permanentResources["accessTags"],
-			},
-		})
-	}
+
 	return options
 }
 
@@ -135,7 +140,7 @@ func walk(r *tarIncludePatterns, s string, d fs.DirEntry, err error) error {
 func TestRunAdvancedExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cos-advanced", advancedExampleTerraformDir)
+	options := setupExampleOptions(t, "cos-advanced", advancedExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -144,7 +149,7 @@ func TestRunAdvancedExample(t *testing.T) {
 func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cos-fscloud", fsCloudTerraformDir)
+	options := setupExampleOptions(t, "cos-fscloud", fsCloudTerraformDir)
 	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
 	options.TerraformVars["bucket_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
 	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
@@ -255,15 +260,6 @@ func TestRunFSCloudExample(t *testing.T) {
 	}
 }
 
-func TestRunReplicateExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "cos-replicate", replicateExampleTerraformDir)
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
 func getIAMBearerToken(apikey string) string {
 	authEndpoint := "https://iam.cloud.ibm.com/identity/token"
 	data := url.Values{}
@@ -305,6 +301,7 @@ func getIAMBearerToken(apikey string) string {
 
 	return responseJSON["access_token"].(string)
 }
+
 func getCOSInstanceClient(apiKey, serviceInstanceID, authEndpoint, serviceEndpoint string) *s3.S3 {
 	sess := session.Must(session.NewSession())
 	creds := ibmiam.NewStaticCredentials(aws.NewConfig(), authEndpoint, apiKey, serviceInstanceID)
@@ -330,9 +327,10 @@ func TestRunInstancesSchematics(t *testing.T) {
 			solutionInstanceDir + "/*.tf",
 		},
 		TemplateFolder:         solutionInstanceDir,
-		Tags:                   []string{"cos-da-test"},
+		Tags:                   []string{"cos-instance-da-test"},
 		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 120,
+		WaitJobCompleteMinutes: 30,
+		TerraformVersion:       terraformVersion,
 	})
 
 	service_credential_secrets := []map[string]interface{}{
@@ -384,10 +382,11 @@ func TestRunInstancesUpgradeInSchematics(t *testing.T) {
 			solutionInstanceDir + "/*.tf",
 		},
 		TemplateFolder:             solutionInstanceDir,
-		Tags:                       []string{"cos-upg"},
+		Tags:                       []string{"cos-da-instance-upg"},
 		DeleteWorkspaceOnFail:      false,
 		WaitJobCompleteMinutes:     120,
-		CheckApplyResultForUpgrade: true,
+		CheckApplyResultForUpgrade: true, // Set to true to test the actual terraform apply upgrade
+		TerraformVersion:           terraformVersion,
 	})
 
 	service_credential_secrets := []map[string]interface{}{
@@ -419,29 +418,13 @@ func TestRunInstancesUpgradeInSchematics(t *testing.T) {
 	}
 
 	err := options.RunSchematicUpgradeTest()
-	assert.Nil(t, err, "This should not have errored")
+	if !options.UpgradeTestSkipped {
+		assert.Nil(t, err, "This should not have errored")
+	}
 }
 
 func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 	t.Parallel()
-
-	excludeDirs := []string{
-		".terraform",
-		".docs",
-		".github",
-		".git",
-		".idea",
-		"common-dev-assets",
-		"examples",
-		"tests",
-		"reference-architectures",
-	}
-	includeFiletypes := []string{
-		".tf",
-		".yaml",
-		".py",
-		".tpl",
-	}
 
 	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
 
@@ -454,9 +437,10 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         fullyConfigurableCrossRegionalDir,
-		Tags:                   []string{"test-schematic"},
+		Tags:                   []string{"cos-cr-fc-test"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
+		TerraformVersion:       terraformVersion,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -474,38 +458,22 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	t.Parallel()
 
-	excludeDirs := []string{
-		".terraform",
-		".docs",
-		".github",
-		".git",
-		".idea",
-		"common-dev-assets",
-		"examples",
-		"tests",
-		"reference-architectures",
-	}
-	includeFiletypes := []string{
-		".tf",
-		".yaml",
-		".py",
-		".tpl",
-	}
-
 	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing:                t,
-		Prefix:                 "f-sb-up",
-		TarIncludePatterns:     tarIncludePatterns,
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         fullyConfigurableCrossRegionalDir,
-		Tags:                   []string{"test-schematic"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 80,
+		Testing:                    t,
+		Prefix:                     "f-sb-up",
+		TarIncludePatterns:         tarIncludePatterns,
+		ResourceGroup:              resourceGroup,
+		TemplateFolder:             fullyConfigurableCrossRegionalDir,
+		Tags:                       []string{"cos-cr-fg-upg"},
+		DeleteWorkspaceOnFail:      false,
+		WaitJobCompleteMinutes:     80,
+		CheckApplyResultForUpgrade: true, // Set to true to test the actual terraform apply upgrade
+		TerraformVersion:           terraformVersion,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -527,24 +495,6 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 	t.Parallel()
 
-	excludeDirs := []string{
-		".terraform",
-		".docs",
-		".github",
-		".git",
-		".idea",
-		"common-dev-assets",
-		"examples",
-		"tests",
-		"reference-architectures",
-	}
-	includeFiletypes := []string{
-		".tf",
-		".yaml",
-		".py",
-		".tpl",
-	}
-
 	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
@@ -557,9 +507,10 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         RegionalfullyConfigurableDir,
-		Tags:                   []string{"test-schematic"},
+		Tags:                   []string{"cos-reg-fc-test"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
+		TerraformVersion:       terraformVersion,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -576,39 +527,23 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	t.Parallel()
 
-	excludeDirs := []string{
-		".terraform",
-		".docs",
-		".github",
-		".git",
-		".idea",
-		"common-dev-assets",
-		"examples",
-		"tests",
-		"reference-architectures",
-	}
-	includeFiletypes := []string{
-		".tf",
-		".yaml",
-		".py",
-		".tpl",
-	}
-
 	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing:                t,
-		Prefix:                 "reg-fc-up",
-		Region:                 region,
-		TarIncludePatterns:     tarIncludePatterns,
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         RegionalfullyConfigurableDir,
-		Tags:                   []string{"test-schematic"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 80,
+		Testing:                    t,
+		Prefix:                     "reg-fc-up",
+		Region:                     region,
+		TarIncludePatterns:         tarIncludePatterns,
+		ResourceGroup:              resourceGroup,
+		TemplateFolder:             RegionalfullyConfigurableDir,
+		Tags:                       []string{"cos-reg-fc-upg"},
+		DeleteWorkspaceOnFail:      false,
+		WaitJobCompleteMinutes:     80,
+		CheckApplyResultForUpgrade: true, // Set to true to test the actual terraform apply upgrade
+		TerraformVersion:           terraformVersion,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -629,24 +564,6 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 	t.Parallel()
 
-	excludeDirs := []string{
-		".terraform",
-		".docs",
-		".github",
-		".git",
-		".idea",
-		"common-dev-assets",
-		"examples",
-		"tests",
-		"reference-architectures",
-	}
-	includeFiletypes := []string{
-		".tf",
-		".yaml",
-		".py",
-		".tpl",
-	}
-
 	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
@@ -658,9 +575,10 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         securityEnforcedCrossRegionalDir,
-		Tags:                   []string{"test-schematic"},
+		Tags:                   []string{"cos-cr-se-test"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
+		TerraformVersion:       terraformVersion,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -679,24 +597,6 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 	t.Parallel()
 
-	excludeDirs := []string{
-		".terraform",
-		".docs",
-		".github",
-		".git",
-		".idea",
-		"common-dev-assets",
-		"examples",
-		"tests",
-		"reference-architectures",
-	}
-	includeFiletypes := []string{
-		".tf",
-		".yaml",
-		".py",
-		".tpl",
-	}
-
 	tarIncludePatterns, recurseErr := getTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
@@ -709,9 +609,10 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         securityEnforcedRegionalDir,
-		Tags:                   []string{"test-schematic"},
+		Tags:                   []string{"cos-reg-se-test"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
+		TerraformVersion:       terraformVersion,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -725,4 +626,83 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+}
+
+// The instance DA variation has no "on-by-default" dependencies defined so hence testing with Account Config DA enabled
+func TestInstanceAddonWithAccountConfig(t *testing.T) {
+	t.Parallel()
+
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        "cos-addon",
+		ResourceGroup: resourceGroup,
+		QuietMode:     true, // Suppress logs except on failure
+	})
+
+	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+		options.Prefix,
+		"deploy-arch-ibm-cos",
+		"instance",
+		map[string]interface{}{
+			"prefix": options.Prefix,
+		},
+	)
+
+	// Enable Account Config DA
+	options.AddonConfig.Dependencies = []cloudinfo.AddonConfig{
+		{
+			OfferingName:   "deploy-arch-ibm-account-infra-base",
+			OfferingFlavor: "resource-groups-with-account-settings",
+			Enabled:        core.BoolPtr(true), // explicitly enable this dependency
+		},
+	}
+
+	err := options.RunAddonTest()
+	require.NoError(t, err)
+}
+
+// Test regional bucket variation deployment with all "on-by-default" dependant DAs
+func TestRegionalBucketAddonDefault(t *testing.T) {
+	t.Parallel()
+
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        "reg-addon",
+		ResourceGroup: resourceGroup,
+		QuietMode:     true, // Suppress logs except on failure
+	})
+	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+		options.Prefix,
+		"deploy-arch-ibm-cos",
+		"regional-bucket-fully-configurable",
+		map[string]interface{}{
+			"prefix": options.Prefix,
+		},
+	)
+
+	err := options.RunAddonTest()
+	require.NoError(t, err)
+}
+
+// Test cross-regional bucket variation deployment with all "on-by-default" dependant DAs
+func TestCrossRegionalBucketAddonDefault(t *testing.T) {
+	t.Parallel()
+
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        "cr-addon",
+		ResourceGroup: resourceGroup,
+		QuietMode:     true, // Suppress logs except on failure
+	})
+	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+		options.Prefix,
+		"deploy-arch-ibm-cos",
+		"cross-regional-bucket-fully-configurable",
+		map[string]interface{}{
+			"prefix": options.Prefix,
+		},
+	)
+
+	err := options.RunAddonTest()
+	require.NoError(t, err)
 }

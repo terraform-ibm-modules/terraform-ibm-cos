@@ -235,7 +235,7 @@
               ],
               "optional": true,
               "on_by_default": false,
-              "version": "v3.0.7"
+              "version": "v3.0.23"
             }
           ],
           "dependency_version_2": true,
@@ -535,7 +535,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v9.0.2",
+              "version": "v10.2.20",
               "flavors": [
                 "instance"
               ],
@@ -579,13 +579,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.4"
+              "version": "v5.1.26"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.2.14",
+              "version": "v1.7.2",
               "flavors": [
                 "fully-configurable"
               ],
@@ -853,7 +853,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v9.0.2",
+              "version": "v10.2.20",
               "flavors": [
                 "instance"
               ],
@@ -903,7 +903,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.2.14",
+              "version": "v1.7.2",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1297,7 +1297,7 @@
               "name": "deploy-arch-ibm-kms",
               "description": "Enable Cloud automation for Key Protect to use your own managed encryption keys. If disabled, IBM Cloud's default service-managed encryption is used.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.1.4",
+              "version": "v5.1.26",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1334,7 +1334,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.2.14",
+              "version": "v1.7.2",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1644,7 +1644,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v9.0.2",
+              "version": "v10.2.20",
               "flavors": [
                 "instance"
               ],
@@ -1688,13 +1688,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.4"
+              "version": "v5.1.26"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.2.14",
+              "version": "v1.7.2",
               "flavors": [
                 "fully-configurable"
               ],
