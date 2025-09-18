@@ -21,7 +21,6 @@ variable "access_tags" {
   default     = []
 }
 
-# region needs to provide cross region support.
 variable "region" {
   description = "Region where resources will be created"
   type        = string
@@ -52,12 +51,6 @@ variable "single_site_location" {
     condition     = var.single_site_location == null || can(regex("ams03|mil01|mon01|par01|sjc04|sng01|che01", var.single_site_location))
     error_message = "Variable 'cross_region_location' must be 'ams03', 'mil01', 'mon01', 'par01', 'sjc04', 'sng01', 'che01' or 'null'."
   }
-}
-
-variable "management_endpoint_type_for_bucket" {
-  type        = string
-  description = "The type of endpoint for the IBM terraform provider to use to manage the bucket. (public, private, direct)"
-  default     = "public"
 }
 
 variable "resource_group" {

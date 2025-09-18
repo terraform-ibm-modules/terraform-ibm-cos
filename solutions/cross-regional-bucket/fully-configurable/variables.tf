@@ -136,6 +136,7 @@ variable "management_endpoint_type_for_bucket" {
 variable "cross_region_location" {
   description = "Specify the cross-region bucket location. Possible values: `us`, `eu`, `ap`."
   type        = string
+  default     = "us"
 
   validation {
     condition     = contains(["us", "eu", "ap"], var.cross_region_location)
