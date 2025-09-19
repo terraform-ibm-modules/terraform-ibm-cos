@@ -32,21 +32,3 @@ variable "access_tags" {
   description = "Optional list of access tags to be added to the created resources"
   default     = []
 }
-
-variable "expire_days" {
-  description = "The number of days before the expire rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. If null is passed, no lifecycle configuration will be added for bucket expiration."
-  type        = number
-  default     = null
-}
-
-variable "archive_days" {
-  description = "The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets. If null is passed, no lifecycle configuration will be added for bucket archival."
-  type        = number
-  default     = null
-}
-
-variable "noncurrent_version_expiration_days" {
-  description = "The number of days after which non-current versions will be deleted. If null is passed, no lifecycle configuration will be added for bucket non-current version expiration."
-  type        = number
-  default     = null
-}
