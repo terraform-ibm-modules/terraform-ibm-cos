@@ -172,7 +172,14 @@
               "key": "service_credential_secrets"
             },
             {
-              "key": "existing_secrets_manager_instance_crn"
+              "key": "existing_secrets_manager_instance_crn",
+              "value_constraints": [
+                {
+                  "type": "regex",
+                  "description": "The value provided for 'existing_secrets_manager_instance_crn' is not valid.",
+                  "value": "^__NULL__$|^crn:(.*:){3}secrets-manager:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
+                }
+              ]
             },
             {
               "key": "existing_secrets_manager_endpoint_type",
