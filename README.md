@@ -28,7 +28,6 @@ You can configure the following aspects of your instances:
     * [Basic example](./examples/basic)
     * [Bucket replication example](./examples/replication)
     * [Financial Services compliant example](./examples/fscloud)
-    * [One Rate plan example](./examples/one-rate-plan)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
