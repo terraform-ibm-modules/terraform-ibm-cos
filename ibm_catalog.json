@@ -134,7 +134,7 @@
                   "identifier": "rg_name"
                 }
               },
-              "default_value": "default",
+              "default_value": "test",
               "description": "The name of an existing resource group to provision the resources."
             },
             {
