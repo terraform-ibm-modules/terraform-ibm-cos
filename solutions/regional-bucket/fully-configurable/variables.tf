@@ -206,6 +206,18 @@ variable "noncurrent_version_expiration_filter_prefix" {
   default     = null
 }
 
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = null
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
+  default     = null
+}
+
 variable "monitoring_crn" {
   type        = string
   description = "The CRN of an IBM Cloud Monitoring instance to to send Object Storage bucket metrics to. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."

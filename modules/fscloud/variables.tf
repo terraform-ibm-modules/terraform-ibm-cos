@@ -101,6 +101,11 @@ variable "bucket_configs" {
       days                                        = optional(number, null)
       noncurrent_version_expiration_filter_prefix = optional(string, null)
     }))
+    abort_multipart_enabled_rule = optional(object({
+      enable                        = optional(bool, false)
+      days                          = optional(number, null)
+      abort_multipart_filter_prefix = optional(string, null)
+    }))
     metrics_monitoring = optional(object({
       usage_metrics_enabled   = optional(bool, true)
       request_metrics_enabled = optional(bool, true)

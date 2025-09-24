@@ -402,6 +402,12 @@
               "key": "noncurrent_version_expiration_filter_prefix"
             },
             {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
               "key": "bucket_access_tags",
               "custom_config": {
                 "grouping": "deployment",
@@ -761,6 +767,12 @@
             },
             {
               "key": "noncurrent_version_expiration_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "bucket_access_tags",
@@ -1168,6 +1180,12 @@
               "key": "noncurrent_version_expiration_filter_prefix"
             },
             {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
+            },
+            {
               "key": "bucket_access_tags",
               "custom_config": {
                 "grouping": "deployment",
@@ -1570,6 +1588,12 @@
             },
             {
               "key": "noncurrent_version_expiration_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "bucket_access_tags",

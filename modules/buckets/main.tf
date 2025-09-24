@@ -108,6 +108,9 @@ module "buckets" {
   noncurrent_version_expiration_days          = can(each.value.noncurrent_version_expiration_rule.days) ? (each.value.noncurrent_version_expiration_rule.enable ? each.value.noncurrent_version_expiration_rule.days : null) : null
   noncurrent_version_expiration_filter_prefix = can(each.value.noncurrent_version_expiration_rule.noncurrent_version_expiration_filter_prefix) ? (each.value.noncurrent_version_expiration_rule.enable ? each.value.noncurrent_version_expiration_rule.noncurrent_version_expiration_filter_prefix : null) : null
 
+  abort_multipart_days          = can(each.value.abort_multipart_enabled_rule.days) ? (each.value.abort_multipart_enabled_rule.enable ? each.value.abort_multipart_enabled_rule.days : null) : null
+  abort_multipart_filter_prefix = can(each.value.abort_multipart_enabled_rule.abort_multipart_filter_prefix) ? (each.value.abort_multipart_enabled_rule.enable ? each.value.abort_multipart_enabled_rule.abort_multipart_filter_prefix : null) : null
+
   request_metrics_enabled = can(each.value.metrics_monitoring.request_metrics_enabled) ? each.value.metrics_monitoring.request_metrics_enabled : true
   usage_metrics_enabled   = can(each.value.metrics_monitoring.usage_metrics_enabled) ? each.value.metrics_monitoring.usage_metrics_enabled : true
   monitoring_crn          = can(each.value.metrics_monitoring.metrics_monitoring_crn) ? each.value.metrics_monitoring.metrics_monitoring_crn : null

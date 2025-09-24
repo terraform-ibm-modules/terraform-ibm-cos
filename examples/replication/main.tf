@@ -25,9 +25,10 @@ module "cos_source_bucket" {
   object_versioning_enabled          = true
   kms_encryption_enabled             = false
   retention_enabled                  = false
-  expire_days                        = "365"
-  archive_days                       = "90"
-  noncurrent_version_expiration_days = "30"
+  expire_days                        = 365
+  archive_days                       = 90
+  noncurrent_version_expiration_days = 30
+  abort_multipart_days               = 3
 }
 
 ##############################################################################
@@ -45,9 +46,10 @@ module "cos_target_bucket" {
   object_versioning_enabled          = true
   kms_encryption_enabled             = false
   retention_enabled                  = false
-  expire_days                        = "365"
-  archive_days                       = "90"
-  noncurrent_version_expiration_days = "30"
+  expire_days                        = 365
+  archive_days                       = 90
+  noncurrent_version_expiration_days = 30
+  abort_multipart_days               = 3
 }
 
 ##############################################################################

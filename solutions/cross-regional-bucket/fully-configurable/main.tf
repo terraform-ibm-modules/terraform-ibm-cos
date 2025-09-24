@@ -25,6 +25,7 @@ locals {
     expire_filter_prefix                        = var.expire_filter_prefix
     archive_filter_prefix                       = var.archive_filter_prefix
     noncurrent_version_expiration_filter_prefix = var.noncurrent_version_expiration_filter_prefix
+    abort_multipart_filter_prefix               = var.abort_multipart_filter_prefix
     object_locking_enabled                      = var.enable_object_locking
     object_lock_duration_days                   = var.object_lock_duration_days
     object_lock_duration_years                  = var.object_lock_duration_years
@@ -46,6 +47,10 @@ locals {
     noncurrent_version_expiration_rule = var.noncurrent_version_expiration_days != null ? {
       enable = true
       days   = var.noncurrent_version_expiration_days
+    } : null
+    abort_multipart_rule = var.abort_multipart_days != null ? {
+      enable = true
+      days   = var.abort_multipart_days
     } : null
     metrics_monitoring = {
       usage_metrics_enabled   = true

@@ -385,6 +385,18 @@ variable "noncurrent_version_expiration_filter_prefix" {
   }
 }
 
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = null
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
+  default     = null
+}
+
 ##############################################################################
 # COS bucket encryption variables
 ##############################################################################

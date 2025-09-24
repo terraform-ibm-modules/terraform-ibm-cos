@@ -42,6 +42,11 @@ variable "bucket_configs" {
       days                 = optional(number, null)
       expire_filter_prefix = optional(string, null)
     }))
+    abort_multipart_enabled_rule = optional(object({
+      enable                        = optional(bool, false)
+      days                          = optional(number, null)
+      abort_multipart_filter_prefix = optional(string, null)
+    }))
     noncurrent_version_expiration_rule = optional(object({
       enable                                      = optional(bool, false)
       days                                        = optional(number, null)
