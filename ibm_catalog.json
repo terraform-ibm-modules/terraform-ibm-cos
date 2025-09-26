@@ -225,7 +225,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Cloud automation for account configuration organizes your IBM Cloud account with a ready-made set of resource groups. It also applies baseline security and governance settings when you enable the <b>with Account Settings</b> option.",
+              "description": "Organize your IBM Cloud account with preconfigured resource groups. If not selected, the default resource group is used. Optionally, expand to apply recommended security controls via \"with Account Settings\" variation.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "resource-group-only",
@@ -608,7 +608,7 @@
             {
               "name": "deploy-arch-ibm-kms",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "description": "Enable Cloud automation for Key Protect to use your own managed encryption keys. If disabled, IBM Cloud's default service-managed encryption is used.",
+              "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "flavors": [
                 "fully-configurable"
               ],
@@ -961,7 +961,7 @@
             {
               "name": "deploy-arch-ibm-kms",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "description": "Enable Cloud automation for Key Protect to use your own managed encryption keys. If disabled, IBM Cloud's default service-managed encryption is used.",
+              "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1416,7 +1416,7 @@
             },
             {
               "name": "deploy-arch-ibm-kms",
-              "description": "Enable Cloud automation for Key Protect to use your own managed encryption keys. If disabled, IBM Cloud's default service-managed encryption is used.",
+              "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
               "version": "v5.1.27",
               "flavors": [
@@ -1822,7 +1822,7 @@
             {
               "name": "deploy-arch-ibm-kms",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "description": "Enable Cloud automation for Key Protect to use your own managed encryption keys. If disabled, IBM Cloud's default service-managed encryption is used.",
+              "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "flavors": [
                 "fully-configurable"
               ],
