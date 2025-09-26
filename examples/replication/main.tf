@@ -15,18 +15,20 @@ module "resource_group" {
 ##############################################################################
 
 module "cos_source_bucket" {
-  source                    = "../../"
-  bucket_name               = "${var.prefix}-bucket-source"
-  resource_group_id         = module.resource_group.resource_group_id
-  region                    = var.region
-  cos_instance_name         = "${var.prefix}-source-cos"
-  cos_tags                  = var.resource_tags
-  access_tags               = var.access_tags
-  object_versioning_enabled = true
-  kms_encryption_enabled    = false
-  retention_enabled         = false
-  archive_days              = null
-  expire_days               = null
+  source                             = "../../"
+  bucket_name                        = "${var.prefix}-bucket-source"
+  resource_group_id                  = module.resource_group.resource_group_id
+  region                             = var.region
+  cos_instance_name                  = "${var.prefix}-source-cos"
+  cos_tags                           = var.resource_tags
+  access_tags                        = var.access_tags
+  object_versioning_enabled          = true
+  kms_encryption_enabled             = false
+  retention_enabled                  = false
+  expire_days                        = 365
+  archive_days                       = 90
+  noncurrent_version_expiration_days = 30
+  abort_multipart_days               = 3
 }
 
 ##############################################################################
@@ -34,18 +36,20 @@ module "cos_source_bucket" {
 ##############################################################################
 
 module "cos_target_bucket" {
-  source                    = "../../"
-  bucket_name               = "${var.prefix}-bucket-target"
-  resource_group_id         = module.resource_group.resource_group_id
-  region                    = var.region
-  cos_instance_name         = "${var.prefix}-target-cos"
-  cos_tags                  = var.resource_tags
-  access_tags               = var.access_tags
-  object_versioning_enabled = true
-  kms_encryption_enabled    = false
-  retention_enabled         = false
-  archive_days              = null
-  expire_days               = null
+  source                             = "../../"
+  bucket_name                        = "${var.prefix}-bucket-target"
+  resource_group_id                  = module.resource_group.resource_group_id
+  region                             = var.region
+  cos_instance_name                  = "${var.prefix}-target-cos"
+  cos_tags                           = var.resource_tags
+  access_tags                        = var.access_tags
+  object_versioning_enabled          = true
+  kms_encryption_enabled             = false
+  retention_enabled                  = false
+  expire_days                        = 365
+  archive_days                       = 90
+  noncurrent_version_expiration_days = 30
+  abort_multipart_days               = 3
 }
 
 ##############################################################################

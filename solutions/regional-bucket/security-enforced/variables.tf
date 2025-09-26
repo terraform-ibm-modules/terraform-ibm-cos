@@ -150,7 +150,7 @@ variable "archive_filter_prefix" {
 }
 
 variable "archive_days" {
-  description = "The number of days before the `archive_type` rule action takes effect."
+  description = "The number of days before the `archive_type` rule action takes effect. If null is passed, no lifecycle configuration will be added for bucket archival."
   type        = number
   default     = null
 }
@@ -162,8 +162,32 @@ variable "archive_type" {
 }
 
 variable "expire_days" {
-  description = "The number of days before the expire rule action takes effect."
+  description = "The number of days before the expire rule action takes effect. If null is passed, no lifecycle configuration will be added for bucket expiration."
   type        = number
+  default     = null
+}
+
+variable "noncurrent_version_expiration_days" {
+  description = "The number of days after which non-current versions will be deleted. If null is passed, no lifecycle configuration will be added for bucket non-current version expiration."
+  type        = number
+  default     = null
+}
+
+variable "noncurrent_version_expiration_filter_prefix" {
+  type        = string
+  description = "Apply noncurrent version expiration lifecycle rule to only objects with the following prefix. Defaults to apply to all objects."
+  default     = null
+}
+
+variable "abort_multipart_days" {
+  type        = number
+  description = "Number of days after initiation to abort incomplete multipart uploads."
+  default     = null
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Prefix for aborting incomplete multipart uploads."
   default     = null
 }
 
