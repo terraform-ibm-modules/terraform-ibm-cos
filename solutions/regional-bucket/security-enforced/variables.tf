@@ -181,13 +181,13 @@ variable "noncurrent_version_expiration_filter_prefix" {
 
 variable "abort_multipart_days" {
   type        = number
-  description = "Number of days after initiation to abort incomplete multipart uploads."
+  description = "The number of days after which incomplete multipart uploads will be aborted. If null is passed, no lifecycle configuration will be added for aborting multipart uploads."
   default     = null
 }
 
 variable "abort_multipart_filter_prefix" {
   type        = string
-  description = "Prefix for aborting incomplete multipart uploads."
+  description = "Apply abort incomplete multipart upload rule to only objects with the following prefix. Defaults to apply to all objects."
   default     = null
 }
 

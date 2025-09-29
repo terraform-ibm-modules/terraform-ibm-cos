@@ -151,8 +151,8 @@ You need the following permissions to run this module.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_abort_multipart_days"></a> [abort\_multipart\_days](#input\_abort\_multipart\_days) | Number of days after initiation to abort incomplete multipart uploads. | `number` | `null` | no |
-| <a name="input_abort_multipart_filter_prefix"></a> [abort\_multipart\_filter\_prefix](#input\_abort\_multipart\_filter\_prefix) | Prefix for aborting incomplete multipart uploads. | `string` | `null` | no |
+| <a name="input_abort_multipart_days"></a> [abort\_multipart\_days](#input\_abort\_multipart\_days) | The number of days after which incomplete multipart uploads will be aborted. If null is passed, no lifecycle configuration will be added for aborting multipart uploads. | `number` | `null` | no |
+| <a name="input_abort_multipart_filter_prefix"></a> [abort\_multipart\_filter\_prefix](#input\_abort\_multipart\_filter\_prefix) | Apply abort incomplete multipart upload rule to only objects with the following prefix. Defaults to apply to all objects. | `string` | `null` | no |
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial). | `list(string)` | `[]` | no |
 | <a name="input_activity_tracker_management_events"></a> [activity\_tracker\_management\_events](#input\_activity\_tracker\_management\_events) | If set to `true`, all Object Storage management events are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
 | <a name="input_activity_tracker_read_data_events"></a> [activity\_tracker\_read\_data\_events](#input\_activity\_tracker\_read\_data\_events) | If set to `true`, all Object Storage bucket read events (i.e. downloads) are sent to Activity Tracker Event Routing. | `bool` | `true` | no |

@@ -8,47 +8,47 @@ locals {
 locals {
 
   bucket_config = [{
-    access_tags                                 = var.bucket_access_tags
-    bucket_name                                 = "${local.prefix}${var.bucket_name}"
-    kms_encryption_enabled                      = var.kms_encryption_enabled
-    add_bucket_name_suffix                      = var.add_bucket_name_suffix
-    kms_guid                                    = local.existing_kms_instance_guid
-    kms_key_crn                                 = local.kms_key_crn
-    skip_iam_authorization_policy               = local.create_cross_account_auth_policy || var.skip_cos_kms_iam_auth_policy
-    management_endpoint_type                    = var.management_endpoint_type_for_bucket
-    region_location                             = var.region
-    resource_instance_id                        = var.existing_cos_instance_crn
-    storage_class                               = var.bucket_storage_class
-    force_delete                                = var.force_delete
-    hard_quota                                  = var.bucket_hard_quota
-    expire_filter_prefix                        = var.expire_filter_prefix
-    archive_filter_prefix                       = var.archive_filter_prefix
-    noncurrent_version_expiration_filter_prefix = var.noncurrent_version_expiration_filter_prefix
-    abort_multipart_filter_prefix               = var.abort_multipart_filter_prefix
-    object_locking_enabled                      = var.enable_object_locking
-    object_lock_duration_days                   = var.object_lock_duration_days
-    object_lock_duration_years                  = var.object_lock_duration_years
+    access_tags                   = var.bucket_access_tags
+    bucket_name                   = "${local.prefix}${var.bucket_name}"
+    kms_encryption_enabled        = var.kms_encryption_enabled
+    add_bucket_name_suffix        = var.add_bucket_name_suffix
+    kms_guid                      = local.existing_kms_instance_guid
+    kms_key_crn                   = local.kms_key_crn
+    skip_iam_authorization_policy = local.create_cross_account_auth_policy || var.skip_cos_kms_iam_auth_policy
+    management_endpoint_type      = var.management_endpoint_type_for_bucket
+    region_location               = var.region
+    resource_instance_id          = var.existing_cos_instance_crn
+    storage_class                 = var.bucket_storage_class
+    force_delete                  = var.force_delete
+    hard_quota                    = var.bucket_hard_quota
+    object_locking_enabled        = var.enable_object_locking
+    object_lock_duration_days     = var.object_lock_duration_days
+    object_lock_duration_years    = var.object_lock_duration_years
 
     activity_tracking = {
       read_data_events  = true
       write_data_events = true
     }
     archive_rule = var.archive_days != null ? {
-      enable = true
-      days   = var.archive_days
-      type   = var.archive_type
+      enable                = true
+      days                  = var.archive_days
+      type                  = var.archive_type
+      archive_filter_prefix = var.archive_filter_prefix
     } : null
     expire_rule = var.expire_days != null ? {
-      enable = true
-      days   = var.expire_days
+      enable               = true
+      days                 = var.expire_days
+      expire_filter_prefix = var.expire_filter_prefix
     } : null
     noncurrent_version_expiration_rule = var.noncurrent_version_expiration_days != null ? {
-      enable = true
-      days   = var.noncurrent_version_expiration_days
+      enable                                      = true
+      days                                        = var.noncurrent_version_expiration_days
+      noncurrent_version_expiration_filter_prefix = var.noncurrent_version_expiration_filter_prefix
     } : null
     abort_multipart_rule = var.abort_multipart_days != null ? {
-      enable = true
-      days   = var.abort_multipart_days
+      enable                        = true
+      days                          = var.abort_multipart_days
+      abort_multipart_filter_prefix = var.abort_multipart_filter_prefix
     } : null
     metrics_monitoring = {
       usage_metrics_enabled   = true

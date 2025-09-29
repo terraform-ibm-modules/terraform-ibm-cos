@@ -53,6 +53,7 @@ locals {
       archive_rule                       = config.archive_rule
       expire_rule                        = config.expire_rule
       noncurrent_version_expiration_rule = config.noncurrent_version_expiration_rule
+      abort_multipart_enabled_rule       = config.abort_multipart_enabled_rule
       metrics_monitoring                 = config.metrics_monitoring
       object_versioning                  = config.object_versioning
       retention_rule                     = config.retention_rule
@@ -71,7 +72,6 @@ module "buckets" {
   source         = "../../modules/buckets"
   bucket_configs = local.bucket_configs
 }
-
 
 locals {
   access_tags = [
