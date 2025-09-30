@@ -88,8 +88,6 @@ module "buckets" {
   management_endpoint_type_for_bucket = each.value.management_endpoint_type
   force_delete                        = each.value.force_delete
   hard_quota                          = each.value.hard_quota
-  expire_filter_prefix                = each.value.expire_filter_prefix
-  archive_filter_prefix               = each.value.archive_filter_prefix
   object_locking_enabled              = each.value.object_locking_enabled
   object_lock_duration_days           = each.value.object_lock_duration_days
   object_lock_duration_years          = each.value.object_lock_duration_years
@@ -100,10 +98,18 @@ module "buckets" {
   activity_tracker_write_data_events = can(each.value.activity_tracking.write_data_events) ? each.value.activity_tracking.write_data_events : true
   activity_tracker_management_events = can(each.value.activity_tracking.management_events) ? each.value.activity_tracking.management_events : true
 
-  archive_days = can(each.value.archive_rule.days) ? (each.value.archive_rule.enable ? each.value.archive_rule.days : null) : null
-  archive_type = can(each.value.archive_rule.type) ? each.value.archive_rule.type : "Glacier"
+  archive_days          = can(each.value.archive_rule.days) ? (each.value.archive_rule.enable ? each.value.archive_rule.days : null) : null
+  archive_type          = can(each.value.archive_rule.type) ? each.value.archive_rule.type : "Glacier"
+  archive_filter_prefix = can(each.value.archive_rule.archive_filter_prefix) ? (each.value.archive_rule.enable ? each.value.archive_rule.archive_filter_prefix : null) : null
 
-  expire_days = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
+  expire_days          = can(each.value.expire_rule.days) ? (each.value.expire_rule.enable ? each.value.expire_rule.days : null) : null
+  expire_filter_prefix = can(each.value.expire_rule.expire_filter_prefix) ? (each.value.expire_rule.enable ? each.value.expire_rule.expire_filter_prefix : null) : null
+
+  noncurrent_version_expiration_days          = can(each.value.noncurrent_version_expiration_rule.days) ? (each.value.noncurrent_version_expiration_rule.enable ? each.value.noncurrent_version_expiration_rule.days : null) : null
+  noncurrent_version_expiration_filter_prefix = can(each.value.noncurrent_version_expiration_rule.noncurrent_version_expiration_filter_prefix) ? (each.value.noncurrent_version_expiration_rule.enable ? each.value.noncurrent_version_expiration_rule.noncurrent_version_expiration_filter_prefix : null) : null
+
+  abort_multipart_days          = can(each.value.abort_multipart_enabled_rule.days) ? (each.value.abort_multipart_enabled_rule.enable ? each.value.abort_multipart_enabled_rule.days : null) : null
+  abort_multipart_filter_prefix = can(each.value.abort_multipart_enabled_rule.abort_multipart_filter_prefix) ? (each.value.abort_multipart_enabled_rule.enable ? each.value.abort_multipart_enabled_rule.abort_multipart_filter_prefix : null) : null
 
   request_metrics_enabled = can(each.value.metrics_monitoring.request_metrics_enabled) ? each.value.metrics_monitoring.request_metrics_enabled : true
   usage_metrics_enabled   = can(each.value.metrics_monitoring.usage_metrics_enabled) ? each.value.metrics_monitoring.usage_metrics_enabled : true
