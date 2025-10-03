@@ -148,6 +148,9 @@
               "key": "instance_name"
             },
             {
+              "key": "test_var_from_fork"
+            },
+            {
               "key": "resource_tags",
               "custom_config": {
                 "grouping": "deployment",
