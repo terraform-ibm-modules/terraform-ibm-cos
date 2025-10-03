@@ -53,7 +53,7 @@
       ],
       "flavors": [
         {
-          "label": "Single instance (fully configurable)",
+          "label": "Modified Single instance (fully configurable)",
           "name": "instance",
           "index": 1,
           "install_type": "fullstack",
