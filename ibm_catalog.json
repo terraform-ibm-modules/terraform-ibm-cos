@@ -145,7 +145,8 @@
               "description": "The name of an existing resource group to provision the resources."
             },
             {
-              "key": "instance_name"
+              "key": "instance_name",
+              "default_value": "Default name"
             },
             {
               "key": "test_var_from_fork"
