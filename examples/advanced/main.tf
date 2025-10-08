@@ -65,7 +65,7 @@ module "cos_bucket1" {
   cos_tags                            = var.resource_tags
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
-  management_endpoint_type_for_bucket = "public"
+  management_endpoint_type_for_bucket = "direct"
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
@@ -109,7 +109,7 @@ module "cos_bucket2" {
   depends_on                          = [module.cos_bucket1] # Required since cos_bucket1 creates the IAM authorization policy
   bucket_name                         = "${var.prefix}-bucket-2"
   add_bucket_name_suffix              = true
-  management_endpoint_type_for_bucket = "public"
+  management_endpoint_type_for_bucket = "direct"
   region                              = null
   cross_region_location               = var.cross_region_location
   archive_days                        = null
@@ -132,7 +132,7 @@ module "cos_bucket3" {
   depends_on                          = [module.cos_bucket1] # Required since cos_bucket1 creates the IAM authorization policy
   bucket_name                         = "${var.prefix}-bucket-3"
   add_bucket_name_suffix              = true
-  management_endpoint_type_for_bucket = "public"
+  management_endpoint_type_for_bucket = "direct"
   region                              = null
   single_site_location                = var.single_site_location
   hard_quota                          = "1000000" #Sets a maximum amount of storage (in bytes) available for a bucket. If it is set to `null` then quota is disabled.
