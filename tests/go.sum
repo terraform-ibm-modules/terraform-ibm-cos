@@ -13,8 +13,8 @@ github.com/IBM/ibm-cos-sdk-go v1.12.3 h1:kMIs1nfPY0UXAMcW6bq8O9WOd6KgqiDBnIMd0e/
 github.com/IBM/ibm-cos-sdk-go v1.12.3/go.mod h1:dt13UIqJRgfGIlSNlnf17JmAXlBXhfTgXLKV3as8ABk=
 github.com/IBM/platform-services-go-sdk v0.86.1 h1:ngBpaXvUF3gmLvbU1Z4lX1wowOSYgGoKBEBaR/urt30=
 github.com/IBM/platform-services-go-sdk v0.86.1/go.mod h1:aGD045m6I8pfcB77wft8w2cHqWOJjcM3YSSV55BX0Js=
-github.com/IBM/project-go-sdk v0.3.6 h1:DRiANKnAePevFsIKSvR89SUaMa2xsd7YKK71Ka1eqKI=
-github.com/IBM/project-go-sdk v0.3.6/go.mod h1:FOJM9ihQV3EEAY6YigcWiTNfVCThtdY8bLC/nhQHFvo=
+github.com/IBM/project-go-sdk v0.3.9 h1:D/UfMMn+vMQyvYf9EfocV6HrD3HcVpeIVoUSjNKuROo=
+github.com/IBM/project-go-sdk v0.3.9/go.mod h1:FOJM9ihQV3EEAY6YigcWiTNfVCThtdY8bLC/nhQHFvo=
 github.com/IBM/schematics-go-sdk v0.4.0 h1:x01f/tPquYJYLQzJLGuxWfCbV/EdSMXRikOceNy/JLM=
 github.com/IBM/schematics-go-sdk v0.4.0/go.mod h1:Xe7R7xgwmXBHu09w2CbBe8lkWZaYxNQo19bS4dpLrUA=
 github.com/IBM/vpc-go-sdk v1.0.2 h1:WhI1Cb8atA8glUdFg0SEUh9u8afjnKHxZAj9onQBi04=
@@ -149,8 +149,8 @@ github.com/google/uuid v1.1.1/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/gruntwork-io/terratest v0.50.0 h1:AbBJ7IRCpLZ9H4HBrjeoWESITv8nLjN6/f1riMNcAsw=
-github.com/gruntwork-io/terratest v0.50.0/go.mod h1:see0lbKvAqz6rvzvN2wyfuFQQG4PWcAb2yHulF6B2q4=
+github.com/gruntwork-io/terratest v0.51.0 h1:RCXlCwWlHqhUoxgF6n3hvywvbvrsTXqoqt34BrnLekw=
+github.com/gruntwork-io/terratest v0.51.0/go.mod h1:evZHXb8VWDgv5O5zEEwfkwMhkx9I53QR/RB11cISrpg=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
 github.com/hashicorp/errwrap v1.1.0 h1:OxrOeh75EUXMY8TBjag2fzXGZ40LB6IKw45YeGUDY2I=
 github.com/hashicorp/errwrap v1.1.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
@@ -301,8 +301,8 @@ github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.6 h1:Tr7AlrQ+s1Nc9VOwB+It8sItnDOXhfXTxKqI2KtdyFA=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.6/go.mod h1:YBrRYc+5y5Pr9CXmY35lOqTQdlIjA4x4+3iVObXGOCE=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.11 h1:+ATsuqFoHUg/EWpBfF7o8wzxibSan8hG5DJV2NIgrO4=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.11/go.mod h1:9QXyZWo0MotbNavJDyeEdpTj1YKoI6IT1wOPJnI1ahI=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tmccombs/hcl2json v0.6.4 h1:/FWnzS9JCuyZ4MNwrG4vMrFrzRgsWEOVi+1AyYUVLGw=
 github.com/tmccombs/hcl2json v0.6.4/go.mod h1:+ppKlIW3H5nsAsZddXPy2iMyvld3SHxyjswOZhavRDk=
@@ -337,6 +337,8 @@ go.opentelemetry.io/otel/sdk v1.29.0 h1:vkqKjk7gwhS8VaWb0POZKmIEDimRCMsopNYnriHy
 go.opentelemetry.io/otel/sdk v1.29.0/go.mod h1:pM8Dx5WKnvxLCb+8lG1PRNIDxu9g9b9g59Qr7hfAAok=
 go.opentelemetry.io/otel/trace v1.35.0 h1:dPpEfJu1sDIqruz7BHFG3c7528f6ddfSWfFDVt/xgMs=
 go.opentelemetry.io/otel/trace v1.35.0/go.mod h1:WUk7DtFp1Aw2MkvqGdwiXYDZZNvA/1J8o6xRXLrIkyc=
+go.yaml.in/yaml/v2 v2.4.2 h1:DzmwEr2rDGHl7lsFgAHxmNz/1NlQ7xLIrlN2h5d1eGI=
+go.yaml.in/yaml/v2 v2.4.2/go.mod h1:081UH+NErpNdqlCXm3TtEran0rJZGxAYx9hb/ELlsPU=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.0.0-20200302210943-78000ba7a073/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
@@ -506,8 +508,8 @@ google.golang.org/protobuf v1.23.0/go.mod h1:EGpADcykh3NcUnDUJcl1+ZksZNG86OlYog2
 google.golang.org/protobuf v1.26.0-rc.1/go.mod h1:jlhhOSvTdKEhbULTjvd4ARK9grFBp09yW+WbY/TyQbw=
 google.golang.org/protobuf v1.26.0/go.mod h1:9q0QmTI4eRPtz6boOQmLYwt+qCgq0jsYwAQnmE0givc=
 google.golang.org/protobuf v1.28.0/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
-google.golang.org/protobuf v1.35.1 h1:m3LfL6/Ca+fqnjnlqQXNpFPABW1UD7mjh8KO2mKFytA=
-google.golang.org/protobuf v1.35.1/go.mod h1:9fA7Ob0pmnwhb644+1+CVWFRbNajQ6iRojtC/QF5bRE=
+google.golang.org/protobuf v1.36.5 h1:tPhr+woSbjfYvY6/GPufUoYizxw1cF/yFoxJ2fmpwlM=
+google.golang.org/protobuf v1.36.5/go.mod h1:9fA7Ob0pmnwhb644+1+CVWFRbNajQ6iRojtC/QF5bRE=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
@@ -531,5 +533,5 @@ gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C
 gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
-sigs.k8s.io/yaml v1.4.0 h1:Mk1wCc2gy/F0THH0TAp1QYyJNzRm2KCLy3o5ASXVI5E=
-sigs.k8s.io/yaml v1.4.0/go.mod h1:Ejl7/uTz7PSA4eKMyQCUTnhZYNmLIl+5c2lQPGR2BPY=
+sigs.k8s.io/yaml v1.6.0 h1:G8fkbMSAFqgEFgh4b1wmtzDnioxFCUgTZhlbj5P9QYs=
+sigs.k8s.io/yaml v1.6.0/go.mod h1:796bPqUfzR/0jLAl6XjHl3Ck7MiyVv8dbTdyT3/pMf4=
