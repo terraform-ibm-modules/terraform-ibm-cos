@@ -401,7 +401,41 @@
               "key": "add_bucket_name_suffix"
             },
             {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
+              "key": "archive_days"
+            },
+            {
               "key": "archive_filter_prefix"
+            },
+            {
+              "key": "archive_type",
+              "options": [
+                {
+                  "displayname": "Glacier",
+                  "value": "Glacier"
+                },
+                {
+                  "displayname": "Accelerated",
+                  "value": "Accelerated"
+                }
+              ]
+            },
+            {
+              "key": "noncurrent_version_expiration_days"
+            },
+            {
+              "key": "noncurrent_version_expiration_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "bucket_access_tags",
@@ -437,12 +471,6 @@
                   "value": "onerate_active"
                 }
               ]
-            },
-            {
-              "key": "expire_days"
-            },
-            {
-              "key": "expire_filter_prefix"
             },
             {
               "key": "force_delete"
@@ -775,7 +803,41 @@
               "key": "add_bucket_name_suffix"
             },
             {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
+              "key": "archive_days"
+            },
+            {
               "key": "archive_filter_prefix"
+            },
+            {
+              "key": "archive_type",
+              "options": [
+                {
+                  "displayname": "Glacier",
+                  "value": "Glacier"
+                },
+                {
+                  "displayname": "Accelerated",
+                  "value": "Accelerated"
+                }
+              ]
+            },
+            {
+              "key": "noncurrent_version_expiration_days"
+            },
+            {
+              "key": "noncurrent_version_expiration_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "bucket_access_tags",
@@ -811,12 +873,6 @@
                   "value": "onerate_active"
                 }
               ]
-            },
-            {
-              "key": "expire_days"
-            },
-            {
-              "key": "expire_filter_prefix"
             },
             {
               "key": "force_delete"
@@ -1193,6 +1249,12 @@
               "key": "add_bucket_name_suffix"
             },
             {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
               "key": "archive_days"
             },
             {
@@ -1210,6 +1272,18 @@
                   "value": "Accelerated"
                 }
               ]
+            },
+            {
+              "key": "noncurrent_version_expiration_days"
+            },
+            {
+              "key": "noncurrent_version_expiration_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "bucket_access_tags",
@@ -1245,12 +1319,6 @@
                   "value": "onerate_active"
                 }
               ]
-            },
-            {
-              "key": "expire_days"
-            },
-            {
-              "key": "expire_filter_prefix"
             },
             {
               "key": "force_delete"
@@ -1626,6 +1694,12 @@
               "key": "add_bucket_name_suffix"
             },
             {
+              "key": "expire_days"
+            },
+            {
+              "key": "expire_filter_prefix"
+            },
+            {
               "key": "archive_days"
             },
             {
@@ -1643,6 +1717,18 @@
                   "value": "Accelerated"
                 }
               ]
+            },
+            {
+              "key": "noncurrent_version_expiration_days"
+            },
+            {
+              "key": "noncurrent_version_expiration_filter_prefix"
+            },
+            {
+              "key": "abort_multipart_days"
+            },
+            {
+              "key": "abort_multipart_filter_prefix"
             },
             {
               "key": "bucket_access_tags",
@@ -1678,12 +1764,6 @@
                   "value": "onerate_active"
                 }
               ]
-            },
-            {
-              "key": "expire_days"
-            },
-            {
-              "key": "expire_filter_prefix"
             },
             {
               "key": "force_delete"

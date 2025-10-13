@@ -21,8 +21,6 @@ locals {
     storage_class                 = var.bucket_storage_class
     force_delete                  = var.force_delete
     hard_quota                    = var.bucket_hard_quota
-    expire_filter_prefix          = var.expire_filter_prefix
-    archive_filter_prefix         = var.archive_filter_prefix
     object_locking_enabled        = var.enable_object_locking
     object_lock_duration_days     = var.object_lock_duration_days
     object_lock_duration_years    = var.object_lock_duration_years
@@ -32,13 +30,25 @@ locals {
       write_data_events = true
     }
     archive_rule = var.archive_days != null ? {
-      enable = true
-      days   = var.archive_days
-      type   = var.archive_type
+      enable                = true
+      days                  = var.archive_days
+      type                  = var.archive_type
+      archive_filter_prefix = var.archive_filter_prefix
     } : null
     expire_rule = var.expire_days != null ? {
-      enable = true
-      days   = var.expire_days
+      enable               = true
+      days                 = var.expire_days
+      expire_filter_prefix = var.expire_filter_prefix
+    } : null
+    noncurrent_version_expiration_rule = var.noncurrent_version_expiration_days != null ? {
+      enable                                      = true
+      days                                        = var.noncurrent_version_expiration_days
+      noncurrent_version_expiration_filter_prefix = var.noncurrent_version_expiration_filter_prefix
+    } : null
+    abort_multipart_rule = var.abort_multipart_days != null ? {
+      enable                        = true
+      days                          = var.abort_multipart_days
+      abort_multipart_filter_prefix = var.abort_multipart_filter_prefix
     } : null
     metrics_monitoring = {
       usage_metrics_enabled   = true

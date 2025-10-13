@@ -269,9 +269,9 @@ variable "object_versioning_enabled" {
 }
 
 variable "archive_days" {
-  description = "The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets."
+  description = "The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets. If null is passed, no lifecycle configuration will be added for bucket archival."
   type        = number
-  default     = 90
+  default     = null
   validation {
     condition     = var.create_cos_bucket == false || (var.cross_region_location == null || var.archive_days == null)
     error_message = "If `var.cross_region_location` is set, then `var.archive_days` cannot be set."
@@ -289,9 +289,9 @@ variable "archive_type" {
 }
 
 variable "expire_days" {
-  description = "The number of days before the expire rule action takes effect. Applies only if `create_cos_bucket` is set to `true`."
+  description = "The number of days before the expire rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. If null is passed, no lifecycle configuration will be added for bucket expiration."
   type        = number
-  default     = 365
+  default     = null
 }
 
 variable "request_metrics_enabled" {
@@ -362,6 +362,38 @@ variable "expire_filter_prefix" {
 variable "archive_filter_prefix" {
   type        = string
   description = "Apply archive lifecycle rule to only objects with the following prefix. Applies to all objects by default."
+  default     = null
+}
+
+variable "noncurrent_version_expiration_days" {
+  description = "The number of days after which non-current versions will be deleted. If null is passed, no lifecycle configuration will be added for bucket non-current version expiration."
+  type        = number
+  default     = null
+  validation {
+    condition     = var.noncurrent_version_expiration_days == null || var.object_versioning_enabled == true
+    error_message = "Noncurrent version expiration lifecycle rule requires object versioning. Make sure `object_versioning_enabled` is set to `true`."
+  }
+}
+
+variable "noncurrent_version_expiration_filter_prefix" {
+  type        = string
+  description = "Apply noncurrent version expiration lifecycle rule to only objects with the following prefix. Applies to all objects by default."
+  default     = null
+  validation {
+    condition     = var.noncurrent_version_expiration_filter_prefix == null || var.object_versioning_enabled == true
+    error_message = "Noncurrent version expiration lifecycle filter prefix requires object versioning. Make sure `object_versioning_enabled` is set to `true`."
+  }
+}
+
+variable "abort_multipart_days" {
+  type        = number
+  description = "The number of days after which incomplete multipart uploads will be aborted. If null is passed, no lifecycle configuration will be added for aborting multipart uploads."
+  default     = null
+}
+
+variable "abort_multipart_filter_prefix" {
+  type        = string
+  description = "Apply abort incomplete multipart upload rule to only objects with the following prefix. Defaults to apply to all objects."
   default     = null
 }
 
