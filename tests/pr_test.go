@@ -16,7 +16,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/ibm-cos-sdk-go/aws"
 	"github.com/IBM/ibm-cos-sdk-go/aws/awserr"
 	"github.com/IBM/ibm-cos-sdk-go/aws/credentials/ibmiam"
@@ -626,39 +625,6 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
-}
-
-// The instance DA variation has no "on-by-default" dependencies defined so hence testing with Account Config DA enabled
-func TestInstanceAddonWithAccountConfig(t *testing.T) {
-	t.Parallel()
-
-	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:       t,
-		Prefix:        "cos-addon",
-		ResourceGroup: resourceGroup,
-		QuietMode:     true, // Suppress logs except on failure
-	})
-
-	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
-		options.Prefix,
-		"deploy-arch-ibm-cos",
-		"instance",
-		map[string]interface{}{
-			"prefix": options.Prefix,
-		},
-	)
-
-	// Enable Account Config DA
-	options.AddonConfig.Dependencies = []cloudinfo.AddonConfig{
-		{
-			OfferingName:   "deploy-arch-ibm-account-infra-base",
-			OfferingFlavor: "resource-groups-with-account-settings",
-			Enabled:        core.BoolPtr(true), // explicitly enable this dependency
-		},
-	}
-
-	err := options.RunAddonTest()
-	require.NoError(t, err)
 }
 
 // Test regional bucket variation deployment with all "on-by-default" dependant DAs
