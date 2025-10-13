@@ -75,13 +75,6 @@
               ],
               "service_name": "cloud-object-storage",
               "notes": "Required to create an Object Storage instance."
-            },
-            {
-              "role_crns": [
-                "crn:v1:bluemix:public:iam::::role:Administrator"
-              ],
-              "service_name": "iam-identity",
-              "notes": "[Optional] Required if you are deploying Cloud automation for account configuration."
             }
           ],
           "architecture": {
@@ -222,39 +215,6 @@
               ]
             }
           ],
-          "dependencies": [
-            {
-              "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Organize your IBM Cloud account with preconfigured resource groups. If not selected, the default resource group is used. Optionally, expand to apply recommended security controls via \"with Account Settings\" variation.",
-              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-              "flavors": [
-                "resource-group-only",
-                "resource-groups-with-account-settings"
-              ],
-              "default_flavor": "resource-group-only",
-              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
-              "input_mapping": [
-                {
-                  "dependency_output": "workload_resource_group_name",
-                  "version_input": "existing_resource_group_name"
-                },
-                {
-                  "dependency_input": "prefix",
-                  "version_input": "prefix",
-                  "reference_version": true
-                },
-                {
-                  "dependency_input": "provider_visibility",
-                  "version_input": "provider_visibility",
-                  "reference_version": true
-                }
-              ],
-              "optional": true,
-              "on_by_default": false,
-              "version": "v3.0.23"
-            }
-          ],
-          "dependency_version_2": true,
           "terraform_version": "1.10.5"
         },
         {
