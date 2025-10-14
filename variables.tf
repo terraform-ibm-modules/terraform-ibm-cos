@@ -158,7 +158,7 @@ variable "bucket_name" {
 variable "add_bucket_name_suffix" {
   type        = bool
   description = "Whether to add a randomly generated 4-character suffix to the bucket name."
-  default     = false
+  default     = true
 }
 
 variable "bucket_storage_class" {
