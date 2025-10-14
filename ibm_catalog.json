@@ -307,6 +307,20 @@
               ]
             },
             {
+              "key": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
+            },
+            {
               "key": "cross_region_location",
               "required": true,
               "options": [
@@ -590,6 +604,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
+                  "reference_version": true
                 }
               ]
             },
@@ -613,6 +632,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
                   "reference_version": true
                 }
               ],
@@ -644,6 +668,11 @@
                 {
                   "dependency_input": "enable_platform_metrics",
                   "version_input": "enable_platform_metrics",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
                   "reference_version": true
                 }
               ]
@@ -725,6 +754,20 @@
                   "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
                 }
               ]
+            },
+            {
+              "key": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
             },
             {
               "key": "cross_region_location",
@@ -971,6 +1014,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
+                  "reference_version": true
                 }
               ]
             },
@@ -994,6 +1042,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
                   "reference_version": true
                 }
               ],
@@ -1025,6 +1078,11 @@
                 {
                   "dependency_input": "enable_platform_metrics",
                   "version_input": "enable_platform_metrics",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
                   "reference_version": true
                 }
               ]
@@ -1121,6 +1179,20 @@
                   "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
                 }
               ]
+            },
+            {
+              "key": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
             },
             {
               "key": "region",
@@ -1439,6 +1511,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
+                  "reference_version": true
                 }
               ]
             },
@@ -1584,6 +1661,20 @@
                   "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
                 }
               ]
+            },
+            {
+              "key": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
             },
             {
               "key": "region",
@@ -1856,6 +1947,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
+                  "reference_version": true
                 }
               ]
             },
@@ -1879,6 +1975,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
                   "reference_version": true
                 }
               ],
@@ -1910,6 +2011,11 @@
                 {
                   "dependency_input": "enable_platform_metrics",
                   "version_input": "enable_platform_metrics",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "resource_group",
                   "reference_version": true
                 }
               ]

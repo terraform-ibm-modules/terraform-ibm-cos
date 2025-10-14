@@ -642,8 +642,9 @@ func TestRegionalBucketAddonDefault(t *testing.T) {
 		"deploy-arch-ibm-cos",
 		"regional-bucket-fully-configurable",
 		map[string]interface{}{
-			"prefix":      options.Prefix,
-			"bucket_name": "test",
+			"prefix":         options.Prefix,
+			"bucket_name":    "test",
+			"resource_group": resourceGroup,
 		},
 	)
 
@@ -666,8 +667,9 @@ func TestCrossRegionalBucketAddonDefault(t *testing.T) {
 		"deploy-arch-ibm-cos",
 		"cross-regional-bucket-fully-configurable",
 		map[string]interface{}{
-			"prefix":      options.Prefix,
-			"bucket_name": "test",
+			"prefix":         options.Prefix,
+			"bucket_name":    "test",
+			"resource_group": resourceGroup,
 		},
 	)
 
