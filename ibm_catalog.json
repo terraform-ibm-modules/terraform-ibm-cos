@@ -137,9 +137,7 @@
                 "config_constraints": {
                   "identifier": "rg_name"
                 }
-              },
-              "default_value": "Default",
-              "description": "The name of an existing resource group to provision the resources."
+              }
             },
             {
               "key": "instance_name"
@@ -302,6 +300,10 @@
             {
               "key": "prefix",
               "required": true,
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "value_constraints": [
                 {
                   "type": "regex",
@@ -311,7 +313,8 @@
               ]
             },
             {
-              "key": "resource_group",
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
@@ -750,6 +753,10 @@
             },
             {
               "key": "prefix",
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "required": true,
               "value_constraints": [
                 {
@@ -760,7 +767,8 @@
               ]
             },
             {
-              "key": "resource_group",
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
@@ -1175,6 +1183,10 @@
             },
             {
               "key": "prefix",
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "required": true,
               "value_constraints": [
                 {
@@ -1185,7 +1197,8 @@
               ]
             },
             {
-              "key": "resource_group",
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
@@ -1544,6 +1557,11 @@
                   "value": true
                 },
                 {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
+                },
+                {
                   "dependency_input": "kms_endpoint_type",
                   "version_input": "kms_endpoint_type",
                   "reference_version": true
@@ -1575,6 +1593,11 @@
                 {
                   "dependency_output": "cloud_monitoring_crn",
                   "version_input": "monitoring_crn"
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
                 },
                 {
                   "dependency_input": "prefix",
@@ -1657,6 +1680,10 @@
             },
             {
               "key": "prefix",
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "required": true,
               "value_constraints": [
                 {
@@ -1667,7 +1694,8 @@
               ]
             },
             {
-              "key": "resource_group",
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
