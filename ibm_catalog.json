@@ -1540,7 +1540,7 @@
               "name": "deploy-arch-ibm-kms",
               "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.1.27",
+              "version": "v5.4.0",
               "flavors": [
                 "fully-configurable"
               ],
