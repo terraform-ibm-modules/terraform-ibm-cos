@@ -75,13 +75,6 @@
               ],
               "service_name": "cloud-object-storage",
               "notes": "Required to create an Object Storage instance."
-            },
-            {
-              "role_crns": [
-                "crn:v1:bluemix:public:iam::::role:Administrator"
-              ],
-              "service_name": "iam-identity",
-              "notes": "[Optional] Required if you are deploying Cloud automation for account configuration."
             }
           ],
           "architecture": {
@@ -108,6 +101,10 @@
             },
             {
               "key": "prefix",
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "value_constraints": [
                 {
                   "type": "regex",
@@ -140,9 +137,7 @@
                 "config_constraints": {
                   "identifier": "rg_name"
                 }
-              },
-              "default_value": "Default",
-              "description": "The name of an existing resource group to provision the resources."
+              }
             },
             {
               "key": "instance_name"
@@ -222,39 +217,6 @@
               ]
             }
           ],
-          "dependencies": [
-            {
-              "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Organize your IBM Cloud account with preconfigured resource groups. If not selected, the default resource group is used. Optionally, expand to apply recommended security controls via \"with Account Settings\" variation.",
-              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-              "flavors": [
-                "resource-group-only",
-                "resource-groups-with-account-settings"
-              ],
-              "default_flavor": "resource-group-only",
-              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
-              "input_mapping": [
-                {
-                  "dependency_output": "workload_resource_group_name",
-                  "version_input": "existing_resource_group_name"
-                },
-                {
-                  "dependency_input": "prefix",
-                  "version_input": "prefix",
-                  "reference_version": true
-                },
-                {
-                  "dependency_input": "provider_visibility",
-                  "version_input": "provider_visibility",
-                  "reference_version": true
-                }
-              ],
-              "optional": true,
-              "on_by_default": false,
-              "version": "v3.0.23"
-            }
-          ],
-          "dependency_version_2": true,
           "terraform_version": "1.10.5"
         },
         {
@@ -338,6 +300,10 @@
             {
               "key": "prefix",
               "required": true,
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "value_constraints": [
                 {
                   "type": "regex",
@@ -345,6 +311,21 @@
                   "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
                 }
               ]
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
             },
             {
               "key": "cross_region_location",
@@ -630,6 +611,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
                 }
               ]
             },
@@ -653,6 +639,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
                   "reference_version": true
                 }
               ],
@@ -684,6 +675,11 @@
                 {
                   "dependency_input": "enable_platform_metrics",
                   "version_input": "enable_platform_metrics",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
                   "reference_version": true
                 }
               ]
@@ -757,6 +753,10 @@
             },
             {
               "key": "prefix",
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "required": true,
               "value_constraints": [
                 {
@@ -765,6 +765,21 @@
                   "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
                 }
               ]
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
             },
             {
               "key": "cross_region_location",
@@ -1011,6 +1026,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
                 }
               ]
             },
@@ -1034,6 +1054,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
                   "reference_version": true
                 }
               ],
@@ -1065,6 +1090,11 @@
                 {
                   "dependency_input": "enable_platform_metrics",
                   "version_input": "enable_platform_metrics",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
                   "reference_version": true
                 }
               ]
@@ -1153,6 +1183,10 @@
             },
             {
               "key": "prefix",
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "required": true,
               "value_constraints": [
                 {
@@ -1161,6 +1195,21 @@
                   "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
                 }
               ]
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
             },
             {
               "key": "region",
@@ -1479,6 +1528,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
                 }
               ]
             },
@@ -1501,6 +1555,11 @@
                 {
                   "version_input": "kms_encryption_enabled",
                   "value": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
                 },
                 {
                   "dependency_input": "kms_endpoint_type",
@@ -1534,6 +1593,11 @@
                 {
                   "dependency_output": "cloud_monitoring_crn",
                   "version_input": "monitoring_crn"
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
                 },
                 {
                   "dependency_input": "prefix",
@@ -1616,6 +1680,10 @@
             },
             {
               "key": "prefix",
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "required": true,
               "value_constraints": [
                 {
@@ -1624,6 +1692,21 @@
                   "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
                 }
               ]
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources.",
+              "virtual": true
             },
             {
               "key": "region",
@@ -1896,6 +1979,11 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
                 }
               ]
             },
@@ -1919,6 +2007,11 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
                   "reference_version": true
                 }
               ],
@@ -1950,6 +2043,11 @@
                 {
                   "dependency_input": "enable_platform_metrics",
                   "version_input": "enable_platform_metrics",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
                   "reference_version": true
                 }
               ]

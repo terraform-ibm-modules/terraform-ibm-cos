@@ -127,7 +127,7 @@ variable "force_delete" {
 variable "add_bucket_name_suffix" {
   type        = bool
   description = "Add random generated suffix (4 characters long) to the newly provisioned Object Storage bucket name (Optional)."
-  default     = false
+  default     = true
 }
 
 variable "bucket_hard_quota" {
