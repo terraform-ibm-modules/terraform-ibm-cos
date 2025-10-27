@@ -58,12 +58,6 @@ variable "cos_instance_name" {
   }
 }
 
-variable "cos_location" {
-  description = "The location for the Object Storage instance. Required if `create_cos_instance` is set to `true`."
-  type        = string
-  default     = "global"
-}
-
 variable "cos_plan" {
   description = "The plan to use when Object Storage instances are created. Possible values are `standard` or `cos-one-rate-plan`. Required if `create_cos_instance` is set to `true`. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision)."
   type        = string
