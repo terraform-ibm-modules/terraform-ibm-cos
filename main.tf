@@ -33,7 +33,7 @@ resource "ibm_resource_instance" "cos_instance" {
   resource_group_id = var.resource_group_id
   service           = "cloud-object-storage"
   plan              = var.cos_plan
-  location          = var.cos_location
+  location          = "global"
   tags              = var.cos_tags
 }
 
