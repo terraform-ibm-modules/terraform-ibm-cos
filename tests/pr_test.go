@@ -35,7 +35,7 @@ import (
 /*
 Global variables
 */
-const terraformVersion = "terraform_v1.10" // This should match the version in the ibm_catalog.json
+const terraformVersion = "terraform_v1.12.2" // This should match the version in the ibm_catalog.json
 const advancedExampleTerraformDir = "examples/advanced"
 const fsCloudTerraformDir = "examples/fscloud"
 const replicateExampleTerraformDir = "examples/replication"
