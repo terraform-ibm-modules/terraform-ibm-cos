@@ -58,15 +58,6 @@
           "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/instance",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "IBM Cloud Framework for Financial Services",
-                "profile_version": "1.7.0"
-              }
-            ]
-          },
           "iam_permissions": [
             {
               "role_crns": [
@@ -225,15 +216,6 @@
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
           "install_type": "fullstack",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "IBM Cloud Framework for Financial Services",
-                "profile_version": "1.7.0"
-              }
-            ]
-          },
           "iam_permissions": [
             {
               "role_crns": [
@@ -694,15 +676,6 @@
           "index": 3,
           "working_directory": "solutions/cross-regional-bucket/security-enforced",
           "install_type": "fullstack",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "IBM Cloud Framework for Financial Services",
-                "profile_version": "1.7.0"
-              }
-            ]
-          },
           "iam_permissions": [
             {
               "role_crns": [
@@ -1109,15 +1082,6 @@
           "index": 4,
           "working_directory": "solutions/regional-bucket/fully-configurable",
           "install_type": "fullstack",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "IBM Cloud Framework for Financial Services",
-                "profile_version": "1.7.0"
-              }
-            ]
-          },
           "iam_permissions": [
             {
               "role_crns": [
@@ -1621,15 +1585,6 @@
           "index": 5,
           "working_directory": "solutions/regional-bucket/security-enforced",
           "install_type": "fullstack",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "IBM Cloud Framework for Financial Services",
-                "profile_version": "1.7.0"
-              }
-            ]
-          },
           "iam_permissions": [
             {
               "role_crns": [
