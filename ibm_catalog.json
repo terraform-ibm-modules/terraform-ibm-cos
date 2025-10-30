@@ -208,7 +208,7 @@
               ]
             }
           ],
-          "terraform_version": "1.10.5"
+          "terraform_version": "1.12.2"
         },
         {
           "label": "Cross-regional bucket (fully configurable)",
@@ -668,7 +668,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.10.5"
+          "terraform_version": "1.12.2"
         },
         {
           "label": "Cross-regional bucket (security-enforced)",
@@ -1074,7 +1074,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.10.5"
+          "terraform_version": "1.12.2"
         },
         {
           "label": "Regional bucket (fully configurable)",
@@ -1577,7 +1577,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.10.5"
+          "terraform_version": "1.12.2"
         },
         {
           "label": "Regional bucket (security-enforced)",
@@ -2009,7 +2009,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.10.5"
+          "terraform_version": "1.12.2"
         }
       ]
     }
