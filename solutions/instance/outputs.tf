@@ -47,3 +47,34 @@ output "service_credential_secret_groups" {
   description = "Service credential secret groups"
   value       = length(local.service_credential_secrets) > 0 ? module.secrets_manager_service_credentials[0].secret_groups : null
 }
+
+##############################################################################
+# CLOUD OBJECT STORAGE Next Steps URLs outputs
+##############################################################################
+
+output "next_steps_text" {
+  value       = "Your Cloud Object Storage instance is created."
+  description = "Next steps text"
+}
+
+output "next_step_primary_label" {
+  value       = "Go to COS Instance" 
+  description = "Primary label"
+}
+
+output "next_step_primary_url" {
+  value       = "https://cloud.ibm.com/objectstorage/${urlencode(module.cos.cos_instance_crn)}"
+  description = "Primary URL"
+}
+
+output "next_step_secondary_label" {
+  value       = "Learn more about Cloud Object Storage"
+  description = "Secondary label"
+}
+
+output "next_step_secondary_url" {
+  value       = "https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage"
+  description = "Secondary URL"
+}
+
+##############################################################################

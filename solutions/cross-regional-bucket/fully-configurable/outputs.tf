@@ -30,3 +30,34 @@ output "cos_instance_guid" {
   description = "The guid of the COS instance containing the created bucket."
   value       = local.cos_instance_guid
 }
+
+##############################################################################
+# CLOUD OBJECT STORAGE Next Steps URLs outputs
+##############################################################################
+
+output "next_steps_text" {
+  value       = "Your Cross Regional Bucket is created."
+  description = "Next steps text"
+}
+
+output "next_step_primary_label" {
+  value       = "Go to Your Cross Regional Bucket" 
+  description = "Primary label"
+}
+
+output "next_step_primary_url" {
+  value       = "https://cloud.ibm.com/objectstorage/${urlencode(module.cos.cos_instance_crn)}"
+  description = "Primary URL"
+}
+
+output "next_step_secondary_label" {
+  value       = "Learn more about Cloud Object Storage"
+  description = "Secondary label"
+}
+
+output "next_step_secondary_url" {
+  value       = "https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage"
+  description = "Secondary URL"
+}
+
+##############################################################################
