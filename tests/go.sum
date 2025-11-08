@@ -151,8 +151,8 @@ github.com/google/uuid v1.1.1/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/gruntwork-io/terratest v0.51.0 h1:RCXlCwWlHqhUoxgF6n3hvywvbvrsTXqoqt34BrnLekw=
-github.com/gruntwork-io/terratest v0.51.0/go.mod h1:evZHXb8VWDgv5O5zEEwfkwMhkx9I53QR/RB11cISrpg=
+github.com/gruntwork-io/terratest v0.52.0 h1:7+I3FqEImowIajZ9Qyo5ngr7n2AUINJko6x+KzlWNjU=
+github.com/gruntwork-io/terratest v0.52.0/go.mod h1:y2Evi+Ac04QpzF3mbRPqrBjipDN7gjqlw6+OZoy2vX4=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
 github.com/hashicorp/errwrap v1.1.0 h1:OxrOeh75EUXMY8TBjag2fzXGZ40LB6IKw45YeGUDY2I=
 github.com/hashicorp/errwrap v1.1.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
@@ -302,8 +302,8 @@ github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.17 h1:unGRxvM9OJBTsfDQg/AZCYOeJZ5TqrCsPphjWJ2wI94=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.17/go.mod h1:g0kmBhFk6pVoTmse42tMNCSNktiOYJHAda/pAzOIxco=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.19 h1:6a84e97jf33CjHPz6doFNloP3XiAXE2YZ27x/Tq8AFk=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.19/go.mod h1:g0kmBhFk6pVoTmse42tMNCSNktiOYJHAda/pAzOIxco=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tmccombs/hcl2json v0.6.4 h1:/FWnzS9JCuyZ4MNwrG4vMrFrzRgsWEOVi+1AyYUVLGw=
 github.com/tmccombs/hcl2json v0.6.4/go.mod h1:+ppKlIW3H5nsAsZddXPy2iMyvld3SHxyjswOZhavRDk=

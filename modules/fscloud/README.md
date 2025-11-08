@@ -94,7 +94,7 @@ module "cos_fscloud" {
 |------|--------|---------|
 | <a name="module_buckets"></a> [buckets](#module\_buckets) | ../../modules/buckets | n/a |
 | <a name="module_cos_instance"></a> [cos\_instance](#module\_cos\_instance) | ../../ | n/a |
-| <a name="module_instance_cbr_rules"></a> [instance\_cbr\_rules](#module\_instance\_cbr\_rules) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.33.7 |
+| <a name="module_instance_cbr_rules"></a> [instance\_cbr\_rules](#module\_instance\_cbr\_rules) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.33.8 |
 
 ### Resources
 
