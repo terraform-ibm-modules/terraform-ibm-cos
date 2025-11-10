@@ -63,7 +63,7 @@ output "next_step_primary_label" {
 }
 
 output "next_step_primary_url" {
-  value       = "https://cloud.ibm.com/objectstorage/${module.cos.cos_instance_crn}?paneId=manage"
+  value       = "https://cloud.ibm.com/objectstorage/${urlencode(module.cos.cos_instance_crn)}?paneId=manage"
   description = "Primary URL"
 }
 

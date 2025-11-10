@@ -36,7 +36,7 @@ output "cos_instance_guid" {
 ##############################################################################
 
 output "next_steps_text" {
-  value       = "Your Cloud Object Storage instance is created."
+  value       = "Your Regional Bucket is created."
   description = "Next steps text"
 }
 
@@ -46,7 +46,7 @@ output "next_step_primary_label" {
 }
 
 output "next_step_primary_url" {
-  value       = "https://cloud.ibm.com/objectstorage/${var.existing_cos_instance_crn}?paneId=manage"
+  value       = "https://cloud.ibm.com/objectstorage/${urlencode(var.existing_cos_instance_crn)}?paneId=manage"
   description = "Primary URL"
 }
 
