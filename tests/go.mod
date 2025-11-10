@@ -2,13 +2,13 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 
 go 1.24.0
 
-toolchain go1.25.3
+toolchain go1.25.4
 
 require (
 	github.com/IBM/ibm-cos-sdk-go v1.12.3
-	github.com/gruntwork-io/terratest v0.51.0
+	github.com/gruntwork-io/terratest v0.52.0
 	github.com/stretchr/testify v1.11.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.17
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.60.21
 )
 
 require (
@@ -17,7 +17,7 @@ require (
 	github.com/IBM-Cloud/power-go-client v1.13.0 // indirect
 	github.com/IBM/cloud-databases-go-sdk v0.8.1 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.21.0 // indirect
-	github.com/IBM/platform-services-go-sdk v0.89.0 // indirect
+	github.com/IBM/platform-services-go-sdk v0.90.0 // indirect
 	github.com/IBM/project-go-sdk v0.3.9 // indirect
 	github.com/IBM/schematics-go-sdk v0.4.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
@@ -96,7 +96,7 @@ require (
 	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/mod v0.28.0 // indirect
 	golang.org/x/net v0.45.0 // indirect
-	golang.org/x/sync v0.17.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/tools v0.37.0 // indirect
