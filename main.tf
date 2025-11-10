@@ -107,6 +107,11 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
 }
 
+# use a data lookup to get the ID of the "Public Access" IAM access group
+data "ibm_iam_access_group" "public_access_group" {
+  access_group_name = "Public Access"
+}
+
 # Create random string which is added to COS bucket name as a suffix
 resource "random_string" "bucket_name_suffix" {
   count   = var.add_bucket_name_suffix ? 1 : 0
@@ -121,10 +126,15 @@ resource "random_string" "bucket_name_suffix" {
 # - Monitoring
 # - Activity Tracking
 # - Versioning
+
+locals {
+  cos_bucket_name = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
+}
+
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [time_sleep.wait_for_authorization_policy]
-  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
+  bucket_name           = locals.cos_bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
@@ -174,6 +184,20 @@ resource "ibm_cos_bucket" "cos_bucket" {
   }
 }
 
+# create an IAM access policy to granting public access to this bucket
+resource "ibm_iam_access_group_policy" "policy" {
+  count = var.allow_public_access_to_buckets ? 1 : 0
+  access_group_id = data.ibm_iam_access_group.public_access_group.groups[0].id
+  roles           = ["Object Reader"]
+
+  resources {
+    service              = "cloud-object-storage"
+    resource_type        = "bucket"
+    resource_instance_id = local.cos_instance_guid
+    resource             = local.cos_bucket_name
+  }
+}
+
 # Create COS bucket with:
 # - Retention
 # - Monitoring
@@ -181,9 +205,14 @@ resource "ibm_cos_bucket" "cos_bucket" {
 # - Versioning
 # Create COS bucket without:
 # - Encryption
+
+locals {
+  cos_bucket1_name = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
+}
+
 resource "ibm_cos_bucket" "cos_bucket1" {
   count                 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
+  bucket_name           = local.cos_bucket1_name
   depends_on            = [time_sleep.wait_for_authorization_policy]
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
@@ -230,6 +259,20 @@ resource "ibm_cos_bucket" "cos_bucket1" {
     content {
       enable = var.object_versioning_enabled
     }
+  }
+}
+
+# create an IAM access policy to granting public access to this bucket
+resource "ibm_iam_access_group_policy" "policy" {
+  count = var.allow_public_access_to_buckets ? 1 : 0
+  access_group_id = data.ibm_iam_access_group.public_access_group.groups[0].id
+  roles           = ["Object Reader"]
+
+  resources {
+    service              = "cloud-object-storage"
+    resource_type        = "bucket"
+    resource_instance_id = local.cos_instance_guid
+    resource             = local.cos_bucket_name
   }
 }
 
