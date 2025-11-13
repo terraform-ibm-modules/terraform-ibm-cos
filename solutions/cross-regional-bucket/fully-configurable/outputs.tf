@@ -36,27 +36,27 @@ output "cos_instance_guid" {
 ##############################################################################
 
 output "next_steps_text" {
-  value       = "Your Cross Regional Bucket is created."
+  value       = "Your cross-regional bucket is created."
   description = "Next steps text"
 }
 
 output "next_step_primary_label" {
-  value       = "Go to Your Cross Regional Bucket" 
+  value       = "Go to your cross-regional bucket"
   description = "Primary label"
 }
 
 output "next_step_primary_url" {
-  value       = "https://cloud.ibm.com/objectstorage/${urlencode(var.existing_cos_instance_crn)}?paneId=manage"
+  value = "https://cloud.ibm.com/objectstorage/${urlencode(var.existing_cos_instance_crn)}?&bucket=${var.bucket_name}&bucketRegion=${local.bucket_config[0].cross_region_location}&endpoint=s3.direct.${local.bucket_config[0].cross_region_location}.cloud-object-storage.appdomain.cloud&paneId=bucket_overview"
   description = "Primary URL"
 }
 
 output "next_step_secondary_label" {
-  value       = "Learn more about Cloud Object Storage"
+  value       = "Learn how to add some objects to your bucket"
   description = "Secondary label"
 }
 
 output "next_step_secondary_url" {
-  value       = "https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage"
+  value       = "https://cloud.ibm.com/docs/cloud-object-storage"
   description = "Secondary URL"
 }
 

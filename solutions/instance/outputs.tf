@@ -13,7 +13,7 @@ output "resource_group_name" {
 }
 
 output "cos_instance_name" {
-  description = "The name of the Cloud Object Storage instance"
+  description = "The name of the Cloud Object Storage instance" 
   value       = module.cos.cos_instance_name
 }
 
@@ -58,7 +58,7 @@ output "next_steps_text" {
 }
 
 output "next_step_primary_label" {
-  value       = "Go to COS Instance" 
+  value       = "Go to Cloud Object Storage instance" 
   description = "Primary label"
 }
 
