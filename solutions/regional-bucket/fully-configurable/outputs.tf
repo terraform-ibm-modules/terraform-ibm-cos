@@ -46,7 +46,7 @@ output "next_step_primary_label" {
 }
 
 output "next_step_primary_url" {
-  value       = "https://cloud.ibm.com/objectstorage/${urlencode(var.existing_cos_instance_crn)}?&bucket=${var.bucket_name}&bucketRegion=${local.bucket_config[0].cross_region_location}&endpoint=s3.direct.${local.bucket_config[0].cross_region_location}.cloud-object-storage.appdomain.cloud&paneId=bucket_overview"
+  value       = "https://cloud.ibm.com/objectstorage/${urlencode(var.existing_cos_instance_crn)}?&bucket=${local.bucket_config[0].bucket_name}-${var.add_bucket_name_suffix}&bucketRegion=${local.bucket_config[0].cross_region_location}&endpoint=s3.direct.${local.bucket_config[0].cross_region_location}.cloud-object-storage.appdomain.cloud&paneId=bucket_overview"
   description = "Primary URL"
 }
 
