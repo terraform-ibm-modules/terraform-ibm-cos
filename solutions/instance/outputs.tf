@@ -73,7 +73,7 @@ output "next_step_secondary_label" {
 }
 
 output "next_step_secondary_url" {
-  value       = "https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage"
+  value       = "https://cloud.ibm.com/docs/cloud-object-storage"
   description = "Secondary URL"
 }
 
