@@ -36,7 +36,7 @@ output "next_steps_text" {
 }
 
 output "next_step_primary_label" {
-  value       = module.cross_regional_bucket.next_step_primary_label 
+  value       = module.cross_regional_bucket.next_step_primary_label
   description = "Primary label"
 }
 
