@@ -8,7 +8,7 @@
 variable "bucket_configs" {
   type = list(object({
     access_tags                   = optional(list(string), [])
-    add_bucket_name_suffix        = optional(bool, false)
+    add_bucket_name_suffix        = optional(bool, true)
     bucket_name                   = string
     kms_encryption_enabled        = optional(bool, true)
     kms_guid                      = optional(string, null)
