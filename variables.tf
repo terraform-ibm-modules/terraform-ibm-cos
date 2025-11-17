@@ -2,7 +2,7 @@
 # Common variables
 ##############################################################################
 
-variable "resource_group_id" {
+variable "resource_gRoup_id" {
   type        = string
   description = "The resource group ID for the Object Storage instance. Required if `create_cos_instance` is set to `true`."
   default     = null
