@@ -134,7 +134,7 @@ locals {
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [time_sleep.wait_for_authorization_policy]
-  bucket_name           = locals.cos_bucket_name
+  bucket_name           = local.cos_bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
@@ -185,8 +185,8 @@ resource "ibm_cos_bucket" "cos_bucket" {
 }
 
 # create an IAM access policy to granting public access to this bucket
-resource "ibm_iam_access_group_policy" "policy" {
-  count = var.allow_public_access_to_buckets ? 1 : 0
+resource "ibm_iam_access_group_policy" "access_policy" {
+  count           = var.allow_public_access_to_buckets ? 1 : 0
   access_group_id = data.ibm_iam_access_group.public_access_group.groups[0].id
   roles           = ["Object Reader"]
 
@@ -263,8 +263,8 @@ resource "ibm_cos_bucket" "cos_bucket1" {
 }
 
 # create an IAM access policy to granting public access to this bucket
-resource "ibm_iam_access_group_policy" "policy" {
-  count = var.allow_public_access_to_buckets ? 1 : 0
+resource "ibm_iam_access_group_policy" "access_policy1" {
+  count           = var.allow_public_access_to_buckets ? 1 : 0
   access_group_id = data.ibm_iam_access_group.public_access_group.groups[0].id
   roles           = ["Object Reader"]
 

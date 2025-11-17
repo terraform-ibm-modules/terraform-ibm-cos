@@ -150,9 +150,9 @@ variable "bucket_name" {
 }
 
 variable "allow_public_access_to_buckets" {
-  type = bool
-  description = "Set it to `true` to allow the cos bucket to be publically accessible."
-  default = false
+  type        = bool
+  description = "Set it to `true` to allow the cos bucket to be publicly accessible."
+  default     = false
 }
 
 variable "add_bucket_name_suffix" {

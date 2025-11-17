@@ -7,24 +7,25 @@
 ##############################################################################
 variable "bucket_configs" {
   type = list(object({
-    access_tags                   = optional(list(string), [])
-    add_bucket_name_suffix        = optional(bool, true)
-    bucket_name                   = string
-    kms_encryption_enabled        = optional(bool, true)
-    kms_guid                      = optional(string, null)
-    kms_key_crn                   = optional(string, null)
-    skip_iam_authorization_policy = optional(bool, false)
-    management_endpoint_type      = optional(string, "public")
-    cross_region_location         = optional(string, null)
-    storage_class                 = optional(string, "smart")
-    region_location               = optional(string, null)
-    resource_instance_id          = string
-    force_delete                  = optional(bool, true)
-    single_site_location          = optional(string, null)
-    hard_quota                    = optional(number, null)
-    object_locking_enabled        = optional(bool, false)
-    object_lock_duration_days     = optional(number, 0)
-    object_lock_duration_years    = optional(number, 0)
+    access_tags                    = optional(list(string), [])
+    add_bucket_name_suffix         = optional(bool, true)
+    bucket_name                    = string
+    allow_public_access_to_buckets = optional(bool, false)
+    kms_encryption_enabled         = optional(bool, true)
+    kms_guid                       = optional(string, null)
+    kms_key_crn                    = optional(string, null)
+    skip_iam_authorization_policy  = optional(bool, false)
+    management_endpoint_type       = optional(string, "public")
+    cross_region_location          = optional(string, null)
+    storage_class                  = optional(string, "smart")
+    region_location                = optional(string, null)
+    resource_instance_id           = string
+    force_delete                   = optional(bool, true)
+    single_site_location           = optional(string, null)
+    hard_quota                     = optional(number, null)
+    object_locking_enabled         = optional(bool, false)
+    object_lock_duration_days      = optional(number, 0)
+    object_lock_duration_years     = optional(number, 0)
 
     activity_tracking = optional(object({
       read_data_events  = optional(bool, true)

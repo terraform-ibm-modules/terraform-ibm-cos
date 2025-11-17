@@ -448,6 +448,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
+		{Name: "allow_public_access_to_buckets", Value: true, DataType: "bool"},
 	}
 
 	err := options.RunSchematicTest()
