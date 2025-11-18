@@ -36,7 +36,7 @@ output "cos_instance_guid" {
 ##############################################################################
 
 output "next_steps_text" {
-  value       = "Your regional Bucket is created."
+  value       = "Your regional bucket is created."
   description = "Next steps text"
 }
 
