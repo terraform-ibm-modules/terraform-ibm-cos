@@ -30,3 +30,34 @@ output "cos_instance_guid" {
   description = "The guid of the COS instance containing the created bucket."
   value       = local.cos_instance_guid
 }
+
+##############################################################################
+# REGIONAL BUCKET Next Steps URLs outputs
+##############################################################################
+
+output "next_steps_text" {
+  value       = "Your regional bucket is created."
+  description = "Next steps text"
+}
+
+output "next_step_primary_label" {
+  value       = "Go to your regional bucket"
+  description = "Primary label"
+}
+
+output "next_step_primary_url" {
+  value       = "https://cloud.ibm.com/objectstorage/${urlencode(var.existing_cos_instance_crn)}?&bucket=${module.cos.buckets[local.bucket_config[0].bucket_name].bucket_name}&bucketRegion=${local.bucket_config[0].region_location}&endpoint=s3.direct.${local.bucket_config[0].region_location}.cloud-object-storage.appdomain.cloud&paneId=bucket_overview"
+  description = "Primary URL"
+}
+
+output "next_step_secondary_label" {
+  value       = "Learn how to add some objects to your bucket"
+  description = "Secondary label"
+}
+
+output "next_step_secondary_url" {
+  value       = "https://cloud.ibm.com/docs/cloud-object-storage"
+  description = "Secondary URL"
+}
+
+##############################################################################
