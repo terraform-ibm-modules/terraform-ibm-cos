@@ -199,14 +199,21 @@ func TestRunFSCloudExample(t *testing.T) {
 
 		bearerToken := getIAMBearerToken(apiKey)
 		for bucket := range outputs["buckets"].(map[string]interface{}) {
+			bucketDetails := outputs["buckets"].(map[string]interface{})[bucket].(map[string]interface{})
+			bucketName := bucket
 
-			publicEndpoint := outputs["buckets"].(map[string]interface{})[bucket].(map[string]interface{})["s3_endpoint_public"].(string)
-			privateEndpoint := outputs["buckets"].(map[string]interface{})[bucket].(map[string]interface{})["s3_endpoint_private"].(string)
-			directEndpoint := outputs["buckets"].(map[string]interface{})[bucket].(map[string]interface{})["s3_endpoint_direct"].(string)
+			if nameVal, ok := bucketDetails["bucket_name"].(string); ok && nameVal != "" {
+				bucketName = nameVal
+			}
+
+			publicEndpoint := bucketDetails["s3_endpoint_public"].(string)
+			privateEndpoint := bucketDetails["s3_endpoint_private"].(string)
+			directEndpoint := bucketDetails["s3_endpoint_direct"].(string)
 			endpoints := []string{publicEndpoint, privateEndpoint, directEndpoint}
+
 			for _, endpoint := range endpoints {
 				// Create a GET request to list objects in the bucket
-				buckReq, buckErr := http.NewRequest("GET", fmt.Sprintf("https://%s.%s", bucket, endpoint), nil)
+				buckReq, buckErr := http.NewRequest("GET", fmt.Sprintf("https://%s.%s", bucketName, endpoint), nil)
 				if buckErr != nil {
 					fmt.Println("Error creating request:", err)
 					continue
