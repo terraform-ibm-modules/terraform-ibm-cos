@@ -23,7 +23,7 @@ module "cos" {
   bucket_name               = "${var.prefix}-bucket"
   retention_enabled         = false # disable retention for test environments - enable for stage/prod
   kms_encryption_enabled    = false
-  cos_plan                  = "cos-one-rate-plan" 
+  cos_plan                  = "cos-one-rate-plan"
   bucket_storage_class      = "onerate_active"
   object_versioning_enabled = true
   access_tags               = var.access_tags
@@ -31,56 +31,47 @@ module "cos" {
 
 
 module "advance_lifecycle_rules" {
-  source = "../../modules/lifecycle_rules"
-  cos_region = var.region
-  bucket_crn = module.cos.bucket_crn
+  source                    = "../../modules/lifecycle_rules"
+  cos_region                = var.region
+  bucket_crn                = module.cos.bucket_crn
   object_versioning_enabled = true
   expiry_rules = [
-        {
-            rule_id = "expiry-info-7d"
-            days    = 7
-            prefix  = "info-"
-        },
-        {
-            rule_id = "expiry-error-30d"
-            days    = 30
-            prefix  = "error-"
-        }
-    ]
-
-#   transition_rules = [
-#         {
-#             rule_id       = "archive-logs-60d"
-#             days          = 6
-#             storage_class = "Accelerated"
-#             prefix        = "logs-"
-#         }
-#     ]
+    {
+      rule_id = "expiry-info-7d"
+      days    = 7
+      prefix  = "info-"
+    },
+    {
+      rule_id = "expiry-error-30d"
+      days    = 30
+      prefix  = "error-"
+    }
+  ]
 
   noncurrent_expiry_rules = [
-        {
-            rule_id         = "ncv-expire-45d"
-            noncurrent_days = 45
-            prefix          = "data/"
-        },
-        {
-            rule_id         = "ncv-expire-90d"
-            noncurrent_days = 90
-            prefix          = "archive/"
-        }
-    ]
+    {
+      rule_id         = "ncv-expire-45d"
+      noncurrent_days = 45
+      prefix          = "data/"
+    },
+    {
+      rule_id         = "ncv-expire-90d"
+      noncurrent_days = 90
+      prefix          = "archive/"
+    }
+  ]
 
   abort_multipart_rules = [
-        {
-            rule_id               = "abort-stale-7d"
-            days_after_initiation = 7
-            prefix                = ""
-        },
-        {
-            rule_id               = "abort-temp-3d"
-            days_after_initiation = 3
-            prefix                = "tmp/"
-        }
-    ]
+    {
+      rule_id               = "abort-stale-7d"
+      days_after_initiation = 7
+      prefix                = ""
+    },
+    {
+      rule_id               = "abort-temp-3d"
+      days_after_initiation = 3
+      prefix                = "tmp/"
+    }
+  ]
 
 }

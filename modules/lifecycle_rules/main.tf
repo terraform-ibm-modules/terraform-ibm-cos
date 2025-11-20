@@ -6,13 +6,6 @@ locals {
     })
   ]
 
-  transition_rules = [
-    for idx, r in var.transition_rules : merge(r, {
-      rule_id       = coalesce(try(r.rule_id, null), "transition-rule-${idx}")
-      storage_class = upper(r.storage_class)
-    })
-  ]
-
   noncurrent_expiry_rules = [
     for idx, r in var.noncurrent_expiry_rules : merge(r, {
       rule_id = coalesce(try(r.rule_id, null), "noncurrent-expiry-rule-${idx}")
@@ -47,23 +40,8 @@ resource "ibm_cos_bucket_lifecycle_configuration" "advance_bucket_lifecycle" {
     }
   }
 
-  # Transition rules
-  dynamic "lifecycle_rule" {
-    for_each = local.transition_rules
-    content {
-      transition {
-        days          = lifecycle_rule.value.days
-        storage_class = lifecycle_rule.value.storage_class
-      }
-      filter {
-        prefix = lifecycle_rule.value.prefix
-      }
-      rule_id = lifecycle_rule.value.rule_id
-      status  = lifecycle_rule.value.status
-    }
-  }
 
-    # Noncurrent version expiration rules
+  # Noncurrent version expiration rules
   dynamic "lifecycle_rule" {
     for_each = local.noncurrent_expiry_rules
     content {
@@ -92,5 +70,5 @@ resource "ibm_cos_bucket_lifecycle_configuration" "advance_bucket_lifecycle" {
       status  = lifecycle_rule.value.status
     }
   }
- 
+
 }
