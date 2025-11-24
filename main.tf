@@ -109,7 +109,7 @@ resource "ibm_iam_authorization_policy" "policy" {
 
 # use a data lookup to get the ID of the "Public Access" IAM access group
 data "ibm_iam_access_group" "public_access_group" {
-  access_group_name = "Public Access"
+  access_group_name = "geretain-public-access"
 }
 
 # Create random string which is added to COS bucket name as a suffix
