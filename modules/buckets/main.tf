@@ -70,14 +70,15 @@ module "buckets" {
     for index, bucket in var.bucket_configs :
     bucket.bucket_name => bucket
   }
-  depends_on                    = [time_sleep.wait_for_authorization_policy]
-  source                        = "../../"
-  bucket_name                   = each.value.bucket_name
-  create_cos_instance           = false
-  add_bucket_name_suffix        = each.value.add_bucket_name_suffix
-  skip_iam_authorization_policy = true
-  existing_cos_instance_id      = each.value.resource_instance_id
-  region                        = each.value.region_location
+  depends_on                     = [time_sleep.wait_for_authorization_policy]
+  source                         = "../../"
+  bucket_name                    = each.value.bucket_name
+  allow_public_access_to_buckets = each.value.allow_public_access_to_buckets
+  create_cos_instance            = false
+  add_bucket_name_suffix         = each.value.add_bucket_name_suffix
+  skip_iam_authorization_policy  = true
+  existing_cos_instance_id       = each.value.resource_instance_id
+  region                         = each.value.region_location
 
   cross_region_location               = each.value.cross_region_location
   single_site_location                = each.value.single_site_location
