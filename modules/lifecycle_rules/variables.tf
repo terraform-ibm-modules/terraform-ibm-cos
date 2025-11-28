@@ -18,12 +18,6 @@ variable "management_endpoint_type_for_bucket" {
   }
 }
 
-variable "object_versioning_enabled" {
-  description = "Whether to enable object versioning to keep multiple versions of an object in a bucket."
-  type        = bool
-  default     = false
-}
-
 variable "expiry_rules" {
   description = "List of expiry rules"
   type = list(object({
@@ -39,10 +33,9 @@ variable "expiry_rules" {
     error_message = "Expiry days must be >= 1."
   }
 
-
 }
 variable "noncurrent_expiry_rules" {
-  description = "List of noncurrent version expiration rules"
+  description = "List of noncurrent version expiration rules , note : this lifecycle rule requires object versioning make sure object versioning is enabled on the bucket"
   type = list(object({
     rule_id         = optional(string)
     status          = optional(string, "enable")
@@ -50,11 +43,6 @@ variable "noncurrent_expiry_rules" {
     prefix          = optional(string, "")
   }))
   default = []
-
-  validation {
-    condition     = length(var.noncurrent_expiry_rules) == 0 || var.object_versioning_enabled == true
-    error_message = "Noncurrent version expiration lifecycle rule requires object versioning. Make sure `object_versioning_enabled` is set to `true`."
-  }
 
   validation {
     condition     = alltrue([for r in var.noncurrent_expiry_rules : try(r.noncurrent_days, 0) >= 1])

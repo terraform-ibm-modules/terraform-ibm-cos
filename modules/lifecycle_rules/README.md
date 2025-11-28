@@ -84,8 +84,7 @@ No modules.
 | <a name="input_cos_region"></a> [cos\_region](#input\_cos\_region) | The region of existing Cloud Object Storage bucket. | `string` | n/a | yes |
 | <a name="input_expiry_rules"></a> [expiry\_rules](#input\_expiry\_rules) | List of expiry rules | <pre>list(object({<br/>    rule_id = optional(string)<br/>    status  = optional(string, "enable")<br/>    days    = number<br/>    prefix  = optional(string, "")<br/>  }))</pre> | `[]` | no |
 | <a name="input_management_endpoint_type_for_bucket"></a> [management\_endpoint\_type\_for\_bucket](#input\_management\_endpoint\_type\_for\_bucket) | The type of endpoint for the IBM terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`. | `string` | `"public"` | no |
-| <a name="input_noncurrent_expiry_rules"></a> [noncurrent\_expiry\_rules](#input\_noncurrent\_expiry\_rules) | List of noncurrent version expiration rules | <pre>list(object({<br/>    rule_id         = optional(string)<br/>    status          = optional(string, "enable")<br/>    noncurrent_days = number<br/>    prefix          = optional(string, "")<br/>  }))</pre> | `[]` | no |
-| <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Whether to enable object versioning to keep multiple versions of an object in a bucket. | `bool` | `false` | no |
+| <a name="input_noncurrent_expiry_rules"></a> [noncurrent\_expiry\_rules](#input\_noncurrent\_expiry\_rules) | List of noncurrent version expiration rules , note : this lifecycle rule requires object versioning make sure object versioning is enabled on the bucket | <pre>list(object({<br/>    rule_id         = optional(string)<br/>    status          = optional(string, "enable")<br/>    noncurrent_days = number<br/>    prefix          = optional(string, "")<br/>  }))</pre> | `[]` | no |
 
 ### Outputs
 
