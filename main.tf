@@ -128,13 +128,13 @@ resource "random_string" "bucket_name_suffix" {
 # - Versioning
 
 locals {
-  cos_bucket_name = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
+  random_suffix = random_string.bucket_name_suffix[0].result
 }
 
 resource "ibm_cos_bucket" "cos_bucket" {
   count                 = (var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
   depends_on            = [time_sleep.wait_for_authorization_policy]
-  bucket_name           = local.cos_bucket_name
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${local.random_suffix}" : var.bucket_name
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
   cross_region_location = var.cross_region_location
@@ -194,7 +194,7 @@ resource "ibm_iam_access_group_policy" "access_policy" {
     service              = "cloud-object-storage"
     resource_type        = "bucket"
     resource_instance_id = local.cos_instance_guid
-    resource             = local.cos_bucket_name
+    resource             = var.add_bucket_name_suffix ? "${var.bucket_name}-${local.random_suffix}" : var.bucket_name
   }
 }
 
@@ -206,13 +206,9 @@ resource "ibm_iam_access_group_policy" "access_policy" {
 # Create COS bucket without:
 # - Encryption
 
-locals {
-  cos_bucket1_name = var.add_bucket_name_suffix ? "${var.bucket_name}-${random_string.bucket_name_suffix[0].result}" : var.bucket_name
-}
-
 resource "ibm_cos_bucket" "cos_bucket1" {
   count                 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name           = local.cos_bucket1_name
+  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${local.random_suffix}" : var.bucket_name
   depends_on            = [time_sleep.wait_for_authorization_policy]
   resource_instance_id  = local.cos_instance_id
   region_location       = var.region
@@ -272,7 +268,7 @@ resource "ibm_iam_access_group_policy" "access_policy1" {
     service              = "cloud-object-storage"
     resource_type        = "bucket"
     resource_instance_id = local.cos_instance_guid
-    resource             = local.cos_bucket_name
+    resource             = var.add_bucket_name_suffix ? "${var.bucket_name}-${local.random_suffix}" : var.bucket_name
   }
 }
 
