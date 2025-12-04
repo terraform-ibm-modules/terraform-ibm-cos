@@ -212,7 +212,7 @@
               ]
             }
           ],
-          "terraform_version": "1.12.2",
+          "terraform_version": "1.13.0",
           "ignore_readme": true
         },
         {
@@ -673,7 +673,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.12.2",
+          "terraform_version": "1.13.0",
           "ignore_readme": true
         },
         {
@@ -1080,7 +1080,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.12.2",
+          "terraform_version": "1.13.0",
           "ignore_readme": true
         },
         {
@@ -1584,7 +1584,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.12.2",
+          "terraform_version": "1.13.0",
           "ignore_readme": true
         },
         {
@@ -2017,7 +2017,7 @@
             }
           ],
           "dependency_version_2": true,
-          "terraform_version": "1.12.2",
+          "terraform_version": "1.13.0",
           "ignore_readme": true
         }
       ]
