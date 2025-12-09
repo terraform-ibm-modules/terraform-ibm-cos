@@ -3,7 +3,7 @@
 ##############################################################################
 
 output "s3_endpoint_public" {
-  description = "The s3 direct endpoint of the created bucket."
+  description = "The s3 public endpoint of the created bucket."
   value       = module.regional_bucket.s3_endpoint_public
 }
 
@@ -28,7 +28,7 @@ output "cos_instance_crn" {
 }
 
 output "cos_instance_guid" {
-  description = "The CRN of the COS instance containing the created bucket."
+  description = "The GUID of the COS instance containing the created bucket."
   value       = module.regional_bucket.cos_instance_guid
 }
 
