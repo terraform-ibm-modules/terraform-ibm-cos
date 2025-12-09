@@ -1,24 +1,25 @@
 ##############################################################################
 # Outputs
 ##############################################################################
-output "buckets" {
-  description = "The list of buckets created by this DA."
-  value       = module.cos.buckets
+
+output "s3_endpoint_public" {
+  description = "The s3 public endpoint of the created bucket."
+  value       = try(module.cos.buckets["${local.prefix}${var.bucket_name}"].s3_endpoint_public, null)
 }
 
 output "s3_endpoint_direct" {
   description = "The s3 direct endpoint of the created bucket."
-  value       = try(module.cos.buckets[var.bucket_name].s3_endpoint_direct, null)
+  value       = try(module.cos.buckets["${local.prefix}${var.bucket_name}"].s3_endpoint_direct, null)
 }
 
 output "s3_endpoint_private" {
   description = "The s3 private endpoint of the created bucket."
-  value       = try(module.cos.buckets[var.bucket_name].s3_endpoint_private, null)
+  value       = try(module.cos.buckets["${local.prefix}${var.bucket_name}"].s3_endpoint_private, null)
 }
 
 output "bucket_name" {
   description = "The name of the bucket that was created. Includes the optional suffix if enabled."
-  value       = try(module.cos.buckets[var.bucket_name].bucket_name, null)
+  value       = try(module.cos.buckets["${local.prefix}${var.bucket_name}"].bucket_name, null)
 }
 
 output "cos_instance_crn" {
