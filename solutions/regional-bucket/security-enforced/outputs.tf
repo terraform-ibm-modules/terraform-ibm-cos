@@ -24,7 +24,12 @@ output "bucket_name" {
 
 output "cos_instance_crn" {
   description = "The CRN of the COS instance containing the created bucket."
-  value       = var.existing_cos_instance_crn
+  value       = module.regional_bucket.cos_instance_crn
+}
+
+output "cos_instance_guid" {
+  description = "The CRN of the COS instance containing the created bucket."
+  value       = module.regional_bucket.cos_instance_guid
 }
 
 ##############################################################################

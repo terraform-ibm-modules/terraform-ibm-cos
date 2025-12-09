@@ -68,7 +68,7 @@ var includeFiletypes = []string{
 }
 
 // All bucket related DAs should have these outputs
-var expectedCosBucketDAOutputs = []string{"cos_instance_id", "cos_instance_guid", "cos_instance_crn", "buckets", "bucket_cbr_rules", "instance_cbr_rules"}
+var expectedCosBucketDAOutputs = []string{"s3_endpoint_public", "s3_endpoint_direct", "s3_endpoint_private", "bucket_name", "cos_instance_crn", "cos_instance_guid", "next_steps_text", "next_step_primary_label", "next_step_primary_url", "next_step_secondary_label", "next_step_secondary_url"}
 var permanentResources map[string]interface{}
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
