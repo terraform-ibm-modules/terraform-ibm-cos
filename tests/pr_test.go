@@ -66,6 +66,9 @@ var includeFiletypes = []string{
 	".py",
 	".tpl",
 }
+
+// All bucket related DAs should have these outputs
+var expectedCosBucketDAOutputs = []string{"s3_endpoint_public", "s3_endpoint_direct", "s3_endpoint_private", "bucket_name", "cos_instance_crn", "cos_instance_guid", "next_steps_text", "next_step_primary_label", "next_step_primary_url", "next_step_secondary_label", "next_step_secondary_url"}
 var permanentResources map[string]interface{}
 
 // TestMain will be run before any parallel tests, used to read data from yaml for use with tests
@@ -459,6 +462,10 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+
+	// Assert all expected outputs have values
+	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
+	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
 }
 
 func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
@@ -528,6 +535,10 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+
+	// Assert all expected outputs have values
+	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
+	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
 }
 
 func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
@@ -599,6 +610,10 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+
+	// Assert all expected outputs have values
+	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
+	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
 }
 func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 	t.Parallel()
@@ -632,6 +647,10 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+
+	// Assert all expected outputs have values
+	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
+	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
 }
 
 // Test regional bucket variation deployment with all "on-by-default" dependant DAs
