@@ -62,6 +62,7 @@
           "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/instance",
+          "short_description": "Ideal for users who want flexibility with a reliable starting point.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -158,10 +159,26 @@
               }
             },
             {
-              "key": "resource_keys"
+              "key": "resource_keys",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": ["hcl"]
+                }
+              }
             },
             {
-              "key": "service_credential_secrets"
+              "key": "service_credential_secrets",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": ["hcl"]
+                }
+              }
             },
             {
               "key": "existing_secrets_manager_instance_crn",
@@ -191,7 +208,15 @@
               "key": "skip_secrets_manager_cos_iam_auth_policy"
             },
             {
-              "key": "cos_instance_cbr_rules"
+              "key": "cos_instance_cbr_rules",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": ["hcl"]
+                }
+              }
             },
             {
               "key": "provider_visibility",
@@ -221,6 +246,7 @@
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who want flexibility with a reliable starting point.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -687,6 +713,7 @@
           "index": 3,
           "working_directory": "solutions/cross-regional-bucket/security-enforced",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who want locked down enforced security.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -1099,6 +1126,7 @@
           "index": 4,
           "working_directory": "solutions/regional-bucket/fully-configurable",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who want flexibility with a reliable starting point.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -1608,6 +1636,7 @@
           "index": 5,
           "working_directory": "solutions/regional-bucket/security-enforced",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who want locked down enforced security.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -1933,7 +1962,18 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "cos_bucket_cbr_rules"
+              "key": "cos_bucket_cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
             }
           ],
           "dependencies": [
