@@ -62,6 +62,7 @@
           "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/instance",
+          "short_description": "Ideal for users who want a Cloud Object Storage instance. A dedicated, highly scalable, durable, and secure environment for storing unstructured data.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -158,10 +159,30 @@
               }
             },
             {
-              "key": "resource_keys"
+              "key": "resource_keys",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
             },
             {
-              "key": "service_credential_secrets"
+              "key": "service_credential_secrets",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
             },
             {
               "key": "existing_secrets_manager_instance_crn",
@@ -191,7 +212,17 @@
               "key": "skip_secrets_manager_cos_iam_auth_policy"
             },
             {
-              "key": "cos_instance_cbr_rules"
+              "key": "cos_instance_cbr_rules",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
             },
             {
               "key": "provider_visibility",
@@ -221,6 +252,7 @@
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who require superior disaster recovery and high availability by spreading data across multiple metropolitan areas, making it resilient to entire region failures. Encryption is flexible.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -573,7 +605,12 @@
               "custom_config": {
                 "type": "code_editor",
                 "grouping": "deployment",
-                "original_grouping": "deployment"
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
               }
             }
           ],
@@ -682,6 +719,7 @@
           "index": 3,
           "working_directory": "solutions/cross-regional-bucket/security-enforced",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who require superior disaster recovery and high availability by spreading data across multiple metropolitan areas, making it resilient to entire region failures. Encryption is enabled.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -980,7 +1018,12 @@
               "custom_config": {
                 "type": "code_editor",
                 "grouping": "deployment",
-                "original_grouping": "deployment"
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
               }
             }
           ],
@@ -1089,6 +1132,7 @@
           "index": 4,
           "working_directory": "solutions/regional-bucket/fully-configurable",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who require data within one metro area, providing resilience to a single data center failure and flexible encryption.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -1473,7 +1517,12 @@
               "custom_config": {
                 "type": "code_editor",
                 "grouping": "deployment",
-                "original_grouping": "deployment"
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
               }
             }
           ],
@@ -1593,6 +1642,7 @@
           "index": 5,
           "working_directory": "solutions/regional-bucket/security-enforced",
           "install_type": "fullstack",
+          "short_description": "Ideal for users who require data within one metro area, providing resilience to a single data center failure and encryption enabled.",
           "iam_permissions": [
             {
               "role_crns": [
@@ -1918,7 +1968,18 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
-              "key": "cos_bucket_cbr_rules"
+              "key": "cos_bucket_cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
             }
           ],
           "dependencies": [
