@@ -1234,7 +1234,7 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "config_constraints": {
-                  "filterString": "service:cos",
+                  "filterString": "service:kms",
                   "showKinds": [
                     "region"
                   ]
@@ -1694,7 +1694,7 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "config_constraints": {
-                  "filterString": "service:cos",
+                  "filterString": "service:kms",
                   "showKinds": [
                     "region"
                   ]
