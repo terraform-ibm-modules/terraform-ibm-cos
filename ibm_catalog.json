@@ -1229,52 +1229,17 @@
             {
               "key": "region",
               "required": true,
-              "options": [
-                {
-                  "displayname": "Dallas (us-south)",
-                  "value": "us-south"
-                },
-                {
-                  "displayname": "Sydney (au-syd)",
-                  "value": "au-syd"
-                },
-                {
-                  "displayname": "Sao Paolo (br-sao)",
-                  "value": "br-sao"
-                },
-                {
-                  "displayname": "Montreal (ca-mon)",
-                  "value": "ca-mon"
-                },
-                {
-                  "displayname": "Toronto (ca-tor)",
-                  "value": "ca-tor"
-                },
-                {
-                  "displayname": "Frankfurt (eu-de)",
-                  "value": "eu-de"
-                },
-                {
-                  "displayname": "London (eu-gb)",
-                  "value": "eu-gb"
-                },
-                {
-                  "displayname": "Madrid (eu-es)",
-                  "value": "eu-es"
-                },
-                {
-                  "displayname": "Osaka (jp-osa)",
-                  "value": "jp-osa"
-                },
-                {
-                  "displayname": "Tokyo (jp-tok)",
-                  "value": "jp-tok"
-                },
-                {
-                  "displayname": "Washington DC (us-east)",
-                  "value": "us-east"
+              "custom_config": {
+                "type": "region",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "filterString": "service:cloud-object-storage",
+                  "showKinds": [
+                    "region"
+                  ]
                 }
-              ]
+              }
             },
             {
               "key": "existing_cos_instance_crn",
@@ -1724,52 +1689,17 @@
             {
               "key": "region",
               "required": true,
-              "options": [
-                {
-                  "displayname": "Dallas (us-south)",
-                  "value": "us-south"
-                },
-                {
-                  "displayname": "Sydney (au-syd)",
-                  "value": "au-syd"
-                },
-                {
-                  "displayname": "Sao Paolo (br-sao)",
-                  "value": "br-sao"
-                },
-                {
-                  "displayname": "Montreal (ca-mon)",
-                  "value": "ca-mon"
-                },
-                {
-                  "displayname": "Toronto (ca-tor)",
-                  "value": "ca-tor"
-                },
-                {
-                  "displayname": "Frankfurt (eu-de)",
-                  "value": "eu-de"
-                },
-                {
-                  "displayname": "London (eu-gb)",
-                  "value": "eu-gb"
-                },
-                {
-                  "displayname": "Madrid (eu-es)",
-                  "value": "eu-es"
-                },
-                {
-                  "displayname": "Osaka (jp-osa)",
-                  "value": "jp-osa"
-                },
-                {
-                  "displayname": "Tokyo (jp-tok)",
-                  "value": "jp-tok"
-                },
-                {
-                  "displayname": "Washington DC (us-east)",
-                  "value": "us-east"
+              "custom_config": {
+                "type": "region",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "filterString": "service:cloud-object-storage",
+                  "showKinds": [
+                    "region"
+                  ]
                 }
-              ]
+              }
             },
             {
               "key": "existing_cos_instance_crn",
