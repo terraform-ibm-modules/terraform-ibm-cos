@@ -1234,7 +1234,6 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "config_constraints": {
-                  "filterString": "service:cloud-object-storage",
                   "showKinds": [
                     "region"
                   ]
@@ -1694,7 +1693,6 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "config_constraints": {
-                  "filterString": "service:cloud-object-storage",
                   "showKinds": [
                     "region"
                   ]
