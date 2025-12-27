@@ -380,6 +380,9 @@
               "required": true
             },
             {
+              "key": "allow_public_access_to_buckets"
+            },
+            {
               "key": "provider_visibility",
               "hidden": true,
               "options": [
@@ -830,6 +833,9 @@
             {
               "key": "bucket_name",
               "required": true
+            },
+            {
+              "key": "allow_public_access_to_buckets"
             },
             {
               "key": "add_bucket_name_suffix"
@@ -1294,6 +1300,9 @@
             {
               "key": "bucket_name",
               "required": true
+            },
+            {
+              "key": "allow_public_access_to_buckets"
             },
             {
               "key": "provider_visibility",
@@ -1793,6 +1802,9 @@
             {
               "key": "bucket_name",
               "required": true
+            },
+            {
+              "key": "allow_public_access_to_buckets"
             },
             {
               "key": "add_bucket_name_suffix"

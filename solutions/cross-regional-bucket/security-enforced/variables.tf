@@ -96,6 +96,12 @@ variable "bucket_name" {
   description = "The name to give the newly provisioned Object Storage bucket."
 }
 
+variable "allow_public_access_to_buckets" {
+  type        = bool
+  description = "Set it to `true` to allow the cos bucket to be publicly accessible."
+  default     = false
+}
+
 variable "management_endpoint_type_for_bucket" {
   description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values:  `private`, `direct`."
   type        = string
