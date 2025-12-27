@@ -33,7 +33,7 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.5.11"
+  version                   = "5.5.13"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false

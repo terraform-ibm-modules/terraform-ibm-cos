@@ -88,7 +88,7 @@ module "instance_cbr_rules" {
   depends_on       = [module.buckets]
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.1"
+  version          = "1.35.3"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
