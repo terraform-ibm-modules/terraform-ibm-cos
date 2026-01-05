@@ -348,7 +348,7 @@
               "required": true
             },
             {
-              "key": "allow_public_access_to_buckets"
+              "key": "allow_public_access_to_bucket"
             },
             {
               "key": "provider_visibility",
@@ -795,9 +795,6 @@
             {
               "key": "bucket_name",
               "required": true
-            },
-            {
-              "key": "allow_public_access_to_buckets"
             },
             {
               "key": "add_bucket_name_suffix"
@@ -1254,7 +1251,7 @@
               "required": true
             },
             {
-              "key": "allow_public_access_to_buckets"
+              "key": "allow_public_access_to_bucket"
             },
             {
               "key": "provider_visibility",
@@ -1744,9 +1741,6 @@
             {
               "key": "bucket_name",
               "required": true
-            },
-            {
-              "key": "allow_public_access_to_buckets"
             },
             {
               "key": "add_bucket_name_suffix"

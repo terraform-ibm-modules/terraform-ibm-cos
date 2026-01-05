@@ -132,9 +132,9 @@ variable "bucket_name" {
   description = "The name to give the newly provisioned Object Storage bucket."
 }
 
-variable "allow_public_access_to_buckets" {
+variable "allow_public_access_to_bucket" {
   type        = bool
-  description = "Set it to `true` to allow the cos bucket to be publicly accessible."
+  description = "Set it to `true` to allow the Object Storage bucket to be publicly accessible."
   default     = false
 }
 
