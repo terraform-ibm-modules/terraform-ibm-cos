@@ -35,6 +35,12 @@ resource "ibm_resource_instance" "cos_instance" {
   plan              = var.cos_plan
   location          = "global"
   tags              = var.cos_tags
+  lifecycle {
+    precondition {
+      condition     = var.create_cos_instance == false || var.resource_group_id != null
+      error_message = "If 'var.create_cos_instance' is set to 'true', then provide a value for 'var.resource_group_id' to create an Object Storage instance."
+    }
+  }
 }
 
 resource "ibm_resource_tag" "cos_access_tag" {
@@ -104,6 +110,10 @@ resource "ibm_iam_authorization_policy" "policy" {
   # destroying old one to prevent any disruption to every day services.
   lifecycle {
     create_before_destroy = true
+    precondition {
+      condition     = !local.create_access_policy_kms || (length(local.parsed_kms_key_crn) > 0 && local.kms_key_id != null)
+      error_message = "When creating the IAM authorization policy to grant COS access to KMS, provide a valid 'var.kms_key_crn'"
+    }
   }
 }
 
@@ -172,6 +182,16 @@ resource "ibm_cos_bucket" "cos_bucket" {
       enable = var.object_versioning_enabled
     }
   }
+  lifecycle {
+    precondition {
+      condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+      error_message = "Invalid Endpoint Type! Valid values are 'public', 'private', or 'direct'"
+    }
+    postcondition {
+      condition     = length(coalesce(lookup({ public = self.s3_endpoint_public, private = self.s3_endpoint_private, direct = self.s3_endpoint_direct }, var.management_endpoint_type_for_bucket, ""), "")) > 0
+      error_message = "COS bucket did not expose the expected S3 endpoint after creation for endpoint type '${var.management_endpoint_type_for_bucket}'."
+    }
+  }
 }
 
 # Create COS bucket with:
@@ -229,6 +249,16 @@ resource "ibm_cos_bucket" "cos_bucket1" {
     for_each = local.object_versioning_enabled
     content {
       enable = var.object_versioning_enabled
+    }
+  }
+  lifecycle {
+    precondition {
+      condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+      error_message = "Invalid Endpoint Type! Valid values are 'public', 'private', or 'direct'"
+    }
+    postcondition {
+      condition     = length(coalesce(lookup({ public = self.s3_endpoint_public, private = self.s3_endpoint_private, direct = self.s3_endpoint_direct }, var.management_endpoint_type_for_bucket, ""), "")) > 0
+      error_message = "COS bucket did not expose the expected S3 endpoint after creation for endpoint type '${var.management_endpoint_type_for_bucket}'."
     }
   }
 }
@@ -318,6 +348,13 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       status  = "enable"
     }
   }
+
+  lifecycle {
+    precondition {
+      condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+      error_message = "Invalid Endpoint Type! Valid values are 'public', 'private', or 'direct'"
+    }
+  }
 }
 
 locals {
@@ -365,6 +402,13 @@ resource "ibm_cos_bucket_object_lock_configuration" "lock_configuration" {
           years = var.object_lock_duration_years
         }
       }
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition     = !var.object_locking_enabled || ((length(local.object_lock_duration_days) > 0) != (length(local.object_lock_duration_years) > 0))
+      error_message = "If 'var.object_locking_enabled' is true, set exactly one of 'var.object_lock_duration_days' or 'var.object_lock_duration_years' to a positive value."
     }
   }
 }
