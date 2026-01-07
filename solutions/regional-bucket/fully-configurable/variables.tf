@@ -134,7 +134,7 @@ variable "bucket_name" {
 
 variable "allow_public_access_to_bucket" {
   type        = bool
-  description = "Set it to `true` to allow the Object Storage bucket to be publicly accessible."
+  description = "Set it to `true` to grant public access to the Object Storage bucket by attaching an IAM access group policy to the IBM Cloud `Public Access` access group. This is only applicable when `create_cos_bucket` is set set to `true`. [Learn More](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-iam-public-access)"
   default     = false
 }
 

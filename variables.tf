@@ -151,8 +151,19 @@ variable "bucket_name" {
 
 variable "allow_public_access_to_bucket" {
   type        = bool
-  description = "Set it to `true` to allow the Object Storage bucket to be publicly accessible."
+  description = "Set it to `true` to grant public access to the Object Storage bucket by attaching an IAM access group policy to the IBM Cloud `Public Access` access group. This is only applicable when `create_cos_bucket` is set set to `true`. [Learn More](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-iam-public-access)"
   default     = false
+}
+
+variable "public_access_role" {
+  type        = string
+  description = "IAM role to grant to the Public Access access group for the COS bucket. Only applicable when `allow_public_access_to_bucket` is `true` and `create_cos_bucket` is `true`."
+  default     = "ObjectReader"
+
+  validation {
+    condition     = contains(["ObjectReader", "ContentReader", "Administrator"], var.public_access_role)
+    error_message = "public_access_role must be one of: ObjectReader, ContentReader, Administrator."
+  }
 }
 
 variable "add_bucket_name_suffix" {
