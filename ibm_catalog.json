@@ -1266,6 +1266,10 @@
                   "value": "eu-es"
                 },
                 {
+                  "displayname": "Chennai (in-che)",
+                  "value": "in-che"
+                },
+                {
                   "displayname": "Osaka (jp-osa)",
                   "value": "jp-osa"
                 },
@@ -1762,6 +1766,10 @@
                 {
                   "displayname": "Madrid (eu-es)",
                   "value": "eu-es"
+                },
+                {
+                  "displayname": "Chennai (in-che)",
+                  "value": "in-che"
                 },
                 {
                   "displayname": "Osaka (jp-osa)",
