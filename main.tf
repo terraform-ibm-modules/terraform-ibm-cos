@@ -378,7 +378,6 @@ resource "ibm_cos_bucket_object_lock_configuration" "lock_configuration" {
       }
     }
   }
-
 }
 
 ##############################################################################
