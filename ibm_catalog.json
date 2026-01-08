@@ -91,6 +91,14 @@
               }
             ]
           },
+          "schematics_env_values": [
+            {
+              "name": "TF_LOG",
+              "value": "debug",
+              "secure": false,
+              "hidden": false
+            }
+          ],
           "configuration": [
             {
               "key": "ibmcloud_api_key"
