@@ -471,7 +471,7 @@ check "cos_instance_status_safe" {
         data.ibm_resource_instance.cos_instance_state.status == "active"
       )
     )
-    error_message = "COS instance is not active"
+    error_message = "COS instance is not active. Current status: ${data.ibm_resource_instance.cos_instance_state.status} state"
   }
 }
 
