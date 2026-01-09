@@ -48,21 +48,21 @@ const region = "us-south"                                                       
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml" // Define a struct with fields that match the structure of the YAML data
 
 var excludeDirs = []string{
-	".terraform",
-	".docs",
-	".github",
-	".git",
-	".idea",
-	"common-dev-assets",
-	"examples",
-	"tests",
-	"reference-architectures",
+	// ".terraform",
+	// ".docs",
+	// ".github",
+	// ".git",
+	// ".idea",
+	// "common-dev-assets",
+	// "examples",
+	// "tests",
+	// "reference-architectures",
 }
 var includeFiletypes = []string{
-	".tf",
-	".yaml",
-	".py",
-	".tpl",
+	// ".tf",
+	// ".yaml",
+	// ".py",
+	// ".tpl",
 }
 
 // All bucket related DAs should have these outputs
@@ -392,7 +392,8 @@ func TestRunInstancesUpgradeInSchematics(t *testing.T) {
 func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 	t.Parallel()
 
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+	// Get tar include patterns by traversing directory tree
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
@@ -428,7 +429,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	t.Parallel()
 
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
@@ -465,7 +466,7 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 	t.Parallel()
 
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
@@ -501,7 +502,7 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	t.Parallel()
 
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
@@ -538,7 +539,7 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 	t.Parallel()
 
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
@@ -575,7 +576,7 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 	t.Parallel()
 
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludePatternsRecursively("..", excludeDirs, includeFiletypes)
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", excludeDirs, includeFiletypes)
 
 	// if error producing tar patterns (very unexpected) fail test immediately
 	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
