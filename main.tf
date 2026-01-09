@@ -462,7 +462,6 @@ check "cos_instance_status_safe" {
     name              = var.cos_instance_name
     resource_group_id = var.resource_group_id
   }
-
   assert {
     condition = (
       var.create_cos_instance == false ||
