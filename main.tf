@@ -457,6 +457,24 @@ module "instance_cbr_rule" {
   operations = var.instance_cbr_rules[count.index].operations == null ? local.default_operations : var.instance_cbr_rules[count.index].operations
 }
 
+check "cos_instance_status_safe" {
+  data "ibm_resource_instance" "cos_instance_state" {
+    name              = var.cos_instance_name
+    resource_group_id = var.resource_group_id
+  }
+
+  assert {
+    condition = (
+      var.create_cos_instance == false ||
+      (
+        can(data.ibm_resource_instance.cos_instance_state.status) &&
+        data.ibm_resource_instance.cos_instance_state.status == "active"
+      )
+    )
+    error_message = "COS instance is not active"
+  }
+}
+
 locals {
   bucket_rule_ids   = [for instance in module.bucket_cbr_rule : instance.rule_id]
   instance_rule_ids = flatten([for instance in module.instance_cbr_rule : instance.rule_id])
