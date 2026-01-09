@@ -459,8 +459,7 @@ module "instance_cbr_rule" {
 
 check "cos_instance_status_safe" {
   data "ibm_resource_instance" "cos_instance_state" {
-    name              = var.cos_instance_name
-    resource_group_id = var.resource_group_id
+    identifier = local.cos_instance_id
   }
   assert {
     condition = (
