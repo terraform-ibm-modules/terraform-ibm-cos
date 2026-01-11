@@ -383,6 +383,9 @@
               "key": "allow_public_access_to_bucket"
             },
             {
+              "key": "public_access_role"
+            },
+            {
               "key": "provider_visibility",
               "hidden": true,
               "options": [
@@ -1300,6 +1303,9 @@
             },
             {
               "key": "allow_public_access_to_bucket"
+            },
+            {
+              "key": "public_access_role"
             },
             {
               "key": "provider_visibility",

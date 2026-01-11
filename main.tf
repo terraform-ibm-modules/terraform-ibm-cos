@@ -107,12 +107,6 @@ resource "ibm_iam_authorization_policy" "policy" {
   }
 }
 
-# use a data lookup to get the ID of the "Public Access" IAM access group
-data "ibm_iam_access_group" "public_access_group" {
-  count             = var.create_cos_bucket && var.allow_public_access_to_bucket ? 1 : 0
-  access_group_name = "Public Access"
-}
-
 # Create random string which is added to COS bucket name as a suffix
 resource "random_string" "bucket_name_suffix" {
   count   = var.add_bucket_name_suffix ? 1 : 0
@@ -245,9 +239,19 @@ resource "ibm_cos_bucket" "cos_bucket1" {
   }
 }
 
+locals {
+  create_access_policy = var.create_cos_bucket && var.allow_public_access_to_bucket ? 1 : 0
+}
+
+# use a data lookup to get the ID of the "Public Access" IAM access group
+data "ibm_iam_access_group" "public_access_group" {
+  count             = local.create_access_policy
+  access_group_name = "Public Access"
+}
+
 # create an IAM access policy to granting public access to cos bucket
 resource "ibm_iam_access_group_policy" "access_policy" {
-  count           = (var.allow_public_access_to_bucket && var.create_cos_bucket) ? 1 : 0
+  count           = local.create_access_policy
   access_group_id = data.ibm_iam_access_group.public_access_group[0].groups[0].id
   roles           = [var.public_access_role]
 

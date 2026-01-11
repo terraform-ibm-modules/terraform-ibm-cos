@@ -41,6 +41,7 @@ locals {
       access_tags                        = config.access_tags
       bucket_name                        = config.bucket_name
       allow_public_access_to_bucket      = config.allow_public_access_to_bucket
+      public_access_role                 = config.public_access_role
       kms_encryption_enabled             = config.kms_encryption_enabled
       kms_guid                           = config.kms_guid
       kms_key_crn                        = config.kms_key_crn

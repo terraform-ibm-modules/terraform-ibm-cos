@@ -11,6 +11,7 @@ variable "bucket_configs" {
     add_bucket_name_suffix        = optional(bool, true)
     bucket_name                   = string
     allow_public_access_to_bucket = optional(bool, false)
+    public_access_role            = optional(string, null)
     kms_encryption_enabled        = optional(bool, true)
     kms_guid                      = optional(string, null)
     kms_key_crn                   = optional(string, null)

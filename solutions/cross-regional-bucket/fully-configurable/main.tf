@@ -12,6 +12,7 @@ locals {
     access_tags                   = var.bucket_access_tags
     bucket_name                   = "${local.prefix}${var.bucket_name}"
     allow_public_access_to_bucket = var.allow_public_access_to_bucket
+    public_access_role            = var.public_access_role
     kms_encryption_enabled        = var.kms_encryption_enabled
     add_bucket_name_suffix        = var.add_bucket_name_suffix
     kms_guid                      = local.existing_kms_instance_guid
