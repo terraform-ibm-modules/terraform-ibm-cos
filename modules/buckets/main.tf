@@ -73,6 +73,8 @@ module "buckets" {
   depends_on                    = [time_sleep.wait_for_authorization_policy]
   source                        = "../../"
   bucket_name                   = each.value.bucket_name
+  allow_public_access_to_bucket = each.value.allow_public_access_to_bucket
+  public_access_role            = each.value.public_access_role
   create_cos_instance           = false
   add_bucket_name_suffix        = each.value.add_bucket_name_suffix
   skip_iam_authorization_policy = true
