@@ -457,7 +457,7 @@ module "instance_cbr_rule" {
   operations = var.instance_cbr_rules[count.index].operations == null ? local.default_operations : var.instance_cbr_rules[count.index].operations
 }
 
-check "cos_instance_status_safe" {
+check "check_cos_instance_state" {
   data "ibm_resource_instance" "cos_instance_state" {
     identifier = local.cos_instance_id
   }
@@ -469,7 +469,7 @@ check "cos_instance_status_safe" {
         data.ibm_resource_instance.cos_instance_state.status == "active"
       )
     )
-    error_message = "COS instance is not active. Current status: ${data.ibm_resource_instance.cos_instance_state.status} state"
+    error_message = "Cloud Object Storage instance is not active. Current status: ${data.ibm_resource_instance.cos_instance_state.status} state"
   }
 }
 
