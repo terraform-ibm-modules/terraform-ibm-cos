@@ -445,6 +445,7 @@ module "instance_cbr_rule" {
   operations = var.instance_cbr_rules[count.index].operations == null ? local.default_operations : var.instance_cbr_rules[count.index].operations
 }
 
+# Non-blocking validation to surface runtime provisioning status of the Cloud Object Storage instance.
 check "check_cos_instance_state" {
   data "ibm_resource_instance" "cos_instance_state" {
     identifier = local.cos_instance_id
@@ -457,6 +458,7 @@ check "check_cos_instance_state" {
         data.ibm_resource_instance.cos_instance_state.status == "active"
       )
     )
+    # Warning only — informs the user if the instance is not ready yet.
     error_message = "Cloud Object Storage instance is not active. Current status: ${data.ibm_resource_instance.cos_instance_state.status} state"
   }
 }
