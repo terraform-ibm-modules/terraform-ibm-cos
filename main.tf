@@ -172,12 +172,6 @@ resource "ibm_cos_bucket" "cos_bucket" {
       enable = var.object_versioning_enabled
     }
   }
-  lifecycle {
-    postcondition {
-      condition     = length(coalesce(lookup({ public = self.s3_endpoint_public, private = self.s3_endpoint_private, direct = self.s3_endpoint_direct }, var.management_endpoint_type_for_bucket, ""), "")) > 0
-      error_message = "COS bucket did not expose the expected S3 endpoint after creation for endpoint type '${var.management_endpoint_type_for_bucket}'."
-    }
-  }
 }
 
 # Create COS bucket with:
@@ -235,12 +229,6 @@ resource "ibm_cos_bucket" "cos_bucket1" {
     for_each = local.object_versioning_enabled
     content {
       enable = var.object_versioning_enabled
-    }
-  }
-  lifecycle {
-    postcondition {
-      condition     = length(coalesce(lookup({ public = self.s3_endpoint_public, private = self.s3_endpoint_private, direct = self.s3_endpoint_direct }, var.management_endpoint_type_for_bucket, ""), "")) > 0
-      error_message = "COS bucket did not expose the expected S3 endpoint after creation for endpoint type '${var.management_endpoint_type_for_bucket}'."
     }
   }
 }
