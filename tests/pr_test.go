@@ -48,21 +48,10 @@ const region = "us-south"                                                       
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml" // Define a struct with fields that match the structure of the YAML data
 
 var excludeDirs = []string{
-	// ".terraform",
-	// ".docs",
-	// ".github",
-	// ".git",
-	// ".idea",
-	// "common-dev-assets",
-	// "examples",
-	// "tests",
-	// "reference-architectures",
+	// mention any extra directories to exclude here other than defaults
 }
 var includeFiletypes = []string{
-	// ".tf",
-	// ".yaml",
-	// ".py",
-	// ".tpl",
+	// include any extra file types here other than defaults
 }
 
 // All bucket related DAs should have these outputs
