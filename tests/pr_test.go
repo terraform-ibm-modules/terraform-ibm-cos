@@ -47,12 +47,8 @@ const resourceGroup = "geretain-test-cos-base"
 const region = "us-south"                                                                    // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml" // Define a struct with fields that match the structure of the YAML data
 
-var excludeDirs = []string{
-	// mention any extra directories to exclude here other than defaults
-}
-var includeFiletypes = []string{
-	// include any extra file types here other than defaults
-}
+var excludeDirs = []string{}
+var includeFiletypes = []string{}
 
 // All bucket related DAs should have these outputs
 var expectedCosBucketDAOutputs = []string{"s3_endpoint_public", "s3_endpoint_direct", "s3_endpoint_private", "bucket_name", "cos_instance_crn", "cos_instance_guid", "next_steps_text", "next_step_primary_label", "next_step_primary_url", "next_step_secondary_label", "next_step_secondary_url"}
