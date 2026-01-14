@@ -619,7 +619,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -673,13 +673,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.27"
+              "version": "v5.3.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1032,7 +1032,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -1086,13 +1086,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.27"
+              "version": "v5.3.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1535,7 +1535,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -1564,7 +1564,7 @@
               "name": "deploy-arch-ibm-kms",
               "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.1.27",
+              "version": "v5.3.3",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1606,7 +1606,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1995,7 +1995,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -2049,13 +2049,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.27"
+              "version": "v5.3.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
