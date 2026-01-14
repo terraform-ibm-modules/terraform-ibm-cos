@@ -673,7 +673,7 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.3.3"
+              "version": "v5.5.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
@@ -1086,7 +1086,7 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.3.3"
+              "version": "v5.5.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
@@ -1564,7 +1564,7 @@
               "name": "deploy-arch-ibm-kms",
               "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.3.3",
+              "version": "v5.5.3",
               "flavors": [
                 "fully-configurable"
               ],
@@ -2049,7 +2049,7 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.3.3"
+              "version": "v5.5.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
