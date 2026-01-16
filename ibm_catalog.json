@@ -26,7 +26,8 @@
       "short_description": "Creates and configures an IBM Cloud Object Storage instance and buckets",
       "long_description": "[IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) is a highly available, durable, and secure platform for storing unstructured data. You can choose from a few different variations to create a single instance or regional and cross-regional buckets.  \n\nLeverage [Terraform IBM Modules](https://github.com/terraform-ibm-modules) to shape and scale your solutions. You can integrate Terraform IBM Modules (TIM) to extend functionality and design a solution tailored to your environment and operations needs. These modules offer reusable, customizable elements that follow IBM Cloud's recommended practices. You can access the [source code and documentation](https://github.com/terraform-ibm-modules/terraform-ibm-cos) and use it to extend your current architecture or create new solutions.\n\nℹ️ This deployable architecture is a part of a larger collection that IBM provides. Each deployable architecture focuses on a single IBM Cloud service. You can use these deployable architectures on their own to automate deployments by following an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or you can [combine them together](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to deploy a more complex end-to-end solution architecture.",
       "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
-      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/README.md",
+      "offering_docs_url": "https://cloud.ibm.com/docs/ibm-cloud-provider-for-terraform?topic=ibm-cloud-provider-for-terraform-about-tim",
+      "release_notes_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
       "provider_name": "IBM",
       "features": [
@@ -619,7 +620,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -673,13 +674,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.27"
+              "version": "v5.5.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1032,7 +1033,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -1086,13 +1087,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.27"
+              "version": "v5.5.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1535,7 +1536,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -1564,7 +1565,7 @@
               "name": "deploy-arch-ibm-kms",
               "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.1.27",
+              "version": "v5.5.3",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1606,7 +1607,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1995,7 +1996,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.2.20",
+              "version": "v10.7.0",
               "flavors": [
                 "instance"
               ],
@@ -2049,13 +2050,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.1.27"
+              "version": "v5.5.3"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.7.2",
+              "version": "v1.11.0",
               "flavors": [
                 "fully-configurable"
               ],
