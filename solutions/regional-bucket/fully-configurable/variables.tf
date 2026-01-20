@@ -152,7 +152,7 @@ variable "public_access_role" {
   }
 
   validation {
-    condition     = var.allow_public_access_to_bucket && length(var.public_access_role) == 0
+    condition     = !var.allow_public_access_to_bucket || length(var.public_access_role) > 0
     error_message = "A value for `public_access_role` must be passed when `allow_public_access_to_bucket` is set to `true`."
   }
 }
