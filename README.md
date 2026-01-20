@@ -141,12 +141,14 @@ You need the following permissions to run this module.
 | [ibm_cos_bucket.cos_bucket1](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
 | [ibm_cos_bucket_lifecycle_configuration.cos_bucket_lifecycle](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_lifecycle_configuration) | resource |
 | [ibm_cos_bucket_object_lock_configuration.lock_configuration](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_object_lock_configuration) | resource |
+| [ibm_iam_access_group_policy.access_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_access_group_policy) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_keys](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 | [ibm_resource_tag.cos_access_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
 | [random_string.bucket_name_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [time_sleep.wait_for_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [ibm_iam_access_group.public_access_group](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_access_group) | data source |
 
 ### Inputs
 
@@ -159,6 +161,7 @@ You need the following permissions to run this module.
 | <a name="input_activity_tracker_read_data_events"></a> [activity\_tracker\_read\_data\_events](#input\_activity\_tracker\_read\_data\_events) | If set to `true`, all Object Storage bucket read events (i.e. downloads) are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
 | <a name="input_activity_tracker_write_data_events"></a> [activity\_tracker\_write\_data\_events](#input\_activity\_tracker\_write\_data\_events) | If set to `true`, all Object Storage bucket write events (i.e. uploads) are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
 | <a name="input_add_bucket_name_suffix"></a> [add\_bucket\_name\_suffix](#input\_add\_bucket\_name\_suffix) | Whether to add a randomly generated 4-character suffix to the bucket name. | `bool` | `true` | no |
+| <a name="input_allow_public_access_to_bucket"></a> [allow\_public\_access\_to\_bucket](#input\_allow\_public\_access\_to\_bucket) | Set it to `true` to grant public access to the Object Storage bucket by attaching an IAM access group policy to the IBM Cloud `Public Access` access group. This is only applicable when `create_cos_bucket` is set set to `true`. [Learn More](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-iam-public-access) | `bool` | `false` | no |
 | <a name="input_archive_days"></a> [archive\_days](#input\_archive\_days) | The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets. If null is passed, no lifecycle configuration will be added for bucket archival. | `number` | `null` | no |
 | <a name="input_archive_filter_prefix"></a> [archive\_filter\_prefix](#input\_archive\_filter\_prefix) | Apply archive lifecycle rule to only objects with the following prefix. Applies to all objects by default. | `string` | `null` | no |
 | <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | The storage class or archive type to which you want the object to transition. Possible values are `Glacier` or `Accelerated`. Applies only if `create_cos_bucket` is set to `true`. | `string` | `"Glacier"` | no |
@@ -188,6 +191,7 @@ You need the following permissions to run this module.
 | <a name="input_object_lock_duration_years"></a> [object\_lock\_duration\_years](#input\_object\_lock\_duration\_years) | The number of years for the object lock duration. If you specify a number of years, do not specify a value for `object_lock_duration_days`. Applies only if `create_cos_bucket` is set to `true`. | `number` | `0` | no |
 | <a name="input_object_locking_enabled"></a> [object\_locking\_enabled](#input\_object\_locking\_enabled) | Whether to create an object lock configuration. If set to true, `object_versioning_enabled` and `create_cos_bucket` must also be set to `true`. | `bool` | `false` | no |
 | <a name="input_object_versioning_enabled"></a> [object\_versioning\_enabled](#input\_object\_versioning\_enabled) | Whether to enable object versioning to keep multiple versions of an object in a bucket. Can't be used with retention rule. Applies only if `create_cos_bucket` is set to `true`. | `bool` | `false` | no |
+| <a name="input_public_access_role"></a> [public\_access\_role](#input\_public\_access\_role) | IAM role to include in the access policy assigned to the Public Access access group for the Object Storage bucket. Only applicable when `allow_public_access_to_bucket` is `true` and `create_cos_bucket` is `true`. | `list(string)` | <pre>[<br/>  "Object Reader"<br/>]</pre> | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If specified, set `cross_region_location` and `single_site_location` to `null`. | `string` | `"us-south"` | no |
 | <a name="input_request_metrics_enabled"></a> [request\_metrics\_enabled](#input\_request\_metrics\_enabled) | If set to `true`, all Object Storage bucket request metrics are sent to Cloud Monitoring. | `bool` | `true` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID for the Object Storage instance. Required if `create_cos_instance` is set to `true`. | `string` | `null` | no |

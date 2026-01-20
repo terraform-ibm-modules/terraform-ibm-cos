@@ -132,6 +132,31 @@ variable "bucket_name" {
   description = "The name to give the newly provisioned Object Storage bucket."
 }
 
+variable "allow_public_access_to_bucket" {
+  type        = bool
+  description = "Set it to `true` to grant public access to the Object Storage bucket by attaching an IAM access group policy to the IBM Cloud `Public Access` access group. This is only applicable when `create_cos_bucket` is set set to `true`. [Learn More](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-iam-public-access)"
+  default     = false
+}
+
+variable "public_access_role" {
+  type        = list(string)
+  description = "IAM role to include in the access policy assigned to the Public Access access group for the Object Storage bucket. Only applicable when `allow_public_access_to_bucket` is `true` and `create_cos_bucket` is `true`."
+  default     = ["Object Reader"]
+
+  validation {
+    condition = alltrue([
+      for role in var.public_access_role :
+      contains(["Object Reader", "Content Reader"], role)
+    ])
+    error_message = "public_access_role must contain one of: Object Reader and Content Reader."
+  }
+
+  validation {
+    condition     = !var.allow_public_access_to_bucket || length(var.public_access_role) > 0
+    error_message = "A value for `public_access_role` must be passed when `allow_public_access_to_bucket` is set to `true`."
+  }
+}
+
 variable "management_endpoint_type_for_bucket" {
   description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
   type        = string
