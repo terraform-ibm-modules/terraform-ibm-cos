@@ -64,8 +64,6 @@ variable "bucket_configs" {
     access_tags                   = optional(list(string), [])
     add_bucket_name_suffix        = optional(bool, true)
     bucket_name                   = string
-    allow_public_access_to_bucket = optional(bool, false)
-    public_access_role            = optional(list(string), ["Object Reader"])
     kms_encryption_enabled        = optional(bool, true)
     kms_guid                      = optional(string, null)
     kms_key_crn                   = string
