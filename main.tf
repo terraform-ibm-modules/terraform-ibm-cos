@@ -253,7 +253,7 @@ data "ibm_iam_access_group" "public_access_group" {
 resource "ibm_iam_access_group_policy" "access_policy" {
   count           = local.create_access_policy
   access_group_id = data.ibm_iam_access_group.public_access_group[0].groups[0].id
-  roles           = [var.public_access_role]
+  roles           = var.public_access_role
 
   resources {
     service              = "cloud-object-storage"

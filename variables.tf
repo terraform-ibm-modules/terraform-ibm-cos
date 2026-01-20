@@ -156,17 +156,20 @@ variable "allow_public_access_to_bucket" {
 }
 
 variable "public_access_role" {
-  type        = string
-  description = "IAM role to include in the access policy assigned to the Public Access access group for the COS bucket. Only applicable when `allow_public_access_to_bucket` is `true` and `create_cos_bucket` is `true`."
-  default     = "Object Reader"
+  type        = list(string)
+  description = "IAM role to include in the access policy assigned to the Public Access access group for the Object Storage bucket. Only applicable when `allow_public_access_to_bucket` is `true` and `create_cos_bucket` is `true`."
+  default     = ["Object Reader"]
 
   validation {
-    condition     = contains(["Object Reader", "Content Reader", "Administrator"], var.public_access_role)
-    error_message = "public_access_role must be one of: Object Reader, Content Reader, Administrator."
+    condition = alltrue([
+      for role in var.public_access_role :
+      contains(["Object Reader", "Content Reader"], role)
+    ])
+    error_message = "public_access_role must contain one of: Object Reader and Content Reader."
   }
 
   validation {
-    condition     = var.allow_public_access_to_bucket && var.public_access_role == null
+    condition     = var.allow_public_access_to_bucket && length(var.public_access_role) == 0
     error_message = "A value for `public_access_role` must be passed when `allow_public_access_to_bucket` is set to `true`."
   }
 }
