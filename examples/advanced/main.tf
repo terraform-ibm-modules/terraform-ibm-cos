@@ -68,7 +68,10 @@ module "cos_bucket1" {
   management_endpoint_type_for_bucket = "public"
   existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  retention_default                   = null
+  retention_maximum                   = null
+  retention_minimum                   = null
+  retention_permanent                 = null
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
@@ -115,8 +118,11 @@ module "cos_bucket2" {
   archive_days                        = null
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
-  skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  skip_iam_authorization_policy       = true # Required since cos_bucket1 creates the IAM authorization policy
+  retention_default                   = null
+  retention_maximum                   = null
+  retention_minimum                   = null
+  retention_permanent                 = null
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
 }
 
@@ -141,5 +147,8 @@ module "cos_bucket3" {
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  retention_default                   = null
+  retention_maximum                   = null
+  retention_minimum                   = null
+  retention_permanent                 = null
 }

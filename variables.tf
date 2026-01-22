@@ -137,6 +137,10 @@ variable "cross_region_location" {
     )
     error_message = "If `var.create_cos_bucket` is set to `true`, then a value must be provided for `var.cross_region_location`, `var.region`, or `var.single_site_location`. Only one of those three variables can be set."
   }
+  validation {
+    condition     = !((var.retention_default != null || var.retention_maximum != null || var.retention_minimum != null || var.retention_permanent != null) && var.cross_region_location != null && var.cross_region_location != "us")
+    error_message = "Retention settings are only supported when cross_region_location is null or 'us'."
+  }
 }
 
 variable "bucket_name" {
@@ -203,15 +207,6 @@ variable "management_endpoint_type_for_bucket" {
 
 # Where is retention (immuatble object storage) supported
 # https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
-variable "retention_enabled" {
-  description = "Whether retention for the Object Storage bucket is enabled. Applies only if `create_cos_bucket` is set to `true`."
-  type        = bool
-  default     = false
-  validation {
-    condition     = var.cross_region_location == null || (var.cross_region_location == "us" || !var.retention_enabled)
-    error_message = "Retention is currently only supported in the `US` location for cross-region buckets."
-  }
-}
 
 variable "retention_default" {
   description = "The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`."
