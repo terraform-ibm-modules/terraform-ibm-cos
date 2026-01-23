@@ -63,10 +63,10 @@ variable "bucket_configs" {
       enable = optional(bool, false)
     }))
     retention_rule = optional(object({
-      default   = optional(number, 90)
-      maximum   = optional(number, 350)
-      minimum   = optional(number, 90)
-      permanent = optional(bool, false)
+      default   = optional(number)
+      maximum   = optional(number)
+      minimum   = optional(number)
+      permanent = optional(bool)
     }))
     cbr_rules = optional(list(object({
       description = string

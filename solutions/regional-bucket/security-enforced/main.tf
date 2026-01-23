@@ -31,7 +31,6 @@ module "regional_bucket" {
   abort_multipart_days                        = var.abort_multipart_days
   monitoring_crn                              = var.monitoring_crn
   enable_object_versioning                    = var.enable_object_versioning
-  enable_retention                            = var.enable_retention
   default_retention_days                      = var.default_retention_days
   maximum_retention_days                      = var.maximum_retention_days
   minimum_retention_days                      = var.minimum_retention_days
