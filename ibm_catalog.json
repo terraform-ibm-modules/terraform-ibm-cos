@@ -27,7 +27,6 @@
       "long_description": "[IBM Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage) is a highly available, durable, and secure platform for storing unstructured data. You can choose from a few different variations to create a single instance or regional and cross-regional buckets.  \n\nLeverage [Terraform IBM Modules](https://github.com/terraform-ibm-modules) to shape and scale your solutions. You can integrate Terraform IBM Modules (TIM) to extend functionality and design a solution tailored to your environment and operations needs. These modules offer reusable, customizable elements that follow IBM Cloud's recommended practices. You can access the [source code and documentation](https://github.com/terraform-ibm-modules/terraform-ibm-cos) and use it to extend your current architecture or create new solutions.\n\nℹ️ This deployable architecture is a part of a larger collection that IBM provides. Each deployable architecture focuses on a single IBM Cloud service. You can use these deployable architectures on their own to automate deployments by following an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or you can [combine them together](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to deploy a more complex end-to-end solution architecture.",
       "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in this repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues). Please note this product is not supported via the IBM Cloud Support Center.",
       "offering_docs_url": "https://cloud.ibm.com/docs/ibm-cloud-provider-for-terraform?topic=ibm-cloud-provider-for-terraform-about-tim",
-      "release_notes_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/images/cos_icon.svg",
       "provider_name": "IBM",
       "features": [
@@ -63,6 +62,7 @@
           "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/instance",
+          "release_notes_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases",
           "short_description": "Ideal for users who want a Cloud Object Storage instance. A dedicated, highly scalable, durable, and secure environment for storing unstructured data.",
           "iam_permissions": [
             {
@@ -252,6 +252,7 @@
           "name": "cross-regional-bucket-fully-configurable",
           "index": 2,
           "working_directory": "solutions/cross-regional-bucket/fully-configurable",
+          "release_notes_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases",
           "install_type": "fullstack",
           "short_description": "Ideal for users who require superior disaster recovery and high availability by spreading data across multiple metropolitan areas, making it resilient to entire region failures. Encryption is flexible.",
           "iam_permissions": [
@@ -722,6 +723,7 @@
           "name": "cross-regional-bucket-security-enforced",
           "index": 3,
           "working_directory": "solutions/cross-regional-bucket/security-enforced",
+          "release_notes_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases",
           "install_type": "fullstack",
           "short_description": "Ideal for users who require superior disaster recovery and high availability by spreading data across multiple metropolitan areas, making it resilient to entire region failures. Encryption is enabled.",
           "iam_permissions": [
@@ -1132,6 +1134,7 @@
           "name": "regional-bucket-fully-configurable",
           "index": 4,
           "working_directory": "solutions/regional-bucket/fully-configurable",
+          "release_notes_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases",
           "install_type": "fullstack",
           "short_description": "Ideal for users who require data within one metro area, providing resilience to a single data center failure and flexible encryption.",
           "iam_permissions": [
@@ -1649,6 +1652,7 @@
           "name": "regional-bucket-security-enforced",
           "index": 5,
           "working_directory": "solutions/regional-bucket/security-enforced",
+          "release_notes_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases",
           "install_type": "fullstack",
           "short_description": "Ideal for users who require data within one metro area, providing resilience to a single data center failure and encryption enabled.",
           "iam_permissions": [
