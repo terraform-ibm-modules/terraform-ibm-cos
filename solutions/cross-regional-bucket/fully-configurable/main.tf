@@ -79,7 +79,7 @@ locals {
 
 module "cos_instance_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.3.7"
+  version = "1.4.1"
   crn     = var.existing_cos_instance_crn
 }
 
@@ -111,14 +111,14 @@ locals {
 module "kms_instance_crn_parser" {
   count   = var.existing_kms_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.3.7"
+  version = "1.4.1"
   crn     = var.existing_kms_instance_crn
 }
 
 module "kms_key_crn_parser" {
   count   = var.existing_kms_key_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.3.7"
+  version = "1.4.1"
   crn     = var.existing_kms_key_crn
 }
 
@@ -175,7 +175,7 @@ module "kms" {
   }
   count                       = var.kms_encryption_enabled && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key.
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.5.21"
+  version                     = "5.5.25"
   create_key_protect_instance = false
   region                      = local.kms_region
   existing_kms_instance_crn   = var.existing_kms_instance_crn

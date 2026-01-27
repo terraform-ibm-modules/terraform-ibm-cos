@@ -122,11 +122,11 @@ resource "random_string" "bucket_name_suffix" {
 # - Versioning
 
 locals {
-  random_bucket_name_suffix = random_string.bucket_name_suffix[0].result
   retention_flag = (
     var.retention_default != null || var.retention_maximum != null ||
     var.retention_minimum != null || var.retention_permanent != null
   ) ? [1] : []
+  random_bucket_name_suffix = var.add_bucket_name_suffix ? random_string.bucket_name_suffix[0].result : null
 }
 
 resource "ibm_cos_bucket" "cos_bucket" {
@@ -417,7 +417,7 @@ locals {
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.9"
+  version          = "1.35.12"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
@@ -452,7 +452,7 @@ module "bucket_cbr_rule" {
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.9"
+  version          = "1.35.12"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
