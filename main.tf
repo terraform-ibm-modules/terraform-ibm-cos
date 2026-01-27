@@ -123,7 +123,7 @@ resource "random_string" "bucket_name_suffix" {
 # - Versioning
 
 locals {
-  random_bucket_name_suffix = random_string.bucket_name_suffix[0].result
+  random_bucket_name_suffix = var.add_bucket_name_suffix ? random_string.bucket_name_suffix[0].result : null
 }
 
 resource "ibm_cos_bucket" "cos_bucket" {
