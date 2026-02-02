@@ -527,7 +527,7 @@
             },
             {
               "key": "monitoring_crn",
-              "display_name": "monitoring_instance",
+              "display_name": "existing_monitoring_instance",
               "value_constraints": [
                 {
                   "type": "regex",
@@ -980,7 +980,7 @@
             },
             {
               "key": "monitoring_crn",
-              "display_name": "monitoring_instance",
+              "display_name": "existing_monitoring_instance",
               "value_constraints": [
                 {
                   "type": "regex",
@@ -1495,7 +1495,7 @@
             },
             {
               "key": "monitoring_crn",
-              "display_name": "monitoring_instance",
+              "display_name": "existing_monitoring_instance",
               "value_constraints": [
                 {
                   "type": "regex",
@@ -1995,7 +1995,7 @@
             },
             {
               "key": "monitoring_crn",
-              "display_name": "monitoring_instance",
+              "display_name": "existing_monitoring_instance",
               "value_constraints": [
                 {
                   "type": "regex",
