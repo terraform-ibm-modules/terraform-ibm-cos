@@ -249,6 +249,18 @@ variable "monitoring_crn" {
   default     = null
 }
 
+variable "activity_tracking" {
+  type = object({
+    read_data_events  = optional(bool, true)
+    write_data_events = optional(bool, true)
+  })
+  description = "Enables activity tracking events to be sent to Activity Tracker to provide a record of activities. Set `read_data_events` and `write_data_events` to `true` to enable tracking for those event types."
+  default = {
+    read_data_events  = true
+    write_data_events = true
+  }
+}
+
 variable "enable_object_versioning" {
   description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `enable_retention` is true."
   type        = bool

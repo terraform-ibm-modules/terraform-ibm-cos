@@ -514,6 +514,19 @@
               ]
             },
             {
+              "key": "activity_tracking",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
+            },
+            {
               "key": "enable_platform_metrics",
               "type": "boolean",
               "default_value": false,
@@ -1436,6 +1449,19 @@
                   "value": "^__NULL__$|^crn:(.*:){3}sysdig-monitor:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
                 }
               ]
+            },
+            {
+              "key": "activity_tracking",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
             },
             {
               "key": "enable_platform_metrics",
