@@ -61,12 +61,12 @@ locals {
     object_versioning = {
       enable = var.enable_object_versioning
     }
-    retention_rule = var.enable_retention ? {
+    retention_rule = {
       default   = var.default_retention_days
       maximum   = var.maximum_retention_days
       minimum   = var.minimum_retention_days
       permanent = var.enable_permanent_retention
-    } : null
+    }
     cos_bucket_cbr_rules = var.cos_bucket_cbr_rules
   }]
 }

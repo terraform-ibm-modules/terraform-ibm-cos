@@ -263,34 +263,28 @@ variable "enable_object_versioning" {
   default     = false
 }
 
-variable "enable_retention" {
-  description = "Whether retention is enabled for the Object Storage bucket."
-  type        = bool
-  default     = false
-}
-
 variable "default_retention_days" {
   description = "The number of days that an object can remain unmodified in an Object Storage bucket."
   type        = number
-  default     = 90
+  default     = null
 }
 
 variable "maximum_retention_days" {
   description = "The maximum number of days that an object can be kept unmodified in the bucket."
   type        = number
-  default     = 350
+  default     = null
 }
 
 variable "minimum_retention_days" {
   description = "The minimum number of days that an object must be kept unmodified in the bucket."
   type        = number
-  default     = 90
+  default     = null
 }
 
 variable "enable_permanent_retention" {
   description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable)."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "enable_object_locking" {

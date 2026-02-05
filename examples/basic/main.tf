@@ -21,7 +21,10 @@ module "cos" {
   cos_instance_name         = "${var.prefix}-cos"
   cos_tags                  = var.resource_tags
   bucket_name               = "${var.prefix}-bucket"
-  retention_enabled         = false # disable retention for test environments - enable for stage/prod
+  retention_default         = null
+  retention_maximum         = null
+  retention_minimum         = null
+  retention_permanent       = null
   kms_encryption_enabled    = false
   cos_plan                  = "cos-one-rate-plan"
   bucket_storage_class      = "onerate_active"
