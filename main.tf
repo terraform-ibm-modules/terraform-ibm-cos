@@ -109,7 +109,7 @@ resource "ibm_iam_authorization_policy" "policy" {
 
 # Create random string which is added to COS bucket name as a suffix
 resource "random_string" "bucket_name_suffix" {
-  count   = var.add_bucket_name_suffix ? 1 : 0
+  count   = var.add_bucket_name_suffix && var.create_cos_bucket ? 1 : 0
   length  = 4
   special = false
   upper   = false
@@ -123,7 +123,7 @@ resource "random_string" "bucket_name_suffix" {
 # - Versioning
 
 locals {
-  random_bucket_name_suffix = var.add_bucket_name_suffix ? random_string.bucket_name_suffix[0].result : null
+  random_bucket_name_suffix = var.add_bucket_name_suffix && var.create_cos_bucket ? random_string.bucket_name_suffix[0].result : null
 }
 
 resource "ibm_cos_bucket" "cos_bucket" {

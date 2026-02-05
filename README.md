@@ -21,6 +21,7 @@ You can configure the following aspects of your instances:
 ## Overview
 * [terraform-ibm-cos](#terraform-ibm-cos)
 * [Submodules](./modules)
+    * [backup_vault](./modules/backup_vault)
     * [buckets](./modules/buckets)
     * [fscloud](./modules/fscloud)
     * [lifecycle_rules](./modules/lifecycle_rules)

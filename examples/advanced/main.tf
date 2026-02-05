@@ -43,7 +43,8 @@ module "key_protect_all_inclusive" {
       key_ring_name = (local.key_ring_name)
       keys = [
         {
-          key_name = (local.key_name)
+          key_name     = (local.key_name)
+          force_delete = true
         }
       ]
     }
