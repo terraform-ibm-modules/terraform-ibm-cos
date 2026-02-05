@@ -8,7 +8,7 @@ locals {
   access_policy = [
     for bucket_config in var.bucket_configs : {
       "cos_guid" : coalescelist(split(":", bucket_config.resource_instance_id))[7]
-      "kms_guid" : bucket_config.kms_guid,
+      "kms_guid" : coalescelist(split(":", bucket_config.kms_key_crn))[7]
       "type" : coalescelist(split(":", bucket_config.kms_key_crn))[4]
       "kms_key_id" : coalescelist(split(":", bucket_config.kms_key_crn))[9]
       "kms_account_id" : split("/", coalescelist(split(":", bucket_config.resource_instance_id))[6])[1]
@@ -84,7 +84,6 @@ module "buckets" {
   cross_region_location               = each.value.cross_region_location
   single_site_location                = each.value.single_site_location
   bucket_storage_class                = each.value.storage_class
-  existing_kms_instance_guid          = each.value.kms_guid
   kms_key_crn                         = each.value.kms_key_crn
   kms_encryption_enabled              = each.value.kms_encryption_enabled
   management_endpoint_type_for_bucket = each.value.management_endpoint_type
@@ -124,6 +123,8 @@ module "buckets" {
   retention_maximum   = can(each.value.retention_rule.maximum) ? each.value.retention_rule.maximum : 350
   retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
+
+  backup_policies = each.value.backup_policies
 
   bucket_cbr_rules = each.value.cbr_rules
 }

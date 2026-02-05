@@ -6,10 +6,10 @@
 locals {
   create_s2s        = var.kms_encryption_enabled && !var.skip_kms_iam_authorization_policy ? true : false
   cos_instance_guid = module.cos_crn_parser.service_instance
-  kms_key_guid      = var.kms_key_crn != null ? module.kms_crn_parser[0].resource : ""
-  kms_instance_guid = var.kms_key_crn != null ? module.kms_crn_parser[0].service_instance : ""
-  kms_service_name  = var.kms_key_crn != null ? module.kms_crn_parser[0].service_name : ""
-  kms_account_id    = var.kms_key_crn != null ? module.kms_crn_parser[0].account_id : ""
+  kms_key_guid      = local.create_s2s ? module.kms_crn_parser[0].resource : ""
+  kms_instance_guid = local.create_s2s ? module.kms_crn_parser[0].service_instance : ""
+  kms_service_name  = local.create_s2s ? module.kms_crn_parser[0].service_name : ""
+  kms_account_id    = local.create_s2s ? module.kms_crn_parser[0].account_id : ""
 }
 
 # Parse COS details
@@ -74,10 +74,22 @@ resource "time_sleep" "wait_for_authorization_policy" {
   destroy_duration = "30s"
 }
 
+# Create random string which is added to Backup Vault name as a suffix
+resource "random_string" "name_suffix" {
+  count   = var.add_name_suffix ? 1 : 0
+  length  = 4
+  special = false
+  upper   = false
+}
+
+locals {
+  backup_vault_name = var.add_name_suffix ? "${var.name}-${random_string.name_suffix[0].result}" : var.name
+}
+
 # Create Backup Vault instance
 resource "ibm_cos_backup_vault" "backup_vault" {
   depends_on                          = [time_sleep.wait_for_authorization_policy]
-  backup_vault_name                   = var.name
+  backup_vault_name                   = local.backup_vault_name
   service_instance_id                 = var.existing_cos_instance_id
   region                              = var.region
   activity_tracking_management_events = var.activity_tracking_management_events

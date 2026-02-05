@@ -65,7 +65,6 @@ variable "bucket_configs" {
     add_bucket_name_suffix        = optional(bool, true)
     bucket_name                   = string
     kms_encryption_enabled        = optional(bool, true)
-    kms_guid                      = optional(string, null)
     kms_key_crn                   = string
     skip_iam_authorization_policy = optional(bool, false)
     management_endpoint_type      = string
@@ -79,6 +78,11 @@ variable "bucket_configs" {
     object_locking_enabled        = optional(bool, false)
     object_lock_duration_days     = optional(number, 0)
     object_lock_duration_years    = optional(number, 0)
+    backup_policies = optional(list(object({
+      policy_name               = string
+      target_backup_vault_crn   = string
+      initial_delete_after_days = number
+    })), [])
 
     activity_tracking = optional(object({
       read_data_events  = optional(bool, true)

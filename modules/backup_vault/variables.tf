@@ -3,6 +3,12 @@ variable "name" {
   type        = string
 }
 
+variable "add_name_suffix" {
+  type        = bool
+  description = "Whether to add a randomly generated 4-character suffix to the Backup Vault name."
+  default     = true
+}
+
 variable "existing_cos_instance_id" {
   description = "The ID of the Object Storage instance to create the Backup Vault instance in."
   type        = string

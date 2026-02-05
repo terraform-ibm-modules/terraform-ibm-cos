@@ -8,6 +8,13 @@ output "backup_vault_id" {
   value       = ibm_cos_backup_vault.backup_vault.id
 }
 
+output "backup_vault_name" {
+  description = "The name of the Object Storage Backup Vault instance."
+  value       = local.backup_vault_name
+  # only return name after the vault is created
+  depends_on = [ibm_cos_backup_vault.backup_vault]
+}
+
 output "cos_instance_id" {
   description = "The ID of the Object Storage instance in which the Backup Vault exists."
   value       = var.existing_cos_instance_id

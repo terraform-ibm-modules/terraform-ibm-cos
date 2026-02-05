@@ -6,7 +6,6 @@ locals {
       validate_at_set2              = can(bucket.activity_tracking.activity_tracker_write_data_events) ? bucket.activity_tracking.activity_tracker_write_data_events == false ? tobool("'activity_tracker_write_data_events' must be set to true") : null : null,
       validate_monitoring_set1      = can(bucket.metrics_monitoring.request_metrics_enabled) ? bucket.metrics_monitoring.request_metrics_enabled == false ? tobool("'request_metrics_enabled' must be set to true") : null : null,
       validate_monitoring_set2      = can(bucket.metrics_monitoring.usage_metrics_enabled) ? bucket.metrics_monitoring.usage_metrics_enabled == false ? tobool("'usage_metrics_enabled' must be set to true") : null : null,
-      validate_hpcs_instance_guid   = bucket.skip_iam_authorization_policy == false && bucket.kms_guid == null ? tobool("'kms_guid' must be provided if 'skip_iam_authorization_policy' is set to false") : null,
       validate_hpcs_key_crn         = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
       validate_single_site_location = bucket.single_site_location != null ? tobool("KMS encryption can not be added to single site location, therefore it is not supported in fscloud module.") : null,
     }
@@ -41,7 +40,6 @@ locals {
       access_tags                        = config.access_tags
       bucket_name                        = config.bucket_name
       kms_encryption_enabled             = config.kms_encryption_enabled
-      kms_guid                           = config.kms_guid
       kms_key_crn                        = config.kms_key_crn
       skip_iam_authorization_policy      = config.skip_iam_authorization_policy
       management_endpoint_type           = config.management_endpoint_type
@@ -65,6 +63,7 @@ locals {
       object_locking_enabled             = config.object_locking_enabled
       object_lock_duration_days          = config.object_lock_duration_days
       object_lock_duration_years         = config.object_lock_duration_years
+      backup_policies                    = config.backup_policies
     }
   ]
 }

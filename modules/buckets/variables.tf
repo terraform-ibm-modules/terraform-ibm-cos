@@ -13,7 +13,6 @@ variable "bucket_configs" {
     allow_public_access_to_bucket = optional(bool, false)
     public_access_role            = optional(list(string), ["Object Reader"])
     kms_encryption_enabled        = optional(bool, true)
-    kms_guid                      = optional(string, null)
     kms_key_crn                   = optional(string, null)
     skip_iam_authorization_policy = optional(bool, false)
     management_endpoint_type      = optional(string, "public")
@@ -27,6 +26,11 @@ variable "bucket_configs" {
     object_locking_enabled        = optional(bool, false)
     object_lock_duration_days     = optional(number, 0)
     object_lock_duration_years    = optional(number, 0)
+    backup_policies = optional(list(object({
+      policy_name               = string
+      target_backup_vault_crn   = string
+      initial_delete_after_days = number
+    })), [])
 
     activity_tracking = optional(object({
       read_data_events  = optional(bool, true)
@@ -94,7 +98,7 @@ variable "bucket_configs" {
   validation {
     condition = alltrue([for bucket_config_1 in var.bucket_configs : length([
       for bucket_config_2 in var.bucket_configs : bucket_config_2
-      if bucket_config_2.kms_encryption_enabled && !bucket_config_2.skip_iam_authorization_policy && bucket_config_2.resource_instance_id == bucket_config_1.resource_instance_id && bucket_config_2.kms_guid == bucket_config_1.kms_guid
+      if bucket_config_2.kms_encryption_enabled && !bucket_config_2.skip_iam_authorization_policy && bucket_config_2.resource_instance_id == bucket_config_1.resource_instance_id && bucket_config_2.kms_key_crn == bucket_config_1.kms_key_crn
     ]) == 1 if bucket_config_1.kms_encryption_enabled && !bucket_config_1.skip_iam_authorization_policy])
     error_message = "Duplicate authentication policy found in the bucket configuration."
   }

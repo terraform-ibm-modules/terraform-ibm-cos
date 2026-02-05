@@ -420,16 +420,6 @@ variable "abort_multipart_filter_prefix" {
 # COS bucket encryption variables
 ##############################################################################
 
-variable "existing_kms_instance_guid" {
-  description = "The GUID of the Key Protect or Hyper Protect Crypto Services instance that holds the key specified in `kms_key_crn`. Required if `skip_iam_authorization_policy` is set to `false`."
-  type        = string
-  default     = null
-  validation {
-    condition     = var.kms_encryption_enabled == false || var.create_cos_bucket == false || var.skip_iam_authorization_policy == true || var.existing_kms_instance_guid != null
-    error_message = "A value must be passed for `var.existing_kms_instance_guid` when a bucket is created if `var.kms_encryption_enabled` is set to `true` and `var.skip_iam_authorization_policy` is set to `false`."
-  }
-}
-
 variable "kms_encryption_enabled" {
   description = "Whether to use key management service key encryption to encrypt data in Object Storage buckets. Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
@@ -453,6 +443,43 @@ variable "kms_key_crn" {
   validation {
     condition     = var.cross_region_location == "us" || var.cross_region_location == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
     error_message = "Support for using a Hyper Protect Crypto Services instance for key encryption in a cross-regional bucket is only available in the US region."
+  }
+}
+
+##############################################################################
+# Bucket backup policies
+##############################################################################
+
+variable "backup_policies" {
+  type = list(object({
+    policy_name               = string
+    target_backup_vault_crn   = string
+    initial_delete_after_days = number
+  }))
+  description = "List of backup policies to create for the bucket. Each policy requires a unique policy_name, target_backup_vault_crn, and initial_delete_after_days. Maximum of 3 policies allowed per bucket. Note: The source bucket must have object versioning enabled."
+  default     = []
+  nullable    = false
+
+  validation {
+    condition     = length(var.backup_policies) <= 3
+    error_message = "A maximum of 3 backup policies can be configured per bucket."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.backup_policies : policy.initial_delete_after_days > 0
+    ])
+    error_message = "The initial_delete_after_days must be greater than 0."
+  }
+
+  validation {
+    condition     = length(var.backup_policies) == length(distinct([for policy in var.backup_policies : policy.policy_name]))
+    error_message = "Each backup policy must have a unique policy_name."
+  }
+
+  validation {
+    condition     = length(var.backup_policies) == length(distinct([for policy in var.backup_policies : policy.target_backup_vault_crn]))
+    error_message = "Each backup policy must have a unique target_backup_vault_crn."
   }
 }
 
@@ -512,6 +539,6 @@ variable "instance_cbr_rules" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the key management service instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the key management service instance in `existing_kms_guid`."
+  description = "Set to true the skip the creation of an IAM authorization policy that grants the Object Storage instance 'Reader' access to the specified KMS key. This policies must exist in your account for encryption to work. Ignored if 'kms_encryption_enabled' is false."
   default     = false
 }

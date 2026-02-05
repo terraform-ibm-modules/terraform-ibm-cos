@@ -123,6 +123,14 @@ module "cos_fscloud" {
     management_endpoint_type = var.management_endpoint_type_for_bucket
     region_location          = var.region
 
+    # To create a backup policy, uncomment the below code and update to your requirements.
+    # Be aware that terraform destroy will fail on the backup vault once a policy exists and will only work after all buckets using the vault have been destroyed and the initial_delete_after_days has been met.
+
+    # backup_policies = [{ policy_name               = "default-backup-policy"
+    #   target_backup_vault_crn   = module.backup_vault.backup_vault_crn
+    #   initial_delete_after_days = 1
+    # }]
+
     # CBR rule only allowing the COS bucket to be accessible over the private endpoint from within the VPC
     cbr_rules = [{
       description      = "sample rule for ${var.prefix}-bucket"
@@ -156,4 +164,15 @@ module "cos_fscloud" {
       }]
     }]
   }, ]
+}
+
+module "backup_vault" {
+  source                   = "../../modules/backup_vault"
+  name                     = "${var.prefix}-vault"
+  existing_cos_instance_id = module.cos_fscloud.cos_instance_id
+  region                   = var.region
+  kms_encryption_enabled   = true
+  kms_key_crn              = var.bucket_hpcs_key_crn
+  # Since the same key is being used to encrypt the bucket and vault, skip the creation of the authorization policy here as it will already get created by the bucket logic
+  skip_kms_iam_authorization_policy = true
 }
