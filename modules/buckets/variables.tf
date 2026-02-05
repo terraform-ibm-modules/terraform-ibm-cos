@@ -13,7 +13,6 @@ variable "bucket_configs" {
     allow_public_access_to_bucket = optional(bool, false)
     public_access_role            = optional(list(string), ["Object Reader"])
     kms_encryption_enabled        = optional(bool, true)
-    kms_guid                      = optional(string, null)
     kms_key_crn                   = optional(string, null)
     skip_iam_authorization_policy = optional(bool, false)
     management_endpoint_type      = optional(string, "public")
@@ -94,7 +93,7 @@ variable "bucket_configs" {
   validation {
     condition = alltrue([for bucket_config_1 in var.bucket_configs : length([
       for bucket_config_2 in var.bucket_configs : bucket_config_2
-      if bucket_config_2.kms_encryption_enabled && !bucket_config_2.skip_iam_authorization_policy && bucket_config_2.resource_instance_id == bucket_config_1.resource_instance_id && bucket_config_2.kms_guid == bucket_config_1.kms_guid
+      if bucket_config_2.kms_encryption_enabled && !bucket_config_2.skip_iam_authorization_policy && bucket_config_2.resource_instance_id == bucket_config_1.resource_instance_id && bucket_config_2.kms_key_crn == bucket_config_1.kms_key_crn
     ]) == 1 if bucket_config_1.kms_encryption_enabled && !bucket_config_1.skip_iam_authorization_policy])
     error_message = "Duplicate authentication policy found in the bucket configuration."
   }

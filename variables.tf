@@ -420,16 +420,6 @@ variable "abort_multipart_filter_prefix" {
 # COS bucket encryption variables
 ##############################################################################
 
-variable "existing_kms_instance_guid" {
-  description = "The GUID of the Key Protect or Hyper Protect Crypto Services instance that holds the key specified in `kms_key_crn`. Required if `skip_iam_authorization_policy` is set to `false`."
-  type        = string
-  default     = null
-  validation {
-    condition     = var.kms_encryption_enabled == false || var.create_cos_bucket == false || var.skip_iam_authorization_policy == true || var.existing_kms_instance_guid != null
-    error_message = "A value must be passed for `var.existing_kms_instance_guid` when a bucket is created if `var.kms_encryption_enabled` is set to `true` and `var.skip_iam_authorization_policy` is set to `false`."
-  }
-}
-
 variable "kms_encryption_enabled" {
   description = "Whether to use key management service key encryption to encrypt data in Object Storage buckets. Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
@@ -512,6 +502,6 @@ variable "instance_cbr_rules" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the key management service instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the key management service instance in `existing_kms_guid`."
+  description = "Set to true the skip the creation of an IAM authorization policy that grants the Object Storage instance 'Reader' access to the specified KMS key. This policies must exist in your account for encryption to work. Ignored if 'kms_encryption_enabled' is false."
   default     = false
 }
