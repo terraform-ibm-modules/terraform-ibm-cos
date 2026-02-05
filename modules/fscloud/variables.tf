@@ -65,7 +65,6 @@ variable "bucket_configs" {
     add_bucket_name_suffix        = optional(bool, true)
     bucket_name                   = string
     kms_encryption_enabled        = optional(bool, true)
-    kms_guid                      = optional(string, null)
     kms_key_crn                   = string
     skip_iam_authorization_policy = optional(bool, false)
     management_endpoint_type      = string
