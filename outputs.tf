@@ -99,3 +99,7 @@ output "resource_keys" {
   value       = ibm_resource_key.resource_keys
   sensitive   = true
 }
+
+output "cos_backup_vault" {
+  value = local.vault_crns
+}

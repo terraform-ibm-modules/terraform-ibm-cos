@@ -139,7 +139,21 @@ variable "bucket_configs" {
         }))
       })))
     })), [])
-
+    create_backup_vault = optional(bool, false)
+    add_vault_name_suffix = optional(bool, false)
+    skip_vault_iam_authorization_policy = optional(bool, true)
+    vault_instances = optional( list(object({
+    name                          = string
+    region                        = optional(string, "us-south")
+    cos_service_instance_id       = optional(string, null)
+    enable_activity_tracking      = optional(bool, false)
+    enable_metrics_monitoring     = optional(bool, false)
+    bucket_backup_policy          = optional(map(object({
+      name                          = string
+      initial_delete_after_days     = number # Once set the value of initial_delete_after_days cannot be updated
+      type                          = optional(string, "continuous") # Currently only `continuous` is supported
+    })))
+  })) ,[])
   }))
   description = "Object Storage bucket configurations"
   default     = []

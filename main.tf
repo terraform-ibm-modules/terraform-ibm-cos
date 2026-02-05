@@ -451,3 +451,106 @@ locals {
   instance_rule_ids = flatten([for instance in module.instance_cbr_rule : instance.rule_id])
   all_rule_ids      = concat(local.bucket_rule_ids, local.instance_rule_ids)
 }
+
+##############################################################################
+# Backup Vault
+##############################################################################
+# locals {
+#   id1 = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : split(":", var.existing_cos_instance_id)[7]
+# }
+
+# Create random string which is added to COS bucket name as a suffix
+resource "random_string" "vault_name_suffix" {
+  count   = var.create_backup_vault && var.add_vault_name_suffix ? 1 : 0
+  length  = 4
+  special = false
+  upper   = false
+}
+
+resource "ibm_cos_backup_vault" "backup_vault" {
+  for_each = var.create_backup_vault ? { for vault in var.backup_vault_instances : vault.name => vault } : {}
+
+  backup_vault_name                   = "${each.value.name}-${random_string.vault_name_suffix[0].result}"
+  service_instance_id                 = each.value.cos_service_instance_id != null ? each.value.cos_service_instance_id : var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
+  region                              = each.value.region
+  activity_tracking_management_events = each.value.enable_activity_tracking
+  metrics_monitoring_usage_metrics    = each.value.enable_metrics_monitoring
+  kms_key_crn                         = local.create_access_policy_kms ?  var.kms_key_crn : null
+}
+
+##############################################################################
+# Backup Policy
+##############################################################################
+
+locals {
+  vault_crns = { 
+    for name, vault in ibm_cos_backup_vault.backup_vault : name => vault.backup_vault_crn 
+  }
+}
+
+resource "ibm_iam_authorization_policy" "backup_policy" {
+  for_each = var.create_backup_vault && !var.skip_vault_iam_authorization_policy ? { for vault in var.backup_vault_instances : vault.name => vault } : {}
+        roles = ["Backup Manager", "Writer"]
+        subject_attributes {
+          name  = "accountId"
+          value = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].account_id : split("/", split(":", var.existing_cos_instance_id)[6])[1]
+        }
+        subject_attributes {
+          name  = "serviceName"
+          value = "cloud-object-storage"
+        }
+        subject_attributes {
+          name  = "serviceInstance"
+          value = local.cos_instance_guid
+        }
+        subject_attributes {
+          name  = "resource"
+          value = local.bucket_name
+        }
+        subject_attributes {
+          name  = "resourceType"
+          value = "bucket"
+        }
+        resource_attributes {
+          name     = "accountId"
+          operator = "stringEquals"
+          value    = each.value.cos_service_instance_id != null ? split("/", split(":", each.value.cos_service_instance_id)[6])[1] : var.create_cos_instance ? ibm_resource_instance.cos_instance[0].account_id : split("/", split(":", var.existing_cos_instance_id)[6])[1]
+        }
+        resource_attributes {
+          name     = "serviceName"
+          operator = "stringEquals"
+          value    = "cloud-object-storage"
+        }
+        resource_attributes { 
+          name  =  "serviceInstance"
+          operator = "stringEquals"
+          value = each.value.cos_service_instance_id != null ? split(":", each.value.cos_service_instance_id)[7] : local.cos_instance_guid
+        }
+        resource_attributes { 
+          name  =  "resource"
+          operator = "stringEquals"
+          value =  "${each.value.name}-${random_string.vault_name_suffix[0].result}"
+        }
+        resource_attributes { 
+          name  =  "resourceType"
+          operator = "stringEquals"
+          value =  "backup-vault" 
+        }
+    }
+
+resource "time_sleep" "wait_for_backup_authorization_policy" {
+  depends_on = [ibm_iam_authorization_policy.backup_policy]
+  for_each = var.create_backup_vault ? { for vault in var.backup_vault_instances : vault.name => vault } : {}
+  # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+  create_duration = "30s"
+}
+
+resource "ibm_cos_backup_policy" "policy" {
+  depends_on = [ time_sleep.wait_for_backup_authorization_policy ]
+  for_each = var.create_backup_vault ? { for vault in var.backup_vault_instances : vault.name => vault if vault.bucket_backup_policy != null } : {}
+  bucket_crn      = local.bucket_crn
+  initial_delete_after_days = values(each.value.bucket_backup_policy)[0].initial_delete_after_days
+  policy_name = values(each.value.bucket_backup_policy)[0].name
+  target_backup_vault_crn = local.vault_crns[each.key]
+  backup_type = values(each.value.bucket_backup_policy)[0].type
+}

@@ -431,6 +431,60 @@ variable "kms_key_crn" {
   }
 }
 
+variable "create_backup_vault" {
+  description = "Whether to create an IBM Cloud Object Storage instance."
+  type        = bool
+  default     = false
+
+  validation {
+    condition     = var.create_backup_vault == false || var.cos_plan == "standard"
+    error_message = "If 'create_backup_vault' is set to true, the 'cos_plan' must be set to 'standard'."
+  }
+
+  validation {
+    condition     = var.create_backup_vault == false || var.object_versioning_enabled == true
+    error_message = "If 'create_backup_vault' is set to true, the 'object_versioning_enabled' for COS bucket must be set to 'true'."
+  }
+}
+
+variable "add_vault_name_suffix" {
+  type        = bool
+  description = "Whether to add a randomly generated 4-character suffix to the bucket name."
+  default     = false
+
+  validation {
+    condition     = var.add_vault_name_suffix == false || var.create_backup_vault == true
+    error_message = "The 'add_vault_name_suffix' can only be set to true if 'create_backup_vault' is also true."
+  }
+}
+
+variable "backup_vault_instances" {
+  type = list(object({
+    name                          = string
+    region                        = optional(string, "us-south")
+    cos_service_instance_id       = optional(string, null)
+    enable_activity_tracking      = optional(bool, false)
+    enable_metrics_monitoring     = optional(bool, false)
+    bucket_backup_policy          = optional(map(object({
+      name                          = string
+      initial_delete_after_days     = number # Once set the value of initial_delete_after_days cannot be updated
+      type                          = optional(string, "continuous") # Currently only `continuous` is supported
+    })))
+  }))
+  default     = []
+  description = "List of Backup vault instances to configure for the Object Storage instance."
+
+  validation {
+    condition     = var.create_backup_vault == false || length(var.backup_vault_instances) > 0
+    error_message = "If 'create_backup_vault' is set to true, 'backup_vault_instances' cannot be empty (you must provide at least one instance configuration)."
+  }
+
+  validation {
+    condition     = length([for vault in var.backup_vault_instances : vault if vault.bucket_backup_policy != null]) <= 3
+    error_message = "A bucket is limited to a maximum of 3 backup policies. Please reduce the number of instances containing a 'bucket_backup_policy'."
+  }
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
@@ -489,4 +543,15 @@ variable "skip_iam_authorization_policy" {
   type        = bool
   description = "Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the key management service instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the key management service instance in `existing_kms_guid`."
   default     = false
+}
+
+variable "skip_vault_iam_authorization_policy" {
+  type        = bool
+  description = "Whether to create an IAM authorization policy that permits the Storage Bucket instance to store backup data in backup vault. An authorization policy must exist before the backup policy can be created. Set to `true` to avoid creating the policy if the iam authorization policy already exists. If set to `false`, provide the values for backup vault."
+  default     = false
+
+  validation {
+    condition     = var.create_backup_vault ? var.skip_vault_iam_authorization_policy == true : true
+    error_message = "If 'create_backup_vault' is set to true, 'skip_vault_iam_authorization_policy' cannot be false."
+  }
 }

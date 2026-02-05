@@ -23,10 +23,49 @@ module "cos" {
   bucket_name               = "${var.prefix}-bucket"
   retention_enabled         = false # disable retention for test environments - enable for stage/prod
   kms_encryption_enabled    = false
-  cos_plan                  = "cos-one-rate-plan"
-  bucket_storage_class      = "onerate_active"
+  cos_plan                  = "standard"
+  bucket_storage_class      = "smart"
   object_versioning_enabled = true
   access_tags               = var.access_tags
+  add_vault_name_suffix     = true
+  create_backup_vault       = true
+  backup_vault_instances    = [
+    {
+      name = "vault-s"
+      region = var.region
+      bucket_backup_policy = {
+        "retention-policy-1" = {
+          name                      = "${var.prefix}-retention-policy-1"
+          initial_delete_after_days = 1
+          type                      = "continuous"
+        }
+      }
+    },
+    {
+      name = "vault-p"
+      cos_service_instance_id = "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:a15c44f5-0aa4-475e-b77b-73518f3adc38::"
+      region = var.region
+      bucket_backup_policy = {
+      "retention-policy-2" = {
+          name                      = "retention-policy-2"
+          initial_delete_after_days = 1
+          type                      = "continuous"
+        }
+      }
+    },
+    {
+      name = "vault-m"
+      cos_service_instance_id = "crn:v1:bluemix:public:cloud-object-storage:global:a/abac0df06b644a9cabc6e44f55b3880e:a15c44f5-0aa4-475e-b77b-73518f3adc38::"
+      region = var.region
+      bucket_backup_policy = {
+      "retention-policy-3" = {
+          name                      = "retention-policy-3"
+          initial_delete_after_days = 1
+          type                      = "continuous"
+        }
+      }
+    }
+  ] 
 }
 
 ##############################################################################
@@ -41,7 +80,7 @@ module "buckets" {
       kms_encryption_enabled = false
       region_location        = var.region
       resource_instance_id   = module.cos.cos_instance_id
-      storage_class          = "onerate_active"
+      storage_class          = "smart"
     }
   ]
 }

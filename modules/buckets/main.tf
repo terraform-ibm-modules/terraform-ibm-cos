@@ -124,6 +124,9 @@ module "buckets" {
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
 
   bucket_cbr_rules = each.value.cbr_rules
+  create_backup_vault = each.value.create_backup_vault
+  add_vault_name_suffix = each.value.add_vault_name_suffix
+  backup_vault_instances = each.value.vault_instances
 }
 
 locals {
