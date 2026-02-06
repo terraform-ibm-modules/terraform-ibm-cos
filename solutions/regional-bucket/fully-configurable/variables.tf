@@ -253,6 +253,10 @@ variable "enable_object_versioning" {
   description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `enable_retention` is true."
   type        = bool
   default     = false
+  validation {
+    condition     = length(var.backup_policies) > 0 ? var.enable_object_versioning ? true : false : true
+    error_message = "'enable_object_versioning' must be true if creating backup policies using the 'backup_policies' input."
+  }
 }
 
 variable "enable_retention" {
@@ -302,6 +306,40 @@ variable "object_lock_duration_years" {
   type        = number
   default     = 0
 }
+
+variable "backup_policies" {
+  type = list(object({
+    policy_name               = string
+    target_backup_vault_crn   = string
+    initial_delete_after_days = number
+  }))
+  description = "List of backup policies to create for the bucket. Each policy requires a unique policy_name, target_backup_vault_crn, and initial_delete_after_days. Maximum of 3 policies allowed per bucket. Note: The source bucket must have object versioning enabled. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-cos/blob/main/solutions/cross-regional-bucket/fully-configurable/DA-backup_policies.md)."
+  default     = []
+  nullable    = false
+
+  validation {
+    condition     = length(var.backup_policies) <= 3
+    error_message = "A maximum of 3 backup policies can be configured per bucket."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.backup_policies : policy.initial_delete_after_days > 0
+    ])
+    error_message = "The initial_delete_after_days must be greater than 0."
+  }
+
+  validation {
+    condition     = length(var.backup_policies) == length(distinct([for policy in var.backup_policies : policy.policy_name]))
+    error_message = "Each backup policy must have a unique policy_name."
+  }
+
+  validation {
+    condition     = length(var.backup_policies) == length(distinct([for policy in var.backup_policies : policy.target_backup_vault_crn]))
+    error_message = "Each backup policy must have a unique target_backup_vault_crn."
+  }
+}
+
 variable "provider_visibility" {
   description = "Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints)."
   type        = string

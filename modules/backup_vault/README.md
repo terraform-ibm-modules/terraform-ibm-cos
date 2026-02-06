@@ -11,7 +11,7 @@ module "backup_vault" {
   version                  = "X.Y.Z" # Replace "X.Y.Z" with a release version to lock into a specific release
   name                     = "my-vault"
   existing_cos_instance_id = "crn:v1:bluemix:public:cloud-object-storage:global:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx::"
-  region                   = "us-south""
+  region                   = "us-south"
   kms_encryption_enabled   = true
   kms_key_crn              = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
 }

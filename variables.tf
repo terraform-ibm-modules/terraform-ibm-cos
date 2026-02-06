@@ -285,6 +285,10 @@ variable "object_versioning_enabled" {
   description = "Whether to enable object versioning to keep multiple versions of an object in a bucket. Can't be used with retention rule. Applies only if `create_cos_bucket` is set to `true`."
   type        = bool
   default     = false
+  validation {
+    condition     = var.create_cos_bucket == false || (length(var.backup_policies) > 0 ? var.object_versioning_enabled ? true : false : true)
+    error_message = "'object_versioning_enabled' must be true if creating backup policies using the 'backup_policies' input."
+  }
 }
 
 variable "archive_days" {
