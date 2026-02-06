@@ -1123,6 +1123,9 @@
               }
             },
             {
+              "key": "enable_activity_tracking"
+            },
+            {
               "key": "enable_platform_metrics",
               "type": "boolean",
               "default_value": false,
@@ -2165,6 +2168,9 @@
                   "valueType": "crn"
                 }
               }
+            },
+            {
+              "key": "enable_activity_tracking"
             },
             {
               "key": "enable_platform_metrics",
