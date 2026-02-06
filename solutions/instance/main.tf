@@ -2,6 +2,10 @@
 # Existing resource group
 ##############################################################################
 
+locals {
+  prefix = var.prefix != null ? trimspace(var.prefix) != "" ? "${var.prefix}-" : "" : ""
+}
+
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
   version                      = "1.4.7"
@@ -16,7 +20,7 @@ module "cos" {
   source              = "../../modules/fscloud"
   resource_group_id   = module.resource_group.resource_group_id
   create_cos_instance = true
-  cos_instance_name   = (var.prefix != null && var.prefix != "") ? "${var.prefix}-${var.instance_name}" : var.instance_name
+  cos_instance_name   = "${local.prefix}${var.instance_name}"
   resource_keys       = var.resource_keys
   cos_plan            = var.plan
   cos_tags            = var.resource_tags
@@ -91,4 +95,65 @@ module "secrets_manager_service_credentials" {
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
   secrets                     = local.service_credential_secrets
+}
+
+##############################################################################
+# Backup Vault
+##############################################################################
+
+# If enabling KMS encryption, parse KMS details
+module "kms_crn_parser" {
+  count   = local.enable_kms ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.4.1"
+  crn     = var.existing_kms_instance_crn != null ? var.existing_kms_instance_crn : var.existing_kms_key_crn
+}
+
+locals {
+  create_kms_key    = length(var.backup_vault_region_list) > 0 && var.existing_kms_instance_crn != null ? true : false
+  enable_kms        = length(var.backup_vault_region_list) > 0 && (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? true : false
+  kms_key_crn       = local.enable_kms ? local.create_kms_key ? module.kms[0].keys[format("%s.%s", local.kms_key_ring_name, local.kms_key_name)].crn : var.existing_kms_key_crn : ""
+  kms_region        = local.enable_kms ? module.kms_crn_parser[0].region : ""
+  kms_key_ring_name = "${local.prefix}${var.kms_key_ring_name}"
+  kms_key_name      = "${local.prefix}${var.kms_key_name}"
+}
+
+# Create KMS key
+module "kms" {
+  count                       = local.create_kms_key ? 1 : 0
+  source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
+  version                     = "5.5.27"
+  create_key_protect_instance = false
+  region                      = local.kms_region
+  existing_kms_instance_crn   = var.existing_kms_instance_crn
+  key_ring_endpoint_type      = var.kms_endpoint_type
+  key_endpoint_type           = var.kms_endpoint_type
+  keys = [
+    {
+      key_ring_name     = local.kms_key_ring_name
+      existing_key_ring = false
+      keys = [
+        {
+          key_name                 = local.kms_key_name
+          standard_key             = false
+          rotation_interval_month  = 3
+          dual_auth_delete_enabled = false
+          force_delete             = true # Force delete must be set to true, or the terraform destroy will fail since the service does not de-register itself from the key until the reclamation period has expired.
+        }
+      ]
+    }
+  ]
+}
+
+# Create backup vaults
+module "backup_vault" {
+  for_each                          = toset(var.backup_vault_region_list)
+  source                            = "../../modules/backup_vault"
+  name                              = "${local.prefix}${each.value}"
+  add_name_suffix                   = true
+  existing_cos_instance_id          = module.cos.cos_instance_id
+  region                            = each.value
+  kms_encryption_enabled            = local.enable_kms
+  kms_key_crn                       = local.kms_key_crn
+  skip_kms_iam_authorization_policy = var.skip_kms_iam_authorization_policy
 }

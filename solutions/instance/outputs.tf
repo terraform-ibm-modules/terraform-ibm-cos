@@ -78,3 +78,19 @@ output "next_step_secondary_url" {
 }
 
 ##############################################################################
+# Backup Vault outputs
+##############################################################################
+
+output "backup_vaults" {
+  description = "Map of backup vault metadata by region, including CRN, ID, and name for each vault instance"
+  value = {
+    for region, vault in module.backup_vault : region => {
+      crn    = vault.backup_vault_crn
+      id     = vault.backup_vault_id
+      name   = vault.backup_vault_name
+      region = region
+    }
+  }
+}
+
+##############################################################################
