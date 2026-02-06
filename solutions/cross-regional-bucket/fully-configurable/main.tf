@@ -28,11 +28,11 @@ locals {
     object_lock_duration_years    = var.object_lock_duration_years
     backup_policies               = var.backup_policies
 
-    activity_tracking = {
+    activity_tracking = var.enable_activity_tracking ? {
       read_data_events  = true
       write_data_events = true
       management_events = true
-    }
+    } : null
     archive_rule = var.archive_days != null ? {
       enable                = true
       days                  = var.archive_days

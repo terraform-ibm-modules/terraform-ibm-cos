@@ -197,6 +197,12 @@ variable "monitoring_crn" {
   default     = null
 }
 
+variable "enable_activity_tracking" {
+  type        = bool
+  description = "Set to true to enable activity tracking for the Object Storage bucket. When enabled, all read, write, and management events are sent to Activity Tracker."
+  default     = true
+}
+
 variable "enable_object_versioning" {
   description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `enable_retention` is true."
   type        = bool
