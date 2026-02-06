@@ -257,18 +257,10 @@ variable "monitoring_crn" {
   default     = null
 }
 
-variable "activity_tracking" {
-  type = object({
-    read_data_events  = optional(bool, true)
-    write_data_events = optional(bool, true)
-    management_events = optional(bool, true)
-  })
-  description = "Enables activity tracking events to be sent to Activity Tracker to provide a record of activities. Set `read_data_events`, `write_data_events`, and `management_events` to `true` to enable tracking for those event types."
-  default = {
-    read_data_events  = true
-    write_data_events = true
-    management_events = true
-  }
+variable "enable_activity_tracking" {
+  type        = bool
+  description = "Set to true to enable activity tracking for the Object Storage bucket. When enabled, all read, write, and management events are sent to Activity Tracker."
+  default     = true
 }
 
 variable "enable_object_versioning" {

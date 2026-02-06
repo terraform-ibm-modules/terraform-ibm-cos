@@ -547,17 +547,18 @@
               }
             },
             {
-              "key": "activity_tracking",
-              "custom_config": {
-                "type": "code_editor",
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "supportedLanguages": [
-                    "hcl"
-                  ]
+              "key": "enable_activity_tracking",
+              "type": "boolean",
+              "options": [
+                {
+                  "displayname": "true",
+                  "value": true
+                },
+                {
+                  "displayname": "false",
+                  "value": false
                 }
-              }
+              ]
             },
             {
               "key": "enable_platform_metrics",
@@ -1528,17 +1529,18 @@
               }
             },
             {
-              "key": "activity_tracking",
-              "custom_config": {
-                "type": "code_editor",
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "supportedLanguages": [
-                    "hcl"
-                  ]
+              "key": "enable_activity_tracking",
+              "type": "boolean",
+              "options": [
+                {
+                  "displayname": "true",
+                  "value": true
+                },
+                {
+                  "displayname": "false",
+                  "value": false
                 }
-              }
+              ]
             },
             {
               "key": "enable_platform_metrics",
