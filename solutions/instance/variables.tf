@@ -147,6 +147,70 @@ variable "provider_visibility" {
 }
 
 ##############################################################
+# Backup Vault instances
+##############################################################
+
+variable "backup_vault_region_list" {
+  description = "List of regions where a Backup Vault will be created. If empty, none will be created."
+  type        = list(string)
+  default     = []
+  nullable    = false # do not allow null as its used in a for loop
+}
+
+variable "existing_kms_instance_crn" {
+  description = "The CRN of the key management instance to create a new root key in to encrypt the data in the Backup Vault instances. Alternatively use 'existing_kms_key_crn' to use an existing key, or set both to `null` to use the default IBM Cloud encryption."
+  type        = string
+  default     = null
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      var.existing_kms_instance_crn == null,
+    ])
+    error_message = "The provided KMS instance CRN in the input 'existing_kms_instance_crn' in not valid."
+  }
+}
+
+variable "existing_kms_key_crn" {
+  description = "The CRN of the key management service root key to encrypt the data in the Backup Vault instances. Alternatively use 'existing_kms_instance_crn' to create a new key in an existing instance, or set both to `null` to use the default IBM Cloud encryption."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.existing_kms_instance_crn != null ? var.existing_kms_key_crn == null : true
+    error_message = "Pass a value for 'existing_kms_key_crn' to use an existing key, or 'existing_kms_instance_crn' to create a new key. You cannot pass a value for both."
+  }
+}
+
+variable "kms_endpoint_type" {
+  type        = string
+  description = "The endpoint for communicating with the Key Protect or Hyper Protect Crypto Services instance. Possible values: `public`, `private`. Applies only if creating a Backup Vault with your own key."
+  default     = "private"
+  validation {
+    condition     = can(regex("^(public|private)$", var.kms_endpoint_type))
+    error_message = "The kms_endpoint_type value must be 'public' or 'private'."
+  }
+}
+
+variable "kms_key_ring_name" {
+  type        = string
+  default     = "cos-backup-key-ring"
+  description = "The name for the new key ring to store the key. Applies only if passing a value for `existing_kms_key_crn` and creating a Backup Vault. If a prefix input variable is passed, it is added to the value in the `<prefix>-value` format."
+}
+
+variable "kms_key_name" {
+  type        = string
+  default     = "cos-backup-key"
+  description = "The name for the new root key. Applies only if passing a value for `existing_kms_key_crn` and creating a Backup Vault. If a prefix input variable is passed, it is added to the value in the `<prefix>-value` format."
+}
+
+variable "skip_kms_iam_authorization_policy" {
+  type        = bool
+  description = "Set to true to skip the creation of an IAM authorization policy that grants the Object Storage instance 'Reader' access to the KMS key. This policy must exist in your account for encryption to work. Applies only if creating a Backup Vault with your own key."
+  default     = false
+}
+
+##############################################################
 # Context-based restriction (CBR)
 ##############################################################
 

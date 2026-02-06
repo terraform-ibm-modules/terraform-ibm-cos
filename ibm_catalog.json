@@ -35,6 +35,10 @@
           "description": "Creates and configures an IBM Cloud Object Storage instance."
         },
         {
+          "title": "Object Storage Backup Vault",
+          "description": "Creates and configures Object Storage Backup Vaults."
+        },
+        {
           "title": "Object Storage bucket",
           "description": "Optionally creates and configures regional and cross-regional buckets."
         },
@@ -71,7 +75,15 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "cloud-object-storage",
-              "notes": "Required to create an Object Storage instance."
+              "notes": "Required to configure an Object Storage instance."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "kms",
+              "notes": "[Optional] Required if you are configuring a Key Management Service for encryption of Backup Vaults."
             }
           ],
           "architecture": {
@@ -224,6 +236,59 @@
               "key": "skip_secrets_manager_cos_iam_auth_policy"
             },
             {
+              "key": "backup_vault_region_list",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "existing_kms_instance_crn",
+              "value_constraints": [
+                {
+                  "type": "regex",
+                  "description": "The value provided for 'existing_kms_instance_crn' is not valid.",
+                  "value": "^__NULL__$|^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
+                }
+              ]
+            },
+            {
+              "key": "existing_kms_key_crn",
+              "value_constraints": [
+                {
+                  "type": "regex",
+                  "description": "The value provided for 'existing_kms_key_crn' is not valid.",
+                  "value": "^__NULL__$|^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}:key:[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+                }
+              ]
+            },
+            {
+              "key": "kms_endpoint_type",
+              "hidden": true,
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                }
+              ]
+            },
+            {
+              "key": "kms_key_name"
+            },
+            {
+              "key": "kms_key_ring_name"
+            },
+            {
+              "key": "skip_kms_iam_authorization_policy"
+            },
+            {
               "key": "cos_instance_cbr_rules",
               "custom_config": {
                 "type": "code_editor",
@@ -253,6 +318,48 @@
                   "value": "public-and-private"
                 }
               ]
+            }
+          ],
+          "dependencies": [
+            {
+              "name": "deploy-arch-ibm-kms",
+              "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
+              "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, Backup Vaults will default to IBM-managed encryption.",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "input_mapping": [
+                {
+                  "dependency_output": "kms_instance_crn",
+                  "version_input": "existing_kms_instance_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
+                }
+              ],
+              "optional": true,
+              "on_by_default": true,
+              "version": "v5.5.27"
+            },
+            {
+              "name": "deploy-arch-ibm-cloud-monitoring",
+              "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage Backup Vaults.",
+              "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
+              "version": "v1.13.3",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true
             }
           ],
           "terraform_version": "1.12.2",
@@ -641,6 +748,19 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
+              "key": "backup_policies",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
+            },
+            {
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
@@ -660,7 +780,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.7.0",
+              "version": ">= v10.12.0",
               "flavors": [
                 "instance"
               ],
@@ -714,13 +834,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.5.3"
+              "version": "v5.5.27"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.11.0",
+              "version": "v1.13.3",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1077,6 +1197,19 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
+              "key": "backup_policies",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
+            },
+            {
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
@@ -1096,7 +1229,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.7.0",
+              "version": ">= v10.12.0",
               "flavors": [
                 "instance"
               ],
@@ -1150,13 +1283,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.5.3"
+              "version": "v5.5.27"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.11.0",
+              "version": "v1.13.3",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1609,6 +1742,19 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
+              "key": "backup_policies",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
+            },
+            {
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
@@ -1628,7 +1774,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.7.0",
+              "version": ">= v10.12.0",
               "flavors": [
                 "instance"
               ],
@@ -1657,7 +1803,7 @@
               "name": "deploy-arch-ibm-kms",
               "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.5.3",
+              "version": "v5.5.27",
               "flavors": [
                 "fully-configurable"
               ],
@@ -1699,7 +1845,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your Object Storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.11.0",
+              "version": "v1.13.3",
               "flavors": [
                 "fully-configurable"
               ],
@@ -2092,6 +2238,19 @@
               "key": "skip_cos_kms_iam_auth_policy"
             },
             {
+              "key": "backup_policies",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
+              }
+            },
+            {
               "key": "cos_bucket_cbr_rules",
               "type": "array",
               "custom_config": {
@@ -2111,7 +2270,7 @@
               "name": "deploy-arch-ibm-cos",
               "description": "Creates an Object Storage instance, where a bucket is provisioned.",
               "id": "68921490-2778-4930-ac6d-bae7be6cd958-global",
-              "version": "v10.7.0",
+              "version": ">= v10.12.0",
               "flavors": [
                 "instance"
               ],
@@ -2165,13 +2324,13 @@
               ],
               "optional": true,
               "on_by_default": true,
-              "version": "v5.5.3"
+              "version": "v5.5.27"
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Enable IBM Cloud Monitoring to gain operational visibility into your cloud storage buckets. ",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.11.0",
+              "version": "v1.13.3",
               "flavors": [
                 "fully-configurable"
               ],

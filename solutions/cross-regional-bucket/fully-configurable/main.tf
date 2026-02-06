@@ -26,6 +26,7 @@ locals {
     object_locking_enabled        = var.enable_object_locking
     object_lock_duration_days     = var.object_lock_duration_days
     object_lock_duration_years    = var.object_lock_duration_years
+    backup_policies               = var.backup_policies
 
     activity_tracking = {
       read_data_events  = true
