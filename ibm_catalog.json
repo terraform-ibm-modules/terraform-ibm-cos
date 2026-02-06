@@ -547,18 +547,7 @@
               }
             },
             {
-              "key": "enable_activity_tracking",
-              "type": "boolean",
-              "options": [
-                {
-                  "displayname": "true",
-                  "value": true
-                },
-                {
-                  "displayname": "false",
-                  "value": false
-                }
-              ]
+              "key": "enable_activity_tracking"
             },
             {
               "key": "enable_platform_metrics",
@@ -1529,18 +1518,7 @@
               }
             },
             {
-              "key": "enable_activity_tracking",
-              "type": "boolean",
-              "options": [
-                {
-                  "displayname": "true",
-                  "value": true
-                },
-                {
-                  "displayname": "false",
-                  "value": false
-                }
-              ]
+              "key": "enable_activity_tracking"
             },
             {
               "key": "enable_platform_metrics",
