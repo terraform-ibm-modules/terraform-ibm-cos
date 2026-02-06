@@ -306,6 +306,8 @@ func TestRunInstancesSchematics(t *testing.T) {
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
+		{Name: "backup_vault_region_list", Value: []string{"us-south"}, DataType: "list(string)"},
+		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -362,6 +364,8 @@ func TestRunInstancesUpgradeInSchematics(t *testing.T) {
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
+		{Name: "backup_vault_region_list", Value: []string{"us"}, DataType: "list(string)"},
+		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicUpgradeTest()
