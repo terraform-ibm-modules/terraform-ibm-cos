@@ -251,7 +251,7 @@ variable "monitoring_crn" {
 
 variable "enable_activity_tracking" {
   type        = bool
-  description = "Set to true to enable activity tracking for the Object Storage bucket. When enabled, all read and write data events are sent to Activity Tracker."
+  description = "Set to true to enable activity tracking for the Object Storage bucket. When enabled, all read, write, and management events are sent to Activity Tracker."
   default     = true
 }
 
