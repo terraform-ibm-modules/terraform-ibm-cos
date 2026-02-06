@@ -91,8 +91,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupExampleOptions(t, "cos-fscloud", fsCloudTerraformDir)
-	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
-	options.TerraformVars["bucket_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
+	options.TerraformVars["hpcs_instance_crn"] = permanentResources["hpcs_south_crn"]
 	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
 
 	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
