@@ -91,8 +91,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupExampleOptions(t, "cos-fscloud", fsCloudTerraformDir)
-	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
-	options.TerraformVars["bucket_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
+	options.TerraformVars["hpcs_instance_crn"] = permanentResources["hpcs_south_crn"]
 	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
 
 	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
@@ -112,7 +111,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	logger.Log(t, fmt.Sprintf("Waiting %.f minutes for CBRs to be picked up...", delayMinutes))
 	time.Sleep(delayDuration)
 
-	expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "cos_instance_crn", "buckets", "bucket_cbr_rules", "instance_cbr_rules"}
+	expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "cos_instance_crn", "buckets", "bucket_cbr_rules", "instance_cbr_rules", "backup_vault_crn", "backup_vault_id", "backup_vault_name"}
 	_, tfOutputsErr := testhelper.ValidateTerraformOutputs(outputs, expectedOutputs...)
 	if assert.Nil(t, tfOutputsErr, tfOutputsErr) {
 		// Retrieve the API key from the environment variable
