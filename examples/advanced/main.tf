@@ -43,7 +43,8 @@ module "key_protect_all_inclusive" {
       key_ring_name = (local.key_ring_name)
       keys = [
         {
-          key_name = (local.key_name)
+          key_name     = (local.key_name)
+          force_delete = true
         }
       ]
     }
@@ -66,7 +67,6 @@ module "cos_bucket1" {
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = "public"
-  existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
   retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   resource_keys = [

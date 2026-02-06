@@ -15,7 +15,6 @@ locals {
     public_access_role            = var.public_access_role
     kms_encryption_enabled        = var.kms_encryption_enabled
     add_bucket_name_suffix        = var.add_bucket_name_suffix
-    kms_guid                      = local.existing_kms_instance_guid
     kms_key_crn                   = local.kms_key_crn
     skip_iam_authorization_policy = local.create_cross_account_auth_policy || var.skip_cos_kms_iam_auth_policy
     management_endpoint_type      = var.management_endpoint_type_for_bucket
