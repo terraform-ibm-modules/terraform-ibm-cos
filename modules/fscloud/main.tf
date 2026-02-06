@@ -63,6 +63,7 @@ locals {
       object_locking_enabled             = config.object_locking_enabled
       object_lock_duration_days          = config.object_lock_duration_days
       object_lock_duration_years         = config.object_lock_duration_years
+      backup_policies                    = config.backup_policies
     }
   ]
 }

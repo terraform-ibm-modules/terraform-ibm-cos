@@ -446,6 +446,43 @@ variable "kms_key_crn" {
   }
 }
 
+##############################################################################
+# Bucket backup policies
+##############################################################################
+
+variable "backup_policies" {
+  type = list(object({
+    policy_name               = string
+    target_backup_vault_crn   = string
+    initial_delete_after_days = number
+  }))
+  description = "List of backup policies to create for the bucket. Each policy requires a unique policy_name, target_backup_vault_crn, and initial_delete_after_days. Maximum of 3 policies allowed per bucket. Note: The source bucket must have object versioning enabled."
+  default     = []
+  nullable    = false
+
+  validation {
+    condition     = length(var.backup_policies) <= 3
+    error_message = "A maximum of 3 backup policies can be configured per bucket."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.backup_policies : policy.initial_delete_after_days > 0
+    ])
+    error_message = "The initial_delete_after_days must be greater than 0."
+  }
+
+  validation {
+    condition     = length(var.backup_policies) == length(distinct([for policy in var.backup_policies : policy.policy_name]))
+    error_message = "Each backup policy must have a unique policy_name."
+  }
+
+  validation {
+    condition     = length(var.backup_policies) == length(distinct([for policy in var.backup_policies : policy.target_backup_vault_crn]))
+    error_message = "Each backup policy must have a unique target_backup_vault_crn."
+  }
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

@@ -38,12 +38,20 @@ data "ibm_resource_instance" "cos_instance" {
   identifier = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
 }
 
+# Parse the CRN to get the account ID (above data lookup does not output account ID)
+module "cos_crn_parser" {
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.4.1"
+  crn     = local.cos_instance_crn
+}
+
 # Instance locals
 locals {
   cos_instance_id   = data.ibm_resource_instance.cos_instance.id
   cos_instance_guid = data.ibm_resource_instance.cos_instance.guid
   cos_instance_name = data.ibm_resource_instance.cos_instance.name
   cos_instance_crn  = data.ibm_resource_instance.cos_instance.crn
+  cos_account_id    = module.cos_crn_parser.account_id
 }
 
 ##############################################################################
@@ -347,6 +355,96 @@ resource "ibm_cos_bucket_object_lock_configuration" "lock_configuration" {
       }
     }
   }
+}
+
+##############################################################################
+# Bucket backup policies
+##############################################################################
+
+# Gather the details needed to create the IAM s2s auth policies required for the Vault Backup policies
+locals {
+  backup_vault_auth = [
+    for policy in var.backup_policies : {
+      "vault_account_id" : split("/", coalescelist(split(":", policy.target_backup_vault_crn))[6])[1]
+      "vault_cos_guid" : coalescelist(split(":", policy.target_backup_vault_crn))[7]
+      "vault_name" : coalescelist(split(":", policy.target_backup_vault_crn))[9]
+    }
+  ]
+}
+
+# Create an IAM authorization policy granting sync permissions from the source to the target bucket for each vault specified
+resource "ibm_iam_authorization_policy" "vault_policy" {
+  count = length(local.backup_vault_auth)
+  roles = [
+    "Backup Manager", "Writer"
+  ]
+  subject_attributes {
+    name  = "accountId"
+    value = local.cos_account_id
+  }
+  subject_attributes {
+    name  = "serviceName"
+    value = "cloud-object-storage"
+  }
+  subject_attributes {
+    name  = "serviceInstance"
+    value = local.cos_instance_guid
+  }
+  subject_attributes {
+    name  = "resource"
+    value = local.bucket_name
+  }
+  subject_attributes {
+    name  = "resourceType"
+    value = "bucket"
+  }
+  resource_attributes {
+    name     = "accountId"
+    operator = "stringEquals"
+    value    = local.backup_vault_auth[count.index]["vault_account_id"]
+  }
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = "cloud-object-storage"
+  }
+  resource_attributes {
+    name     = "serviceInstance"
+    operator = "stringEquals"
+    value    = local.backup_vault_auth[count.index]["vault_cos_guid"]
+  }
+  resource_attributes {
+    name     = "resource"
+    operator = "stringEquals"
+    value    = local.backup_vault_auth[count.index]["vault_name"]
+  }
+  resource_attributes {
+    name     = "resourceType"
+    operator = "stringEquals"
+    value    = "backup-vault"
+  }
+}
+
+# wait for auth policy to be fully synced on the backend before creating backup policy
+resource "time_sleep" "wait_for_vault_authorization_policy" {
+  depends_on = [ibm_iam_authorization_policy.vault_policy]
+  count      = length(local.backup_vault_auth) > 0 ? 1 : 0
+  # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+  create_duration = "30s"
+  # workaround for https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/672
+  destroy_duration = "30s"
+}
+
+# Create policies
+resource "ibm_cos_backup_policy" "policy" {
+  depends_on = [time_sleep.wait_for_vault_authorization_policy]
+  for_each   = var.create_cos_bucket ? { for policy in var.backup_policies : policy.policy_name => policy } : {}
+
+  bucket_crn                = local.bucket_crn
+  policy_name               = each.value.policy_name
+  target_backup_vault_crn   = each.value.target_backup_vault_crn
+  backup_type               = "continuous" # Currently only continuous is supported
+  initial_delete_after_days = each.value.initial_delete_after_days
 }
 
 ##############################################################################

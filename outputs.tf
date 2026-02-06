@@ -76,7 +76,7 @@ output "cos_instance_crn" {
 
 output "cos_account_id" {
   description = "The account ID in which the Object Storage instance is created."
-  value       = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].account_id : null
+  value       = local.cos_account_id
 }
 
 output "bucket_cbr_rules" {

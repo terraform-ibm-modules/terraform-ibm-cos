@@ -124,6 +124,8 @@ module "buckets" {
   retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
   retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
 
+  backup_policies = each.value.backup_policies
+
   bucket_cbr_rules = each.value.cbr_rules
 }
 
