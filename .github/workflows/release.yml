@@ -1,5 +1,9 @@
 name: Release-Pipeline
 
+permissions:
+  contents: write
+  issues: write
+
 # Trigger on push(merge) to main branch
 on:
   push:
