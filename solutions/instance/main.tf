@@ -8,7 +8,7 @@ locals {
 
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
-  version                      = "1.4.7"
+  version                      = "1.4.8"
   existing_resource_group_name = var.existing_resource_group_name
 }
 
@@ -36,7 +36,7 @@ module "cos" {
 module "crn_parser" {
   count   = var.existing_secrets_manager_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.4.1"
+  version = "1.4.2"
   crn     = var.existing_secrets_manager_instance_crn
 }
 locals {
@@ -90,7 +90,7 @@ module "secrets_manager_service_credentials" {
   count                       = length(local.service_credential_secrets) > 0 ? 1 : 0
   depends_on                  = [time_sleep.wait_for_cos_authorization_policy]
   source                      = "terraform-ibm-modules/secrets-manager/ibm//modules/secrets"
-  version                     = "2.13.0"
+  version                     = "2.13.6"
   existing_sm_instance_guid   = local.existing_secrets_manager_instance_guid
   existing_sm_instance_region = local.existing_secrets_manager_instance_region
   endpoint_type               = var.existing_secrets_manager_endpoint_type
@@ -105,7 +105,7 @@ module "secrets_manager_service_credentials" {
 module "kms_crn_parser" {
   count   = local.enable_kms ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.4.1"
+  version = "1.4.2"
   crn     = var.existing_kms_instance_crn != null ? var.existing_kms_instance_crn : var.existing_kms_key_crn
 }
 
@@ -122,7 +122,7 @@ locals {
 module "kms" {
   count                       = local.create_kms_key ? 1 : 0
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.5.27"
+  version                     = "5.5.31"
   create_key_protect_instance = false
   region                      = local.kms_region
   existing_kms_instance_crn   = var.existing_kms_instance_crn

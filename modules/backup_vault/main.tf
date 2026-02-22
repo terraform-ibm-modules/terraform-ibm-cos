@@ -15,7 +15,7 @@ locals {
 # Parse COS details
 module "cos_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.4.1"
+  version = "1.4.2"
   crn     = var.existing_cos_instance_id
 }
 
@@ -23,7 +23,7 @@ module "cos_crn_parser" {
 module "kms_crn_parser" {
   count   = local.create_s2s ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.4.1"
+  version = "1.4.2"
   crn     = var.kms_key_crn
 }
 

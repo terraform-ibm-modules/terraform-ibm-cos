@@ -41,7 +41,7 @@ data "ibm_resource_instance" "cos_instance" {
 # Parse the CRN to get the account ID (above data lookup does not output account ID)
 module "cos_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.4.1"
+  version = "1.4.2"
   crn     = local.cos_instance_crn
 }
 
@@ -77,7 +77,7 @@ locals {
 module "kms_crn_parser" {
   count   = local.create_access_policy_kms ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.4.1"
+  version = "1.4.2"
   crn     = var.kms_key_crn
 }
 locals {
@@ -462,7 +462,7 @@ locals {
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.13"
+  version          = "1.35.15"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
@@ -497,7 +497,7 @@ module "bucket_cbr_rule" {
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.13"
+  version          = "1.35.15"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts

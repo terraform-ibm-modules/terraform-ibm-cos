@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.4.7"
+  version = "1.4.8"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -41,7 +41,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.35.13"
+  version          = "1.35.15"
   name             = "${var.prefix}-VPC-fscloud-nz"
   zone_description = "CBR Network zone containing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -54,7 +54,7 @@ module "cbr_zone" {
 # Allow schematics, from outside VPC, to manage resources
 module "cbr_zone_schematics" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.35.13"
+  version          = "1.35.15"
   name             = "${var.prefix}-schematics-fscloud-nz"
   zone_description = "CBR Network zone containing Schematics"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -80,7 +80,7 @@ locals {
 
 module "hpcs_keys" {
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.5.27"
+  version                     = "5.5.31"
   region                      = var.region
   create_key_protect_instance = false
   existing_kms_instance_crn   = var.hpcs_instance_crn
