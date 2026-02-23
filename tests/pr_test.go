@@ -163,7 +163,7 @@ func TestRunFSCloudExample(t *testing.T) {
 				buckReq.Header.Set("ibm-service-instance-id", outputs["cos_instance_id"].(string))
 
 				client := &http.Client{}
-				resp, objErr := client.Do(buckReq)
+				resp, objErr := client.Do(buckReq) // #nosec G704 -- This is a false positive, URL derived from test outputs, not user.
 				cbrWorkingAsExpected := false
 				reason := ""
 				if resp != nil {
@@ -222,7 +222,7 @@ func getIAMBearerToken(apikey string) string {
 
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	resp, err := client.Do(req)
+	resp, err := client.Do(req) // #nosec G704 -- This is a false positive, URL derived from test outputs, not user.
 	if err != nil {
 		fmt.Println("Error sending request:", err)
 		return ""
