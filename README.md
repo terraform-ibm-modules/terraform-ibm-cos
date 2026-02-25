@@ -161,6 +161,7 @@ You need the following permissions to run this module.
 | [time_sleep.wait_for_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [time_sleep.wait_for_vault_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [ibm_iam_access_group.public_access_group](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_access_group) | data source |
+| [ibm_iam_access_tag.access_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_access_tag) | data source |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
 ### Inputs
@@ -169,7 +170,7 @@ You need the following permissions to run this module.
 |------|-------------|------|---------|:--------:|
 | <a name="input_abort_multipart_days"></a> [abort\_multipart\_days](#input\_abort\_multipart\_days) | The number of days after which incomplete multipart uploads will be aborted. If null is passed, no lifecycle configuration will be added for aborting multipart uploads. | `number` | `null` | no |
 | <a name="input_abort_multipart_filter_prefix"></a> [abort\_multipart\_filter\_prefix](#input\_abort\_multipart\_filter\_prefix) | Apply abort incomplete multipart upload rule to only objects with the following prefix. Defaults to apply to all objects. | `string` | `null` | no |
-| <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the Object Storage instance created by the module. [Learn more](https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial). | `list(string)` | `[]` | no |
+| <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the Cos instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_activity_tracker_management_events"></a> [activity\_tracker\_management\_events](#input\_activity\_tracker\_management\_events) | If set to `true`, all Object Storage management events are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
 | <a name="input_activity_tracker_read_data_events"></a> [activity\_tracker\_read\_data\_events](#input\_activity\_tracker\_read\_data\_events) | If set to `true`, all Object Storage bucket read events (i.e. downloads) are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
 | <a name="input_activity_tracker_write_data_events"></a> [activity\_tracker\_write\_data\_events](#input\_activity\_tracker\_write\_data\_events) | If set to `true`, all Object Storage bucket write events (i.e. uploads) are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
