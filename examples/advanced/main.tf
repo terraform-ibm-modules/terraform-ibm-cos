@@ -80,6 +80,7 @@ module "cos_bucket1" {
       key_name       = ibm_iam_service_id.resource_key_existing_serviceid.iam_id
       role           = "Writer"
       service_id_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
+      endpoint       = "private"
     },
     {
       name = "${var.prefix}-reader-key"
