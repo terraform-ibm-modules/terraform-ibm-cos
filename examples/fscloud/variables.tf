@@ -20,14 +20,8 @@ variable "region" {
   type        = string
 }
 
-variable "bucket_existing_hpcs_instance_guid" {
-  description = "The GUID of the Hyper Protect Crypto service in which the key specified in var.hpcs_key_crn is coming from"
-  type        = string
-}
-
-
-variable "bucket_hpcs_key_crn" {
-  description = "CRN of the Hyper Protect Crypto service to use to encrypt the data in the COS bucket"
+variable "hpcs_instance_crn" {
+  description = "CRN of the Hyper Protect Crypto service instance to use to encrypt the data in the COS bucket and vault"
   type        = string
 }
 

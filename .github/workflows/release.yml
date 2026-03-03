@@ -1,5 +1,9 @@
 name: Release-Pipeline
 
+permissions:
+  contents: write
+  issues: write
+
 # Trigger on push(merge) to main branch
 on:
   push:
@@ -8,5 +12,5 @@ on:
 
 jobs:
   call-terraform-release-pipeline:
-    uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-release.yml@v1.24.1
+    uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-release.yml@v1.24.3
     secrets: inherit

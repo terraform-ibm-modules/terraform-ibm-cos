@@ -91,8 +91,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupExampleOptions(t, "cos-fscloud", fsCloudTerraformDir)
-	options.TerraformVars["bucket_existing_hpcs_instance_guid"] = permanentResources["hpcs_south"]
-	options.TerraformVars["bucket_hpcs_key_crn"] = permanentResources["hpcs_south_root_key_crn"]
+	options.TerraformVars["hpcs_instance_crn"] = permanentResources["hpcs_south_crn"]
 	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
 
 	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
@@ -112,7 +111,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	logger.Log(t, fmt.Sprintf("Waiting %.f minutes for CBRs to be picked up...", delayMinutes))
 	time.Sleep(delayDuration)
 
-	expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "cos_instance_crn", "buckets", "bucket_cbr_rules", "instance_cbr_rules"}
+	expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "cos_instance_crn", "buckets", "bucket_cbr_rules", "instance_cbr_rules", "backup_vault_crn", "backup_vault_id", "backup_vault_name"}
 	_, tfOutputsErr := testhelper.ValidateTerraformOutputs(outputs, expectedOutputs...)
 	if assert.Nil(t, tfOutputsErr, tfOutputsErr) {
 		// Retrieve the API key from the environment variable
@@ -164,7 +163,7 @@ func TestRunFSCloudExample(t *testing.T) {
 				buckReq.Header.Set("ibm-service-instance-id", outputs["cos_instance_id"].(string))
 
 				client := &http.Client{}
-				resp, objErr := client.Do(buckReq)
+				resp, objErr := client.Do(buckReq) // #nosec G704 -- This is a false positive, URL derived from test outputs, not user.
 				cbrWorkingAsExpected := false
 				reason := ""
 				if resp != nil {
@@ -223,7 +222,7 @@ func getIAMBearerToken(apikey string) string {
 
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	resp, err := client.Do(req)
+	resp, err := client.Do(req) // #nosec G704 -- This is a false positive, URL derived from test outputs, not user.
 	if err != nil {
 		fmt.Println("Error sending request:", err)
 		return ""
@@ -272,6 +271,7 @@ func TestRunInstancesSchematics(t *testing.T) {
 			"*.tf",
 			"modules/buckets/*.tf",
 			"modules/fscloud/*.tf",
+			"modules/backup_vault/*.tf",
 			solutionInstanceDir + "/*.tf",
 		},
 		TemplateFolder:         solutionInstanceDir,
@@ -307,6 +307,8 @@ func TestRunInstancesSchematics(t *testing.T) {
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
+		{Name: "backup_vault_region_list", Value: []string{"us-south"}, DataType: "list(string)"},
+		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -327,6 +329,7 @@ func TestRunInstancesUpgradeInSchematics(t *testing.T) {
 			"*.tf",
 			"modules/buckets/*.tf",
 			"modules/fscloud/*.tf",
+			"modules/backup_vault/*.tf",
 			solutionInstanceDir + "/*.tf",
 		},
 		TemplateFolder:             solutionInstanceDir,
@@ -363,6 +366,8 @@ func TestRunInstancesUpgradeInSchematics(t *testing.T) {
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_instance_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "service_credential_secrets", Value: service_credential_secrets, DataType: "list(object{})"},
+		{Name: "backup_vault_region_list", Value: []string{"us"}, DataType: "list(string)"},
+		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicUpgradeTest()
@@ -398,6 +403,7 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
+		{Name: "add_bucket_name_suffix", Value: false, DataType: "bool"},
 	}
 
 	err := options.RunSchematicTest()

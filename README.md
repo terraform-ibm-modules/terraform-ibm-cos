@@ -6,6 +6,7 @@
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-cos?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-cos/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![Catalog release](https://img.shields.io/badge/release-IBM%20Cloud%20Catalog-3662FF?logo=ibm)](https://cloud.ibm.com/catalog/modules/terraform-ibm-cos-18cdd8f4-40c5-4fbf-9d62-1dd86a2deab3-global)
+[![Terraform Registry](https://img.shields.io/badge/terraform-registry-623CE4?logo=terraform)](https://registry.terraform.io/modules/terraform-ibm-modules/cos/ibm/latest)
 
 Use this module to provision and configure an IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
 
@@ -21,14 +22,22 @@ You can configure the following aspects of your instances:
 ## Overview
 * [terraform-ibm-cos](#terraform-ibm-cos)
 * [Submodules](./modules)
+    * [backup_vault](./modules/backup_vault)
     * [buckets](./modules/buckets)
     * [fscloud](./modules/fscloud)
     * [lifecycle_rules](./modules/lifecycle_rules)
 * [Examples](./examples)
-    * <div style="display: inline-block;"><a href="./examples/advanced">Advanced example</a></div> <div style="display: inline-block; vertical-align: middle;"><a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/advanced" target="_blank"><img src="https://cloud.ibm.com/media/docs/images/icons/Deploy_to_cloud.svg" alt="Deploy to IBM Cloud button"></a></div>
-    * <div style="display: inline-block;"><a href="./examples/basic">Basic example</a></div> <div style="display: inline-block; vertical-align: middle;"><a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/basic" target="_blank"><img src="https://cloud.ibm.com/media/docs/images/icons/Deploy_to_cloud.svg" alt="Deploy to IBM Cloud button"></a></div>
-    * <div style="display: inline-block;"><a href="./examples/fscloud">Financial Services compliant example</a></div> <div style="display: inline-block; vertical-align: middle;"><a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/fscloud" target="_blank"><img src="https://cloud.ibm.com/media/docs/images/icons/Deploy_to_cloud.svg" alt="Deploy to IBM Cloud button"></a></div>
-    * <div style="display: inline-block;"><a href="./examples/replication">Bucket replication example</a></div> <div style="display: inline-block; vertical-align: middle;"><a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-replication-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/replication" target="_blank"><img src="https://cloud.ibm.com/media/docs/images/icons/Deploy_to_cloud.svg" alt="Deploy to IBM Cloud button"></a></div>
+:information_source: Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab
+    * <a href="./examples/advanced">Advanced example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/advanced"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+    * <a href="./examples/basic">Basic example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+    * <a href="./examples/fscloud">Financial Services compliant example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/fscloud"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+    * <a href="./examples/replication">Bucket replication example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-replication-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/replication"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+* [Deployable Architectures](./solutions)
+    * <a href="./solutions/cross-regional-bucket/fully-configurable">Cloud automation for Cross Regional Bucket (Fully configurable)</a>
+    * <a href="./solutions/cross-regional-bucket/security-enforced">Cloud automation for Cross Regional Bucket (Security enforced)</a>
+    * <a href="./solutions/instance">Cloud automation for Object Storage - Single instance (Fully configurable)</a>
+    * <a href="./solutions/regional-bucket/fully-configurable">Cloud automation for Regional Bucket (Fully configurable)</a>
+    * <a href="./solutions/regional-bucket/security-enforced">Cloud automation for Regional Bucket (Security enforced)</a>
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
@@ -52,7 +61,6 @@ module "cos_module" {
   region                     = "us-south"
   cos_instance_name          = "my-cos-instance"
   bucket_name                = "my-cos-bucket"
-  existing_kms_instance_guid = "xxxxxxxx-XXXX-XXXX-XXXX-xxxxxxxx"
   kms_key_crn                = "crn:v1:bluemix:public:kms:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxxxxx-XXXX-XXXX-XXXX-xxxxxx:key:xxxxxx-XXXX-XXXX-XXXX-xxxxxx"
 }
 
@@ -122,7 +130,7 @@ You need the following permissions to run this module.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.79.2, < 2.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.80.0, < 2.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
 
@@ -130,25 +138,30 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.9 |
-| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.9 |
+| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.17 |
+| <a name="module_cos_crn_parser"></a> [cos\_crn\_parser](#module\_cos\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.4.2 |
+| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.17 |
+| <a name="module_kms_crn_parser"></a> [kms\_crn\_parser](#module\_kms\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.4.2 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
+| [ibm_cos_backup_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_backup_policy) | resource |
 | [ibm_cos_bucket.cos_bucket](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
-| [ibm_cos_bucket.cos_bucket1](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket) | resource |
 | [ibm_cos_bucket_lifecycle_configuration.cos_bucket_lifecycle](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_lifecycle_configuration) | resource |
 | [ibm_cos_bucket_object_lock_configuration.lock_configuration](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_object_lock_configuration) | resource |
 | [ibm_iam_access_group_policy.access_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_access_group_policy) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
+| [ibm_iam_authorization_policy.vault_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_keys](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 | [ibm_resource_tag.cos_access_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
 | [random_string.bucket_name_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [time_sleep.wait_for_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [time_sleep.wait_for_vault_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [ibm_iam_access_group.public_access_group](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_access_group) | data source |
+| [ibm_resource_instance.cos_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
 ### Inputs
 
@@ -165,6 +178,7 @@ You need the following permissions to run this module.
 | <a name="input_archive_days"></a> [archive\_days](#input\_archive\_days) | The number of days before the `archive_type` rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. Set to `null` if you specify a bucket location in `cross_region_location` because archive data is not supported with cross-region buckets. If null is passed, no lifecycle configuration will be added for bucket archival. | `number` | `null` | no |
 | <a name="input_archive_filter_prefix"></a> [archive\_filter\_prefix](#input\_archive\_filter\_prefix) | Apply archive lifecycle rule to only objects with the following prefix. Applies to all objects by default. | `string` | `null` | no |
 | <a name="input_archive_type"></a> [archive\_type](#input\_archive\_type) | The storage class or archive type to which you want the object to transition. Possible values are `Glacier` or `Accelerated`. Applies only if `create_cos_bucket` is set to `true`. | `string` | `"Glacier"` | no |
+| <a name="input_backup_policies"></a> [backup\_policies](#input\_backup\_policies) | List of backup policies to create for the bucket. Each policy requires a unique policy\_name, target\_backup\_vault\_crn, and initial\_delete\_after\_days. Maximum of 3 policies allowed per bucket. Note: The source bucket must have object versioning enabled. | <pre>list(object({<br/>    policy_name               = string<br/>    target_backup_vault_crn   = string<br/>    initial_delete_after_days = number<br/>  }))</pre> | `[]` | no |
 | <a name="input_bucket_cbr_rules"></a> [bucket\_cbr\_rules](#input\_bucket\_cbr\_rules) | The list of context-based restriction rules to create for the bucket. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    operations = optional(list(object({<br/>      api_types = list(object({<br/>        api_type_id = string<br/>      }))<br/>    })))<br/>  }))</pre> | `[]` | no |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name for the Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`. | `string` | `null` | no |
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | The storage class of the bucket. Applies only if `create_cos_bucket` is set to `true`. Possible values are `standard`, `vault`, `cold`, `smart`, or `onerate_active`. | `string` | `"standard"` | no |
@@ -175,7 +189,6 @@ You need the following permissions to run this module.
 | <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Whether to create an IBM Cloud Object Storage instance. | `bool` | `true` | no |
 | <a name="input_cross_region_location"></a> [cross\_region\_location](#input\_cross\_region\_location) | Specify the cross-region bucket location. Possible values are `us`, `eu`, or `ap`. If specified, set `region` and `single_site_location` to `null`. | `string` | `null` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | The ID of an existing Object Storage instance. Required if `create_cos_instance` is set to `false`. | `string` | `null` | no |
-| <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Key Protect or Hyper Protect Crypto Services instance that holds the key specified in `kms_key_crn`. Required if `skip_iam_authorization_policy` is set to `false`. | `string` | `null` | no |
 | <a name="input_expire_days"></a> [expire\_days](#input\_expire\_days) | The number of days before the expire rule action takes effect. Applies only if `create_cos_bucket` is set to `true`. If null is passed, no lifecycle configuration will be added for bucket expiration. | `number` | `null` | no |
 | <a name="input_expire_filter_prefix"></a> [expire\_filter\_prefix](#input\_expire\_filter\_prefix) | Apply expire lifecycle rule to only objects with the following prefix. Applies to all objects by default. | `string` | `null` | no |
 | <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | Whether to delete all the objects in the Object Storage bucket before the bucket is deleted. | `bool` | `true` | no |
@@ -201,7 +214,7 @@ You need the following permissions to run this module.
 | <a name="input_retention_minimum"></a> [retention\_minimum](#input\_retention\_minimum) | The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. | `number` | `90` | no |
 | <a name="input_retention_permanent"></a> [retention\_permanent](#input\_retention\_permanent) | Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`. | `bool` | `false` | no |
 | <a name="input_single_site_location"></a> [single\_site\_location](#input\_single\_site\_location) | The single site bucket location. If specified, set the value of `region` and `cross_region_location` to `null`. | `string` | `null` | no |
-| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Whether to create an IAM authorization policy that permits the Object Storage instance to read the encryption key from the key management service instance. An authorization policy must exist before an encrypted bucket can be created. Set to `true` to avoid creating the policy. If set to `false`, specify a value for the key management service instance in `existing_kms_guid`. | `bool` | `false` | no |
+| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true the skip the creation of an IAM authorization policy that grants the Object Storage instance 'Reader' access to the specified KMS key. This policies must exist in your account for encryption to work. Ignored if 'kms\_encryption\_enabled' is false. | `bool` | `false` | no |
 | <a name="input_usage_metrics_enabled"></a> [usage\_metrics\_enabled](#input\_usage\_metrics\_enabled) | If set to `true`, all Object Storage bucket usage metrics are sent to Cloud Monitoring. | `bool` | `true` | no |
 
 ### Outputs

@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.4.7"
+  version = "1.4.8"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -27,13 +27,14 @@ resource "ibm_iam_service_id" "resource_key_existing_serviceid" {
 ##############################################################################
 
 locals {
-  key_ring_name = "cos-key-ring"
-  key_name      = "cos-key"
+  key_ring_name   = "cos-key-ring"
+  bucket_key_name = "bucket-key"
+  vault_key_name  = "vault-key"
 }
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.5.21"
+  version                   = "5.5.32"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
@@ -43,7 +44,12 @@ module "key_protect_all_inclusive" {
       key_ring_name = (local.key_ring_name)
       keys = [
         {
-          key_name = (local.key_name)
+          key_name     = (local.bucket_key_name)
+          force_delete = true
+        },
+        {
+          key_name     = (local.vault_key_name)
+          force_delete = true
         }
       ]
     }
@@ -66,8 +72,7 @@ module "cos_bucket1" {
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = "public"
-  existing_kms_instance_guid          = module.key_protect_all_inclusive.kms_guid
-  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
   retention_default                   = null
   retention_maximum                   = null
   retention_minimum                   = null
@@ -102,6 +107,19 @@ module "cos_bucket1" {
 }
 
 ##############################################################################
+# Create backup vault in the COS instance
+##############################################################################
+
+module "backup_vault" {
+  source                   = "../../modules/backup_vault"
+  name                     = "${var.prefix}-vault"
+  existing_cos_instance_id = module.cos_bucket1.cos_instance_id
+  region                   = var.region
+  kms_encryption_enabled   = true
+  kms_key_crn              = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.vault_key_name}"].crn
+}
+
+##############################################################################
 # Create COS bucket-2 (in the COS instance created above) with:
 # - Cross Region Location
 # - Encryption
@@ -123,7 +141,15 @@ module "cos_bucket2" {
   retention_maximum                   = null
   retention_minimum                   = null
   retention_permanent                 = null
-  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
+  kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
+  object_versioning_enabled           = true
+
+  # To create a backup policy, uncomment the below code and update to your requirements.
+  # Be aware that terraform destroy will fail on the backup vault once a policy exists and will only work after all buckets using the vault have been destroyed and the initial_delete_after_days has been met.
+
+  # backup_policies = [{ policy_name = "backup-policy",
+  #   target_backup_vault_crn = module.backup_vault.backup_vault_crn
+  # initial_delete_after_days = 1 }]
 }
 
 ##############################################################################

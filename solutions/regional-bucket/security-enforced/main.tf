@@ -30,6 +30,7 @@ module "regional_bucket" {
   noncurrent_version_expiration_days          = var.noncurrent_version_expiration_days
   abort_multipart_days                        = var.abort_multipart_days
   monitoring_crn                              = var.monitoring_crn
+  enable_activity_tracking                    = var.enable_activity_tracking
   enable_object_versioning                    = var.enable_object_versioning
   default_retention_days                      = var.default_retention_days
   maximum_retention_days                      = var.maximum_retention_days
