@@ -204,66 +204,6 @@ resource "ibm_cos_bucket" "cos_bucket" {
   }
 }
 
-# Create COS bucket with:
-# - Retention
-# - Monitoring
-# - Activity Tracking
-# - Versioning
-# Create COS bucket without:
-# - Encryption
-
-resource "ibm_cos_bucket" "cos_bucket1" {
-  count                 = (!var.kms_encryption_enabled && var.create_cos_bucket) ? 1 : 0
-  bucket_name           = var.add_bucket_name_suffix ? "${var.bucket_name}-${local.random_bucket_name_suffix}" : var.bucket_name
-  depends_on            = [time_sleep.wait_for_authorization_policy]
-  resource_instance_id  = local.cos_instance_id
-  region_location       = var.region
-  cross_region_location = var.cross_region_location
-  single_site_location  = var.single_site_location
-  endpoint_type         = var.management_endpoint_type_for_bucket
-  storage_class         = var.bucket_storage_class
-  hard_quota            = var.hard_quota
-  force_delete          = var.force_delete
-  object_lock           = var.object_locking_enabled ? true : null
-  ## This for_each block is NOT a loop to attach to multiple retention blocks.
-  ## This block is only used to conditionally add retention block depending on retention is enabled.
-  dynamic "retention_rule" {
-    for_each = local.retention_flag
-    content {
-      default   = var.retention_default
-      maximum   = var.retention_maximum
-      minimum   = var.retention_minimum
-      permanent = var.retention_permanent
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Activity Tracker instances.
-  ## This block is only used to conditionally attach activity tracker depending on AT CRN is provided.
-  dynamic "activity_tracking" {
-    for_each = local.at_enabled
-    content {
-      read_data_events  = var.activity_tracker_read_data_events
-      write_data_events = var.activity_tracker_write_data_events
-      management_events = var.activity_tracker_management_events
-    }
-  }
-  ## This for_each block is NOT a loop to attach to multiple Sysdig instances.
-  ## This block is only used to conditionally attach monitoring depending on Sydig CRN is provided.
-  dynamic "metrics_monitoring" {
-    for_each = local.metrics_enabled
-    content {
-      usage_metrics_enabled   = var.usage_metrics_enabled
-      request_metrics_enabled = var.request_metrics_enabled
-      metrics_monitoring_crn  = var.monitoring_crn
-    }
-  }
-  dynamic "object_versioning" {
-    for_each = local.object_versioning_enabled
-    content {
-      enable = var.object_versioning_enabled
-    }
-  }
-}
-
 locals {
   create_access_policy = var.create_cos_bucket && var.allow_public_access_to_bucket ? 1 : 0
 }
