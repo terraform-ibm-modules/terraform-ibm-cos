@@ -161,10 +161,12 @@ resource "ibm_cos_bucket" "cos_bucket" {
   single_site_location  = var.single_site_location
   endpoint_type         = var.management_endpoint_type_for_bucket
   storage_class         = var.bucket_storage_class
-  key_protect           = var.kms_key_crn
-  hard_quota            = var.hard_quota
-  force_delete          = var.force_delete
-  object_lock           = var.object_locking_enabled ? true : null
+  # NOTE: The provider changed this input from key_protect -> kms_key_crn however we cannot change here as it will be a breaking change.
+  # The provider will continue to support key_protect to prevent existing consumers from breaking.
+  key_protect  = var.kms_encryption_enabled ? var.kms_key_crn : null
+  hard_quota   = var.hard_quota
+  force_delete = var.force_delete
+  object_lock  = var.object_locking_enabled ? true : null
   ## This for_each block is NOT a loop to attach to multiple retention blocks.
   ## This block is only used to conditionally add retention block depending on retention is enabled.
   dynamic "retention_rule" {
