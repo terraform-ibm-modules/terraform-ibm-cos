@@ -24,7 +24,10 @@ module "cos_source_bucket" {
   access_tags                        = var.access_tags
   object_versioning_enabled          = true
   kms_encryption_enabled             = false
-  retention_enabled                  = false
+  retention_default                  = null
+  retention_maximum                  = null
+  retention_minimum                  = null
+  retention_permanent                = null
   expire_days                        = 365
   archive_days                       = 90
   noncurrent_version_expiration_days = 30
@@ -45,7 +48,10 @@ module "cos_target_bucket" {
   access_tags                        = var.access_tags
   object_versioning_enabled          = true
   kms_encryption_enabled             = false
-  retention_enabled                  = false
+  retention_default                  = null
+  retention_maximum                  = null
+  retention_minimum                  = null
+  retention_permanent                = null
   expire_days                        = 365
   archive_days                       = 90
   noncurrent_version_expiration_days = 30

@@ -2,7 +2,7 @@
 # COS instance configuration
 ##############################################################################
 
-# Instance creation
+# Resource to create COS instance if create_cos_instance is true
 resource "ibm_resource_instance" "cos_instance" {
   count             = var.create_cos_instance ? 1 : 0
   name              = var.cos_instance_name
@@ -145,6 +145,10 @@ resource "random_string" "bucket_name_suffix" {
 
 locals {
   random_bucket_name_suffix = var.add_bucket_name_suffix && var.create_cos_bucket ? random_string.bucket_name_suffix[0].result : null
+  retention_flag = (
+    var.retention_default != null || var.retention_maximum != null ||
+    var.retention_minimum != null || var.retention_permanent != null
+  ) ? [1] : []
 }
 
 resource "ibm_cos_bucket" "cos_bucket" {
