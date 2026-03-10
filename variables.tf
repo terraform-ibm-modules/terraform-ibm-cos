@@ -222,9 +222,15 @@ variable "retention_maximum" {
   description = "The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention."
   type        = number
   default     = null
+
   validation {
     condition     = (var.retention_maximum == null ? true : (var.retention_maximum >= 0 && var.retention_maximum <= 365243))
     error_message = "The specified duration for retention maximum period is not a valid selection!"
+  }
+
+  validation {
+    condition     = (var.retention_default == null && var.retention_maximum == null && var.retention_minimum == null && var.retention_permanent == null) || (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null)
+    error_message = "All retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be set together or all must be null."
   }
 }
 
