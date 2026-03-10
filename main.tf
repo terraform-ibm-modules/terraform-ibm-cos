@@ -2,7 +2,7 @@
 # COS instance configuration
 ##############################################################################
 
-# Resource to create COS instance if create_cos_instance is true
+# Instance creation
 resource "ibm_resource_instance" "cos_instance" {
   count             = var.create_cos_instance ? 1 : 0
   name              = var.cos_instance_name
