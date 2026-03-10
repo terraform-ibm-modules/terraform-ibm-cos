@@ -73,7 +73,6 @@ module "cos_bucket1" {
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = "public"
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
@@ -133,8 +132,7 @@ module "cos_bucket2" {
   archive_days                        = null
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
-  skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  skip_iam_authorization_policy       = true # Required since cos_bucket1 creates the IAM authorization policy
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
   object_versioning_enabled           = true
 
@@ -167,5 +165,4 @@ module "cos_bucket3" {
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
 }
