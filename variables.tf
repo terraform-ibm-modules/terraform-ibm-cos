@@ -209,17 +209,17 @@ variable "management_endpoint_type_for_bucket" {
 # https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
 
 variable "retention_default" {
-  description = "The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention."
+  description = "The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = number
   default     = null
   validation {
     condition     = var.retention_default == null ? true : (var.retention_default >= 0 && var.retention_default <= 365243)
-    error_message = "The specified duration for retention maximum period is not a valid selection!"
+    error_message = "The specified duration for retention default period is not a valid selection!"
   }
 }
 
 variable "retention_maximum" {
-  description = "The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention."
+  description = "The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = number
   default     = null
 
@@ -227,15 +227,10 @@ variable "retention_maximum" {
     condition     = (var.retention_maximum == null ? true : (var.retention_maximum >= 0 && var.retention_maximum <= 365243))
     error_message = "The specified duration for retention maximum period is not a valid selection!"
   }
-
-  validation {
-    condition     = (var.retention_default == null && var.retention_maximum == null && var.retention_minimum == null && var.retention_permanent == null) || (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null)
-    error_message = "All retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be set together or all must be null."
-  }
 }
 
 variable "retention_minimum" {
-  description = "The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention."
+  description = "The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = number
   default     = null
   validation {
@@ -245,7 +240,7 @@ variable "retention_minimum" {
 }
 
 variable "retention_permanent" {
-  description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention."
+  description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = bool
   default     = null
 }
