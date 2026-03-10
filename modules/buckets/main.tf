@@ -118,10 +118,10 @@ module "buckets" {
 
   object_versioning_enabled = can(each.value.object_versioning.enable) ? each.value.object_versioning.enable : false
 
-  retention_default   = can(each.value.retention_rule.default) ? each.value.retention_rule.default : 90
-  retention_maximum   = can(each.value.retention_rule.maximum) ? each.value.retention_rule.maximum : 350
-  retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : 90
-  retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : false
+  retention_default   = can(each.value.retention_rule.default) ? each.value.retention_rule.default : null
+  retention_maximum   = can(each.value.retention_rule.maximum) ? each.value.retention_rule.maximum : null
+  retention_minimum   = can(each.value.retention_rule.minimum) ? each.value.retention_rule.minimum : null
+  retention_permanent = can(each.value.retention_rule.permanent) ? each.value.retention_rule.permanent : null
 
   backup_policies = each.value.backup_policies
 

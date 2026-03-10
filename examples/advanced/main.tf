@@ -73,10 +73,6 @@ module "cos_bucket1" {
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = "public"
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
-  retention_default                   = null
-  retention_maximum                   = null
-  retention_minimum                   = null
-  retention_permanent                 = null
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
