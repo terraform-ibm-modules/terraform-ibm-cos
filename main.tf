@@ -14,7 +14,13 @@ resource "ibm_resource_instance" "cos_instance" {
 }
 
 # Instance access tags
+data "ibm_iam_access_tag" "access_tag" {
+  for_each = length(var.access_tags) != 0 ? toset(var.access_tags) : []
+  name     = each.value
+}
+
 resource "ibm_resource_tag" "cos_access_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tag]
   count       = !var.create_cos_instance || length(var.access_tags) == 0 ? 0 : 1
   resource_id = ibm_resource_instance.cos_instance[0].crn
   tags        = var.access_tags
