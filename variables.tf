@@ -35,6 +35,7 @@ variable "resource_keys" {
     generate_hmac_credentials = optional(bool, false)
     role                      = optional(string, "Reader")
     service_id_crn            = optional(string, null)
+    endpoint                  = optional(string, "private")
   }))
   default = []
   validation {
@@ -45,6 +46,12 @@ variable "resource_keys" {
       for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Content Reader", "Object Reader", "Object Writer", "NONE"], key.role)
     ])
     error_message = "`resource_keys` role must be one of the following: `Writer', `Reader`, `Manager`, `Content Reader`, `Object Reader`, `Object Writer`, or `NONE`. Reference https://cloud.ibm.com/iam/roles and `Object Storage`"
+  }
+  validation {
+    condition = alltrue([
+      for key in var.resource_keys : contains(["public", "private"], key.endpoint)
+    ])
+    error_message = "`resource_keys` endpoint must be one of: `public` or `private`."
   }
 }
 
