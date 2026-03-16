@@ -21,26 +21,48 @@ You can configure the following aspects of your instances:
 
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-
-* [terraform-ibm-cos](#terraform-ibm-cos)
-- [Submodules](./modules)
-  - [backup_vault](./modules/backup_vault)
-  - [buckets](./modules/buckets)
-  - [fscloud](./modules/fscloud)
-  - [lifecycle_rules](./modules/lifecycle_rules)
-- [Examples](./examples)
-:information_source: Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab
-  - <a href="./examples/advanced">Advanced example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/advanced"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-  - <a href="./examples/basic">Basic example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-  - <a href="./examples/fscloud">Financial Services compliant example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/fscloud"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-  - <a href="./examples/replication">Bucket replication example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-replication-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/replication"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-- [Deployable Architectures](./solutions)
-  - <a href="./solutions/cross-regional-bucket/fully-configurable">Cloud automation for Cross Regional Bucket (Fully configurable)</a>
-  - <a href="./solutions/cross-regional-bucket/security-enforced">Cloud automation for Cross Regional Bucket (Security enforced)</a>
-  - <a href="./solutions/instance">Cloud automation for Object Storage - Single instance (Fully configurable)</a>
-  - <a href="./solutions/regional-bucket/fully-configurable">Cloud automation for Regional Bucket (Fully configurable)</a>
-  - <a href="./solutions/regional-bucket/security-enforced">Cloud automation for Regional Bucket (Security enforced)</a>
-- [Contributing](#contributing)
+<ul>
+  <li><a href="#terraform-ibm-cos">terraform-ibm-cos</a></li>
+  <li><a href="./modules">Submodules</a>
+    <ul>
+      <li><a href="./modules/backup_vault">backup_vault</a></li>
+      <li><a href="./modules/buckets">buckets</a></li>
+      <li><a href="./modules/fscloud">fscloud</a></li>
+      <li><a href="./modules/lifecycle_rules">lifecycle_rules</a></li>
+    </ul>
+  </li>
+  <li><a href="./examples">Examples</a>
+    <ul>
+      <li>
+        <a href="./examples/advanced">Advanced example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/advanced"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/basic">Basic example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/fscloud">Financial Services compliant example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/fscloud"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/replication">Bucket replication example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-replication-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/replication"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+    </ul>
+    ℹ️ Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab.
+  </li>
+  <li><a href="./solutions">Deployable Architectures</a>
+    <ul>
+      <li><a href="./solutions/cross-regional-bucket/fully-configurable">Cloud automation for Cross Regional Bucket (Fully configurable)</a></li>
+      <li><a href="./solutions/cross-regional-bucket/security-enforced">Cloud automation for Cross Regional Bucket (Security enforced)</a></li>
+      <li><a href="./solutions/instance">Cloud automation for Object Storage - Single instance (Fully configurable)</a></li>
+      <li><a href="./solutions/regional-bucket/fully-configurable">Cloud automation for Regional Bucket (Fully configurable)</a></li>
+      <li><a href="./solutions/regional-bucket/security-enforced">Cloud automation for Regional Bucket (Security enforced)</a></li>
+    </ul>
+  </li>
+  <li><a href="#contributing">Contributing</a></li>
+</ul>
 <!-- END OVERVIEW HOOK -->
 
 ## terraform-ibm-cos
