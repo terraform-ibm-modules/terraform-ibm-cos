@@ -216,6 +216,10 @@ variable "retention_default" {
     condition     = var.retention_default == null ? true : (var.retention_default >= 0 && var.retention_default <= 365243)
     error_message = "The specified duration for retention default period is not a valid selection!"
   }
+  validation {
+    condition     = (var.retention_default == null && var.retention_maximum == null && var.retention_minimum == null && var.retention_permanent == null) || (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null)
+    error_message = "All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together, or all must be null."
+  }
 }
 
 variable "retention_maximum" {
@@ -227,6 +231,10 @@ variable "retention_maximum" {
     condition     = (var.retention_maximum == null ? true : (var.retention_maximum >= 0 && var.retention_maximum <= 365243))
     error_message = "The specified duration for retention maximum period is not a valid selection!"
   }
+  validation {
+    condition     = (var.retention_default == null && var.retention_maximum == null && var.retention_minimum == null && var.retention_permanent == null) || (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null)
+    error_message = "All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together, or all must be null."
+  }
 }
 
 variable "retention_minimum" {
@@ -237,12 +245,20 @@ variable "retention_minimum" {
     condition     = var.retention_minimum == null ? true : (var.retention_minimum >= 0 && var.retention_minimum <= 365243)
     error_message = "The specified duration for retention minimum period is not a valid selection!"
   }
+  validation {
+    condition     = (var.retention_default == null && var.retention_maximum == null && var.retention_minimum == null && var.retention_permanent == null) || (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null)
+    error_message = "All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together, or all must be null."
+  }
 }
 
 variable "retention_permanent" {
   description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = bool
   default     = null
+  validation {
+    condition     = (var.retention_default == null && var.retention_maximum == null && var.retention_minimum == null && var.retention_permanent == null) || (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null)
+    error_message = "All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together, or all must be null."
+  }
 }
 
 variable "object_locking_enabled" {

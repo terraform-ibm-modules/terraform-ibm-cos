@@ -103,4 +103,15 @@ variable "bucket_configs" {
     error_message = "Duplicate authentication policy found in the bucket configuration."
   }
 
+  validation {
+    condition = alltrue([
+      for config in var.bucket_configs :
+      can(config.retention_rule) ? (
+        (can(config.retention_rule.default) && can(config.retention_rule.maximum) && can(config.retention_rule.minimum) && can(config.retention_rule.permanent)) ||
+        (!can(config.retention_rule.default) && !can(config.retention_rule.maximum) && !can(config.retention_rule.minimum) && !can(config.retention_rule.permanent))
+      ) : true
+    ])
+    error_message = "If retention_rule is specified, all four fields (default, maximum, minimum, permanent) must be provided together, or none should be provided."
+  }
+
 }
