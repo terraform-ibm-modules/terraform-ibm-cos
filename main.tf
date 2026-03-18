@@ -67,7 +67,7 @@ locals {
   expire_enabled                        = var.expire_days == null ? [] : [1]
   noncurrent_version_expiration_enabled = var.noncurrent_version_expiration_days == null ? [] : [1]
   abort_multipart_enabled               = var.abort_multipart_days == null ? [] : [1]
-  retention_enabled                     = var.retention_enabled ? [1] : []
+  retention_enabled                     = (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null) ? [1] : []
   object_lock_duration_days             = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years            = var.object_lock_duration_years > 0 ? [1] : []
   object_versioning_enabled             = var.object_versioning_enabled ? [1] : []

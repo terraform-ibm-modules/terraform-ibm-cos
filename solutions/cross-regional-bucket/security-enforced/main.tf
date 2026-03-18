@@ -32,7 +32,6 @@ module "cross_regional_bucket" {
   monitoring_crn                              = var.monitoring_crn
   enable_activity_tracking                    = var.enable_activity_tracking
   enable_object_versioning                    = var.enable_object_versioning
-  enable_retention                            = var.enable_retention
   default_retention_days                      = var.default_retention_days
   maximum_retention_days                      = var.maximum_retention_days
   minimum_retention_days                      = var.minimum_retention_days
