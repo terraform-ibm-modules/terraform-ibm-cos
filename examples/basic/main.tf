@@ -19,7 +19,7 @@ module "cos" {
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
   cos_instance_name         = "${var.prefix}-cos"
-  cos_tags                  = var.resource_tags
+  resource_tags             = var.resource_tags
   bucket_name               = "${var.prefix}-bucket"
   retention_enabled         = false # disable retention for test environments - enable for stage/prod
   kms_encryption_enabled    = false

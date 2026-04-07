@@ -20,25 +20,48 @@ You can configure the following aspects of your instances:
 
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-* [terraform-ibm-cos](#terraform-ibm-cos)
-* [Submodules](./modules)
-    * [backup_vault](./modules/backup_vault)
-    * [buckets](./modules/buckets)
-    * [fscloud](./modules/fscloud)
-    * [lifecycle_rules](./modules/lifecycle_rules)
-* [Examples](./examples)
-:information_source: Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab
-    * <a href="./examples/advanced">Advanced example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/advanced"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-    * <a href="./examples/basic">Basic example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-    * <a href="./examples/fscloud">Financial Services compliant example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/fscloud"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-    * <a href="./examples/replication">Bucket replication example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-replication-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/replication"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-* [Deployable Architectures](./solutions)
-    * <a href="./solutions/cross-regional-bucket/fully-configurable">Cloud automation for Cross Regional Bucket (Fully configurable)</a>
-    * <a href="./solutions/cross-regional-bucket/security-enforced">Cloud automation for Cross Regional Bucket (Security enforced)</a>
-    * <a href="./solutions/instance">Cloud automation for Object Storage - Single instance (Fully configurable)</a>
-    * <a href="./solutions/regional-bucket/fully-configurable">Cloud automation for Regional Bucket (Fully configurable)</a>
-    * <a href="./solutions/regional-bucket/security-enforced">Cloud automation for Regional Bucket (Security enforced)</a>
-* [Contributing](#contributing)
+<ul>
+  <li><a href="#terraform-ibm-cos">terraform-ibm-cos</a></li>
+  <li><a href="./modules">Submodules</a>
+    <ul>
+      <li><a href="./modules/backup_vault">backup_vault</a></li>
+      <li><a href="./modules/buckets">buckets</a></li>
+      <li><a href="./modules/fscloud">fscloud</a></li>
+      <li><a href="./modules/lifecycle_rules">lifecycle_rules</a></li>
+    </ul>
+  </li>
+  <li><a href="./examples">Examples</a>
+    <ul>
+      <li>
+        <a href="./examples/advanced">Advanced example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/advanced"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/basic">Basic example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/fscloud">Financial Services compliant example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/fscloud"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/replication">Bucket replication example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=cos-replication-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/replication"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+    </ul>
+    ℹ️ Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab.
+  </li>
+  <li><a href="./solutions">Deployable Architectures</a>
+    <ul>
+      <li><a href="./solutions/cross-regional-bucket/fully-configurable">Cloud automation for Cross Regional Bucket (Fully configurable)</a></li>
+      <li><a href="./solutions/cross-regional-bucket/security-enforced">Cloud automation for Cross Regional Bucket (Security enforced)</a></li>
+      <li><a href="./solutions/instance">Cloud automation for Object Storage - Single instance (Fully configurable)</a></li>
+      <li><a href="./solutions/regional-bucket/fully-configurable">Cloud automation for Regional Bucket (Fully configurable)</a></li>
+      <li><a href="./solutions/regional-bucket/security-enforced">Cloud automation for Regional Bucket (Security enforced)</a></li>
+    </ul>
+  </li>
+  <li><a href="#contributing">Contributing</a></li>
+</ul>
 <!-- END OVERVIEW HOOK -->
 
 ## terraform-ibm-cos
@@ -170,7 +193,7 @@ You need the following permissions to run this module.
 |------|-------------|------|---------|:--------:|
 | <a name="input_abort_multipart_days"></a> [abort\_multipart\_days](#input\_abort\_multipart\_days) | The number of days after which incomplete multipart uploads will be aborted. If null is passed, no lifecycle configuration will be added for aborting multipart uploads. | `number` | `null` | no |
 | <a name="input_abort_multipart_filter_prefix"></a> [abort\_multipart\_filter\_prefix](#input\_abort\_multipart\_filter\_prefix) | Apply abort incomplete multipart upload rule to only objects with the following prefix. Defaults to apply to all objects. | `string` | `null` | no |
-| <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the Cos instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
+| <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the COS instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_activity_tracker_management_events"></a> [activity\_tracker\_management\_events](#input\_activity\_tracker\_management\_events) | If set to `true`, all Object Storage management events are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
 | <a name="input_activity_tracker_read_data_events"></a> [activity\_tracker\_read\_data\_events](#input\_activity\_tracker\_read\_data\_events) | If set to `true`, all Object Storage bucket read events (i.e. downloads) are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
 | <a name="input_activity_tracker_write_data_events"></a> [activity\_tracker\_write\_data\_events](#input\_activity\_tracker\_write\_data\_events) | If set to `true`, all Object Storage bucket write events (i.e. uploads) are sent to Activity Tracker Event Routing. | `bool` | `true` | no |
@@ -185,7 +208,6 @@ You need the following permissions to run this module.
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | The storage class of the bucket. Applies only if `create_cos_bucket` is set to `true`. Possible values are `standard`, `vault`, `cold`, `smart`, or `onerate_active`. | `string` | `"standard"` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name for the IBM Cloud Object Storage instance provisioned by this module. Required if `create_cos_instance` is set to `true`. | `string` | `null` | no |
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | The plan to use when Object Storage instances are created. Possible values are `standard` or `cos-one-rate-plan`. Required if `create_cos_instance` is set to `true`. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision). | `string` | `"standard"` | no |
-| <a name="input_cos_tags"></a> [cos\_tags](#input\_cos\_tags) | A list of tags to apply to the Object Storage instance. | `list(string)` | `[]` | no |
 | <a name="input_create_cos_bucket"></a> [create\_cos\_bucket](#input\_create\_cos\_bucket) | Whether to create an Object Storage bucket. | `bool` | `true` | no |
 | <a name="input_create_cos_instance"></a> [create\_cos\_instance](#input\_create\_cos\_instance) | Whether to create an IBM Cloud Object Storage instance. | `bool` | `true` | no |
 | <a name="input_cross_region_location"></a> [cross\_region\_location](#input\_cross\_region\_location) | Specify the cross-region bucket location. Possible values are `us`, `eu`, or `ap`. If specified, set `region` and `single_site_location` to `null`. | `string` | `null` | no |
@@ -210,6 +232,7 @@ You need the following permissions to run this module.
 | <a name="input_request_metrics_enabled"></a> [request\_metrics\_enabled](#input\_request\_metrics\_enabled) | If set to `true`, all Object Storage bucket request metrics are sent to Cloud Monitoring. | `bool` | `true` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID for the Object Storage instance. Required if `create_cos_instance` is set to `true`. | `string` | `null` | no |
 | <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key). | <pre>list(object({<br/>    name                      = string<br/>    key_name                  = optional(string, null)<br/>    generate_hmac_credentials = optional(bool, false)<br/>    role                      = optional(string, "Reader")<br/>    service_id_crn            = optional(string, null)<br/>  }))</pre> | `[]` | no |
+| <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Add user resource tags to the COS instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types). | `list(string)` | `[]` | no |
 | <a name="input_retention_default"></a> [retention\_default](#input\_retention\_default) | The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`. | `number` | `90` | no |
 | <a name="input_retention_enabled"></a> [retention\_enabled](#input\_retention\_enabled) | Whether retention for the Object Storage bucket is enabled. Applies only if `create_cos_bucket` is set to `true`. | `bool` | `false` | no |
 | <a name="input_retention_maximum"></a> [retention\_maximum](#input\_retention\_maximum) | The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. | `number` | `350` | no |

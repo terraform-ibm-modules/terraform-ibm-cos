@@ -110,7 +110,7 @@ module "cos_fscloud" {
   source            = "../../modules/fscloud"
   resource_group_id = module.resource_group.resource_group_id
   cos_instance_name = "${var.prefix}-cos"
-  cos_tags          = var.resource_tags
+  resource_tags     = var.resource_tags
   access_tags       = var.access_tags
 
   # CBR rule only allowing the COS instance to be accessible over the private endpoint from within the VPC

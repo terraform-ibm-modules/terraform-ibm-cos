@@ -68,7 +68,7 @@ module "cos_bucket1" {
   region                              = var.region
   cross_region_location               = null
   cos_instance_name                   = "${var.prefix}-cos"
-  cos_tags                            = var.resource_tags
+  resource_tags                       = var.resource_tags
   bucket_name                         = "${var.prefix}-bucket-1"
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = "public"

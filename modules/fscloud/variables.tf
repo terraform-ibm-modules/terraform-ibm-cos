@@ -34,8 +34,8 @@ variable "cos_instance_name" {
   default     = null
 }
 
-variable "cos_tags" {
-  description = "The list of tags to add to the Object Storage instance. Applies only if `create_cos_instance` is true."
+variable "resource_tags" {
+  description = "Add user resource tags to the COS instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types)."
   type        = list(string)
   default     = []
 }
@@ -187,6 +187,6 @@ variable "instance_cbr_rules" {
 
 variable "access_tags" {
   type        = list(string)
-  description = "Add access management tags to the Cos instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console)."
+  description = "Add access management tags to the COS instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console)."
   default     = []
 }

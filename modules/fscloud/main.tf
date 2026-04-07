@@ -28,7 +28,7 @@ module "cos_instance" {
   cos_instance_name             = var.cos_instance_name
   resource_keys                 = var.resource_keys
   cos_plan                      = var.cos_plan
-  cos_tags                      = var.cos_tags
+  resource_tags                 = var.resource_tags
   access_tags                   = var.access_tags
 }
 
