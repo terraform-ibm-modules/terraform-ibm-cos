@@ -13,6 +13,7 @@ Use this module to provision and configure an IBM [Cloud Object Storage](https:/
 In addition, a [buckets](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/buckets) submodule supports creating multiple buckets in an existing instance.
 
 You can configure the following aspects of your instances:
+
 - [Key management service (KMS) encryption](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-encryption)
 - [Activity tracking](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-tracking-cos-events) and auditing
 - [Monitoring](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-monitoring-cos)
@@ -131,6 +132,18 @@ module "cos_buckets" {
         days   = 90
         enable = true
       }
+    },
+    {
+      bucket_name            = "my-retention-bucket"
+      kms_encryption_enabled = false
+      region_location        = "us-south"
+      resource_instance_id   = module.cos_module.cos_instance_id
+      retention_rule = {
+        default   = 90
+        maximum   = 350
+        minimum   = 90
+        permanent = false
+      }
     }
   ]
 }
@@ -141,11 +154,11 @@ module "cos_buckets" {
 You need the following permissions to run this module.
 
 - Service
-    - **Resource group only**
-        - `Viewer` access on the specific resource group
-    - **Cloud Object Storage** service
-        - `Editor` platform access
-        - `Manager` service access
+  - **Resource group only**
+    - `Viewer` access on the specific resource group
+  - **Cloud Object Storage** service
+    - `Editor` platform access
+    - `Manager` service access
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
@@ -161,9 +174,9 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.16 |
+| <a name="module_bucket_cbr_rule"></a> [bucket\_cbr\_rule](#module\_bucket\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.19 |
 | <a name="module_cos_crn_parser"></a> [cos\_crn\_parser](#module\_cos\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.4.2 |
-| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.16 |
+| <a name="module_instance_cbr_rule"></a> [instance\_cbr\_rule](#module\_instance\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.19 |
 | <a name="module_kms_crn_parser"></a> [kms\_crn\_parser](#module\_kms\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.4.2 |
 
 ### Resources
@@ -231,13 +244,12 @@ You need the following permissions to run this module.
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the bucket. If specified, set `cross_region_location` and `single_site_location` to `null`. | `string` | `"us-south"` | no |
 | <a name="input_request_metrics_enabled"></a> [request\_metrics\_enabled](#input\_request\_metrics\_enabled) | If set to `true`, all Object Storage bucket request metrics are sent to Cloud Monitoring. | `bool` | `true` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID for the Object Storage instance. Required if `create_cos_instance` is set to `true`. | `string` | `null` | no |
-| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key). | <pre>list(object({<br/>    name                      = string<br/>    key_name                  = optional(string, null)<br/>    generate_hmac_credentials = optional(bool, false)<br/>    role                      = optional(string, "Reader")<br/>    service_id_crn            = optional(string, null)<br/>  }))</pre> | `[]` | no |
+| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of the resource keys to generate. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key). | <pre>list(object({<br/>    name                      = string<br/>    key_name                  = optional(string, null)<br/>    generate_hmac_credentials = optional(bool, false)<br/>    role                      = optional(string, "Reader")<br/>    service_id_crn            = optional(string, null)<br/>    endpoint                  = optional(string, "private")<br/>  }))</pre> | `[]` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Add user resource tags to the COS instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types). | `list(string)` | `[]` | no |
-| <a name="input_retention_default"></a> [retention\_default](#input\_retention\_default) | The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`. | `number` | `90` | no |
-| <a name="input_retention_enabled"></a> [retention\_enabled](#input\_retention\_enabled) | Whether retention for the Object Storage bucket is enabled. Applies only if `create_cos_bucket` is set to `true`. | `bool` | `false` | no |
-| <a name="input_retention_maximum"></a> [retention\_maximum](#input\_retention\_maximum) | The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. | `number` | `350` | no |
-| <a name="input_retention_minimum"></a> [retention\_minimum](#input\_retention\_minimum) | The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. | `number` | `90` | no |
-| <a name="input_retention_permanent"></a> [retention\_permanent](#input\_retention\_permanent) | Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`. | `bool` | `false` | no |
+| <a name="input_retention_default"></a> [retention\_default](#input\_retention\_default) | The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention\_default, retention\_maximum, retention\_minimum, retention\_permanent) must be provided together to enable retention. | `number` | `null` | no |
+| <a name="input_retention_maximum"></a> [retention\_maximum](#input\_retention\_maximum) | The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention\_default, retention\_maximum, retention\_minimum, retention\_permanent) must be provided together to enable retention. | `number` | `null` | no |
+| <a name="input_retention_minimum"></a> [retention\_minimum](#input\_retention\_minimum) | The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention\_default, retention\_maximum, retention\_minimum, retention\_permanent) must be provided together to enable retention. | `number` | `null` | no |
+| <a name="input_retention_permanent"></a> [retention\_permanent](#input\_retention\_permanent) | Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention\_default, retention\_maximum, retention\_minimum, retention\_permanent) must be provided together to enable retention. | `bool` | `null` | no |
 | <a name="input_single_site_location"></a> [single\_site\_location](#input\_single\_site\_location) | The single site bucket location. If specified, set the value of `region` and `cross_region_location` to `null`. | `string` | `null` | no |
 | <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true the skip the creation of an IAM authorization policy that grants the Object Storage instance 'Reader' access to the specified KMS key. This policies must exist in your account for encryption to work. Ignored if 'kms\_encryption\_enabled' is false. | `bool` | `false` | no |
 | <a name="input_usage_metrics_enabled"></a> [usage\_metrics\_enabled](#input\_usage\_metrics\_enabled) | If set to `true`, all Object Storage bucket usage metrics are sent to Cloud Monitoring. | `bool` | `true` | no |

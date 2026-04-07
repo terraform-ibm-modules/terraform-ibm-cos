@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.4.8"
+  version = "1.5.0"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -34,7 +34,7 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.5.31"
+  version                   = "5.5.36"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
@@ -73,13 +73,13 @@ module "cos_bucket1" {
   access_tags                         = var.access_tags
   management_endpoint_type_for_bucket = "public"
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
   resource_keys = [
     {
       name           = "${var.prefix}-writer-key"
       key_name       = ibm_iam_service_id.resource_key_existing_serviceid.iam_id
       role           = "Writer"
       service_id_crn = ibm_iam_service_id.resource_key_existing_serviceid.crn
+      endpoint       = "private"
     },
     {
       name = "${var.prefix}-reader-key"
@@ -133,8 +133,7 @@ module "cos_bucket2" {
   archive_days                        = null
   create_cos_instance                 = false
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
-  skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  skip_iam_authorization_policy       = true # Required since cos_bucket1 creates the IAM authorization policy
   kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
   object_versioning_enabled           = true
 
@@ -167,5 +166,4 @@ module "cos_bucket3" {
   existing_cos_instance_id            = module.cos_bucket1.cos_instance_id
   kms_encryption_enabled              = false # disable encryption because single site location doesn't support it
   skip_iam_authorization_policy       = true  # Required since cos_bucket1 creates the IAM authorization policy
-  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
 }

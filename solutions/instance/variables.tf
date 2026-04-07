@@ -72,6 +72,7 @@ variable "resource_keys" {
     generate_hmac_credentials = optional(bool, false)
     role                      = optional(string, "Reader")
     service_id_crn            = optional(string, null)
+    endpoint                  = optional(string, "private")
   }))
   default = []
 }

@@ -688,9 +688,6 @@
               "key": "enable_object_versioning"
             },
             {
-              "key": "enable_retention"
-            },
-            {
               "key": "enable_permanent_retention"
             },
             {
@@ -1155,9 +1152,6 @@
             },
             {
               "key": "enable_object_versioning"
-            },
-            {
-              "key": "enable_retention"
             },
             {
               "key": "enable_permanent_retention"
@@ -1688,9 +1682,6 @@
               "key": "enable_object_versioning"
             },
             {
-              "key": "enable_retention"
-            },
-            {
               "key": "enable_permanent_retention"
             },
             {
@@ -2202,9 +2193,6 @@
             },
             {
               "key": "enable_object_versioning"
-            },
-            {
-              "key": "enable_retention"
             },
             {
               "key": "enable_permanent_retention"

@@ -34,8 +34,9 @@ resource "ibm_resource_key" "resource_keys" {
   resource_instance_id = local.cos_instance_id
   role                 = each.value.role
   parameters = {
-    "serviceid_crn" = each.value.service_id_crn
-    "HMAC"          = each.value.generate_hmac_credentials
+    "serviceid_crn"     = each.value.service_id_crn
+    "HMAC"              = each.value.generate_hmac_credentials
+    "service-endpoints" = each.value.endpoint
   }
 }
 
@@ -72,7 +73,7 @@ locals {
   expire_enabled                        = var.expire_days == null ? [] : [1]
   noncurrent_version_expiration_enabled = var.noncurrent_version_expiration_days == null ? [] : [1]
   abort_multipart_enabled               = var.abort_multipart_days == null ? [] : [1]
-  retention_enabled                     = var.retention_enabled ? [1] : []
+  retention_enabled                     = (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null) ? [1] : []
   object_lock_duration_days             = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years            = var.object_lock_duration_years > 0 ? [1] : []
   object_versioning_enabled             = var.object_versioning_enabled ? [1] : []
@@ -468,7 +469,7 @@ locals {
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.16"
+  version          = "1.35.19"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
@@ -503,7 +504,7 @@ module "bucket_cbr_rule" {
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.16"
+  version          = "1.35.19"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts

@@ -67,10 +67,10 @@ variable "bucket_configs" {
       enable = optional(bool, false)
     }))
     retention_rule = optional(object({
-      default   = optional(number, 90)
-      maximum   = optional(number, 350)
-      minimum   = optional(number, 90)
-      permanent = optional(bool, false)
+      default   = optional(number)
+      maximum   = optional(number)
+      minimum   = optional(number)
+      permanent = optional(bool)
     }))
     cbr_rules = optional(list(object({
       description = string
@@ -101,6 +101,17 @@ variable "bucket_configs" {
       if bucket_config_2.kms_encryption_enabled && !bucket_config_2.skip_iam_authorization_policy && bucket_config_2.resource_instance_id == bucket_config_1.resource_instance_id && bucket_config_2.kms_key_crn == bucket_config_1.kms_key_crn
     ]) == 1 if bucket_config_1.kms_encryption_enabled && !bucket_config_1.skip_iam_authorization_policy])
     error_message = "Duplicate authentication policy found in the bucket configuration."
+  }
+
+  validation {
+    condition = alltrue([
+      for config in var.bucket_configs :
+      can(config.retention_rule) ? (
+        (can(config.retention_rule.default) && can(config.retention_rule.maximum) && can(config.retention_rule.minimum) && can(config.retention_rule.permanent)) ||
+        (!can(config.retention_rule.default) && !can(config.retention_rule.maximum) && !can(config.retention_rule.minimum) && !can(config.retention_rule.permanent))
+      ) : true
+    ])
+    error_message = "If retention_rule is specified, all four fields (default, maximum, minimum, permanent) must be provided together, or none should be provided."
   }
 
 }

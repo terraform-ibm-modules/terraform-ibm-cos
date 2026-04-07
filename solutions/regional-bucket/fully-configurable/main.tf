@@ -63,12 +63,12 @@ locals {
     object_versioning = {
       enable = var.enable_object_versioning
     }
-    retention_rule = var.enable_retention ? {
+    retention_rule = {
       default   = var.default_retention_days
       maximum   = var.maximum_retention_days
       minimum   = var.minimum_retention_days
       permanent = var.enable_permanent_retention
-    } : null
+    }
     cos_bucket_cbr_rules = var.cos_bucket_cbr_rules
   }]
 }
@@ -169,7 +169,7 @@ module "kms" {
   }
   count                       = var.kms_encryption_enabled && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key.
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.5.31"
+  version                     = "5.5.36"
   create_key_protect_instance = false
   region                      = local.kms_region
   existing_kms_instance_crn   = var.existing_kms_instance_crn

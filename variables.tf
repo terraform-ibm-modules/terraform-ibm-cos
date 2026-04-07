@@ -35,6 +35,7 @@ variable "resource_keys" {
     generate_hmac_credentials = optional(bool, false)
     role                      = optional(string, "Reader")
     service_id_crn            = optional(string, null)
+    endpoint                  = optional(string, "private")
   }))
   default = []
   validation {
@@ -45,6 +46,12 @@ variable "resource_keys" {
       for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Content Reader", "Object Reader", "Object Writer", "NONE"], key.role)
     ])
     error_message = "`resource_keys` role must be one of the following: `Writer', `Reader`, `Manager`, `Content Reader`, `Object Reader`, `Object Writer`, or `NONE`. Reference https://cloud.ibm.com/iam/roles and `Object Storage`"
+  }
+  validation {
+    condition = alltrue([
+      for key in var.resource_keys : contains(["public", "private"], key.endpoint)
+    ])
+    error_message = "`resource_keys` endpoint must be one of: `public` or `private`."
   }
 }
 
@@ -141,6 +148,10 @@ variable "cross_region_location" {
     )
     error_message = "If `var.create_cos_bucket` is set to `true`, then a value must be provided for `var.cross_region_location`, `var.region`, or `var.single_site_location`. Only one of those three variables can be set."
   }
+  validation {
+    condition     = !((var.retention_default != null || var.retention_maximum != null || var.retention_minimum != null || var.retention_permanent != null) && var.cross_region_location != null && var.cross_region_location != "us")
+    error_message = "Retention settings are only supported when cross_region_location is null or 'us'."
+  }
 }
 
 variable "bucket_name" {
@@ -207,30 +218,22 @@ variable "management_endpoint_type_for_bucket" {
 
 # Where is retention (immuatble object storage) supported
 # https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability#service-availability
-variable "retention_enabled" {
-  description = "Whether retention for the Object Storage bucket is enabled. Applies only if `create_cos_bucket` is set to `true`."
-  type        = bool
-  default     = false
-  validation {
-    condition     = var.cross_region_location == null || (var.cross_region_location == "us" || !var.retention_enabled)
-    error_message = "Retention is currently only supported in the `US` location for cross-region buckets."
-  }
-}
 
 variable "retention_default" {
-  description = "The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`."
+  description = "The number of days that an object can remain unmodified in an Object Storage bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = number
-  default     = 90
+  default     = null
   validation {
     condition     = var.retention_default == null ? true : (var.retention_default >= 0 && var.retention_default <= 365243)
-    error_message = "The specified duration for retention maximum period is not a valid selection!"
+    error_message = "The specified duration for retention default period is not a valid selection!"
   }
 }
 
 variable "retention_maximum" {
-  description = "The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`."
+  description = "The maximum number of days that an object can be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = number
-  default     = 350
+  default     = null
+
   validation {
     condition     = (var.retention_maximum == null ? true : (var.retention_maximum >= 0 && var.retention_maximum <= 365243))
     error_message = "The specified duration for retention maximum period is not a valid selection!"
@@ -238,9 +241,9 @@ variable "retention_maximum" {
 }
 
 variable "retention_minimum" {
-  description = "The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`."
+  description = "The minimum number of days that an object must be kept unmodified in the bucket. Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = number
-  default     = 90
+  default     = null
   validation {
     condition     = var.retention_minimum == null ? true : (var.retention_minimum >= 0 && var.retention_minimum <= 365243)
     error_message = "The specified duration for retention minimum period is not a valid selection!"
@@ -248,9 +251,9 @@ variable "retention_minimum" {
 }
 
 variable "retention_permanent" {
-  description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`."
+  description = "Whether permanent retention status is enabled for the Object Storage bucket. [Learn more](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-immutable). Applies only if `create_cos_bucket` is set to `true`. Set to `null` to disable retention. All four retention variables (retention_default, retention_maximum, retention_minimum, retention_permanent) must be provided together to enable retention."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "object_locking_enabled" {
