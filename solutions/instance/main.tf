@@ -122,7 +122,7 @@ locals {
 module "kms" {
   count                       = local.create_kms_key ? 1 : 0
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.6.0"
+  version                     = "5.6.1"
   create_key_protect_instance = false
   region                      = local.kms_region
   existing_kms_instance_crn   = var.existing_kms_instance_crn
