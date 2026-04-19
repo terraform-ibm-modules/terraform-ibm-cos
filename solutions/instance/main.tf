@@ -23,7 +23,7 @@ module "cos" {
   cos_instance_name   = "${local.prefix}${var.instance_name}"
   resource_keys       = var.resource_keys
   cos_plan            = var.plan
-  cos_tags            = var.resource_tags
+  resource_tags       = var.resource_tags
   access_tags         = var.access_tags
   instance_cbr_rules  = var.cos_instance_cbr_rules
 }
