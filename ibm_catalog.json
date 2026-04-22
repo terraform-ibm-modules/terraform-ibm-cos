@@ -1466,6 +1466,10 @@
                   "value": "in-che"
                 },
                 {
+                  "displayname": "Mumbai (in-mum)",
+                  "value": "in-mum"
+                },
+                {
                   "displayname": "Osaka (jp-osa)",
                   "value": "jp-osa"
                 },
@@ -2005,6 +2009,10 @@
                 {
                   "displayname": "Chennai (in-che)",
                   "value": "in-che"
+                },
+                {
+                  "displayname": "Mumbai (in-mum)",
+                  "value": "in-mum"
                 },
                 {
                   "displayname": "Osaka (jp-osa)",
