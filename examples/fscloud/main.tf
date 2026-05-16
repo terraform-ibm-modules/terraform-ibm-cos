@@ -80,7 +80,7 @@ locals {
 
 module "hpcs_keys" {
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.6.1"
+  version                     = "5.6.5"
   region                      = var.region
   create_key_protect_instance = false
   existing_kms_instance_crn   = var.hpcs_instance_crn
