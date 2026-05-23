@@ -12,5 +12,5 @@ on:
 
 jobs:
   call-terraform-release-pipeline:
-    uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-release.yml@v1.24.7
+    uses: terraform-ibm-modules/common-pipeline-assets/.github/workflows/common-release.yml@v1.24.8
     secrets: inherit
