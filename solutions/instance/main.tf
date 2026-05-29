@@ -36,7 +36,7 @@ module "cos" {
 module "crn_parser" {
   count   = var.existing_secrets_manager_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.6.0"
+  version = "1.6.1"
   crn     = var.existing_secrets_manager_instance_crn
 }
 locals {
@@ -105,7 +105,7 @@ module "secrets_manager_service_credentials" {
 module "kms_crn_parser" {
   count   = local.enable_kms ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.6.0"
+  version = "1.6.1"
   crn     = var.existing_kms_instance_crn != null ? var.existing_kms_instance_crn : var.existing_kms_key_crn
 }
 

@@ -48,7 +48,7 @@ data "ibm_resource_instance" "cos_instance" {
 # Parse the CRN to get the account ID (above data lookup does not output account ID)
 module "cos_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.6.0"
+  version = "1.6.1"
   crn     = local.cos_instance_crn
 }
 
@@ -84,7 +84,7 @@ locals {
 module "kms_crn_parser" {
   count   = local.create_access_policy_kms ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.6.0"
+  version = "1.6.1"
   crn     = var.kms_key_crn
 }
 locals {
