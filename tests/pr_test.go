@@ -2,6 +2,7 @@
 package test
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -100,8 +101,8 @@ func TestRunFSCloudExample(t *testing.T) {
 		options.TestTearDown()
 	}()
 
-	terraform.InitAndApply(t, options.TerraformOptions)
-	outputs, err := terraform.OutputAllE(t, options.TerraformOptions)
+	terraform.InitAndApplyContext(t, context.Background(), options.TerraformOptions)
+	outputs, err := terraform.OutputAllContextE(t, context.Background(), options.TerraformOptions)
 
 	// Delay before running tests to allow CBRs to be picked up
 	delayDuration := 10 * time.Minute
