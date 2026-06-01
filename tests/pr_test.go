@@ -41,8 +41,6 @@ const basicExampleTerraformDir = "examples/basic"
 const solutionInstanceDir = "solutions/instance"
 const fullyConfigurableCrossRegionalDir = "solutions/cross-regional-bucket/fully-configurable"
 const RegionalfullyConfigurableDir = "solutions/regional-bucket/fully-configurable"
-const securityEnforcedCrossRegionalDir = "solutions/cross-regional-bucket/security-enforced"
-const securityEnforcedRegionalDir = "solutions/regional-bucket/security-enforced"
 const resourceGroup = "geretain-test-cos-base"
 const region = "us-south"                                                                    // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml" // Define a struct with fields that match the structure of the YAML data
@@ -524,80 +522,7 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	}
 }
 
-func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
-	t.Parallel()
-
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", []string{}, []string{})
-
-	// if error producing tar patterns (very unexpected) fail test immediately
-	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
-
-	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing:                t,
-		Prefix:                 "cr-sec",
-		TarIncludePatterns:     tarIncludePatterns,
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         securityEnforcedCrossRegionalDir,
-		Tags:                   []string{"cos-cr-se-test"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 80,
-		TerraformVersion:       terraformVersion,
-	})
-
-	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
-		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "cross_region_location", Value: "us", DataType: "string"},
-		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
-		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
-		{Name: "bucket_name", Value: "cr-sec-bucket", DataType: "string"},
-	}
-
-	err := options.RunSchematicTest()
-	assert.Nil(t, err, "This should not have errored")
-
-	// Assert all expected outputs have values
-	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
-	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
-}
-func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
-	t.Parallel()
-
-	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", []string{}, []string{})
-
-	// if error producing tar patterns (very unexpected) fail test immediately
-	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
-
-	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing:                t,
-		Prefix:                 "rg-sec",
-		Region:                 region,
-		TarIncludePatterns:     tarIncludePatterns,
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         securityEnforcedRegionalDir,
-		Tags:                   []string{"cos-reg-se-test"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 80,
-		TerraformVersion:       terraformVersion,
-	})
-
-	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
-		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
-		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
-		{Name: "bucket_name", Value: "reg-sec-bucket", DataType: "string"},
-	}
-
-	err := options.RunSchematicTest()
-	assert.Nil(t, err, "This should not have errored")
-
-	// Assert all expected outputs have values
-	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
-	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
-}
+// NOTE: Security-enforced variation tests have been removed as these variations are deprecated.
 
 // Test regional bucket variation deployment with all "on-by-default" dependant DAs
 func TestRegionalBucketAddonDefault(t *testing.T) {
