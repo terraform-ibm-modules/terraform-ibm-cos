@@ -523,7 +523,83 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	}
 }
 
-// NOTE: Security-enforced variation tests have been removed as these variations are deprecated.
+func TestRunCrossRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
+	t.Parallel()
+
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", []string{}, []string{})
+
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing:                t,
+		Prefix:                 "cr-fc-kms",
+		TarIncludePatterns:     tarIncludePatterns,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         fullyConfigurableCrossRegionalDir,
+		Tags:                   []string{"cos-cr-fc-kms-test"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 80,
+		TerraformVersion:       terraformVersion,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "cross_region_location", Value: "us", DataType: "string"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "cr-fc-kms-bucket", DataType: "string"},
+	}
+
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
+
+	// Assert all expected outputs have values
+	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
+	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
+}
+
+func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
+	t.Parallel()
+
+	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", []string{}, []string{})
+
+	// if error producing tar patterns (very unexpected) fail test immediately
+	require.NoError(t, recurseErr, "Schematic Test had unexpected error traversing directory tree")
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing:                t,
+		Prefix:                 "rg-fc-kms",
+		Region:                 region,
+		TarIncludePatterns:     tarIncludePatterns,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         RegionalfullyConfigurableDir,
+		Tags:                   []string{"cos-reg-fc-kms-test"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 80,
+		TerraformVersion:       terraformVersion,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
+		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
+		{Name: "bucket_name", Value: "reg-fc-kms-bucket", DataType: "string"},
+	}
+
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
+
+	// Assert all expected outputs have values
+	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
+	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
+}
 
 // Test regional bucket variation deployment with all "on-by-default" dependant DAs
 func TestRegionalBucketAddonDefault(t *testing.T) {
