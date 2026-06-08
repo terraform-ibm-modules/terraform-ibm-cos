@@ -55,10 +55,8 @@ You can configure the following aspects of your instances:
   <li><a href="./solutions">Deployable Architectures</a>
     <ul>
       <li><a href="./solutions/cross-regional-bucket/fully-configurable">Cloud automation for Cross Regional Bucket (Fully configurable)</a></li>
-      <li><a href="./solutions/cross-regional-bucket/security-enforced">Cloud automation for Cross Regional Bucket (Security enforced)</a></li>
       <li><a href="./solutions/instance">Cloud automation for Object Storage - Single instance (Fully configurable)</a></li>
       <li><a href="./solutions/regional-bucket/fully-configurable">Cloud automation for Regional Bucket (Fully configurable)</a></li>
-      <li><a href="./solutions/regional-bucket/security-enforced">Cloud automation for Regional Bucket (Security enforced)</a></li>
     </ul>
   </li>
   <li><a href="#contributing">Contributing</a></li>

@@ -42,8 +42,6 @@ const basicExampleTerraformDir = "examples/basic"
 const solutionInstanceDir = "solutions/instance"
 const fullyConfigurableCrossRegionalDir = "solutions/cross-regional-bucket/fully-configurable"
 const RegionalfullyConfigurableDir = "solutions/regional-bucket/fully-configurable"
-const securityEnforcedCrossRegionalDir = "solutions/cross-regional-bucket/security-enforced"
-const securityEnforcedRegionalDir = "solutions/regional-bucket/security-enforced"
 const resourceGroup = "geretain-test-cos-base"
 const region = "us-south"                                                                    // Not all regions provide cross region support so value must be hardcoded https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-service-availability.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml" // Define a struct with fields that match the structure of the YAML data
@@ -525,7 +523,7 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 	}
 }
 
-func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
+func TestRunCrossRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 	t.Parallel()
 
 	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", []string{}, []string{})
@@ -535,11 +533,11 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
-		Prefix:                 "cr-sec",
+		Prefix:                 "cr-fc-kms",
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
-		TemplateFolder:         securityEnforcedCrossRegionalDir,
-		Tags:                   []string{"cos-cr-se-test"},
+		TemplateFolder:         fullyConfigurableCrossRegionalDir,
+		Tags:                   []string{"cos-cr-fc-kms-test"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
 		TerraformVersion:       terraformVersion,
@@ -549,10 +547,11 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "cross_region_location", Value: "us", DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
-		{Name: "bucket_name", Value: "cr-sec-bucket", DataType: "string"},
+		{Name: "bucket_name", Value: "cr-fc-kms-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -562,7 +561,8 @@ func TestRunCrossRegionalSecurityEnforcedSchematics(t *testing.T) {
 	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
 	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
 }
-func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
+
+func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 	t.Parallel()
 
 	tarIncludePatterns, recurseErr := testhelper.GetTarIncludeDirsWithDefaults("..", []string{}, []string{})
@@ -572,12 +572,12 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
-		Prefix:                 "rg-sec",
+		Prefix:                 "rg-fc-kms",
 		Region:                 region,
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
-		TemplateFolder:         securityEnforcedRegionalDir,
-		Tags:                   []string{"cos-reg-se-test"},
+		TemplateFolder:         RegionalfullyConfigurableDir,
+		Tags:                   []string{"cos-reg-fc-kms-test"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 80,
 		TerraformVersion:       terraformVersion,
@@ -586,10 +586,11 @@ func TestRunRegionalSecurityEnforcedSchematics(t *testing.T) {
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
-		{Name: "bucket_name", Value: "reg-sec-bucket", DataType: "string"},
+		{Name: "bucket_name", Value: "reg-fc-kms-bucket", DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
