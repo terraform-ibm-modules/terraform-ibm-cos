@@ -36,11 +36,16 @@ module "buckets" {
   source = "../../modules/buckets"
   bucket_configs = [
     {
-      bucket_name            = "${var.prefix}-bucket-module"
-      kms_encryption_enabled = false
-      region_location        = var.region
-      resource_instance_id   = module.cos.cos_instance_id
-      storage_class          = "onerate_active"
+      bucket_name              = "${var.prefix}-bucket-module"
+      kms_encryption_enabled   = false
+      region_location          = var.region
+      resource_instance_id     = module.cos.cos_instance_id
+      storage_class            = "onerate_active"
+      management_endpoint_type = var.management_endpoint_type_for_bucket
+      expire_rule = {
+        enable = true
+        days   = 30
+      }
     }
   ]
 }
