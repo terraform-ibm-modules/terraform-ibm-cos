@@ -1,9 +1,29 @@
 output "source_bucket_name" {
-  description = "Bucket Name"
+  description = "Source bucket name"
   value       = module.cos_source_bucket.bucket_name
 }
 
 output "target_bucket_name" {
-  description = "Bucket Name"
+  description = "Target bucket name"
   value       = module.cos_target_bucket.bucket_name
+}
+
+output "replication_rule_id" {
+  description = "The ID of the replication rule"
+  value       = module.cos_replication.replication_rule_id
+}
+
+output "replication_rule_status" {
+  description = "The status of the replication rule"
+  value       = module.cos_replication.replication_rule_status
+}
+
+output "replication_rule_resource_id" {
+  description = "The resource ID of the replication rule"
+  value       = module.cos_replication.replication_rule_resource_id
+}
+
+output "iam_authorization_policy_id" {
+  description = "The ID of the IAM authorization policy"
+  value       = module.cos_replication.iam_authorization_policy_id
 }

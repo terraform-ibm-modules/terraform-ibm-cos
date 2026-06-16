@@ -51,76 +51,27 @@ module "cos_target_bucket" {
 }
 
 ##############################################################################
-# Configure replication rule
+# Configure replication using the replication module
 ##############################################################################
 
-resource "ibm_cos_bucket_replication_rule" "cos_replication_rule" {
-  depends_on = [
-    ibm_iam_authorization_policy.policy
-  ]
-  bucket_crn      = module.cos_source_bucket.bucket_crn
-  bucket_location = var.region
-  replication_rule {
-    rule_id                         = "replicate-everything"
-    enable                          = true
-    priority                        = 50
-    deletemarker_replication_status = false
-    destination_bucket_crn          = module.cos_target_bucket.bucket_crn
-  }
-}
+module "cos_replication" {
+  source = "../../modules/replication"
 
-##############################################################################
-# Retrieve account ID
-##############################################################################
-data "ibm_iam_account_settings" "iam_account_settings" {
-}
+  # Source bucket configuration
+  source_bucket_crn        = module.cos_source_bucket.bucket_crn
+  source_bucket_location   = var.region
+  source_bucket_name       = module.cos_source_bucket.bucket_name
+  source_cos_instance_guid = module.cos_source_bucket.cos_instance_guid
 
-##############################################################################
-# Configure IAM authorization policy
-##############################################################################
+  # Target bucket configuration
+  target_bucket_crn        = module.cos_target_bucket.bucket_crn
+  target_bucket_name       = module.cos_target_bucket.bucket_name
+  target_cos_instance_guid = module.cos_target_bucket.cos_instance_guid
 
-resource "ibm_iam_authorization_policy" "policy" {
-  roles = [
-    "Writer",
-  ]
-  subject_attributes {
-    name  = "accountId"
-    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-  }
-  subject_attributes {
-    name  = "serviceName"
-    value = "cloud-object-storage"
-  }
-  subject_attributes {
-    name  = "serviceInstance"
-    value = module.cos_source_bucket.cos_instance_guid
-  }
-  subject_attributes {
-    name  = "resource"
-    value = module.cos_source_bucket.bucket_name
-  }
-  subject_attributes {
-    name  = "resourceType"
-    value = "bucket"
-  }
-  resource_attributes {
-    name  = "accountId"
-    value = data.ibm_iam_account_settings.iam_account_settings.account_id
-  }
-  resource_attributes {
-    name  = "serviceName"
-    value = "cloud-object-storage"
-  }
-  resource_attributes {
-    name  = "serviceInstance"
-    value = module.cos_target_bucket.cos_instance_guid
-  }
-  resource_attributes {
-    name  = "resource"
-    value = module.cos_target_bucket.bucket_name
-  }
-  resource_attributes {
-    name  = "resourceType"
-    value = "bucket"
-  }
+  # Replication rule configuration
+  replication_rule_id             = "replicate-everything"
+  replication_enabled             = true
+  replication_priority            = 50
+  deletemarker_replication_status = false
+  skip_iam_authorization_policy   = false
 }
