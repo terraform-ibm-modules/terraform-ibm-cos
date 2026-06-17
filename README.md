@@ -29,6 +29,7 @@ You can configure the following aspects of your instances:
       <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/buckets">buckets</a></li>
       <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/fscloud">fscloud</a></li>
       <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/lifecycle_rules">lifecycle_rules</a></li>
+      <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/replication">replication</a></li>
     </ul>
   </li>
   <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples">Examples</a>
