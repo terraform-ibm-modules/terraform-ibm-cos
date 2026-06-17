@@ -25,13 +25,3 @@ variable "resource_group" {
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"
   default     = null
 }
-
-variable "management_endpoint_type_for_bucket" {
-  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values: `public`, `private`, `direct`."
-  type        = string
-  default     = "public"
-  validation {
-    condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
-    error_message = "The specified management_endpoint_type_for_bucket is not a valid selection!"
-  }
-}
