@@ -15,14 +15,15 @@ module "resource_group" {
 ##############################################################################
 
 module "cos" {
-  source                 = "../../"
-  resource_group_id      = module.resource_group.resource_group_id
-  region                 = var.region
-  cos_instance_name      = "${var.prefix}-cos"
-  cos_tags               = var.resource_tags
-  bucket_name            = "${var.prefix}-bucket"
-  retention_enabled      = false # disable retention for test environments - enable for stage/prod
-  kms_encryption_enabled = false
+  source                              = "../../"
+  resource_group_id                   = module.resource_group.resource_group_id
+  region                              = var.region
+  cos_instance_name                   = "${var.prefix}-cos"
+  cos_tags                            = var.resource_tags
+  bucket_name                         = "${var.prefix}-bucket"
+  retention_enabled                   = false # disable retention for test environments - enable for stage/prod
+  kms_encryption_enabled              = false
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
 }
 
 ##############################################################################
@@ -33,10 +34,11 @@ module "buckets" {
   source = "../../modules/buckets"
   bucket_configs = [
     {
-      bucket_name            = "${var.prefix}-bucket-module"
-      kms_encryption_enabled = false
-      region_location        = var.region
-      resource_instance_id   = module.cos.cos_instance_id
+      bucket_name              = "${var.prefix}-bucket-module"
+      kms_encryption_enabled   = false
+      region_location          = var.region
+      resource_instance_id     = module.cos.cos_instance_id
+      management_endpoint_type = var.management_endpoint_type_for_bucket
     }
   ]
 }
