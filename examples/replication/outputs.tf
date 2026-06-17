@@ -8,16 +8,6 @@ output "target_bucket_name" {
   value       = module.cos_target_bucket.bucket_name
 }
 
-output "replication_rule_id" {
-  description = "The ID of the replication rule"
-  value       = module.cos_replication.replication_rule_id
-}
-
-output "replication_rule_status" {
-  description = "The status of the replication rule"
-  value       = module.cos_replication.replication_rule_status
-}
-
 output "replication_rule_resource_id" {
   description = "The resource ID of the replication rule"
   value       = module.cos_replication.replication_rule_resource_id
