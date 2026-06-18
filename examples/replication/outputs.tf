@@ -8,12 +8,17 @@ output "target_bucket_name" {
   value       = module.cos_target_bucket.bucket_name
 }
 
-output "replication_rule_resource_id" {
-  description = "The resource ID of the replication rule"
-  value       = module.cos_replication.replication_rule_resource_id
+output "replication_rule_ids" {
+  description = "List of replication rule IDs"
+  value       = module.cos_replication.replication_rule_ids
 }
 
-output "iam_authorization_policy_id" {
-  description = "The ID of the IAM authorization policy"
-  value       = module.cos_replication.iam_authorization_policy_id
+output "replication_resource_id" {
+  description = "The resource ID of the replication configuration"
+  value       = module.cos_replication.replication_resource_id
+}
+
+output "replication_rules_count" {
+  description = "Number of replication rules configured"
+  value       = module.cos_replication.replication_rules_count
 }

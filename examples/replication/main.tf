@@ -63,15 +63,17 @@ module "cos_replication" {
   source_bucket_name       = module.cos_source_bucket.bucket_name
   source_cos_instance_guid = module.cos_source_bucket.cos_instance_guid
 
-  # Target bucket configuration
-  target_bucket_crn        = module.cos_target_bucket.bucket_crn
-  target_bucket_name       = module.cos_target_bucket.bucket_name
-  target_cos_instance_guid = module.cos_target_bucket.cos_instance_guid
-
-  # Replication rule configuration
-  replication_rule_id             = "replicate-everything"
-  replication_enabled             = true
-  replication_priority            = 50
-  deletemarker_replication_status = false
-  skip_iam_authorization_policy   = false
+  # Replication rules configuration
+  replication_rules = [
+    {
+      rule_id                         = "replicate-everything"
+      enable                          = true
+      priority                        = 50
+      prefix                          = null
+      deletemarker_replication_status = false
+      destination_bucket_crn          = module.cos_target_bucket.bucket_crn
+      target_cos_instance_guid        = module.cos_target_bucket.cos_instance_guid
+      target_bucket_name              = module.cos_target_bucket.bucket_name
+    }
+  ]
 }

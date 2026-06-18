@@ -2,12 +2,22 @@
 # Outputs
 ##############################################################################
 
-output "replication_rule_resource_id" {
-  description = "The resource ID of the replication rule"
+output "replication_rule_ids" {
+  description = "List of replication rule IDs"
+  value       = [for rule in var.replication_rules : rule.rule_id]
+}
+
+output "replication_resource_id" {
+  description = "The resource ID of the replication configuration"
   value       = ibm_cos_bucket_replication_rule.cos_replication_rule.id
 }
 
-output "iam_authorization_policy_id" {
-  description = "The ID of the IAM authorization policy (if created)"
-  value       = var.skip_iam_authorization_policy ? null : ibm_iam_authorization_policy.policy[0].id
+output "source_bucket_crn" {
+  description = "The CRN of the source bucket"
+  value       = var.source_bucket_crn
+}
+
+output "replication_rules_count" {
+  description = "Number of replication rules configured"
+  value       = length(var.replication_rules)
 }

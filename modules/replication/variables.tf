@@ -13,7 +13,7 @@ variable "source_bucket_crn" {
 
 variable "source_bucket_location" {
   type        = string
-  description = "The location/region of the source bucket"
+  description = "The region of the source bucket"
 }
 
 variable "source_bucket_name" {
@@ -26,51 +26,48 @@ variable "source_cos_instance_guid" {
   description = "The GUID of the source COS instance"
 }
 
-##############################################################################
-# Target bucket variables
-##############################################################################
-
-variable "target_bucket_crn" {
+variable "bucket_endpoint_type" {
   type        = string
-  description = "The CRN of the target/destination bucket"
-}
-
-variable "target_bucket_name" {
-  type        = string
-  description = "The name of the target bucket"
-}
-
-variable "target_cos_instance_guid" {
-  type        = string
-  description = "The GUID of the target COS instance"
+  description = "The endpoint type of the bucket"
+  default     = "public"
 }
 
 ##############################################################################
-# Replication rule variables
+# Replication rules variables
 ##############################################################################
 
-variable "replication_rule_id" {
-  type        = string
-  description = "The ID/name for the replication rule"
-  default     = "replicate-everything"
-}
+variable "replication_rules" {
+  type = list(object({
+    rule_id                         = string
+    enable                          = bool
+    priority                        = optional(number)
+    prefix                          = optional(string)
+    deletemarker_replication_status = optional(bool)
+    destination_bucket_crn          = string
+    target_cos_instance_guid        = string
+    target_bucket_name              = string
+    skip_iam_authorization_policy   = optional(bool, false)
+  }))
+  description = <<-EOT
+    List of replication rules to configure. Each rule requires:
+    - rule_id: Unique identifier for the rule
+    - enable: Whether the rule is enabled
+    - priority: Priority of the rule, higher number = higher priority
+    - prefix: Optional prefix filter to replicate a subset of objects in the source bucket
+    - deletemarker_replication_status: Whether to replicate delete markers
+    - destination_bucket_crn: The CRN of the destination bucket
+    - target_cos_instance_guid: GUID of the target COS instance (for IAM policy)
+    - target_bucket_name: Name of the target bucket (for IAM policy)
+  EOT
 
-variable "replication_enabled" {
-  type        = bool
-  description = "Whether to enable the replication rule"
-  default     = true
-}
-
-variable "replication_priority" {
-  type        = number
-  description = "The priority of the replication rule (higher number = higher priority)"
-  default     = 50
-}
-
-variable "deletemarker_replication_status" {
-  type        = bool
-  description = "Whether to replicate delete markers"
-  default     = false
+  validation {
+    condition     = length(var.replication_rules) == length(distinct([for rule in var.replication_rules : rule.rule_id]))
+    error_message = "Each replication rule must have a unique rule_id."
+  }
+  validation {
+    condition     = length(var.replication_rules) <= 1000
+    error_message = "A maximum of 1000 replication rules can be configured for a bucket."
+  }
 }
 
 ##############################################################################
