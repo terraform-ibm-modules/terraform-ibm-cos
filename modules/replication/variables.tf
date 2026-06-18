@@ -28,8 +28,13 @@ variable "source_cos_instance_guid" {
 
 variable "bucket_endpoint_type" {
   type        = string
-  description = "The endpoint type of the bucket"
+  description = "The endpoint type of the bucket. Possible values are `public`, `private`, or `direct`."
   default     = "public"
+
+  validation {
+    condition     = contains(["public", "private", "direct"], var.bucket_endpoint_type)
+    error_message = "The value isn't valid. Possible values are `public`, `private`, or `direct`."
+  }
 }
 
 ##############################################################################
@@ -68,14 +73,4 @@ variable "replication_rules" {
     condition     = length(var.replication_rules) <= 1000
     error_message = "A maximum of 1000 replication rules can be configured for a bucket."
   }
-}
-
-##############################################################################
-# IAM authorization policy variables
-##############################################################################
-
-variable "skip_iam_authorization_policy" {
-  type        = bool
-  description = "Whether to skip the IAM authorization policy for replication. Set to true if the policy already exists."
-  default     = false
 }
