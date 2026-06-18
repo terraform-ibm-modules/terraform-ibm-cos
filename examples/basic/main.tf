@@ -26,6 +26,7 @@ module "cos" {
   bucket_storage_class      = "onerate_active"
   object_versioning_enabled = true
   access_tags               = var.access_tags
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
 }
 
 ##############################################################################
