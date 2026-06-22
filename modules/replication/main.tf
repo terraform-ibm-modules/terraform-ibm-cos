@@ -6,9 +6,7 @@ locals {
   service_name  = "cloud-object-storage"
   resource_type = "bucket"
 
-  # Multiple replication rules may target the same destination bucket.
-  # Create one IAM authorization policy per unique target bucket
-  # to avoid duplicate policy creation.
+
   unique_targets = {
     for rule in var.replication_rules :
     rule.rule_id => {
