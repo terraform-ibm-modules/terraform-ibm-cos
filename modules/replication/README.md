@@ -113,6 +113,7 @@ Each object in the `replication_rules` list supports:
 | destination_bucket_crn | CRN of the destination bucket | `string` | n/a | yes |
 | target_cos_instance_guid | GUID of the target COS instance (for IAM policy) | `string` | n/a | yes |
 | target_bucket_name | Name of the target bucket (for IAM policy) | `string` | n/a | yes |
+| skip_iam_authorization_policy | Skip IAM policy creation for this rule | `bool` | `false` | no |
 
 ## Outputs
 
@@ -123,13 +124,3 @@ Each object in the `replication_rules` list supports:
 | iam_authorization_policy_ids | Map of IAM authorization policy IDs (if created), keyed by target bucket identifier |
 | source_bucket_crn | The CRN of the source bucket |
 | replication_rules_count | Number of replication rules configured |
-
-## Notes
-
-- Both source and target buckets must have object versioning enabled for replication to work
-- The source and target buckets can be in the same or different COS instances
-- The source and target buckets can be in the same or different regions
-- For cross-account replication, additional IAM configuration may be required
-- Multiple rules can target the same destination bucket with different prefixes
-- IAM policies are automatically deduplicated when multiple rules target the same bucket
-- Rules with higher priority values are processed first

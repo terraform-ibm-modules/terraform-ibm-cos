@@ -63,6 +63,7 @@ variable "replication_rules" {
     - destination_bucket_crn: The CRN of the destination bucket
     - target_cos_instance_guid: GUID of the target COS instance (for IAM policy)
     - target_bucket_name: Name of the target bucket (for IAM policy)
+    - skip_iam_authorization_policy: (Optional) Set to true to skip IAM policy creation for this rule. Default is false.
   EOT
 
   validation {
