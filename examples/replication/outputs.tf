@@ -17,8 +17,3 @@ output "replication_resource_id" {
   description = "The resource ID of the replication configuration"
   value       = module.cos_replication.replication_resource_id
 }
-
-output "replication_rules_count" {
-  description = "Number of replication rules configured"
-  value       = module.cos_replication.replication_rules_count
-}

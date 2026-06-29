@@ -1,13 +1,15 @@
 # Replication Module
 
-This module configures replication between IBM Cloud Object Storage (COS) buckets. It creates the necessary IAM authorization policies and replication rules to enable data replication from a source bucket to one or more target buckets.
+This module configures replication between IBM Cloud Object Storage (COS) buckets. It creates the necessary IAM authorization policies (via the [s2s-auth module](https://github.com/terraform-ibm-modules/terraform-ibm-s2s-auth)) and replication rules to enable data replication from a source bucket to one or more target buckets.
+
+The source COS instance GUID and source bucket name are parsed automatically from `source_bucket_crn`. The target COS instance GUID and target bucket name are parsed from each rule's `destination_bucket_crn`. You do not need to supply those values separately.
 
 ## Features
 
 - Creates IAM authorization policies to allow source COS instance to write to target buckets
 - Supports multiple replication rules to different destinations
 - Configurable replication settings per rule (priority, prefix filtering, delete marker replication)
-- Optional IAM authorization policy creation
+- Optional IAM authorization policy creation per rule
 
 ## Usage
 
@@ -17,13 +19,10 @@ This module configures replication between IBM Cloud Object Storage (COS) bucket
 module "cos_replication" {
   source = "../../modules/replication"
 
-  # Source bucket configuration
-  source_bucket_crn        = module.source_bucket.bucket_crn
-  source_bucket_location   = "us-south"
-  source_bucket_name       = module.source_bucket.bucket_name
-  source_cos_instance_guid = module.source_bucket.cos_instance_guid
+  # Source bucket configuration — instance GUID and bucket name are parsed from the CRN
+  source_bucket_crn = module.source_bucket.bucket_crn
 
-  # Replication rules
+  # Replication rules — target instance GUID and bucket name are parsed from destination_bucket_crn
   replication_rules = [
     {
       rule_id                         = "replicate-everything"
@@ -32,9 +31,6 @@ module "cos_replication" {
       prefix                          = null
       deletemarker_replication_status = false
       destination_bucket_crn          = module.target_bucket.bucket_crn
-      target_cos_instance_guid        = module.target_bucket.cos_instance_guid
-      target_bucket_name              = module.target_bucket.bucket_name
-      skip_iam_authorization_policy   = false
     }
   ]
 }
@@ -46,13 +42,10 @@ module "cos_replication" {
 module "cos_replication" {
   source = "../../modules/replication"
 
-  # Source bucket configuration
-  source_bucket_crn        = module.source_bucket.bucket_crn
-  source_bucket_location   = "us-south"
-  source_bucket_name       = module.source_bucket.bucket_name
-  source_cos_instance_guid = module.source_bucket.cos_instance_guid
+  # Source bucket configuration — instance GUID and bucket name are parsed from the CRN
+  source_bucket_crn = module.source_bucket.bucket_crn
 
-  # Multiple replication rules
+  # Replication rules — target instance GUID and bucket name are parsed from destination_bucket_crn
   replication_rules = [
     {
       rule_id                         = "replicate-logs"
@@ -61,9 +54,6 @@ module "cos_replication" {
       prefix                          = "logs/"
       deletemarker_replication_status = false
       destination_bucket_crn          = module.logs_bucket.bucket_crn
-      target_cos_instance_guid        = module.logs_bucket.cos_instance_guid
-      target_bucket_name              = module.logs_bucket.bucket_name
-      skip_iam_authorization_policy   = false
     },
     {
       rule_id                         = "replicate-data"
@@ -72,9 +62,6 @@ module "cos_replication" {
       prefix                          = "data/"
       deletemarker_replication_status = true
       destination_bucket_crn          = module.data_bucket.bucket_crn
-      target_cos_instance_guid        = module.data_bucket.cos_instance_guid
-      target_bucket_name              = module.data_bucket.bucket_name
-      skip_iam_authorization_policy   = false
     }
   ]
 }
@@ -91,13 +78,9 @@ module "cos_replication" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| source_bucket_crn | The CRN of the source bucket | `string` | n/a | yes |
-| source_bucket_location | The region of the source bucket | `string` | n/a | yes |
-| source_bucket_name | The name of the source bucket | `string` | n/a | yes |
-| source_cos_instance_guid | The GUID of the source COS instance | `string` | n/a | yes |
-| bucket_endpoint_type | The endpoint type of the bucket | `string` | `"public"` | no |
-| replication_rules | List of replication rules to configure. Each rule requires: rule_id, enable, priority, prefix, deletemarker_replication_status, destination_bucket_crn, target_cos_instance_guid, target_bucket_name | `list(object)` | n/a | yes |
-| skip_iam_authorization_policy | Whether to skip the IAM authorization policy for replication. Set to true if the policy already exists. | `bool` | `false` | no |
+| source_bucket_crn | The CRN of the source bucket. The instance GUID, bucket name, and account ID are parsed from this CRN. | `string` | n/a | yes |
+| bucket_endpoint_type | The endpoint type of the bucket. Possible values are `public`, `private`, or `direct`. | `string` | `"public"` | no |
+| replication_rules | List of replication rules to configure. Each rule requires: rule_id, enable, priority, prefix, deletemarker_replication_status, destination_bucket_crn, skip_iam_authorization_policy | `list(object)` | n/a | yes |
 
 ### Replication Rule Object
 
@@ -106,14 +89,12 @@ Each object in the `replication_rules` list supports:
 | Field | Description | Type | Default | Required |
 |-------|-------------|------|---------|:--------:|
 | rule_id | Unique identifier for the rule | `string` | n/a | yes |
-| enable | Whether the rule is enabled | `bool` | `true` | no |
-| priority | Priority of the rule (higher number = higher priority) | `number` | `50` | no |
+| enable | Whether the rule is enabled | `bool` | n/a | yes |
+| priority | Priority of the rule (higher number = higher priority) | `number` | `null` | no |
 | prefix | Optional prefix filter for objects to replicate | `string` | `null` | no |
-| deletemarker_replication_status | Whether to replicate delete markers | `bool` | `false` | no |
-| destination_bucket_crn | CRN of the destination bucket | `string` | n/a | yes |
-| target_cos_instance_guid | GUID of the target COS instance (for IAM policy) | `string` | n/a | yes |
-| target_bucket_name | Name of the target bucket (for IAM policy) | `string` | n/a | yes |
-| skip_iam_authorization_policy | Skip IAM policy creation for this rule | `bool` | `false` | no |
+| deletemarker_replication_status | Whether to replicate delete markers | `bool` | `null` | no |
+| destination_bucket_crn | CRN of the destination bucket. Target COS instance GUID and bucket name are parsed from this value. | `string` | n/a | yes |
+| skip_iam_authorization_policy | Set to `true` to skip IAM policy creation for this rule | `bool` | `false` | no |
 
 ## Outputs
 
@@ -121,6 +102,6 @@ Each object in the `replication_rules` list supports:
 |------|-------------|
 | replication_rule_ids | List of replication rule IDs |
 | replication_resource_id | The resource ID of the replication configuration |
-| iam_authorization_policy_ids | Map of IAM authorization policy IDs (if created), keyed by target bucket identifier |
+| iam_authorization_policy_ids | Map of IAM authorization policy IDs keyed by `rule_id` (only for rules where `skip_iam_authorization_policy` is false) |
 | source_bucket_crn | The CRN of the source bucket |
 | replication_rules_count | Number of replication rules configured |
