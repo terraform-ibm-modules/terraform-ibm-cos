@@ -19,10 +19,11 @@ The source COS instance GUID and source bucket name are parsed automatically fro
 module "cos_replication" {
   source = "../../modules/replication"
 
-  # Source bucket configuration — instance GUID and bucket name are parsed from the CRN
+  # Source bucket configuration
   source_bucket_crn = module.source_bucket.bucket_crn
+  source_bucket_region = "us-south"
 
-  # Replication rules — target instance GUID and bucket name are parsed from destination_bucket_crn
+  # Replication rules
   replication_rules = [
     {
       rule_id                         = "replicate-everything"
@@ -42,10 +43,11 @@ module "cos_replication" {
 module "cos_replication" {
   source = "../../modules/replication"
 
-  # Source bucket configuration — instance GUID and bucket name are parsed from the CRN
-  source_bucket_crn = module.source_bucket.bucket_crn
+  # Source bucket configuration
+  source_bucket_crn    = module.source_bucket.bucket_crn
+  source_bucket_region = "us-east"
 
-  # Replication rules — target instance GUID and bucket name are parsed from destination_bucket_crn
+  # Replication rules
   replication_rules = [
     {
       rule_id                         = "replicate-logs"
