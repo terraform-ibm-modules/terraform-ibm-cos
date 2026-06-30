@@ -20,8 +20,8 @@ variable "region" {
   type        = string
 }
 
-variable "hpcs_instance_crn" {
-  description = "CRN of the Hyper Protect Crypto service instance to use to encrypt the data in the COS bucket and vault"
+variable "kp_instance_crn" {
+  description = "CRN of the Key Protect (dedicated) instance to use to encrypt the data in the COS bucket and vault"
   type        = string
 }
 
