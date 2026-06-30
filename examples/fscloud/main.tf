@@ -69,7 +69,7 @@ module "cbr_zone_schematics" {
 }
 
 ##############################################################################
-# HPCS root keys
+# Key Protect (dedicated) root keys
 ##############################################################################
 
 locals {
@@ -78,12 +78,12 @@ locals {
   vault_key_name  = "${var.prefix}-vault-key"
 }
 
-module "hpcs_keys" {
+module "kp_keys" {
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
   version                     = "5.6.5"
   region                      = var.region
   create_key_protect_instance = false
-  existing_kms_instance_crn   = var.hpcs_instance_crn
+  existing_kms_instance_crn   = var.kp_instance_crn
   keys = [
     {
       key_ring_name = local.key_ring_name
@@ -147,11 +147,11 @@ module "cos_fscloud" {
     }]
   }]
 
-  # Create one regional bucket, encrypted with the HPCS root key
+  # Create one regional bucket, encrypted with the Key Protect root key
   bucket_configs = [{
     access_tags              = var.access_tags
     bucket_name              = "${var.prefix}-bucket"
-    kms_key_crn              = module.hpcs_keys.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
+    kms_key_crn              = module.kp_keys.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
     management_endpoint_type = var.management_endpoint_type_for_bucket
     region_location          = var.region
 
@@ -204,5 +204,5 @@ module "backup_vault" {
   existing_cos_instance_id = module.cos_fscloud.cos_instance_id
   region                   = var.region
   kms_encryption_enabled   = true
-  kms_key_crn              = module.hpcs_keys.keys["${local.key_ring_name}.${local.vault_key_name}"].crn
+  kms_key_crn              = module.kp_keys.keys["${local.key_ring_name}.${local.vault_key_name}"].crn
 }
