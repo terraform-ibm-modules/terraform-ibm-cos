@@ -9,7 +9,7 @@
 </p>
 <!-- END SCHEMATICS DEPLOY HOOK -->
 
-An example that shows how to configure replication between two buckets.
+An example that shows how to configure replication between two buckets using the replication submodule.
 
 :information_source: This basic example creates the IBM Cloud Object Storage instances and buckets in the same account, resource group, and region. It is not designed for production use cases, where replication often requires different regions or accounts. This example uses a single rule to a single destination. Other options are available, including multiple rules, multiple destinations, selective replication, replication of deletes and bi-directional replication (add a rule to the target destination to write to the source).
 
