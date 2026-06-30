@@ -107,3 +107,5 @@ Each object in the `replication_rules` list supports:
 | iam_authorization_policy_ids | Map of IAM authorization policy IDs keyed by `rule_id` (only for rules where `skip_iam_authorization_policy` is false) |
 | source_bucket_crn | The CRN of the source bucket |
 | replication_rules_count | Number of replication rules configured |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
