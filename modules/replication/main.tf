@@ -3,7 +3,7 @@
 ##############################################################################
 module "source_bucket_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.6.1"
+  version = "1.9.0"
   crn     = var.source_bucket_crn
 }
 
