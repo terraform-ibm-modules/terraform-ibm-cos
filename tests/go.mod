@@ -6,7 +6,7 @@ require (
 	github.com/IBM/ibm-cos-sdk-go v1.14.1
 	github.com/gruntwork-io/terratest v1.0.1
 	github.com/stretchr/testify v1.11.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.76.2
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.76.3
 )
 
 require (
@@ -16,7 +16,7 @@ require (
 	github.com/IBM/cloud-databases-go-sdk v0.8.1 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.22.1 // indirect
 	github.com/IBM/networking-go-sdk v0.53.5 // indirect
-	github.com/IBM/platform-services-go-sdk v0.100.0 // indirect
+	github.com/IBM/platform-services-go-sdk v0.101.0 // indirect
 	github.com/IBM/project-go-sdk v0.4.0 // indirect
 	github.com/IBM/schematics-go-sdk v0.4.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
@@ -30,7 +30,7 @@ require (
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.11 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.9.0 // indirect
@@ -44,12 +44,12 @@ require (
 	github.com/go-openapi/loads v0.22.0 // indirect
 	github.com/go-openapi/runtime v0.28.0 // indirect
 	github.com/go-openapi/spec v0.21.0 // indirect
-	github.com/go-openapi/strfmt v0.26.3 // indirect
+	github.com/go-openapi/strfmt v0.26.4 // indirect
 	github.com/go-openapi/swag v0.23.1 // indirect
 	github.com/go-openapi/validate v0.24.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.28.0 // indirect
+	github.com/go-playground/validator/v10 v10.30.3 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
@@ -91,10 +91,10 @@ require (
 	go.opentelemetry.io/otel v1.43.0 // indirect
 	go.opentelemetry.io/otel/metric v1.43.0 // indirect
 	go.opentelemetry.io/otel/trace v1.43.0 // indirect
-	go.yaml.in/yaml/v2 v2.4.3 // indirect
+	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	golang.org/x/crypto v0.53.0 // indirect
 	golang.org/x/mod v0.36.0 // indirect
-	golang.org/x/net v0.55.0 // indirect
+	golang.org/x/net v0.56.0 // indirect
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.46.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
