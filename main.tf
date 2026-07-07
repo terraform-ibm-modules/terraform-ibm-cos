@@ -40,19 +40,24 @@ resource "ibm_resource_key" "resource_keys" {
   }
 }
 
+# Lookup instance details
+data "ibm_resource_instance" "cos_instance" {
+  identifier = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
+}
+
 # Parse the CRN to get the account ID (above data lookup does not output account ID)
 module "cos_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.9.0"
-  crn     = local.cos_instance_crn
+  crn     = data.ibm_resource_instance.cos_instance.crn
 }
 
 # Instance locals
 locals {
   cos_instance_id   = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
   cos_instance_guid = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
-  cos_instance_name = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].name : null
-  cos_instance_crn  = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].crn : null
+  cos_instance_name = data.ibm_resource_instance.cos_instance.name
+  cos_instance_crn  = data.ibm_resource_instance.cos_instance.crn
   cos_account_id    = module.cos_crn_parser.account_id
 }
 
