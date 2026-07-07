@@ -54,6 +54,8 @@ module "cos_crn_parser" {
 
 # Instance locals
 locals {
+  # We are not using the data block to fetch the ID and GUID because any change to the instance causes the data block to be evaluated only during the apply phase.
+  # As a result, the ID is unknown during the plan phase, which causes the bucket to be unnecessarily recreated.
   cos_instance_id   = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].id : var.existing_cos_instance_id
   cos_instance_guid = var.create_cos_instance ? ibm_resource_instance.cos_instance[0].guid : element(split(":", var.existing_cos_instance_id), length(split(":", var.existing_cos_instance_id)) - 3)
   cos_instance_name = data.ibm_resource_instance.cos_instance.name
