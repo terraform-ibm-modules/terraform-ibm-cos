@@ -80,7 +80,7 @@ module "cos_replication" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_s2s_auth"></a> [s2s\_auth](#module\_s2s\_auth) | terraform-ibm-modules/s2s-auth/ibm | 2.3.0 |
+| <a name="module_s2s_auth"></a> [s2s\_auth](#module\_s2s\_auth) | terraform-ibm-modules/s2s-auth/ibm | 2.3.1 |
 | <a name="module_source_bucket_crn_parser"></a> [source\_bucket\_crn\_parser](#module\_source\_bucket\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
 
 ### Resources
