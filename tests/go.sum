@@ -9,8 +9,8 @@ github.com/IBM/cloud-databases-go-sdk v0.8.1/go.mod h1:JYucI1PdwqbAd8XGdDAchxzxR
 github.com/IBM/go-sdk-core/v5 v5.9.2/go.mod h1:YlOwV9LeuclmT/qi/LAK2AsobbAP42veV0j68/rlZsE=
 github.com/IBM/go-sdk-core/v5 v5.23.2 h1:wY+XtK9xnnaqwdOWE2m+1sn9sxfYrNbm9fcrB4uzBck=
 github.com/IBM/go-sdk-core/v5 v5.23.2/go.mod h1:NOPMhrdMNec7QBzY50gI0G7K1Y4O8lBrjjjO6C5eJ4A=
-github.com/IBM/ibm-cos-sdk-go v1.14.1 h1:Qz122nd7m9F0GixhSNdL4OPSwhJKHR4NN/dmBPemflI=
-github.com/IBM/ibm-cos-sdk-go v1.14.1/go.mod h1:h2G89PVcjfG5Bae1Q6Sr60MrPSGjD7x9ivF6crkJivM=
+github.com/IBM/ibm-cos-sdk-go v1.15.0 h1:ZS1eK8QxFIN9EwhHcfwsoBxCGokEfjcp1A4VL114fks=
+github.com/IBM/ibm-cos-sdk-go v1.15.0/go.mod h1:+20NRVNOvdC86EUGryJzQYIgrz+LwQaEcNa/Poq6NXE=
 github.com/IBM/networking-go-sdk v0.53.5 h1:zsIngzvWxE5HFhoDJ2Ngb2VOjrT4dW7liXh7X0MhcZU=
 github.com/IBM/networking-go-sdk v0.53.5/go.mod h1:pscn6ZDzj+jgXzYfyoR8ze471J3G8JydRQfvp13HNsk=
 github.com/IBM/platform-services-go-sdk v0.101.0 h1:g5tRKp2GQCpEeX48obOC/hrMBiCqxw2Y414DylDC5JY=
@@ -315,8 +315,8 @@ github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.1 h1:io2/VwO4ndlUd2zWj3DVSWGcWA8+BnMIVEmHLE7xTDs=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.1/go.mod h1:ijIs7lXDwxlf0BP2KVcWts1L7TWskhcmBFNSiUMrL4E=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.2 h1:cw2CelIb05toxOj159fD0zcXuCfuah+ZscnAnflrJWI=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.2/go.mod h1:ijIs7lXDwxlf0BP2KVcWts1L7TWskhcmBFNSiUMrL4E=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tmccombs/hcl2json v0.6.4 h1:/FWnzS9JCuyZ4MNwrG4vMrFrzRgsWEOVi+1AyYUVLGw=
 github.com/tmccombs/hcl2json v0.6.4/go.mod h1:+ppKlIW3H5nsAsZddXPy2iMyvld3SHxyjswOZhavRDk=
