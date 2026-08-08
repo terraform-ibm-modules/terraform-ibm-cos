@@ -11,10 +11,10 @@ github.com/IBM/go-sdk-core/v5 v5.23.2 h1:wY+XtK9xnnaqwdOWE2m+1sn9sxfYrNbm9fcrB4u
 github.com/IBM/go-sdk-core/v5 v5.23.2/go.mod h1:NOPMhrdMNec7QBzY50gI0G7K1Y4O8lBrjjjO6C5eJ4A=
 github.com/IBM/ibm-cos-sdk-go v1.15.0 h1:ZS1eK8QxFIN9EwhHcfwsoBxCGokEfjcp1A4VL114fks=
 github.com/IBM/ibm-cos-sdk-go v1.15.0/go.mod h1:+20NRVNOvdC86EUGryJzQYIgrz+LwQaEcNa/Poq6NXE=
-github.com/IBM/networking-go-sdk v0.53.5 h1:zsIngzvWxE5HFhoDJ2Ngb2VOjrT4dW7liXh7X0MhcZU=
-github.com/IBM/networking-go-sdk v0.53.5/go.mod h1:pscn6ZDzj+jgXzYfyoR8ze471J3G8JydRQfvp13HNsk=
-github.com/IBM/platform-services-go-sdk v0.101.0 h1:g5tRKp2GQCpEeX48obOC/hrMBiCqxw2Y414DylDC5JY=
-github.com/IBM/platform-services-go-sdk v0.101.0/go.mod h1:9FeNezkqhc5RvcvDlvAYaeUjUDz9kZM2EiwZIVLnSjI=
+github.com/IBM/networking-go-sdk v0.53.6 h1:UWHCrzOOv/5UZzRqBJWk0oCfwslDedAJd34q0f1k5+w=
+github.com/IBM/networking-go-sdk v0.53.6/go.mod h1:Y9woA15J8SwbdkyIIvfy9H6/yVUBVtAPVuuM6U/2NR8=
+github.com/IBM/platform-services-go-sdk v0.102.0 h1:6EvZForMmNdG8/jWdaUENoRaZYkcTTfiAoR6DvkMd5I=
+github.com/IBM/platform-services-go-sdk v0.102.0/go.mod h1:1isdll9kcFRZT9o3McwdvfrQafL4/K61uFbKzueDkEg=
 github.com/IBM/project-go-sdk v0.4.0 h1:72pEtVHJn434+MYRawER7Hk/kblapdfotoLBBhjv/jo=
 github.com/IBM/project-go-sdk v0.4.0/go.mod h1:FOJM9ihQV3EEAY6YigcWiTNfVCThtdY8bLC/nhQHFvo=
 github.com/IBM/schematics-go-sdk v0.4.0 h1:x01f/tPquYJYLQzJLGuxWfCbV/EdSMXRikOceNy/JLM=
@@ -315,8 +315,8 @@ github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.2 h1:cw2CelIb05toxOj159fD0zcXuCfuah+ZscnAnflrJWI=
-github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.2/go.mod h1:ijIs7lXDwxlf0BP2KVcWts1L7TWskhcmBFNSiUMrL4E=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.3 h1:k8ucBkHP4KNtfUyfnFWIOD38DJfuAI4qFHGbGe69odQ=
+github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.3/go.mod h1:/xJqfMrjqLn4JBV2tPI9446I2lk9v2K7CAB2DlNGbbM=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tmccombs/hcl2json v0.6.4 h1:/FWnzS9JCuyZ4MNwrG4vMrFrzRgsWEOVi+1AyYUVLGw=
 github.com/tmccombs/hcl2json v0.6.4/go.mod h1:+ppKlIW3H5nsAsZddXPy2iMyvld3SHxyjswOZhavRDk=
