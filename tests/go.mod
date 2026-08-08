@@ -3,10 +3,10 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 go 1.26.1
 
 require (
-	github.com/IBM/ibm-cos-sdk-go v1.14.1
+	github.com/IBM/ibm-cos-sdk-go v1.15.0
 	github.com/gruntwork-io/terratest v1.0.1
 	github.com/stretchr/testify v1.11.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.1
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.2
 )
 
 require (
