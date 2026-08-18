@@ -56,6 +56,14 @@ variable "existing_kms_instance_crn" {
   type        = string
   default     = null
   description = "The CRN of the KMS instance that is used for the Object Storage bucket root key. Required only if a KMS root key is not specified and if `skip_cos_kms_iam_auth_policy` is false."
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}kms:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      var.existing_kms_instance_crn == null,
+    ])
+    error_message = "The provided KMS instance CRN in the input 'existing_kms_instance_crn' in not valid."
+  }
 }
 
 
@@ -69,6 +77,14 @@ variable "existing_kms_key_crn" {
   type        = string
   default     = null
   description = "The CRN of an existing KMS key to be used to encrypt the Object Storage bucket. If not supplied, a new key ring and key will be created in the provided KMS instance."
+
+  validation {
+    condition = anytrue([
+      var.existing_kms_key_crn == null,
+      can(regex("^crn:v\\d:(.*:){2}(kms):(.*:)([aos]\\/[\\w_\\-]+):[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}:key:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", var.existing_kms_key_crn))
+    ])
+    error_message = "The value provided for 'existing_kms_key_crn' is not valid."
+  }
 }
 
 variable "kms_endpoint_type" {
