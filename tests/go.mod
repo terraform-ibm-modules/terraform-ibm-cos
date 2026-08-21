@@ -3,10 +3,10 @@ module github.com/terraform-ibm-modules/terraform-ibm-cos
 go 1.26.1
 
 require (
-	github.com/IBM/ibm-cos-sdk-go v1.15.0
+	github.com/IBM/ibm-cos-sdk-go v1.15.1
 	github.com/gruntwork-io/terratest v1.0.1
-	github.com/stretchr/testify v1.11.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.3
+	github.com/stretchr/testify v1.12.1
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.77.4
 )
 
 require (
@@ -15,8 +15,8 @@ require (
 	github.com/IBM-Cloud/power-go-client v1.16.2 // indirect
 	github.com/IBM/cloud-databases-go-sdk v0.8.1 // indirect
 	github.com/IBM/go-sdk-core/v5 v5.23.2 // indirect
-	github.com/IBM/networking-go-sdk v0.53.6 // indirect
-	github.com/IBM/platform-services-go-sdk v0.102.0 // indirect
+	github.com/IBM/networking-go-sdk v0.53.10 // indirect
+	github.com/IBM/platform-services-go-sdk v0.103.0 // indirect
 	github.com/IBM/project-go-sdk v0.4.0 // indirect
 	github.com/IBM/schematics-go-sdk v0.4.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
@@ -28,7 +28,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudflare/circl v1.6.3 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
-	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.15 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
@@ -79,10 +78,9 @@ require (
 	github.com/oklog/ulid/v2 v2.1.2 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pjbgf/sha1cd v0.6.0 // indirect
-	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/sergi/go-diff v1.3.2-0.20230802210424-5b0b94c5c0d3 // indirect
 	github.com/skeema/knownhosts v1.3.1 // indirect
-	github.com/stretchr/objx v0.5.2 // indirect
+	github.com/stretchr/objx v0.5.3 // indirect
 	github.com/tmccombs/hcl2json v0.6.4 // indirect
 	github.com/ulikunitz/xz v0.5.11 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
@@ -92,13 +90,14 @@ require (
 	go.opentelemetry.io/otel/metric v1.43.0 // indirect
 	go.opentelemetry.io/otel/trace v1.43.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
-	golang.org/x/crypto v0.54.0 // indirect
-	golang.org/x/mod v0.37.0 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
+	golang.org/x/crypto v0.55.0 // indirect
+	golang.org/x/mod v0.38.0 // indirect
 	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
-	golang.org/x/text v0.40.0 // indirect
-	golang.org/x/tools v0.47.0 // indirect
+	golang.org/x/text v0.41.0 // indirect
+	golang.org/x/tools v0.48.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
