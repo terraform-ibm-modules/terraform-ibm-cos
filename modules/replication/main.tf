@@ -28,7 +28,7 @@ locals {
 
 module "s2s_auth" {
   source  = "terraform-ibm-modules/s2s-auth/ibm"
-  version = "2.3.4"
+  version = "2.3.5"
 
   enable_cbr = false
 
