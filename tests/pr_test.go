@@ -90,7 +90,7 @@ func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupExampleOptions(t, "cos-fscloud", fsCloudTerraformDir)
-	options.TerraformVars["hpcs_instance_crn"] = permanentResources["hpcs_south_crn"]
+	options.TerraformVars["kms_instance_crn"] = permanentResources["kp_dedicated_us_south_crn"]
 	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
 
 	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
@@ -512,7 +512,7 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
-		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+		{Name: "existing_kms_instance_crn", Value: permanentResources["kp_dedicated_us_south_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
 	}
@@ -587,7 +587,7 @@ func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
-		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["kp_dedicated_us_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-fc-kms-bucket", DataType: "string"},
