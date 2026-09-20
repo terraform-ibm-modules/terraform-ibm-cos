@@ -452,8 +452,8 @@ variable "kms_key_crn" {
   }
 
   validation {
-    condition     = var.cross_region_location == "us" || var.cross_region_location == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
-    error_message = "Support for using a Hyper Protect Crypto Services instance for key encryption in a cross-regional bucket is only available in the US region."
+    condition     = var.cross_region_location == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
+    error_message = "Hyper Protect Crypto Services (hs-crypto) cannot be used to encrypt cross-regional COS buckets."
   }
 }
 
