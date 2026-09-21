@@ -91,118 +91,165 @@ func TestRunAdvancedExample(t *testing.T) {
 func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupExampleOptions(t, "cos-fscloud", fsCloudTerraformDir)
-	options.TerraformVars["kms_instance_crn"] = permanentResources["kp_dedicated_us_south_crn"]
-	options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
+	prefix := "cos-fscloud"
+	prereqPrefix := fmt.Sprintf("%s-%s", prefix, strings.ToLower(random.UniqueID()))
 
-	// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
-	// to disable the rules before destroy. Without it, the destroy will fail on the refresh.
-	options.CBRRuleListOutputVariable = "cbr_rule_ids"
-	options.TestSetup()
+	// ------------------------------------------------------------------------------------
+	// TODO: Replace with a permanent KP Standard resource once one is added to
+	// common-permanent-resources.yaml (tracked in https://github.com/terraform-ibm-modules/terraform-ibm-cos/issues/1120).
+	// ------------------------------------------------------------------------------------
+
+	var existingResourcesDir = "./existing-resources"
+	tempExistingResourcesDir, _ := files.CopyTerraformFolderToTemp(existingResourcesDir, prereqPrefix)
+	tags := common.GetTagsFromTravis()
+
+	// Verify ibmcloud_api_key variable is set
+	checkVariable := "TF_VAR_ibmcloud_api_key"
+	val, present := os.LookupEnv(checkVariable)
+	require.True(t, present, checkVariable+" environment variable not set")
+	require.NotEqual(t, "", val, checkVariable+" environment variable is empty")
+
+	logger.Log(t, "Tempdir: ", tempExistingResourcesDir)
+	existingTerraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
+		TerraformDir: tempExistingResourcesDir,
+		Vars: map[string]interface{}{
+			"prefix":        prereqPrefix,
+			"region":        region,
+			"resource_tags": tags,
+		},
+		Upgrade: true,
+	})
+	terraform.WorkspaceSelectOrNewContext(t, context.Background(), existingTerraformOptions, prereqPrefix)
+
 	defer func() {
-		options.TestTearDown()
+		envVal, _ := os.LookupEnv("DO_NOT_DESTROY_ON_FAILURE")
+		if t.Failed() && strings.ToLower(envVal) == "true" {
+			fmt.Println("Terratest failed. Debug the test and delete resources manually.")
+		} else {
+			logger.Log(t, "START: Destroy (prereq resources)")
+			terraform.DestroyContext(t, context.Background(), existingTerraformOptions)
+			terraform.WorkspaceDeleteContext(t, context.Background(), existingTerraformOptions, prereqPrefix)
+			logger.Log(t, "END: Destroy (prereq resources)")
+		}
 	}()
 
-	terraform.InitAndApplyContext(t, context.Background(), options.TerraformOptions)
-	outputs, err := terraform.OutputAllContextE(t, context.Background(), options.TerraformOptions)
+	_, existErr := terraform.InitAndApplyContextE(t, context.Background(), existingTerraformOptions)
+	if existErr != nil {
+		assert.True(t, existErr == nil, "Init and Apply of pre-req resources failed in TestRunFSCloudExample test")
+	} else {
+		options := setupExampleOptions(t, prefix, fsCloudTerraformDir)
+		options.TerraformVars["kms_instance_crn"] = terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kp_standard_cross_region_instance_crn")
+		options.TerraformVars["management_endpoint_type_for_bucket"] = "public"
 
-	// Delay before running tests to allow CBRs to be picked up
-	delayDuration := 10 * time.Minute
-	delayMinutes := delayDuration.Minutes()
-	logger.Log(t, fmt.Sprintf("Waiting %.f minutes for CBRs to be picked up...", delayMinutes))
-	time.Sleep(delayDuration)
+		// Setting this will allow the destroy to run without error by using the list of rule ids from the outputs
+		// to disable the rules before destroy. Without it, the destroy will fail on the refresh.
+		options.CBRRuleListOutputVariable = "cbr_rule_ids"
+		options.TestSetup()
+		defer func() {
+			options.TestTearDown()
+		}()
 
-	expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "cos_instance_crn", "buckets", "bucket_cbr_rules", "instance_cbr_rules", "backup_vault_crn", "backup_vault_id", "backup_vault_name"}
-	_, tfOutputsErr := testhelper.ValidateTerraformOutputs(outputs, expectedOutputs...)
-	if assert.Nil(t, tfOutputsErr, tfOutputsErr) {
-		// Retrieve the API key from the environment variable
-		apiKey := os.Getenv("TF_VAR_ibmcloud_api_key")
+		terraform.InitAndApplyContext(t, context.Background(), options.TerraformOptions)
+		outputs, err := terraform.OutputAllContextE(t, context.Background(), options.TerraformOptions)
 
-		require.NotEmpty(t, apiKey, "TF_VAR_ibmcloud_api_key environment variable is not set")
+		// Delay before running tests to allow CBRs to be picked up
+		delayDuration := 10 * time.Minute
+		delayMinutes := delayDuration.Minutes()
+		logger.Log(t, fmt.Sprintf("Waiting %.f minutes for CBRs to be picked up...", delayMinutes))
+		time.Sleep(delayDuration)
 
-		// Set up COS connection
-		authEndpoint := "https://iam.cloud.ibm.com/identity/token"
-		serviceEndpoint := "s3.us.cloud-object-storage.appdomain.cloud" // Instance can be read from any region
+		expectedOutputs := []string{"cos_instance_id", "cos_instance_guid", "cos_instance_crn", "buckets", "bucket_cbr_rules", "instance_cbr_rules", "backup_vault_crn", "backup_vault_id", "backup_vault_name"}
+		_, tfOutputsErr := testhelper.ValidateTerraformOutputs(outputs, expectedOutputs...)
+		if assert.Nil(t, tfOutputsErr, tfOutputsErr) {
+			// Retrieve the API key from the environment variable
+			apiKey := os.Getenv("TF_VAR_ibmcloud_api_key")
 
-		cosClient := getCOSInstanceClient(apiKey, outputs["cos_instance_id"].(string), authEndpoint, serviceEndpoint)
+			require.NotEmpty(t, apiKey, "TF_VAR_ibmcloud_api_key environment variable is not set")
 
-		// Test CBRs by attempting to list buckets or access a bucket
-		bucketList, listErr := cosClient.ListBuckets(&s3.ListBucketsInput{})
+			// Set up COS connection
+			authEndpoint := "https://iam.cloud.ibm.com/identity/token"
+			serviceEndpoint := "s3.us.cloud-object-storage.appdomain.cloud" // Instance can be read from any region
 
-		// Check if CBRs are working as expected
-		if assert.NotNilf(t, listErr, "CBRs are not working as expected. Instance exposed Buckets can be listed: %s", bucketList) {
-			var awsErr awserr.Error
-			_ = errors.As(listErr, &awsErr)
-			if assert.Equal(t, "AccessDenied", awsErr.Code(), "CBRs are not working as expected. Expected 403 error access denied when blocked by CBR") {
-				fmt.Println("CBRs are working as expected. Instance is not exposed Buckets cannot be listed.")
+			cosClient := getCOSInstanceClient(apiKey, outputs["cos_instance_id"].(string), authEndpoint, serviceEndpoint)
+
+			// Test CBRs by attempting to list buckets or access a bucket
+			bucketList, listErr := cosClient.ListBuckets(&s3.ListBucketsInput{})
+
+			// Check if CBRs are working as expected
+			if assert.NotNilf(t, listErr, "CBRs are not working as expected. Instance exposed Buckets can be listed: %s", bucketList) {
+				var awsErr awserr.Error
+				_ = errors.As(listErr, &awsErr)
+				if assert.Equal(t, "AccessDenied", awsErr.Code(), "CBRs are not working as expected. Expected 403 error access denied when blocked by CBR") {
+					fmt.Println("CBRs are working as expected. Instance is not exposed Buckets cannot be listed.")
+				}
 			}
-		}
 
-		bearerToken := getIAMBearerToken(apiKey)
-		for bucket := range outputs["buckets"].(map[string]interface{}) {
-			bucketDetails := outputs["buckets"].(map[string]interface{})[bucket].(map[string]interface{})
-			bucketName := bucket
+			bearerToken := getIAMBearerToken(apiKey)
+			for bucket := range outputs["buckets"].(map[string]interface{}) {
+				bucketDetails := outputs["buckets"].(map[string]interface{})[bucket].(map[string]interface{})
+				bucketName := bucket
 
-			if nameVal, ok := bucketDetails["bucket_name"].(string); ok && nameVal != "" {
-				bucketName = nameVal
-			}
-
-			publicEndpoint := bucketDetails["s3_endpoint_public"].(string)
-			privateEndpoint := bucketDetails["s3_endpoint_private"].(string)
-			directEndpoint := bucketDetails["s3_endpoint_direct"].(string)
-			endpoints := []string{publicEndpoint, privateEndpoint, directEndpoint}
-
-			for _, endpoint := range endpoints {
-				// Create a GET request to list objects in the bucket
-				buckReq, buckErr := http.NewRequest("GET", fmt.Sprintf("https://%s.%s", bucketName, endpoint), nil)
-				if buckErr != nil {
-					fmt.Println("Error creating request:", err)
-					continue
+				if nameVal, ok := bucketDetails["bucket_name"].(string); ok && nameVal != "" {
+					bucketName = nameVal
 				}
 
-				buckReq.Header.Set("Authorization", "bearer "+bearerToken)
-				buckReq.Header.Set("ibm-service-instance-id", outputs["cos_instance_id"].(string))
+				publicEndpoint := bucketDetails["s3_endpoint_public"].(string)
+				privateEndpoint := bucketDetails["s3_endpoint_private"].(string)
+				directEndpoint := bucketDetails["s3_endpoint_direct"].(string)
+				endpoints := []string{publicEndpoint, privateEndpoint, directEndpoint}
 
-				client := &http.Client{}
-				resp, objErr := client.Do(buckReq) // #nosec G704 -- This is a false positive, URL derived from test outputs, not user.
-				cbrWorkingAsExpected := false
-				reason := ""
-				if resp != nil {
-					// Close the response body when done
-					defer func() {
-						if resp != nil {
-							err := resp.Body.Close()
-							if err != nil {
-								// Handle or log the error
-								log.Printf("Error closing response body: %v", err)
+				for _, endpoint := range endpoints {
+					// Create a GET request to list objects in the bucket
+					buckReq, buckErr := http.NewRequest("GET", fmt.Sprintf("https://%s.%s", bucketName, endpoint), nil)
+					if buckErr != nil {
+						fmt.Println("Error creating request:", err)
+						continue
+					}
+
+					buckReq.Header.Set("Authorization", "bearer "+bearerToken)
+					buckReq.Header.Set("ibm-service-instance-id", outputs["cos_instance_id"].(string))
+
+					client := &http.Client{}
+					resp, objErr := client.Do(buckReq) // #nosec G704 -- This is a false positive, URL derived from test outputs, not user.
+					cbrWorkingAsExpected := false
+					reason := ""
+					if resp != nil {
+						// Close the response body when done
+						defer func() {
+							if resp != nil {
+								err := resp.Body.Close()
+								if err != nil {
+									// Handle or log the error
+									log.Printf("Error closing response body: %v", err)
+								}
+							} else {
+								log.Print("no response, defer close not needed")
 							}
-						} else {
-							log.Print("no response, defer close not needed")
-						}
-					}()
+						}()
 
-					// Read the response body into a string
-					bodyBytes, readErr := io.ReadAll(resp.Body)
-					if readErr != nil {
-						reason = fmt.Sprintf("CBRs are Not working as expected. Bucket %s can be accessed at https://%s.%s with response code: %d and Error reading response body: %v", bucket, bucket, endpoint, resp.StatusCode, readErr)
-					} else {
-						// Create a readable message
-						reason = fmt.Sprintf("CBRs are Not working as expected. Bucket %s can be accessed at https://%s.%s with response code: %d and body: %s", bucket, bucket, endpoint, resp.StatusCode, string(bodyBytes))
+						// Read the response body into a string
+						bodyBytes, readErr := io.ReadAll(resp.Body)
+						if readErr != nil {
+							reason = fmt.Sprintf("CBRs are Not working as expected. Bucket %s can be accessed at https://%s.%s with response code: %d and Error reading response body: %v", bucket, bucket, endpoint, resp.StatusCode, readErr)
+						} else {
+							// Create a readable message
+							reason = fmt.Sprintf("CBRs are Not working as expected. Bucket %s can be accessed at https://%s.%s with response code: %d and body: %s", bucket, bucket, endpoint, resp.StatusCode, string(bodyBytes))
+						}
+
+					}
+					if resp != nil && resp.StatusCode == 403 {
+						cbrWorkingAsExpected = true
+						reason = fmt.Sprintf("CBRs are working as expected, blocked at https://%s.%s with 403 response. Bucket %s is not exposed. Bucket cannot be accessed.", bucket, endpoint, bucket)
+					} else if objErr != nil {
+						cbrWorkingAsExpected = true
+						reason = fmt.Sprintf("CBRs are working as expected, blocked at https://%s.%s with error. Bucket %s is not exposed. Bucket cannot be accessed. error: %s", bucket, endpoint, bucket, objErr.Error())
+					}
+
+					if assert.True(t, cbrWorkingAsExpected, reason) {
+						fmt.Println(reason)
 					}
 
 				}
-				if resp != nil && resp.StatusCode == 403 {
-					cbrWorkingAsExpected = true
-					reason = fmt.Sprintf("CBRs are working as expected, blocked at https://%s.%s with 403 response. Bucket %s is not exposed. Bucket cannot be accessed.", bucket, endpoint, bucket)
-				} else if objErr != nil {
-					cbrWorkingAsExpected = true
-					reason = fmt.Sprintf("CBRs are working as expected, blocked at https://%s.%s with error. Bucket %s is not exposed. Bucket cannot be accessed. error: %s", bucket, endpoint, bucket, objErr.Error())
-				}
-
-				if assert.True(t, cbrWorkingAsExpected, reason) {
-					fmt.Println(reason)
-				}
-
 			}
 		}
 	}
