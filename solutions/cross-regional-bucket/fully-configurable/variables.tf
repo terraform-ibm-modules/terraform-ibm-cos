@@ -266,7 +266,7 @@ variable "enable_activity_tracking" {
 variable "enable_object_versioning" {
   description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `enable_retention` is true."
   type        = bool
-  default     = false
+  default     = true
   validation {
     condition     = length(var.backup_policies) > 0 ? var.enable_object_versioning ? true : false : true
     error_message = "'enable_object_versioning' must be true if creating backup policies using the 'backup_policies' input."
