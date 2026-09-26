@@ -6,7 +6,7 @@ locals {
       validate_at_set2              = can(bucket.activity_tracking.activity_tracker_write_data_events) ? bucket.activity_tracking.activity_tracker_write_data_events == false ? tobool("'activity_tracker_write_data_events' must be set to true") : null : null,
       validate_monitoring_set1      = can(bucket.metrics_monitoring.request_metrics_enabled) ? bucket.metrics_monitoring.request_metrics_enabled == false ? tobool("'request_metrics_enabled' must be set to true") : null : null,
       validate_monitoring_set2      = can(bucket.metrics_monitoring.usage_metrics_enabled) ? bucket.metrics_monitoring.usage_metrics_enabled == false ? tobool("'usage_metrics_enabled' must be set to true") : null : null,
-      validate_hpcs_key_crn         = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
+      validate_kms_key_crn          = bucket.kms_key_crn == null ? tobool("When kms_encryption_enabled is set, kms_key_crn must be provided.") : null,
       validate_single_site_location = bucket.single_site_location != null ? tobool("KMS encryption can not be added to single site location, therefore it is not supported in fscloud module.") : null,
     }
   ]
