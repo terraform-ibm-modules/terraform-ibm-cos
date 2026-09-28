@@ -34,13 +34,13 @@ locals {
       management_events = true
     } : null
     archive_rule = var.archive_days != null ? {
-      enable                = true
+      enable                = var.enable_archival_for_objects
       days                  = var.archive_days
       type                  = var.archive_type
       archive_filter_prefix = var.archive_filter_prefix
     } : null
     expire_rule = var.expire_days != null ? {
-      enable               = true
+      enable               = var.enable_expiry_for_objects
       days                 = var.expire_days
       expire_filter_prefix = var.expire_filter_prefix
     } : null

@@ -215,6 +215,12 @@ variable "expire_days" {
   default     = null
 }
 
+variable "enable_expiry_for_objects" {
+  description = "Whether to enable the expiry lifecycle rule for objects in the bucket. Set to `false` to disable expiry without removing the `expire_days` value."
+  type        = bool
+  default     = true
+}
+
 variable "archive_days" {
   description = "The number of days before the `archive_type` rule action takes effect. If null is passed, no lifecycle configuration will be added for bucket archival."
   type        = number
@@ -225,6 +231,12 @@ variable "archive_type" {
   description = "The storage class or archive type you want the object to transition to."
   type        = string
   default     = "Glacier"
+}
+
+variable "enable_archival_for_objects" {
+  description = "Whether to enable the archival lifecycle rule for objects in the bucket. Set to `false` to disable archival without removing the `archive_days` value."
+  type        = bool
+  default     = true
 }
 
 variable "noncurrent_version_expiration_days" {

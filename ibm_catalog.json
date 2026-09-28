@@ -542,10 +542,16 @@
               "key": "expire_days"
             },
             {
+              "key": "enable_expiry_for_objects"
+            },
+            {
               "key": "expire_filter_prefix"
             },
             {
               "key": "archive_days"
+            },
+            {
+              "key": "enable_archival_for_objects"
             },
             {
               "key": "archive_filter_prefix"
@@ -1091,10 +1097,16 @@
               "key": "expire_days"
             },
             {
+              "key": "enable_expiry_for_objects"
+            },
+            {
               "key": "expire_filter_prefix"
             },
             {
               "key": "archive_days"
+            },
+            {
+              "key": "enable_archival_for_objects"
             },
             {
               "key": "archive_filter_prefix"
