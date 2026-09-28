@@ -54,6 +54,10 @@ locals {
       days                          = var.abort_multipart_days
       abort_multipart_filter_prefix = var.abort_multipart_filter_prefix
     } : null
+    expired_object_delete_marker_rule = var.expired_object_delete_marker ? {
+      enable                                     = true
+      expired_object_delete_marker_filter_prefix = var.expired_object_delete_marker_filter_prefix
+    } : null
     metrics_monitoring = {
       usage_metrics_enabled   = true
       request_metrics_enabled = true

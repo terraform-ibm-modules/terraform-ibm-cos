@@ -112,6 +112,9 @@ module "buckets" {
   abort_multipart_days          = can(each.value.abort_multipart_enabled_rule.days) ? (each.value.abort_multipart_enabled_rule.enable ? each.value.abort_multipart_enabled_rule.days : null) : null
   abort_multipart_filter_prefix = can(each.value.abort_multipart_enabled_rule.abort_multipart_filter_prefix) ? (each.value.abort_multipart_enabled_rule.enable ? each.value.abort_multipart_enabled_rule.abort_multipart_filter_prefix : null) : null
 
+  expired_object_delete_marker               = can(each.value.expired_object_delete_marker_rule.enable) ? each.value.expired_object_delete_marker_rule.enable : false
+  expired_object_delete_marker_filter_prefix = can(each.value.expired_object_delete_marker_rule.expired_object_delete_marker_filter_prefix) ? (each.value.expired_object_delete_marker_rule.enable ? each.value.expired_object_delete_marker_rule.expired_object_delete_marker_filter_prefix : null) : null
+
   request_metrics_enabled = can(each.value.metrics_monitoring.request_metrics_enabled) ? each.value.metrics_monitoring.request_metrics_enabled : true
   usage_metrics_enabled   = can(each.value.metrics_monitoring.usage_metrics_enabled) ? each.value.metrics_monitoring.usage_metrics_enabled : true
   monitoring_crn          = can(each.value.metrics_monitoring.metrics_monitoring_crn) ? each.value.metrics_monitoring.metrics_monitoring_crn : null
