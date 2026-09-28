@@ -50,7 +50,7 @@ locals {
       noncurrent_version_expiration_filter_prefix = var.noncurrent_version_expiration_filter_prefix
     } : null
     abort_multipart_rule = var.abort_multipart_days != null ? {
-      enable                        = true
+      enable                        = var.enable_abort_incomplete_multipart_upload_for_objects
       days                          = var.abort_multipart_days
       abort_multipart_filter_prefix = var.abort_multipart_filter_prefix
     } : null

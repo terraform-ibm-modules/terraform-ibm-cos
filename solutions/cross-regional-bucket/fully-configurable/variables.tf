@@ -257,6 +257,12 @@ variable "abort_multipart_days" {
   default     = null
 }
 
+variable "enable_abort_incomplete_multipart_upload_for_objects" {
+  description = "Whether to enable the abort incomplete multipart upload lifecycle rule for objects in the bucket. Set to `false` to disable without removing the `abort_multipart_days` value."
+  type        = bool
+  default     = true
+}
+
 variable "abort_multipart_filter_prefix" {
   type        = string
   description = "Apply abort incomplete multipart upload rule to only objects with the following prefix. Defaults to apply to all objects."
