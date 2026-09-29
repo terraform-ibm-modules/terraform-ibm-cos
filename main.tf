@@ -237,7 +237,7 @@ resource "ibm_iam_access_group_policy" "access_policy" {
 }
 
 locals {
-  expiration_or_archiving_or_noncurrent_version_expiration_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0 || length(local.noncurrent_version_expiration_enabled) != 0 || length(local.abort_multipart_enabled) != 0 || length(local.expired_object_delete_marker_enabled) != 0)
+  is_lifecycle_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0 || length(local.noncurrent_version_expiration_enabled) != 0 || length(local.abort_multipart_enabled) != 0 || length(local.expired_object_delete_marker_enabled) != 0)
 
   ## Only one of these values can be set, leaving 2 of 3 null, compact function removes nulls.
   ## We then take the only value left in the list
@@ -245,7 +245,7 @@ locals {
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
-  count = var.create_cos_bucket && local.expiration_or_archiving_or_noncurrent_version_expiration_rule_enabled ? 1 : 0
+  count = var.create_cos_bucket && local.is_lifecycle_rule_enabled ? 1 : 0
 
   bucket_crn      = ibm_cos_bucket.cos_bucket[count.index].crn
   bucket_location = local.cos_region
