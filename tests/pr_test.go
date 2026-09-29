@@ -588,7 +588,6 @@ func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "existing_kms_key_crn", Value: permanentResources["kp_multitenant_us_south_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
-		{Name: "skip_cos_kms_iam_auth_policy", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-fc-kms-bucket", DataType: "string"},
 	}
 
