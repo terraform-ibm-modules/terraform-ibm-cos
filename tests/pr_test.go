@@ -476,6 +476,8 @@ func TestRunRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
+		{Name: "enable_object_versioning", Value: "true", DataType: "bool"},
+		{Name: "expired_object_delete_marker", Value: "true", DataType: "bool"},
 	}
 
 	err := options.RunSchematicTest()
@@ -515,6 +517,8 @@ func TestRunRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "existing_kms_instance_crn", Value: permanentResources["kp_multitenant_us_south_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "reg-bucket", DataType: "string"},
+		{Name: "enable_object_versioning", Value: "true", DataType: "bool"},
+		{Name: "expired_object_delete_marker", Value: "true", DataType: "bool"},
 	}
 
 	err := options.RunSchematicUpgradeTest()

@@ -17,6 +17,12 @@ locals {
       rule_id = coalesce(try(r.rule_id, null), "abort-multipart-rule-${idx}")
     })
   ]
+
+  expired_object_delete_marker_rules = [
+    for idx, r in var.expired_object_delete_marker_rules : merge(r, {
+      rule_id = coalesce(try(r.rule_id, null), "expired-object-delete-marker-rule-${idx}")
+    })
+  ]
 }
 
 
@@ -62,6 +68,21 @@ resource "ibm_cos_bucket_lifecycle_configuration" "advance_bucket_lifecycle" {
     content {
       abort_incomplete_multipart_upload {
         days_after_initiation = lifecycle_rule.value.days_after_initiation
+      }
+      filter {
+        prefix = lifecycle_rule.value.prefix
+      }
+      rule_id = lifecycle_rule.value.rule_id
+      status  = lifecycle_rule.value.status
+    }
+  }
+
+  # Expired object delete marker rules
+  dynamic "lifecycle_rule" {
+    for_each = local.expired_object_delete_marker_rules
+    content {
+      expiration {
+        expired_object_delete_marker = try(lifecycle_rule.value.expired_object_delete_marker, true)
       }
       filter {
         prefix = lifecycle_rule.value.prefix

@@ -427,6 +427,26 @@ variable "abort_multipart_filter_prefix" {
   default     = null
 }
 
+variable "expired_object_delete_marker" {
+  type        = bool
+  description = "Whether to clean up expired object delete markers. If set to `true`, expired object delete markers will be cleaned up. Requires object versioning to be enabled."
+  default     = false
+  validation {
+    condition     = var.expired_object_delete_marker == false || var.object_versioning_enabled == true
+    error_message = "Expired object delete marker cleanup lifecycle rule requires object versioning. Make sure `object_versioning_enabled` is set to `true`."
+  }
+}
+
+variable "expired_object_delete_marker_filter_prefix" {
+  type        = string
+  description = "Apply expired object delete marker cleanup lifecycle rule to only objects with the following prefix. Applies to all objects by default."
+  default     = null
+  validation {
+    condition     = var.expired_object_delete_marker_filter_prefix == null || var.object_versioning_enabled == true
+    error_message = "Expired object delete marker filter prefix requires object versioning. Make sure `object_versioning_enabled` is set to `true`."
+  }
+}
+
 ##############################################################################
 # COS bucket encryption variables
 ##############################################################################

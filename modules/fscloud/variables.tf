@@ -106,6 +106,10 @@ variable "bucket_configs" {
       days                                        = optional(number, null)
       noncurrent_version_expiration_filter_prefix = optional(string, null)
     }))
+    expired_object_delete_marker_rule = optional(object({
+      enable                                     = optional(bool, false)
+      expired_object_delete_marker_filter_prefix = optional(string, null)
+    }))
     abort_multipart_enabled_rule = optional(object({
       enable                        = optional(bool, false)
       days                          = optional(number, null)

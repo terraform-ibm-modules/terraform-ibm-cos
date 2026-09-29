@@ -65,3 +65,14 @@ variable "abort_multipart_rules" {
     error_message = "Each abort multipart rule must have days_after_initiation >= 1."
   }
 }
+
+variable "expired_object_delete_marker_rules" {
+  description = "List of expired object delete marker cleanup rules. Note: this lifecycle rule requires object versioning to be enabled on the bucket."
+  type = list(object({
+    rule_id                      = optional(string)
+    status                       = optional(string, "enable")
+    expired_object_delete_marker = optional(bool, true)
+    prefix                       = optional(string, "")
+  }))
+  default = []
+}

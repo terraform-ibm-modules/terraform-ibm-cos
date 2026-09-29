@@ -51,6 +51,7 @@ locals {
       archive_rule                       = config.archive_rule
       expire_rule                        = config.expire_rule
       noncurrent_version_expiration_rule = config.noncurrent_version_expiration_rule
+      expired_object_delete_marker_rule  = config.expired_object_delete_marker_rule
       abort_multipart_enabled_rule       = config.abort_multipart_enabled_rule
       metrics_monitoring                 = config.metrics_monitoring
       object_versioning                  = config.object_versioning

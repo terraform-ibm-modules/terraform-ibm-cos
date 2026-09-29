@@ -568,6 +568,12 @@
               "key": "abort_multipart_filter_prefix"
             },
             {
+              "key": "expired_object_delete_marker"
+            },
+            {
+              "key": "expired_object_delete_marker_filter_prefix"
+            },
+            {
               "key": "bucket_access_tags",
               "custom_config": {
                 "grouping": "deployment",
@@ -1107,6 +1113,12 @@
             },
             {
               "key": "abort_multipart_filter_prefix"
+            },
+            {
+              "key": "expired_object_delete_marker"
+            },
+            {
+              "key": "expired_object_delete_marker_filter_prefix"
             },
             {
               "key": "bucket_access_tags",

@@ -251,6 +251,18 @@ variable "abort_multipart_filter_prefix" {
   default     = null
 }
 
+variable "expired_object_delete_marker" {
+  type        = bool
+  description = "Whether to clean up expired object delete markers. If set to `true`, expired object delete markers will be cleaned up. Requires object versioning to be enabled."
+  default     = false
+}
+
+variable "expired_object_delete_marker_filter_prefix" {
+  type        = string
+  description = "Apply expired object delete marker cleanup lifecycle rule to only objects with the following prefix. Defaults to apply to all objects."
+  default     = null
+}
+
 variable "monitoring_crn" {
   type        = string
   description = "The CRN of an IBM Cloud Monitoring instance to to send Object Storage bucket metrics to. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."
