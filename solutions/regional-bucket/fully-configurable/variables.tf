@@ -256,12 +256,16 @@ variable "enable_activity_tracking" {
 }
 
 variable "enable_object_versioning" {
-  description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if `enable_retention` is true."
+  description = "Whether object versioning is enabled so that multiple versions of an object are retained in a bucket. Cannot be used if any retention settings (`default_retention_days`, `maximum_retention_days`, `minimum_retention_days`, or `enable_permanent_retention`) are configured."
   type        = bool
   default     = true
   validation {
     condition     = length(var.backup_policies) > 0 ? var.enable_object_versioning ? true : false : true
     error_message = "'enable_object_versioning' must be true if creating backup policies using the 'backup_policies' input."
+  }
+  validation {
+    condition     = !(var.enable_object_versioning && (var.default_retention_days != null || var.maximum_retention_days != null || var.minimum_retention_days != null || var.enable_permanent_retention != null))
+    error_message = "'enable_object_versioning' cannot be true if any of 'default_retention_days', 'maximum_retention_days', 'minimum_retention_days', or 'enable_permanent_retention' are configured."
   }
 }
 
