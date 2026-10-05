@@ -75,6 +75,7 @@ locals {
   expire_enabled                        = var.expire_days == null ? [] : [1]
   noncurrent_version_expiration_enabled = var.noncurrent_version_expiration_days == null ? [] : [1]
   abort_multipart_enabled               = var.abort_multipart_days == null ? [] : [1]
+  expired_object_delete_marker_enabled  = var.expired_object_delete_marker ? [1] : []
   retention_enabled                     = (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null) ? [1] : []
   object_lock_duration_days             = var.object_lock_duration_days > 0 ? [1] : []
   object_lock_duration_years            = var.object_lock_duration_years > 0 ? [1] : []
@@ -236,7 +237,7 @@ resource "ibm_iam_access_group_policy" "access_policy" {
 }
 
 locals {
-  expiration_or_archiving_or_noncurrent_version_expiration_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0 || length(local.noncurrent_version_expiration_enabled) != 0 || length(local.abort_multipart_enabled) != 0)
+  is_lifecycle_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0 || length(local.noncurrent_version_expiration_enabled) != 0 || length(local.abort_multipart_enabled) != 0 || length(local.expired_object_delete_marker_enabled) != 0)
 
   ## Only one of these values can be set, leaving 2 of 3 null, compact function removes nulls.
   ## We then take the only value left in the list
@@ -244,7 +245,7 @@ locals {
 }
 
 resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
-  count = var.create_cos_bucket && local.expiration_or_archiving_or_noncurrent_version_expiration_rule_enabled ? 1 : 0
+  count = var.create_cos_bucket && local.is_lifecycle_rule_enabled ? 1 : 0
 
   bucket_crn      = ibm_cos_bucket.cos_bucket[count.index].crn
   bucket_location = local.cos_region
@@ -312,6 +313,22 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
         prefix = var.abort_multipart_filter_prefix != null ? var.abort_multipart_filter_prefix : ""
       }
       rule_id = "abort-multipart-rule"
+      status  = "enable"
+    }
+  }
+
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple expired object delete marker blocks.
+    ## This block is only used to conditionally add expired object delete marker cleanup depending on expired object delete marker rule is enabled.
+    for_each = local.expired_object_delete_marker_enabled
+    content {
+      expiration {
+        expired_object_delete_marker = var.expired_object_delete_marker
+      }
+      filter {
+        prefix = var.expired_object_delete_marker_filter_prefix != null ? var.expired_object_delete_marker_filter_prefix : ""
+      }
+      rule_id = "expired-object-delete-marker-rule"
       status  = "enable"
     }
   }
