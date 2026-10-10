@@ -61,7 +61,7 @@ module "advance_lifecycle_rules" {
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.80.0, < 3.0.0 |
 
@@ -72,13 +72,13 @@ No modules.
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_cos_bucket_lifecycle_configuration.advance_bucket_lifecycle](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_bucket_lifecycle_configuration) | resource |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_abort_multipart_rules"></a> [abort\_multipart\_rules](#input\_abort\_multipart\_rules) | List of abort incomplete multipart upload rules | <pre>list(object({<br/>    rule_id               = optional(string)<br/>    status                = optional(string, "enable")<br/>    days_after_initiation = number<br/>    prefix                = optional(string, "")<br/>  }))</pre> | `[]` | no |
 | <a name="input_bucket_crn"></a> [bucket\_crn](#input\_bucket\_crn) | The CRN of an existing Cloud Object Storage bucket. | `string` | n/a | yes |
 | <a name="input_cos_region"></a> [cos\_region](#input\_cos\_region) | The region of existing Cloud Object Storage bucket. | `string` | n/a | yes |
@@ -90,7 +90,7 @@ No modules.
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_bucket_crn"></a> [bucket\_crn](#output\_bucket\_crn) | Bucket CRN |
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | Bucket ID |
 | <a name="output_bucket_location"></a> [bucket\_location](#output\_bucket\_location) | Bucket location |

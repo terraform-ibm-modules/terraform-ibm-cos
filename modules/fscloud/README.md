@@ -83,14 +83,14 @@ module "cos_fscloud" {
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.80.0, < 3.0.0 |
 
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_buckets"></a> [buckets](#module\_buckets) | ../../modules/buckets | n/a |
 | <a name="module_cos_instance"></a> [cos\_instance](#module\_cos\_instance) | ../../ | n/a |
 | <a name="module_instance_cbr_rules"></a> [instance\_cbr\_rules](#module\_instance\_cbr\_rules) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.36.9 |
@@ -102,7 +102,7 @@ No resources.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the COS instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_bucket_configs"></a> [bucket\_configs](#input\_bucket\_configs) | Object Storage bucket configurations | <pre>list(object({<br/>    access_tags                   = optional(list(string), [])<br/>    add_bucket_name_suffix        = optional(bool, true)<br/>    bucket_name                   = string<br/>    kms_encryption_enabled        = optional(bool, true)<br/>    kms_key_crn                   = string<br/>    skip_iam_authorization_policy = optional(bool, false)<br/>    management_endpoint_type      = string<br/>    cross_region_location         = optional(string, null)<br/>    storage_class                 = optional(string, "smart")<br/>    region_location               = optional(string, null)<br/>    resource_instance_id          = optional(string, null)<br/>    force_delete                  = optional(bool, true)<br/>    single_site_location          = optional(string, null)<br/>    hard_quota                    = optional(number, null)<br/>    object_locking_enabled        = optional(bool, false)<br/>    object_lock_duration_days     = optional(number, 0)<br/>    object_lock_duration_years    = optional(number, 0)<br/>    backup_policies = optional(list(object({<br/>      policy_name               = string<br/>      target_backup_vault_crn   = string<br/>      initial_delete_after_days = number<br/>    })), [])<br/><br/>    activity_tracking = optional(object({<br/>      read_data_events  = optional(bool, true)<br/>      write_data_events = optional(bool, true)<br/>      management_events = optional(bool, true)<br/>    }))<br/>    archive_rule = optional(object({<br/>      enable                = optional(bool, false)<br/>      days                  = optional(number, null)<br/>      type                  = optional(string, "Glacier")<br/>      archive_filter_prefix = optional(string, null)<br/>    }))<br/>    expire_rule = optional(object({<br/>      enable               = optional(bool, false)<br/>      days                 = optional(number, null)<br/>      expire_filter_prefix = optional(string, null)<br/>    }))<br/>    noncurrent_version_expiration_rule = optional(object({<br/>      enable                                      = optional(bool, false)<br/>      days                                        = optional(number, null)<br/>      noncurrent_version_expiration_filter_prefix = optional(string, null)<br/>    }))<br/>    expired_object_delete_marker_rule = optional(object({<br/>      enable                                     = optional(bool, false)<br/>      expired_object_delete_marker_filter_prefix = optional(string, null)<br/>    }))<br/>    abort_multipart_enabled_rule = optional(object({<br/>      enable                        = optional(bool, false)<br/>      days                          = optional(number, null)<br/>      abort_multipart_filter_prefix = optional(string, null)<br/>    }))<br/>    metrics_monitoring = optional(object({<br/>      usage_metrics_enabled   = optional(bool, true)<br/>      request_metrics_enabled = optional(bool, true)<br/>      metrics_monitoring_crn  = optional(string, null)<br/>    }))<br/>    object_versioning = optional(object({<br/>      enable = optional(bool, false)<br/>    }))<br/>    retention_rule = optional(object({<br/>      default   = optional(number)<br/>      maximum   = optional(number)<br/>      minimum   = optional(number)<br/>      permanent = optional(bool)<br/>    }))<br/>    cbr_rules = optional(list(object({<br/>      description = string<br/>      account_id  = string<br/>      rule_contexts = list(object({<br/>        attributes = optional(list(object({<br/>          name  = string<br/>          value = string<br/>      }))) }))<br/>      enforcement_mode = string<br/>      tags = optional(list(object({<br/>        name  = string<br/>        value = string<br/>      })), [])<br/>      operations = optional(list(object({<br/>        api_types = list(object({<br/>          api_type_id = string<br/>        }))<br/>      })))<br/>    })), [])<br/><br/>  }))</pre> | `[]` | no |
 | <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | The name to give the Object Storage instance provisioned by this module. Applies only if `create_cos_instance` is true. | `string` | `null` | no |
@@ -117,7 +117,7 @@ No resources.
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_bucket_cbr_rules"></a> [bucket\_cbr\_rules](#output\_bucket\_cbr\_rules) | COS bucket rules |
 | <a name="output_buckets"></a> [buckets](#output\_buckets) | List of buckets created |
 | <a name="output_cbr_rule_ids"></a> [cbr\_rule\_ids](#output\_cbr\_rule\_ids) | List of all rule ids |

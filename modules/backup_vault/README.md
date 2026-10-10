@@ -33,7 +33,7 @@ You need the following permissions to run this module.
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.80.0, < 3.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
@@ -42,14 +42,14 @@ You need the following permissions to run this module.
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_cos_crn_parser"></a> [cos\_crn\_parser](#module\_cos\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
 | <a name="module_kms_crn_parser"></a> [kms\_crn\_parser](#module\_kms\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
 
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_cos_backup_vault.backup_vault](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/cos_backup_vault) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [random_string.name_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
@@ -58,7 +58,7 @@ You need the following permissions to run this module.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_activity_tracking_management_events"></a> [activity\_tracking\_management\_events](#input\_activity\_tracking\_management\_events) | Whether to enable activity tracking management events for the Backup Vault instance. | `bool` | `true` | no |
 | <a name="input_add_name_suffix"></a> [add\_name\_suffix](#input\_add\_name\_suffix) | Whether to add a randomly generated 4-character suffix to the Backup Vault name. | `bool` | `true` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | The ID of the Object Storage instance to create the Backup Vault instance in. | `string` | n/a | yes |
@@ -72,7 +72,7 @@ You need the following permissions to run this module.
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_backup_vault_crn"></a> [backup\_vault\_crn](#output\_backup\_vault\_crn) | The CRN of the Object Storage Backup Vault instance. |
 | <a name="output_backup_vault_id"></a> [backup\_vault\_id](#output\_backup\_vault\_id) | The ID of the Object Storage Backup Vault instance. |
 | <a name="output_backup_vault_name"></a> [backup\_vault\_name](#output\_backup\_vault\_name) | The name of the Object Storage Backup Vault instance. |
