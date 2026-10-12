@@ -576,7 +576,7 @@ func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
 		Prefix:                 "rg-fc-kms",
-		Region:                 region,
+		Region:                 "us-south",
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         RegionalfullyConfigurableDir,
@@ -590,7 +590,7 @@ func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
-		{Name: "existing_kms_key_crn", Value: permanentResources["kp_dedicated_us_south_root_key_crn"], DataType: "string"},
+		{Name: "existing_kms_key_crn", Value: permanentResources["hpcs_eufr2_root_key_crn"], DataType: "string"},
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "reg-fc-kms-bucket", DataType: "string"},
 	}

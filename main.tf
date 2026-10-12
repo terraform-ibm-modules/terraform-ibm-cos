@@ -555,3 +555,14 @@ locals {
   instance_rule_ids = flatten([for instance in module.instance_cbr_rule : instance.rule_id])
   all_rule_ids      = concat(local.bucket_rule_ids, local.instance_rule_ids)
 }
+
+
+##############################################################################
+# Check Blocks
+##############################################################################
+check "warn_hpcs_deprecation" {
+  assert {
+    condition     = var.kms_key_crn == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
+    error_message = "WARNING (Non-fatal, execution will continue): An IBM Cloud Hyper Protect Crypto Services (hs-crypto) instance or key CRN was provided. Note that IBM Cloud Hyper Protect Crypto Services is deprecated. Consider migrating to a supported alternative."
+  }
+}
