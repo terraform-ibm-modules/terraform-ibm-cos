@@ -66,7 +66,7 @@ You need the following permissions to run this module.
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.80.0, < 3.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
@@ -74,26 +74,26 @@ You need the following permissions to run this module.
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_buckets"></a> [buckets](#module\_buckets) | ../../ | n/a |
 
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [time_sleep.wait_for_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_bucket_configs"></a> [bucket\_configs](#input\_bucket\_configs) | The Object Storage bucket configurations. | <pre>list(object({<br/>    access_tags                   = optional(list(string), [])<br/>    add_bucket_name_suffix        = optional(bool, true)<br/>    bucket_name                   = string<br/>    allow_public_access_to_bucket = optional(bool, false)<br/>    public_access_role            = optional(list(string), ["Object Reader"])<br/>    kms_encryption_enabled        = optional(bool, true)<br/>    kms_key_crn                   = optional(string, null)<br/>    skip_iam_authorization_policy = optional(bool, false)<br/>    management_endpoint_type      = optional(string, "public")<br/>    cross_region_location         = optional(string, null)<br/>    storage_class                 = optional(string, "smart")<br/>    region_location               = optional(string, null)<br/>    resource_instance_id          = string<br/>    force_delete                  = optional(bool, true)<br/>    single_site_location          = optional(string, null)<br/>    hard_quota                    = optional(number, null)<br/>    object_locking_enabled        = optional(bool, false)<br/>    object_lock_duration_days     = optional(number, 0)<br/>    object_lock_duration_years    = optional(number, 0)<br/>    backup_policies = optional(list(object({<br/>      policy_name               = string<br/>      target_backup_vault_crn   = string<br/>      initial_delete_after_days = number<br/>    })), [])<br/><br/>    activity_tracking = optional(object({<br/>      read_data_events  = optional(bool, true)<br/>      write_data_events = optional(bool, true)<br/>      management_events = optional(bool, true)<br/>    }))<br/>    archive_rule = optional(object({<br/>      enable                = optional(bool, false)<br/>      days                  = optional(number, null)<br/>      type                  = optional(string, "Glacier")<br/>      archive_filter_prefix = optional(string, null)<br/>    }))<br/>    expire_rule = optional(object({<br/>      enable               = optional(bool, false)<br/>      days                 = optional(number, null)<br/>      expire_filter_prefix = optional(string, null)<br/>    }))<br/>    abort_multipart_enabled_rule = optional(object({<br/>      enable                        = optional(bool, false)<br/>      days                          = optional(number, null)<br/>      abort_multipart_filter_prefix = optional(string, null)<br/>    }))<br/>    noncurrent_version_expiration_rule = optional(object({<br/>      enable                                      = optional(bool, false)<br/>      days                                        = optional(number, null)<br/>      noncurrent_version_expiration_filter_prefix = optional(string, null)<br/>    }))<br/>    expired_object_delete_marker_rule = optional(object({<br/>      enable                                     = optional(bool, false)<br/>      expired_object_delete_marker_filter_prefix = optional(string, null)<br/>    }))<br/>    metrics_monitoring = optional(object({<br/>      usage_metrics_enabled   = optional(bool, true)<br/>      request_metrics_enabled = optional(bool, true)<br/>      metrics_monitoring_crn  = optional(string, null)<br/>    }))<br/>    object_versioning = optional(object({<br/>      enable = optional(bool, false)<br/>    }))<br/>    retention_rule = optional(object({<br/>      default   = optional(number)<br/>      maximum   = optional(number)<br/>      minimum   = optional(number)<br/>      permanent = optional(bool)<br/>    }))<br/>    cbr_rules = optional(list(object({<br/>      description = string<br/>      account_id  = string<br/>      rule_contexts = list(object({<br/>        attributes = optional(list(object({<br/>          name  = string<br/>          value = string<br/>      }))) }))<br/>      enforcement_mode = string<br/>      tags = optional(list(object({<br/>        name  = string<br/>        value = string<br/>      })), [])<br/>      operations = optional(list(object({<br/>        api_types = list(object({<br/>          api_type_id = string<br/>        }))<br/>      })))<br/>    })), [])<br/><br/>  }))</pre> | n/a | yes |
 
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_bucket_configs"></a> [bucket\_configs](#output\_bucket\_configs) | List of bucket config definitions |
 | <a name="output_buckets"></a> [buckets](#output\_buckets) | Map of buckets created in the Cloud Object Storage Instance |
 | <a name="output_cbr_rule_ids"></a> [cbr\_rule\_ids](#output\_cbr\_rule\_ids) | List of bucket CBR rule ids |
