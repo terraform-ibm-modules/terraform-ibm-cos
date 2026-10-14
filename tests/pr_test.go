@@ -576,7 +576,7 @@ func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing:                t,
 		Prefix:                 "rg-fc-kms",
-		Region:                 "us-south",
+		Region:                 region,
 		TarIncludePatterns:     tarIncludePatterns,
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         RegionalfullyConfigurableDir,

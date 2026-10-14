@@ -168,7 +168,7 @@ variable "existing_kms_instance_crn" {
       can(regex("^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
       var.existing_kms_instance_crn == null,
     ])
-    error_message = "The provided KMS instance CRN in the input 'existing_kms_instance_crn' is not valid. Must be a valid KMS or HPCS (hs-crypto) instance CRN."
+    error_message = "The provided KMS instance CRN in the input 'existing_kms_instance_crn' is not valid."
   }
 }
 
