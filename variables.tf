@@ -470,10 +470,9 @@ variable "kms_key_crn" {
     condition     = !(var.create_cos_bucket && var.kms_encryption_enabled && var.kms_key_crn == null)
     error_message = "A value must be passed for `var.kms_key_crn` when both `var.create_cos_bucket` and `var.kms_encryption_enabled` are set to `true`."
   }
-
   validation {
-    condition     = var.cross_region_location == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
-    error_message = "Hyper Protect Crypto Services (hs-crypto) cannot be used to encrypt cross-regional COS buckets."
+    condition     = var.cross_region_location == null || var.cross_region_location == "us" || !can(regex(".*hs-crypto.*", var.kms_key_crn))
+    error_message = "Hyper Protect Crypto Services (hs-crypto) can only be used with Regional or US Cross Region COS buckets."
   }
 }
 
