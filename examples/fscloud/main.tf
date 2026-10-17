@@ -80,7 +80,7 @@ locals {
 
 module "kms_keys" {
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.6.12"
+  version                     = "5.6.13"
   region                      = var.region
   create_key_protect_instance = false
   existing_kms_instance_crn   = var.kms_instance_crn
