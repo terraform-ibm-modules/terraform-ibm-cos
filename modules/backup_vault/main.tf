@@ -96,3 +96,13 @@ resource "ibm_cos_backup_vault" "backup_vault" {
   metrics_monitoring_usage_metrics    = var.metrics_monitoring_usage_metrics
   kms_key_crn                         = var.kms_key_crn
 }
+
+##############################################################################
+# Check Blocks
+##############################################################################
+check "warn_hpcs_deprecation" {
+  assert {
+    condition     = var.kms_key_crn == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
+    error_message = "WARNING (Non-fatal, execution will continue): An IBM Cloud Hyper Protect Crypto Services (hs-crypto) instance or key CRN was provided. Note that IBM Cloud Hyper Protect Crypto Services is deprecated. Consider migrating to a supported alternative."
+  }
+}

@@ -165,10 +165,10 @@ variable "existing_kms_instance_crn" {
 
   validation {
     condition = anytrue([
-      can(regex("^crn:(.*:){3}(kms):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      can(regex("^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
       var.existing_kms_instance_crn == null,
     ])
-    error_message = "The provided KMS instance CRN in the input 'existing_kms_instance_crn' in not valid."
+    error_message = "The provided KMS instance CRN in the input 'existing_kms_instance_crn' is not valid."
   }
 }
 

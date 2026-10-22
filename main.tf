@@ -488,7 +488,7 @@ locals {
 module "bucket_cbr_rule" {
   count            = (length(var.bucket_cbr_rules) > 0 && var.create_cos_bucket) ? length(var.bucket_cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.36.9"
+  version          = "1.37.2"
   rule_description = var.bucket_cbr_rules[count.index].description
   enforcement_mode = var.bucket_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.bucket_cbr_rules[count.index].rule_contexts
@@ -523,7 +523,7 @@ module "bucket_cbr_rule" {
 module "instance_cbr_rule" {
   count            = length(var.instance_cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.36.9"
+  version          = "1.37.2"
   rule_description = var.instance_cbr_rules[count.index].description
   enforcement_mode = var.instance_cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.instance_cbr_rules[count.index].rule_contexts
@@ -554,4 +554,15 @@ locals {
   bucket_rule_ids   = [for instance in module.bucket_cbr_rule : instance.rule_id]
   instance_rule_ids = flatten([for instance in module.instance_cbr_rule : instance.rule_id])
   all_rule_ids      = concat(local.bucket_rule_ids, local.instance_rule_ids)
+}
+
+
+##############################################################################
+# Check Blocks
+##############################################################################
+check "warn_hpcs_deprecation" {
+  assert {
+    condition     = var.kms_key_crn == null || !can(regex(".*hs-crypto.*", var.kms_key_crn))
+    error_message = "WARNING (Non-fatal, execution will continue): An IBM Cloud Hyper Protect Crypto Services (hs-crypto) instance or key CRN was provided. Note that IBM Cloud Hyper Protect Crypto Services is deprecated. Consider migrating to a supported alternative."
+  }
 }
