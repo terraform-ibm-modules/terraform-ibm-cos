@@ -352,7 +352,7 @@ locals {
 resource "ibm_cos_bucket_object_lock_configuration" "lock_configuration" {
   count           = var.object_locking_enabled ? 1 : 0
   bucket_crn      = local.bucket_crn
-  bucket_location = local.bucket_region
+  bucket_location = local.cos_region
   endpoint_type   = var.management_endpoint_type_for_bucket
 
   # This is not a loop. Include either the `days` or `years`.
