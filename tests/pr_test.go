@@ -403,6 +403,8 @@ func TestRunCrossRegionalFullyConfigurableSchematics(t *testing.T) {
 		{Name: "existing_cos_instance_crn", Value: permanentResources["general_test_storage_cos_instance_crn"], DataType: "string"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
 		{Name: "add_bucket_name_suffix", Value: false, DataType: "bool"},
+		{Name: "enable_object_locking", Value: true, DataType: "bool"},
+		{Name: "object_lock_duration_days", Value: 1, DataType: "number"},
 	}
 
 	err := options.RunSchematicTest()
@@ -442,6 +444,8 @@ func TestRunCrossRegionalFullyConfigurableUpgradeSchematics(t *testing.T) {
 		{Name: "existing_kms_instance_crn", Value: permanentResources["kp_multitenant_us_south_crn"], DataType: "string"},
 		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 		{Name: "bucket_name", Value: "cr-bucket", DataType: "string"},
+		{Name: "enable_object_locking", Value: true, DataType: "bool"},
+		{Name: "object_lock_duration_days", Value: 1, DataType: "number"},
 	}
 
 	err := options.RunSchematicUpgradeTest()
