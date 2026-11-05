@@ -1,0 +1,28 @@
+# terraform-ibm-cos
+
+> Terraform module that provisions and configures an IBM Cloud Object Storage instance and bucket, with support for KMS encryption, activity tracking, monitoring, data retention, lifecycle and archiving, context-based restrictions, replication and backup vaults.
+
+## Module
+
+- [Module README](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/README.md): Usage, requirements, inputs and outputs for the root module.
+
+## Submodules
+
+- [buckets](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/modules/buckets/README.md): Create multiple buckets in an existing instance.
+- [fscloud](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/modules/fscloud/README.md): Profile that complies with the IBM Cloud Framework for Financial Services.
+- [lifecycle_rules](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/modules/lifecycle_rules/README.md): Configure multiple lifecycle rules on existing buckets.
+- [replication](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/modules/replication/README.md): Configure replication between buckets.
+- [backup_vault](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/modules/backup_vault/README.md): Create Cloud Object Storage backup vaults.
+
+## Deployable architectures
+
+- [Single instance (fully configurable)](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/solutions/instance/README.md): Provision a Cloud Object Storage instance.
+- [Regional bucket (fully configurable)](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/solutions/regional-bucket/fully-configurable/README.md): Provision a regional bucket.
+- [Cross regional bucket (fully configurable)](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/main/solutions/cross-regional-bucket/fully-configurable/README.md): Provision a cross regional bucket.
+
+## Examples
+
+- [basic](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/basic): Minimal usage of the module.
+- [advanced](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/advanced): Advanced configuration.
+- [fscloud](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/fscloud): Financial Services profile.
+- [replication](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/examples/replication): Bucket replication.

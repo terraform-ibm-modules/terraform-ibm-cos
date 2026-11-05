@@ -8,6 +8,9 @@
 [![Catalog release](https://img.shields.io/badge/release-IBM%20Cloud%20Catalog-3662FF?logo=ibm)](https://cloud.ibm.com/catalog/modules/terraform-ibm-cos-18cdd8f4-40c5-4fbf-9d62-1dd86a2deab3-global)
 [![Terraform Registry](https://img.shields.io/badge/terraform-registry-623CE4?logo=terraform)](https://registry.terraform.io/modules/terraform-ibm-modules/cos/ibm/latest)
 
+> For an index of this module's documentation, see [llms.txt](https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cos/docs/agent-friendly-llms-txt/llms.txt).
+
+
 Use this module to provision and configure an IBM [Cloud Object Storage](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-getting-started-cloud-object-storage) instance and bucket.
 
 In addition, a [buckets](https://github.com/terraform-ibm-modules/terraform-ibm-cos/tree/main/modules/buckets) submodule supports creating multiple buckets in an existing instance.
