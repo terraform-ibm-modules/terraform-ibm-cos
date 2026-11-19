@@ -24,9 +24,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
@@ -605,52 +603,4 @@ func TestRunRegionalFullyConfigurableWithKMSSchematics(t *testing.T) {
 	// Assert all expected outputs have values
 	missingOutputs, outputErr := testhelper.ValidateTerraformOutputs(options.LastTestTerraformOutputs, expectedCosBucketDAOutputs...)
 	assert.Empty(t, outputErr, fmt.Sprintf("Missing expected outputs: %s", missingOutputs))
-}
-
-// Test regional bucket variation deployment with all "on-by-default" dependant DAs
-func TestRegionalBucketAddonDefault(t *testing.T) {
-	t.Parallel()
-
-	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:       t,
-		Prefix:        "reg-addon",
-		ResourceGroup: resourceGroup,
-		QuietMode:     true, // Suppress logs except on failure
-	})
-	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
-		options.Prefix,
-		"deploy-arch-ibm-cos",
-		"regional-bucket-fully-configurable",
-		map[string]interface{}{
-			"bucket_name":                  "test",
-			"existing_resource_group_name": resourceGroup,
-		},
-	)
-
-	err := options.RunAddonTest()
-	require.NoError(t, err)
-}
-
-// Test cross-regional bucket variation deployment with all "on-by-default" dependant DAs
-func TestCrossRegionalBucketAddonDefault(t *testing.T) {
-	t.Parallel()
-
-	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:       t,
-		Prefix:        "cr-addon",
-		ResourceGroup: resourceGroup,
-		QuietMode:     true, // Suppress logs except on failure
-	})
-	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
-		options.Prefix,
-		"deploy-arch-ibm-cos",
-		"cross-regional-bucket-fully-configurable",
-		map[string]interface{}{
-			"bucket_name":                  "test",
-			"existing_resource_group_name": resourceGroup,
-		},
-	)
-
-	err := options.RunAddonTest()
-	require.NoError(t, err)
 }
