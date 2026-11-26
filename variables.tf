@@ -324,6 +324,46 @@ variable "expire_days" {
   default     = null
 }
 
+variable "expire_object_delete_marker" {
+  description = "Whether to add a lifecycle rule that removes expired object delete markers from the bucket. Applies only if `create_cos_bucket` is set to `true`."
+  type        = bool
+  default     = true
+}
+
+variable "custom_lifecycle_rules" {
+  description = <<-EOT
+    A list of custom lifecycle rules to add to the bucket lifecycle configuration. Each rule maps to a `lifecycle_rule` block.
+    - `rule_id` (required): unique ID of the rule.
+    - `status` (optional): `enable` or `disable`. Defaults to `enable`.
+    - `filter_prefix` (optional): apply the rule only to objects with this prefix. Defaults to all objects.
+    - `expiration` (optional): object with `days` and/or `expired_object_delete_marker`.
+    - `transition` (optional): object with `days` and `storage_class`.
+    - `noncurrent_version_expiration` (optional): object with `noncurrent_days`. Requires `object_versioning_enabled` to be `true`.
+    - `abort_incomplete_multipart_upload` (optional): object with `days_after_initiation`.
+    Applies only if `create_cos_bucket` is set to `true`.
+  EOT
+  type = list(object({
+    rule_id       = string
+    status        = optional(string, "enable")
+    filter_prefix = optional(string, "")
+    expiration = optional(object({
+      days                         = optional(number)
+      expired_object_delete_marker = optional(bool)
+    }))
+    transition = optional(object({
+      days          = number
+      storage_class = string
+    }))
+    noncurrent_version_expiration = optional(object({
+      noncurrent_days = number
+    }))
+    abort_incomplete_multipart_upload = optional(object({
+      days_after_initiation = number
+    }))
+  }))
+  default = []
+}
+
 variable "request_metrics_enabled" {
   type        = bool
   description = "If set to `true`, all Object Storage bucket request metrics are sent to Cloud Monitoring."

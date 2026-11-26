@@ -98,6 +98,7 @@ locals {
   metrics_enabled                       = var.request_metrics_enabled || var.usage_metrics_enabled ? [1] : []
   archive_enabled                       = var.archive_days == null ? [] : [1]
   expire_enabled                        = var.expire_days == null ? [] : [1]
+  expire_object_delete_marker_enabled   = var.expire_object_delete_marker ? [1] : []
   noncurrent_version_expiration_enabled = var.noncurrent_version_expiration_days == null ? [] : [1]
   abort_multipart_enabled               = var.abort_multipart_days == null ? [] : [1]
   retention_enabled                     = (var.retention_default != null && var.retention_maximum != null && var.retention_minimum != null && var.retention_permanent != null) ? [1] : []
@@ -261,7 +262,7 @@ resource "ibm_iam_access_group_policy" "access_policy" {
 }
 
 locals {
-  expiration_or_archiving_or_noncurrent_version_expiration_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0 || length(local.noncurrent_version_expiration_enabled) != 0 || length(local.abort_multipart_enabled) != 0)
+  expiration_or_archiving_or_noncurrent_version_expiration_rule_enabled = (length(local.expire_enabled) != 0 || length(local.archive_enabled) != 0 || length(local.noncurrent_version_expiration_enabled) != 0 || length(local.abort_multipart_enabled) != 0 || length(var.custom_lifecycle_rules) != 0)
 
   ## Only one of these values can be set, leaving 2 of 3 null, compact function removes nulls.
   ## We then take the only value left in the list
@@ -290,14 +291,19 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       status  = "enable"
     }
   }
-  lifecycle_rule {
-    rule_id = "expire-object-delete-marker"
-    status  = "enable"
-    expiration {
-      expired_object_delete_marker = true
-    }
-    filter {
-      prefix = ""
+  dynamic "lifecycle_rule" {
+    ## This for_each block is NOT a loop to attach to multiple delete marker blocks.
+    ## This block is only used to conditionally add the expired object delete marker rule depending on expire_object_delete_marker.
+    for_each = local.expire_object_delete_marker_enabled
+    content {
+      rule_id = "expire-object-delete-marker"
+      status  = "enable"
+      expiration {
+        expired_object_delete_marker = true
+      }
+      filter {
+        prefix = ""
+      }
     }
   }
   dynamic "lifecycle_rule" {
@@ -348,6 +354,48 @@ resource "ibm_cos_bucket_lifecycle_configuration" "cos_bucket_lifecycle" {
       }
       rule_id = "abort-multipart-rule"
       status  = "enable"
+    }
+  }
+
+  dynamic "lifecycle_rule" {
+    ## Caller-defined lifecycle rules passed in via custom_lifecycle_rules.
+    for_each = var.custom_lifecycle_rules
+    content {
+      rule_id = lifecycle_rule.value.rule_id
+      status  = lifecycle_rule.value.status
+      filter {
+        prefix = lifecycle_rule.value.filter_prefix
+      }
+
+      dynamic "expiration" {
+        for_each = lifecycle_rule.value.expiration == null ? [] : [lifecycle_rule.value.expiration]
+        content {
+          days                         = expiration.value.days
+          expired_object_delete_marker = expiration.value.expired_object_delete_marker
+        }
+      }
+
+      dynamic "transition" {
+        for_each = lifecycle_rule.value.transition == null ? [] : [lifecycle_rule.value.transition]
+        content {
+          days          = transition.value.days
+          storage_class = transition.value.storage_class
+        }
+      }
+
+      dynamic "noncurrent_version_expiration" {
+        for_each = lifecycle_rule.value.noncurrent_version_expiration == null ? [] : [lifecycle_rule.value.noncurrent_version_expiration]
+        content {
+          noncurrent_days = noncurrent_version_expiration.value.noncurrent_days
+        }
+      }
+
+      dynamic "abort_incomplete_multipart_upload" {
+        for_each = lifecycle_rule.value.abort_incomplete_multipart_upload == null ? [] : [lifecycle_rule.value.abort_incomplete_multipart_upload]
+        content {
+          days_after_initiation = abort_incomplete_multipart_upload.value.days_after_initiation
+        }
+      }
     }
   }
 }
